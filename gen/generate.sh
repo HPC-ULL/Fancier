@@ -1,0 +1,87 @@
+#!/bin/bash
+
+word_in_list () {
+  if [ "$#" -le 1 ]; then
+    return 1
+  fi
+
+  search="$1"
+  shift
+
+  for element in $@; do
+    if [[ "$element" == "$search" ]]; then
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+ACTION="all"
+if [ "$#" -eq 1 ]; then
+  ACTION="$1"
+fi
+
+if ! word_in_list "$ACTION" all c java opencl array math vector; then
+  echo "Usage: $0 [all | c | java | opencl | array | math | vector]"
+  exit 1
+fi
+
+FILL="$DIR/template_fill.py"
+
+TEMPLATES="$DIR/template"
+SRC_TEMPLATES="$TEMPLATES/src"
+INC_TEMPLATES="$TEMPLATES/include"
+JAVA_TEMPLATES="$TEMPLATES/java"
+OCL_TEMPLATES="$TEMPLATES/opencl"
+
+SRC_DIR="$DIR/../native/core/src"
+INC_DIR="$DIR/../native/core/include/fancier"
+JAVA_DIR="$DIR/../java/project/core/src/main/java/es/ull/pcg/hpc/fancier"
+OCL_DIR="$DIR/../opencl"
+
+mkdir -p "$INC_DIR" "$SRC_DIR" "$OCL_DIR" "$JAVA_DIR/array" "$JAVA_DIR/vector/array"
+
+if word_in_list "$ACTION" all c array; then
+  python "$FILL" "$SRC_TEMPLATES/array.mako" "$SRC_DIR/array.c"
+  python "$FILL" "$INC_TEMPLATES/array.mako" "$INC_DIR/array.h"
+  python "$FILL" "$SRC_TEMPLATES/vector_array.mako" "$SRC_DIR/vector_array.c"
+  python "$FILL" "$INC_TEMPLATES/vector_array.mako" "$INC_DIR/vector_array.h"
+fi
+
+if word_in_list "$ACTION" all c math; then
+  python "$FILL" "$SRC_TEMPLATES/math.mako" "$SRC_DIR/math.c"
+fi
+
+if word_in_list "$ACTION" all c vector; then
+  python "$FILL" "$SRC_TEMPLATES/vector.mako" "$SRC_DIR/vector.c"
+  python "$FILL" "$INC_TEMPLATES/vector.mako" "$INC_DIR/vector.h"
+fi
+
+if word_in_list "$ACTION" all java math; then
+  python "$FILL" "$JAVA_TEMPLATES/Math.mako" "$JAVA_DIR/Math.java"
+fi
+
+if word_in_list "$ACTION" all opencl math; then
+  python "$FILL" "$OCL_TEMPLATES/math_lib.mako" "$OCL_DIR/math_lib.cl"
+fi
+
+for cls in Byte Double Float Int Long Short; do
+  if word_in_list "$ACTION" all java array; then
+    python "$FILL" "$JAVA_TEMPLATES/Array.mako" "$JAVA_DIR/array/${cls}Array.java" type=$cls
+  fi
+
+  for vlen in 2 3 4 8; do
+    if word_in_list "$ACTION" all java vector; then
+      python "$FILL" "$JAVA_TEMPLATES/Vector.mako" "$JAVA_DIR/vector/${cls}${vlen}.java" \
+             type=$cls vlen=$vlen
+    fi
+
+    if word_in_list "$ACTION" all java array; then
+      python "$FILL" "$JAVA_TEMPLATES/VectorArray.mako" \
+             "$JAVA_DIR/vector/array/${cls}${vlen}Array.java" type=$cls vlen=$vlen
+    fi
+  done
+done

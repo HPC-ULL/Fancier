@@ -1,0 +1,42 @@
+{
+  "configurations": [
+    {
+      "name": "Android",
+      "includePath": [
+        "${workspaceFolder}/core/include",
+        "${workspaceFolder}/plugin/tiling/include",
+        "${workspaceFolder}/test/include",
+        "${env:NDK_HOME}/sysroot/usr/include"
+      ],
+      "defines": [
+        "_DEBUG",
+        "UNICODE",
+        "_UNICODE",
+        "__ANDROID__"
+      ],
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "gnu++14",
+      "intelliSenseMode": "gcc-arm64"
+    },
+    {
+      "name": "Linux",
+      "includePath": [
+        "${workspaceFolder}/core/include",
+        "${workspaceFolder}/plugin/tiling/include",
+        "${workspaceFolder}/test/include",
+        "${env:NDK_HOME}/sysroot/usr/include"
+      ],
+      "defines": [
+        "_DEBUG",
+        "UNICODE",
+        "_UNICODE"
+      ],
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "gnu++14",
+      "intelliSenseMode": "gcc-x64"
+    }
+  ],
+  "version": 4
+}

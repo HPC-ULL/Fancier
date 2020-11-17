@@ -1,0 +1,7 @@
+plugins {
+    id 'fancier.library-conventions'
+}
+
+dependencies {
+    api 'com.google.android:android:4.1.1.4'
+}
