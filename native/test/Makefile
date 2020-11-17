@@ -1,8 +1,9 @@
-CC=gcc
-CPP=g++
-CFLAGS=-O0 -g -Iinclude -I../include -I../src/include -I${JAVA_HOME}/include -I${JAVA_HOME}/include/linux
-CPPFLAGS=$(CFLAGS) -fno-rtti -fno-exceptions -std=c++11
-LDFLAGS=-L../build -lfancier -lfanciertiling
+CC?=gcc
+CXX?=g++
+CPPFLAGS=-O2 -g -Wall -Wno-dangling-else -Iinclude -I../core/include -I../plugin/tiling/include \
+    -I${JAVA_HOME}/include -I${JAVA_HOME}/include/linux
+CXXFLAGS=-fno-rtti -fno-exceptions -std=c++11
+LDFLAGS=-L../build -L../build/plugin -lfancier -lfancier_tiling -lOpenCL -lm
 
 SRC=$(wildcard *.c *.cpp)
 COBJS=$(filter %.o,$(SRC:%.c=build/%.o))
@@ -13,13 +14,13 @@ all: $(COBJS) $(CPPOBJS)
 
 .PHONY: test
 test: $(COBJS) $(CPPOBJS)
-	@$(foreach prog,$^,echo "\nTest $(prog):"; LD_LIBRARY_PATH=../build ./$(prog);)
+	@$(foreach prog,$^,echo "\nTest $(prog):"; LD_LIBRARY_PATH=../build:../build/plugin ./$(prog);)
 
 build/%.o: %.c dirs
-	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
+	$(CC) $(CPPFLAGS) $< -o $@ $(LDFLAGS)
 
 build/%.o: %.cpp dirs
-	$(CPP) $(CPPFLAGS) $< -o $@ $(LDFLAGS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 
 .PHONY: dirs
 dirs:

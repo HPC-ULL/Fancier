@@ -9,7 +9,7 @@
  * @tparam T Data type held by the pointers to compare.
  */
 template <typename T>
-struct UniquePtrContentComp {
+struct fcpUniquePtrContentComp {
   bool operator()(const std::unique_ptr<T>& a, const std::unique_ptr<T>& b) const {
     return !b || (a && *a < *b);
   }

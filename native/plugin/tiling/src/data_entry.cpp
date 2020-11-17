@@ -7,12 +7,12 @@
 #define IO_BUFFER_SZ (4 * 1024) // 4K
 
 
-int writeEntry (int fd, size_t idx, bool isNewEntry, const void* entry, size_t entrySz) {
-  // If sizeof(DataHeader) + (idx * entrySz) exceeds the size of the file, the new data is appended
+int fcPluginTiling_writeEntry (int fd, size_t idx, bool isNewEntry, const void* entry, size_t entrySz) {
+  // If sizeof(fcpDataHeader) + (idx * entrySz) exceeds the size of the file, the new data is appended
   // If not, it is replaced at the right spot
   // isNewEntry is used when inserting at the middle of the file. It ensures that no data is replaced
   off_t fileSize = lseek(fd, 0, SEEK_END);
-  off_t entryPos = lseek(fd, sizeof(DataHeader) + idx * entrySz, SEEK_SET);
+  off_t entryPos = lseek(fd, sizeof(fcpDataHeader) + idx * entrySz, SEEK_SET);
 
   if (fileSize < 0 || entryPos < 0)
     return -1;

@@ -71,8 +71,8 @@ fcpClassTilingData* fcPluginTiling_readClassTilingData (const char* pkgClassName
           }
 
           // Read the header of the file so we know which structure to create for it
-          DataHeader header;
-          if (fcUtils_readFileData(fd, (char*) &header, sizeof(DataHeader)) < 0 || lseek(fd, 0, SEEK_SET) < 0) {
+          fcpDataHeader header;
+          if (fcUtils_readFileData(fd, (char*) &header, sizeof(fcpDataHeader)) < 0 || lseek(fd, 0, SEEK_SET) < 0) {
             close(fd);
             closedir(dir);
             return NULL;
@@ -130,7 +130,7 @@ fcpDataEntrySet* fcPluginTiling_getDataEntrySet (fcpClassTilingData* tilingData,
   }
 }
 
-fcpDataEntry* getDataEntry (fcpDataEntrySet* entries, size_t* idx, ...) {
+fcpDataEntry* fcPluginTiling_getDataEntry (fcpDataEntrySet* entries, size_t* idx, ...) {
   va_list args;
   va_start(args, idx);
   fcpDataEntry* entry = entries->getDataEntry(idx, args);
@@ -138,7 +138,7 @@ fcpDataEntry* getDataEntry (fcpDataEntrySet* entries, size_t* idx, ...) {
   return entry;
 }
 
-void getDataEntryBestTile (fcpDataEntry* entry, uint8_t numDims, size_t* tiles) {
+void fcPluginTiling_getDataEntryBestTile (fcpDataEntry* entry, uint8_t numDims, size_t* tiles) {
   if (tiles) {
     const uint8_t* bestTiles = entry->bestTiles();
 
@@ -147,7 +147,7 @@ void getDataEntryBestTile (fcpDataEntry* entry, uint8_t numDims, size_t* tiles) 
   }
 }
 
-int8_t exploreNextTiles (fcpDataEntry* entry, uint8_t numDims, size_t* tiles) {
+int8_t fcPluginTiling_exploreNextTiles (fcpDataEntry* entry, uint8_t numDims, size_t* tiles) {
   int8_t dir = entry->explore();
 
   if (tiles) {
@@ -166,19 +166,20 @@ int8_t exploreNextTiles (fcpDataEntry* entry, uint8_t numDims, size_t* tiles) {
   return dir;
 }
 
-int updateDataEntry (fcpDataEntrySet* entries, fcpDataEntry* entry, size_t entryIdx, int8_t dir, uint32_t newTimeUs) {
+int fcPluginTiling_updateDataEntry (fcpDataEntrySet* entries, fcpDataEntry* entry, size_t entryIdx,
+                                    int8_t dir, uint32_t newTimeUs) {
   entry->update(dir, newTimeUs);
 
   size_t entrySz = 0;
   switch (entries->dims) {
     case 1:
-      entrySz = sizeof(DimDataEntry<1>);
+      entrySz = sizeof(fcpDimDataEntry<1>);
       break;
     case 2:
-      entrySz = sizeof(DimDataEntry<2>);
+      entrySz = sizeof(fcpDimDataEntry<2>);
       break;
     case 3:
-      entrySz = sizeof(DimDataEntry<3>);
+      entrySz = sizeof(fcpDimDataEntry<3>);
       break;
   }
 
@@ -187,7 +188,7 @@ int updateDataEntry (fcpDataEntrySet* entries, fcpDataEntry* entry, size_t entry
     fileName.append(FC_PLUGIN_TILING_SUBDIR_NAME "/").append(entries->fullKernelName);
 
     int fd = fcUtils_createOpenFile(fileName.c_str(), O_RDWR);
-    if (fd < 0 || writeEntry(fd, entryIdx, false, entry, entrySz) < 0 || close(fd) < 0) {
+    if (fd < 0 || fcPluginTiling_writeEntry(fd, entryIdx, false, entry, entrySz) < 0 || close(fd) < 0) {
       close(fd);
       return -1;
     }

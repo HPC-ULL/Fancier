@@ -20,7 +20,7 @@
 #define TILE_SIZE(_power) ((uint32_t)(1 << (_power)))
 
 
-struct DataHeader {
+struct fcpDataHeader {
   uint8_t numDims;
 };
 
@@ -41,11 +41,11 @@ struct fcpDataEntry {
 
 
 template <uint8_t N>
-struct DimDataEntry: public fcpDataEntry {
+struct fcpDimDataEntry: public fcpDataEntry {
   size_t inputDim[N];
   uint8_t bestTile[N];
 
-  virtual ~DimDataEntry () = default;
+  virtual ~fcpDimDataEntry () = default;
 
   virtual const size_t* inputDims () const {
     return inputDim;
@@ -133,7 +133,7 @@ struct DimDataEntry: public fcpDataEntry {
     return totalInput;
   }
 
-  bool operator< (const DimDataEntry<N>& other) const {
+  bool operator< (const fcpDimDataEntry<N>& other) const {
     size_t totalInput = getTotalInputDim();
     size_t otherTotalInput =  other.getTotalInputDim();
 
@@ -148,7 +148,7 @@ struct DimDataEntry: public fcpDataEntry {
     return false;
   }
 
-  bool operator== (const DimDataEntry<N>& other) const {
+  bool operator== (const fcpDimDataEntry<N>& other) const {
     for (uint8_t i = 0; i < N; ++i) {
       if (inputDim[i] != other.inputDim[i])
         return false;
@@ -159,6 +159,7 @@ struct DimDataEntry: public fcpDataEntry {
 };
 
 
-int writeEntry (int fd, size_t idx, bool isNewEntry, const void* entry, size_t entrySz);
+int fcPluginTiling_writeEntry (int fd, size_t idx, bool isNewEntry, const void* entry,
+                               size_t entrySz);
 
 #endif // _DATA_ENTRY_H_

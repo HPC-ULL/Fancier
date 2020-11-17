@@ -11,7 +11,7 @@
 
 struct fcpClassTilingData {
   std::string pkgClassName;
-  std::set< std::unique_ptr<fcpDataEntrySet>, UniquePtrContentComp<fcpDataEntrySet> > entrySets;
+  std::set< std::unique_ptr<fcpDataEntrySet>, fcpUniquePtrContentComp<fcpDataEntrySet> > entrySets;
 
   fcpClassTilingData (std::string pkgClassName): pkgClassName(pkgClassName) {}
 
@@ -32,10 +32,10 @@ struct fcpClassTilingData {
       if (fd < 0)
         return NULL;
 
-      DataHeader header;
+      fcpDataHeader header;
       header.numDims = newEntrySet->dims;
 
-      if (fcUtils_writeFileData(fd, (char*) &header, sizeof(DataHeader)) < 0 || close(fd) < 0)
+      if (fcUtils_writeFileData(fd, (char*) &header, sizeof(fcpDataHeader)) < 0 || close(fd) < 0)
         return NULL;
 
       // Insert the new entry set

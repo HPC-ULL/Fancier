@@ -24,9 +24,9 @@ typedef jint (*SetupFunc)(JNIEnv* env);
 //
 
 const char* FC_CACHE_BASE_PATH = NULL;
+std::string FC_CACHE_BASE_PATH_STR;
 
 static int initCount = 0;
-static std::string FC_CACHE_BASE_PATH_STR;
 
 
 //
@@ -65,7 +65,7 @@ static std::string pluginLibraryName (JNIEnv* env, jstring pluginName) {
  * @return A negative value if the directory creation was not possible or zero if
  *         these directories were created or they already existed.
  */
-static bool setupPrivateFancierDirs () {
+bool setupPrivateFancierDirs () {
   DIR* dir = fcUtils_createOpenDir(FC_CACHE_BASE_PATH);
 
   if (dir)
@@ -158,6 +158,9 @@ bool fcCache_updateStoredClassData (const char* className, uint64_t lastCodeUpda
 }
 
 jint fcFancier_initJNI (JNIEnv* env) {
+  if (setupPrivateFancierDirs())
+    return FC_EXCEPTION_DIR_ERROR;
+
   jint err = FC_EXCEPTION_SUCCESS;
 
   if (++initCount == 1) {
@@ -179,9 +182,6 @@ jint fcFancier_initJNI (JNIEnv* env) {
     if ((err = fcOpenCL_initJNI(env)))
       return err;
   }
-
-  if (setupPrivateFancierDirs())
-    err = FC_EXCEPTION_DIR_ERROR;
 
   return err;
 }

@@ -98,7 +98,7 @@ FANCIER_API fcpDataEntrySet* fcPluginTiling_getDataEntrySet (fcpClassTilingData*
  * @param ... The input dimensions, of type \c size_t.
  * @return The data entry of the specified kernel and input size.
  */
-FANCIER_API fcpDataEntry* getDataEntry (fcpDataEntrySet* entries, size_t* idx, ...);
+FANCIER_API fcpDataEntry* fcPluginTiling_getDataEntry (fcpDataEntrySet* entries, size_t* idx, ...);
 
 /**
  * @}
@@ -115,7 +115,8 @@ FANCIER_API fcpDataEntry* getDataEntry (fcpDataEntrySet* entries, size_t* idx, .
  * @param numDims The number of tiling dimensions.
  * @param tiles The output buffer where the sizes will be copied.
  */
-FANCIER_API void getDataEntryBestTile (fcpDataEntry* entry, uint8_t numDims, size_t* tiles);
+FANCIER_API void fcPluginTiling_getDataEntryBestTile (fcpDataEntry* entry, uint8_t numDims,
+                                                      size_t* tiles);
 
 /**
  * Obtain the next tile size to use in the dynamic adaptation process.
@@ -124,7 +125,8 @@ FANCIER_API void getDataEntryBestTile (fcpDataEntry* entry, uint8_t numDims, siz
  * @param tiles The output buffer where the next tile size will be stored.
  * @return The direction in which the tile size has been modified.
  */
-FANCIER_API int8_t exploreNextTiles (fcpDataEntry* entry, uint8_t numDims, size_t* tiles);
+FANCIER_API int8_t fcPluginTiling_exploreNextTiles (fcpDataEntry* entry, uint8_t numDims,
+                                                    size_t* tiles);
 
 /**
  * Update a data entry with the results of the last execution, in order to continue exploration.
@@ -139,7 +141,8 @@ FANCIER_API int8_t exploreNextTiles (fcpDataEntry* entry, uint8_t numDims, size_
  *        specified entry, using the tile size returned by the latest call to \c exploreNextTiles.
  * @return \c 0 if the update can be performed and stored in disk or \c -1 otherwise.
  */
-FANCIER_API int updateDataEntry (fcpDataEntrySet* entries, fcpDataEntry* entry, size_t entryIdx, int8_t dir, uint32_t newTimeUs);
+FANCIER_API int fcPluginTiling_updateDataEntry (fcpDataEntrySet* entries, fcpDataEntry* entry,
+                                                size_t entryIdx, int8_t dir, uint32_t newTimeUs);
 
 /**
  * @}

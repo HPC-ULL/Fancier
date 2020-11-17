@@ -15,7 +15,7 @@ typedef struct {
 } TestStruct;
 
 static int test_time () {
-  uint64_t first = getCurrentTimeNs();
+  uint64_t first = fcUtils_getCurrentTimeNs();
 
   // Time-consuming task
   volatile int v = 0;
@@ -25,9 +25,9 @@ static int test_time () {
     }
   }
 
-  uint64_t second = getCurrentTimeNs();
-  uint32_t elapsed = getElapsedTimeUs(first);
-  uint32_t elapsed2 = getElapsedTimeUs(first);
+  uint64_t second = fcUtils_getCurrentTimeNs();
+  uint32_t elapsed = fcUtils_getElapsedTimeUs(first);
+  uint32_t elapsed2 = fcUtils_getElapsedTimeUs(first);
 
   TEST_ASSERT_GT("second > first", second, first);
   TEST_ASSERT_GT("elapsed > 0", elapsed, 0);
@@ -37,11 +37,11 @@ static int test_time () {
 }
 
 static int test_dir () {
-  DIR* dir = createOpenDir("testdir");
+  DIR* dir = fcUtils_createOpenDir("testdir");
   TEST_ASSERT_NE("create dir", dir, NULL);
   closedir(dir);
 
-  dir = createOpenDir("testdir");
+  dir = fcUtils_createOpenDir("testdir");
   TEST_ASSERT_NE("open existing dir", dir, NULL);
   closedir(dir);
 
@@ -49,11 +49,11 @@ static int test_dir () {
 }
 
 static int test_file () {
-  int fd = createOpenFile("testdir/testfile", O_RDWR);
+  int fd = fcUtils_createOpenFile("testdir/testfile", O_RDWR);
   TEST_ASSERT_GE("create file", fd, 0);
   close(fd);
 
-  fd = createOpenFile("testdir/testfile", O_RDWR);
+  fd = fcUtils_createOpenFile("testdir/testfile", O_RDWR);
   TEST_ASSERT_GE("open existing file", fd, 0);
   close(fd);
 
@@ -61,7 +61,7 @@ static int test_file () {
 }
 
 static int test_rw () {
-  int fd = createOpenFile("testdir/testfile", O_RDWR);
+  int fd = fcUtils_createOpenFile("testdir/testfile", O_RDWR);
   TEST_ASSERT_GE("create file", fd, 0);
 
   TestStruct s1, s2;
@@ -69,14 +69,14 @@ static int test_rw () {
   s1.b = -23234;
   s1.c = 0.0005433;
 
-  int rw = writeData(fd, (char*) &s1, sizeof(TestStruct));
+  int rw = fcUtils_writeFileData(fd, (char*) &s1, sizeof(TestStruct));
   close(fd);
   TEST_ASSERT_EQ("write data", rw, 0);
 
-  fd = createOpenFile("testdir/testfile", O_RDWR);
+  fd = fcUtils_createOpenFile("testdir/testfile", O_RDWR);
   TEST_ASSERT_GE("create file", fd, 0);
 
-  rw = readData(fd, (char*) &s2, sizeof(TestStruct));
+  rw = fcUtils_readFileData(fd, (char*) &s2, sizeof(TestStruct));
   close(fd);
   TEST_ASSERT_EQ("read data", rw, 0);
 

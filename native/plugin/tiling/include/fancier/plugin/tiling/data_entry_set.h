@@ -35,13 +35,13 @@ struct fcpDataEntrySet {
 
 template <uint8_t N>
 struct DimDataEntrySet: public fcpDataEntrySet {
-  std::set< DimDataEntry<N> > entries;
+  std::set< fcpDimDataEntry<N> > entries;
 
   DimDataEntrySet (): fcpDataEntrySet(N) {}
   virtual ~DimDataEntrySet () = default;
 
   virtual fcpDataEntry* getDataEntry (size_t* idx, va_list args) {
-    DimDataEntry<N> elem;
+    fcpDimDataEntry<N> elem;
     size_t localIdx;
     bool entryExists = false;
 
@@ -109,8 +109,8 @@ struct DimDataEntrySet: public fcpDataEntrySet {
       fileName.append(FC_PLUGIN_TILING_SUBDIR_NAME "/").append(fullKernelName);
 
       int fd = fcUtils_createOpenFile(fileName.c_str(), O_RDWR);
-      if (fd < 0 || writeEntry(fd, localIdx, true, &elem, sizeof(DimDataEntry<N>)) < 0 || close(fd) < 0) {
-        // Close fd in case the call to writeEntry is the one that failed
+      if (fd < 0 || fcPluginTiling_writeEntry(fd, localIdx, true, &elem, sizeof(fcpDimDataEntry<N>)) < 0 || close(fd) < 0) {
+        // Close fd in case the call to fcPluginTiling_writeEntry is the one that failed
         close(fd);
 
         // Erase the recently created entry so that the file contents are still consistent with the
@@ -124,33 +124,33 @@ struct DimDataEntrySet: public fcpDataEntrySet {
       *idx = localIdx;
 
     // The inputDim member cannot be modified, or else the order will be lost
-    return const_cast<DimDataEntry<N>*>(&(*iter));
+    return const_cast<fcpDimDataEntry<N>*>(&(*iter));
   }
 
   virtual int readEntries (int fd) {
     entries.clear();
 
     // Check in the file header if the data is compatible with this class
-    DataHeader header;
-    if (fcUtils_readFileData(fd, (char*) &header, sizeof(DataHeader)) < 0)
+    fcpDataHeader header;
+    if (fcUtils_readFileData(fd, (char*) &header, sizeof(fcpDataHeader)) < 0)
       return -1;
 
     if (header.numDims != N)
       return -2;
 
     // Calculate the number of entries contained in the file
-    off_t fileSize = lseek(fd, 0, SEEK_END) - sizeof(DataHeader);
-    size_t numEntries = fileSize / sizeof(DimDataEntry<N>);
+    off_t fileSize = lseek(fd, 0, SEEK_END) - sizeof(fcpDataHeader);
+    size_t numEntries = fileSize / sizeof(fcpDimDataEntry<N>);
 
-    lseek(fd, sizeof(DataHeader), SEEK_SET);
+    lseek(fd, sizeof(fcpDataHeader), SEEK_SET);
 
     // Read and insert entries in the set efficiently, taking advantage of the fact that entries must
     // be ordered in the file
-    DimDataEntry<N> entry;
+    fcpDimDataEntry<N> entry;
     auto lastInsert = entries.begin();
 
     for (size_t i = 0; i < numEntries; ++i) {
-      if (fcUtils_readFileData(fd, (char*) &entry, sizeof(DimDataEntry<N>)) < 0)
+      if (fcUtils_readFileData(fd, (char*) &entry, sizeof(fcpDimDataEntry<N>)) < 0)
         return -1;
 
       lastInsert = entries.insert(lastInsert, entry);
