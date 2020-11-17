@@ -32,7 +32,7 @@ As a prerequisite to run the `generate.sh` script, it is necessary that the `pyt
 to a working Python 3 installation, and to run `pip install -r requirements.txt` once in order to
 install the necessary dependencies.
 
-```console
+```
 $ virtualenv --python=python3.6 .env
 $ source .env/bin/activate
 (.env) $ python --version
@@ -77,7 +77,7 @@ more recent must be installed in the system, and the environment variable `JAVA_
 For Android, the `Android.mk` and `Application.mk` makefiles are used instead, which are configured
 to work properly with the latest (as of 2020) versions of `ndk-build`, which is provided with the
 Android Native Development Kit (NDK). In this case, the command for compilation is:
-```console
+```
 $ ndk-build NDK_PROJECT_PATH=build APP_BUILD_SCRIPT=Android.mk NDK_APPLICATION_MK=Application.mk
 ```
 
@@ -95,7 +95,7 @@ although some vendors do provide this high-performance library that can allow gr
 performance.
 
 Source code documentation in HTML format can be generated using Doxygen, by running the command:
-```console
+```
 $ make docs
 ```
 
