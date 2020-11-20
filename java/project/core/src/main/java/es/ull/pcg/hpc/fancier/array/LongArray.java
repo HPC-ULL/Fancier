@@ -54,6 +54,8 @@ public class LongArray implements AutoCloseable {
   public native long length ();
 
   public native long[] getContents ();
+  public native void setContents (long[] v);
+
   public native void syncToNative ();
   public native void syncToOCL ();
 }

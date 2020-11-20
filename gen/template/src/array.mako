@@ -4,6 +4,8 @@
 #include <fancier/java.h>
 #include <fancier/ocl.h>
 
+#include <string.h>
+
 #include <fancier/internal/snippets.inc>
 
 
@@ -132,8 +134,8 @@ Java_es_ull_pcg_hpc_fancier_array_${type|c}Array_get__I (JNIEnv* env, jobject ob
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fc${type|c}Array_getJava", ${defaults[type.lower()]});
 
   jint err;
-  j${type|l} __tmp_ret = fc${type|c}Array_getElement(self, i, &err);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fc${type|c}Array_getElement", ${defaults[type.lower()]});
+  j${type|l} __tmp_ret = fc${type|c}Array_get(self, i, &err);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fc${type|c}Array_get", ${defaults[type.lower()]});
 
   return __tmp_ret;
 }
@@ -143,8 +145,8 @@ Java_es_ull_pcg_hpc_fancier_array_${type|c}Array_set__I${signatures[type.lower()
   fc${type|c}Array* self = fc${type|c}Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fc${type|c}Array_getJava", FC_VOID_EXPR);
 
-  jint err = fc${type|c}Array_setElement(self, i, x);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fc${type|c}Array_setElement", FC_VOID_EXPR);
+  jint err = fc${type|c}Array_set(self, i, x);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fc${type|c}Array_set", FC_VOID_EXPR);
 }
 
 JNIEXPORT jlong JNICALL
@@ -175,6 +177,25 @@ Java_es_ull_pcg_hpc_fancier_array_${type|c}Array_getContents (JNIEnv* env, jobje
   FC_EXCEPTION_HANDLE_PENDING(env, JNI_FALSE, "fc${type|c}Array_getContents", __tmp_ret);
 
   return __tmp_ret;
+}
+
+JNIEXPORT void JNICALL
+Java_es_ull_pcg_hpc_fancier_array_${type|c}Array_setContents (JNIEnv* env, jobject obj, j${type|l}Array v) {
+  fc${type|c}Array* self = fc${type|c}Array_getJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fc${type|c}Array_getJava", FC_VOID_EXPR);
+
+  FC_EXCEPTION_HANDLE_NULL(env, v, FC_EXCEPTION_BAD_PARAMETER, "fc${type|c}Array_setContents:v", FC_VOID_EXPR);
+
+  // Initialize array
+  jsize __tmp_len = FC_JNI_CALL(env, GetArrayLength, v);
+  j${type|l}* __tmp_elems_v = FC_JNI_CALL(env, Get${type|c}ArrayElements, v, NULL);
+  FC_EXCEPTION_HANDLE_NULL(env, __tmp_elems_v, FC_EXCEPTION_ARRAY_GET_ELEMENTS, "fc${type|c}Array_setContents:v", FC_VOID_EXPR);
+
+  jint err = fc${type|c}Array_setContents(self, __tmp_len, __tmp_elems_v);
+
+  // Free temporary native array reference
+  FC_JNI_CALL(env, Release${type|c}ArrayElements, v, __tmp_elems_v, JNI_ABORT);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fc${type|c}Array_initArray", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
@@ -269,15 +290,16 @@ int fc${type|c}Array_initArray (fc${type|c}Array* self, int len, j${type|l}* v) 
   if (err) return err;
 
   // Initialize array
-  err = clEnqueueWriteBuffer(fcOpenCL_rt.queue, self->ocl, CL_FALSE, 0, self->len * sizeof(cl_${type|l}), v, 0, NULL, NULL);
+  self->location = FC_ARRAY_LOCATION_OPENCL;
+  err = fc${type|c}Array_setContents(self, len, v);
+
   if (err) {
+    self->location = FC_ARRAY_LOCATION_NONE;
     clReleaseMemObject(self->ocl);
     self->ocl = NULL;
     return err;
   }
 
-  // Update location
-  self->location = FC_ARRAY_LOCATION_OPENCL;
   return FC_EXCEPTION_SUCCESS;
 }
 
@@ -302,7 +324,7 @@ int fc${type|c}Array_initCopy (fc${type|c}Array* self, const fc${type|c}Array* a
   if (array->location == FC_ARRAY_LOCATION_OPENCL)
     err = clEnqueueCopyBuffer(fcOpenCL_rt.queue, array->ocl, self->ocl, 0, 0, self->len * sizeof(cl_${type|l}), 0, NULL, NULL);
   else /* FC_ARRAY_LOCATION_NATIVE */
-    err = clEnqueueWriteBuffer(fcOpenCL_rt.queue, self->ocl, CL_FALSE, 0, self->len * sizeof(cl_${type|l}), array->c, 0, NULL, NULL);
+    err = clEnqueueWriteBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, 0, self->len * sizeof(cl_${type|l}), array->c, 0, NULL, NULL);
 
   if (err) {
     clReleaseMemObject(self->ocl);
@@ -359,7 +381,7 @@ int fc${type|c}Array_release (fc${type|c}Array* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-j${type|l} fc${type|c}Array_getElement (fc${type|c}Array* self, int i, int* err) {
+j${type|l} fc${type|c}Array_get (fc${type|c}Array* self, int i, int* err) {
   int __tmp_err;
   if (err == NULL) err = &__tmp_err;
 
@@ -381,7 +403,7 @@ j${type|l} fc${type|c}Array_getElement (fc${type|c}Array* self, int i, int* err)
   return self->c[i];
 }
 
-int fc${type|c}Array_setElement (fc${type|c}Array* self, int i, j${type|l} x) {
+int fc${type|c}Array_set (fc${type|c}Array* self, int i, j${type|l} x) {
   if (!fc${type|c}Array_valid(self)) return FC_EXCEPTION_INVALID_STATE;
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
@@ -390,6 +412,33 @@ int fc${type|c}Array_setElement (fc${type|c}Array* self, int i, j${type|l} x) {
   if (err) return err;
 
   self->c[i] = x;
+  return FC_EXCEPTION_SUCCESS;
+}
+
+int fc${type|c}Array_setContents (fc${type|c}Array* self, int len, j${type|l}* v) {
+  int err;
+
+  if (!fc${type|c}Array_valid(self))
+    return FC_EXCEPTION_INVALID_STATE;
+
+  // Check parameters
+  if (len <= 0 || len != self->len)
+    return FC_EXCEPTION_ARRAY_BAD_LENGTH;
+
+  if (v == NULL)
+    return FC_EXCEPTION_BAD_PARAMETER;
+
+  // Initialize array
+  if (self->location == FC_ARRAY_LOCATION_OPENCL) {
+    err = clEnqueueWriteBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, 0, self->len * sizeof(cl_${type|l}), v, 0, NULL, NULL);
+    if (err) return err;
+  }
+  else /* self->location == FC_ARRAY_LOCATION_NATIVE */ {
+    err = (memcpy(self->c, v, self->len * sizeof(j${type|l})) != NULL?
+        FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY);
+    if (err) return err;
+  }
+
   return FC_EXCEPTION_SUCCESS;
 }
 
@@ -402,6 +451,9 @@ int fc${type|c}Array_syncToNative (fc${type|c}Array* self) {
   if (self->location == FC_ARRAY_LOCATION_OPENCL)
     self->c = clEnqueueMapBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, CL_MAP_READ | CL_MAP_WRITE, 0, self->len * sizeof(cl_${type|l}), 0, NULL, NULL, &err);
 
+  if (!err)
+    self->location = FC_ARRAY_LOCATION_NATIVE;
+
   return err;
 }
 
@@ -409,8 +461,13 @@ int fc${type|c}Array_syncToOCL (fc${type|c}Array* self) {
   if (!fc${type|c}Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
+  int err = FC_EXCEPTION_SUCCESS;
+
   if (self->location == FC_ARRAY_LOCATION_NATIVE)
-    return clEnqueueUnmapMemObject(fcOpenCL_rt.queue, self->ocl, self->c, 0, NULL, NULL);
+    err = clEnqueueUnmapMemObject(fcOpenCL_rt.queue, self->ocl, self->c, 0, NULL, NULL);
+
+  if (!err)
+    self->location = FC_ARRAY_LOCATION_OPENCL;
 
   return FC_EXCEPTION_SUCCESS;
 }

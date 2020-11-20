@@ -56,6 +56,8 @@ public class ${type|c}${vlen}Array implements AutoCloseable {
   public native long length ();
 
   public native ${type|l}[] getContents ();
+  public native void setContents (${type|l}[] v);
+
   public native void syncToNative ();
   public native void syncToOCL ();
 }

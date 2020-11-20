@@ -387,7 +387,7 @@ fcByte4 fcARGBImage_get (fcARGBImage* self, int x, int y, int* err) {
     return __tmp_ret;
   }
 
-  return fcByte4Array_getElement(self->pixels, y * self->dims.x + x, err);
+  return fcByte4Array_get(self->pixels, y * self->dims.x + x, err);
 }
 
 int fcARGBImage_setCoords (fcARGBImage* self, fcInt2 coords, fcByte4 argb) {
@@ -401,7 +401,7 @@ int fcARGBImage_set (fcARGBImage* self, int x, int y, fcByte4 argb) {
   if (x < 0 || y < 0 || x >= self->dims.x || y >= self->dims.y)
     return FC_EXCEPTION_BAD_PARAMETER;
 
-  return fcByte4Array_setElement(self->pixels, y * self->dims.x + x, argb);
+  return fcByte4Array_set(self->pixels, y * self->dims.x + x, argb);
 }
 
 int fcARGBImage_syncToNative (fcARGBImage* self) {

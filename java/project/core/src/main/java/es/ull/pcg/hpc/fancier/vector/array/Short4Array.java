@@ -56,6 +56,8 @@ public class Short4Array implements AutoCloseable {
   public native long length ();
 
   public native short[] getContents ();
+  public native void setContents (short[] v);
+
   public native void syncToNative ();
   public native void syncToOCL ();
 }

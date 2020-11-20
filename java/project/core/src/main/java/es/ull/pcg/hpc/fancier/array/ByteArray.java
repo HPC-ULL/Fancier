@@ -54,6 +54,8 @@ public class ByteArray implements AutoCloseable {
   public native long length ();
 
   public native byte[] getContents ();
+  public native void setContents (byte[] v);
+
   public native void syncToNative ();
   public native void syncToOCL ();
 }

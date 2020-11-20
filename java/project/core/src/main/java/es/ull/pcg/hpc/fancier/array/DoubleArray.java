@@ -54,6 +54,8 @@ public class DoubleArray implements AutoCloseable {
   public native long length ();
 
   public native double[] getContents ();
+  public native void setContents (double[] v);
+
   public native void syncToNative ();
   public native void syncToOCL ();
 }

@@ -21,6 +21,7 @@ static const char* const NATIVE_EXCEPTION_TEXT[] = {
   "Invalid 'this' pointer",
   "Invalid parameter specified",
   "Invalid instance state",
+  "Memory copy failed",
 
   "Directory error",
   "File error",

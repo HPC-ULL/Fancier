@@ -54,6 +54,8 @@ public class IntArray implements AutoCloseable {
   public native long length ();
 
   public native int[] getContents ();
+  public native void setContents (int[] v);
+
   public native void syncToNative ();
   public native void syncToOCL ();
 }

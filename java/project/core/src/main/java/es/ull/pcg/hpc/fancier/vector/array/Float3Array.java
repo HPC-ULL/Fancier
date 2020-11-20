@@ -56,6 +56,8 @@ public class Float3Array implements AutoCloseable {
   public native long length ();
 
   public native float[] getContents ();
+  public native void setContents (float[] v);
+
   public native void syncToNative ();
   public native void syncToOCL ();
 }
