@@ -811,4 +811,3 @@ CL_API_ENTRY void * CL_API_CALL clGetExtensionFunctionAddress(
 {
   return 0;
 }
-

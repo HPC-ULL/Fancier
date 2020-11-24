@@ -90,10 +90,10 @@ bool setupPrivateFancierDirs () {
 // Java Interface Implementation
 //
 
-extern "C" JNIEXPORT jboolean JNICALL Java_es_ull_pcg_hpc_fancier_Fancier_initNative__Ljava_lang_String_2 (JNIEnv* env, jclass cls, jstring FC_CACHE_BASE_PATHJNI) {
-  FC_CACHE_BASE_PATH = env->GetStringUTFChars(FC_CACHE_BASE_PATHJNI, NULL);
+extern "C" JNIEXPORT jboolean JNICALL Java_es_ull_pcg_hpc_fancier_Fancier_initNative__Ljava_lang_String_2 (JNIEnv* env, jclass cls, jstring basePath) {
+  FC_CACHE_BASE_PATH = env->GetStringUTFChars(basePath, NULL);
   FC_CACHE_BASE_PATH_STR = FC_CACHE_BASE_PATH;
-  env->ReleaseStringUTFChars(FC_CACHE_BASE_PATHJNI, FC_CACHE_BASE_PATH);
+  env->ReleaseStringUTFChars(basePath, FC_CACHE_BASE_PATH);
 
   FC_CACHE_BASE_PATH_STR += "/";
   FC_CACHE_BASE_PATH = FC_CACHE_BASE_PATH_STR.c_str();
@@ -131,6 +131,7 @@ extern "C" JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_Fancier_unloadPlug
 // Native Interface Implementation
 //
 
+// TODO Separate into its own source and header
 bool fcCache_updateStoredClassData (const char* className, uint64_t lastCodeUpdateTime) {
   bool newUpdate = false;
 
