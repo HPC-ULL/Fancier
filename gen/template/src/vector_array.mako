@@ -45,7 +45,7 @@ void fcVectorArray_releaseJNI (JNIEnv* env) {
 % endfor
 }
 
-## TODO Suport non-unified memory architectures [openclInfo.unifiedMemory]
+## TODO Suport non-unified memory architectures [fcOpenCL_info.unifiedMemory]
 
 % for type in types:
 % for vlen in vlens:
@@ -61,6 +61,12 @@ FC_JAVA_INSTANCE_HANDLERS(fc${type|c}${vlen}Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_${type|c}${vlen}Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fc${type|c}${vlen}Array* self = (fc${type|c}${vlen}Array*) nativePtr;
+  jint err = fc${type|c}${vlen}Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fc${type|c}${vlen}Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fc${type|c}${vlen}Array_setJava(env, obj, nativePtr);
 }
 
@@ -450,6 +456,7 @@ int fc${type|c}${vlen}Array_setContents (fc${type|c}${vlen}Array* self, int len,
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fc${type|c}${vlen}Array_syncToNative(self);

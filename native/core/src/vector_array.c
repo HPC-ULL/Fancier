@@ -194,6 +194,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcByte2Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Byte2Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcByte2Array* self = (fcByte2Array*) nativePtr;
+  jint err = fcByte2Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte2Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcByte2Array_setJava(env, obj, nativePtr);
 }
 
@@ -583,6 +589,7 @@ int fcByte2Array_setContents (fcByte2Array* self, int len, jbyte* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcByte2Array_syncToNative(self);
@@ -644,6 +651,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcByte3Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Byte3Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcByte3Array* self = (fcByte3Array*) nativePtr;
+  jint err = fcByte3Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte3Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcByte3Array_setJava(env, obj, nativePtr);
 }
 
@@ -1033,6 +1046,7 @@ int fcByte3Array_setContents (fcByte3Array* self, int len, jbyte* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcByte3Array_syncToNative(self);
@@ -1094,6 +1108,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcByte4Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Byte4Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcByte4Array* self = (fcByte4Array*) nativePtr;
+  jint err = fcByte4Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte4Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcByte4Array_setJava(env, obj, nativePtr);
 }
 
@@ -1483,6 +1503,7 @@ int fcByte4Array_setContents (fcByte4Array* self, int len, jbyte* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcByte4Array_syncToNative(self);
@@ -1544,6 +1565,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcByte8Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Byte8Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcByte8Array* self = (fcByte8Array*) nativePtr;
+  jint err = fcByte8Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte8Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcByte8Array_setJava(env, obj, nativePtr);
 }
 
@@ -1933,6 +1960,7 @@ int fcByte8Array_setContents (fcByte8Array* self, int len, jbyte* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcByte8Array_syncToNative(self);
@@ -1994,6 +2022,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcShort2Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Short2Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcShort2Array* self = (fcShort2Array*) nativePtr;
+  jint err = fcShort2Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort2Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcShort2Array_setJava(env, obj, nativePtr);
 }
 
@@ -2383,6 +2417,7 @@ int fcShort2Array_setContents (fcShort2Array* self, int len, jshort* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcShort2Array_syncToNative(self);
@@ -2444,6 +2479,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcShort3Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Short3Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcShort3Array* self = (fcShort3Array*) nativePtr;
+  jint err = fcShort3Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort3Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcShort3Array_setJava(env, obj, nativePtr);
 }
 
@@ -2833,6 +2874,7 @@ int fcShort3Array_setContents (fcShort3Array* self, int len, jshort* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcShort3Array_syncToNative(self);
@@ -2894,6 +2936,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcShort4Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Short4Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcShort4Array* self = (fcShort4Array*) nativePtr;
+  jint err = fcShort4Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort4Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcShort4Array_setJava(env, obj, nativePtr);
 }
 
@@ -3283,6 +3331,7 @@ int fcShort4Array_setContents (fcShort4Array* self, int len, jshort* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcShort4Array_syncToNative(self);
@@ -3344,6 +3393,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcShort8Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Short8Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcShort8Array* self = (fcShort8Array*) nativePtr;
+  jint err = fcShort8Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort8Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcShort8Array_setJava(env, obj, nativePtr);
 }
 
@@ -3733,6 +3788,7 @@ int fcShort8Array_setContents (fcShort8Array* self, int len, jshort* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcShort8Array_syncToNative(self);
@@ -3794,6 +3850,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcInt2Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Int2Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcInt2Array* self = (fcInt2Array*) nativePtr;
+  jint err = fcInt2Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt2Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcInt2Array_setJava(env, obj, nativePtr);
 }
 
@@ -4183,6 +4245,7 @@ int fcInt2Array_setContents (fcInt2Array* self, int len, jint* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcInt2Array_syncToNative(self);
@@ -4244,6 +4307,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcInt3Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Int3Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcInt3Array* self = (fcInt3Array*) nativePtr;
+  jint err = fcInt3Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt3Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcInt3Array_setJava(env, obj, nativePtr);
 }
 
@@ -4633,6 +4702,7 @@ int fcInt3Array_setContents (fcInt3Array* self, int len, jint* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcInt3Array_syncToNative(self);
@@ -4694,6 +4764,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcInt4Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Int4Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcInt4Array* self = (fcInt4Array*) nativePtr;
+  jint err = fcInt4Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt4Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcInt4Array_setJava(env, obj, nativePtr);
 }
 
@@ -5083,6 +5159,7 @@ int fcInt4Array_setContents (fcInt4Array* self, int len, jint* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcInt4Array_syncToNative(self);
@@ -5144,6 +5221,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcInt8Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Int8Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcInt8Array* self = (fcInt8Array*) nativePtr;
+  jint err = fcInt8Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt8Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcInt8Array_setJava(env, obj, nativePtr);
 }
 
@@ -5533,6 +5616,7 @@ int fcInt8Array_setContents (fcInt8Array* self, int len, jint* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcInt8Array_syncToNative(self);
@@ -5594,6 +5678,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcLong2Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Long2Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcLong2Array* self = (fcLong2Array*) nativePtr;
+  jint err = fcLong2Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong2Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcLong2Array_setJava(env, obj, nativePtr);
 }
 
@@ -5983,6 +6073,7 @@ int fcLong2Array_setContents (fcLong2Array* self, int len, jlong* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcLong2Array_syncToNative(self);
@@ -6044,6 +6135,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcLong3Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Long3Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcLong3Array* self = (fcLong3Array*) nativePtr;
+  jint err = fcLong3Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong3Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcLong3Array_setJava(env, obj, nativePtr);
 }
 
@@ -6433,6 +6530,7 @@ int fcLong3Array_setContents (fcLong3Array* self, int len, jlong* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcLong3Array_syncToNative(self);
@@ -6494,6 +6592,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcLong4Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Long4Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcLong4Array* self = (fcLong4Array*) nativePtr;
+  jint err = fcLong4Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong4Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcLong4Array_setJava(env, obj, nativePtr);
 }
 
@@ -6883,6 +6987,7 @@ int fcLong4Array_setContents (fcLong4Array* self, int len, jlong* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcLong4Array_syncToNative(self);
@@ -6944,6 +7049,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcLong8Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Long8Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcLong8Array* self = (fcLong8Array*) nativePtr;
+  jint err = fcLong8Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong8Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcLong8Array_setJava(env, obj, nativePtr);
 }
 
@@ -7333,6 +7444,7 @@ int fcLong8Array_setContents (fcLong8Array* self, int len, jlong* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcLong8Array_syncToNative(self);
@@ -7394,6 +7506,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcFloat2Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Float2Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcFloat2Array* self = (fcFloat2Array*) nativePtr;
+  jint err = fcFloat2Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat2Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcFloat2Array_setJava(env, obj, nativePtr);
 }
 
@@ -7783,6 +7901,7 @@ int fcFloat2Array_setContents (fcFloat2Array* self, int len, jfloat* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcFloat2Array_syncToNative(self);
@@ -7844,6 +7963,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcFloat3Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Float3Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcFloat3Array* self = (fcFloat3Array*) nativePtr;
+  jint err = fcFloat3Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat3Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcFloat3Array_setJava(env, obj, nativePtr);
 }
 
@@ -8233,6 +8358,7 @@ int fcFloat3Array_setContents (fcFloat3Array* self, int len, jfloat* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcFloat3Array_syncToNative(self);
@@ -8294,6 +8420,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcFloat4Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Float4Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcFloat4Array* self = (fcFloat4Array*) nativePtr;
+  jint err = fcFloat4Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat4Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcFloat4Array_setJava(env, obj, nativePtr);
 }
 
@@ -8683,6 +8815,7 @@ int fcFloat4Array_setContents (fcFloat4Array* self, int len, jfloat* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcFloat4Array_syncToNative(self);
@@ -8744,6 +8877,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcFloat8Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Float8Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcFloat8Array* self = (fcFloat8Array*) nativePtr;
+  jint err = fcFloat8Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat8Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcFloat8Array_setJava(env, obj, nativePtr);
 }
 
@@ -9133,6 +9272,7 @@ int fcFloat8Array_setContents (fcFloat8Array* self, int len, jfloat* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcFloat8Array_syncToNative(self);
@@ -9194,6 +9334,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcDouble2Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Double2Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcDouble2Array* self = (fcDouble2Array*) nativePtr;
+  jint err = fcDouble2Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble2Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcDouble2Array_setJava(env, obj, nativePtr);
 }
 
@@ -9583,6 +9729,7 @@ int fcDouble2Array_setContents (fcDouble2Array* self, int len, jdouble* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcDouble2Array_syncToNative(self);
@@ -9644,6 +9791,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcDouble3Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Double3Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcDouble3Array* self = (fcDouble3Array*) nativePtr;
+  jint err = fcDouble3Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble3Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcDouble3Array_setJava(env, obj, nativePtr);
 }
 
@@ -10033,6 +10186,7 @@ int fcDouble3Array_setContents (fcDouble3Array* self, int len, jdouble* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcDouble3Array_syncToNative(self);
@@ -10094,6 +10248,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcDouble4Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Double4Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcDouble4Array* self = (fcDouble4Array*) nativePtr;
+  jint err = fcDouble4Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble4Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcDouble4Array_setJava(env, obj, nativePtr);
 }
 
@@ -10483,6 +10643,7 @@ int fcDouble4Array_setContents (fcDouble4Array* self, int len, jdouble* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcDouble4Array_syncToNative(self);
@@ -10544,6 +10705,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcDouble8Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_vector_array_Double8Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcDouble8Array* self = (fcDouble8Array*) nativePtr;
+  jint err = fcDouble8Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble8Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcDouble8Array_setJava(env, obj, nativePtr);
 }
 
@@ -10933,6 +11100,7 @@ int fcDouble8Array_setContents (fcDouble8Array* self, int len, jdouble* v) {
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
+  // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
   err = fcDouble8Array_syncToNative(self);

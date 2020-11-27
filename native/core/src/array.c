@@ -75,6 +75,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcByteArray);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_array_ByteArray_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcByteArray* self = (fcByteArray*) nativePtr;
+  jint err = fcByteArray_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByteArray_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcByteArray_setJava(env, obj, nativePtr);
 }
 
@@ -513,6 +519,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcShortArray);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_array_ShortArray_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcShortArray* self = (fcShortArray*) nativePtr;
+  jint err = fcShortArray_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShortArray_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcShortArray_setJava(env, obj, nativePtr);
 }
 
@@ -951,6 +963,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcIntArray);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_array_IntArray_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcIntArray* self = (fcIntArray*) nativePtr;
+  jint err = fcIntArray_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcIntArray_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcIntArray_setJava(env, obj, nativePtr);
 }
 
@@ -1389,6 +1407,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcLongArray);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_array_LongArray_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcLongArray* self = (fcLongArray*) nativePtr;
+  jint err = fcLongArray_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLongArray_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcLongArray_setJava(env, obj, nativePtr);
 }
 
@@ -1827,6 +1851,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcFloatArray);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_array_FloatArray_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcFloatArray* self = (fcFloatArray*) nativePtr;
+  jint err = fcFloatArray_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloatArray_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcFloatArray_setJava(env, obj, nativePtr);
 }
 
@@ -2265,6 +2295,12 @@ FC_JAVA_INSTANCE_HANDLERS(fcDoubleArray);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_array_DoubleArray_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fcDoubleArray* self = (fcDoubleArray*) nativePtr;
+  jint err = fcDoubleArray_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDoubleArray_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fcDoubleArray_setJava(env, obj, nativePtr);
 }
 

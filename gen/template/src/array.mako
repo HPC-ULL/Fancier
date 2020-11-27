@@ -38,7 +38,7 @@ void fcArray_releaseJNI (JNIEnv* env) {
 % endfor
 }
 
-## TODO Suport non-unified memory architectures [openclInfo.unifiedMemory]
+## TODO Suport non-unified memory architectures [fcOpenCL_info.unifiedMemory]
 
 % for type in types:
 //
@@ -53,6 +53,12 @@ FC_JAVA_INSTANCE_HANDLERS(fc${type|c}Array);
 
 JNIEXPORT void JNICALL
 Java_es_ull_pcg_hpc_fancier_array_${type|c}Array_initNative__L (JNIEnv* env, jobject obj, jlong nativePtr) {
+  // Create reference
+  fc${type|c}Array* self = (fc${type|c}Array*) nativePtr;
+  jint err = fc${type|c}Array_createRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fc${type|c}Array_createRef", FC_VOID_EXPR);
+
+  // Store native pointer on the Java object
   fc${type|c}Array_setJava(env, obj, nativePtr);
 }
 
