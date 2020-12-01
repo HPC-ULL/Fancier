@@ -1,11 +1,11 @@
 #include <fancier/utils.h>
 
-#include <stdio.h>
+#include <sys/stat.h>
 
 #include <fcntl.h>
-#include <sys/stat.h>
-#include <unistd.h>
 #include <minunit.h>
+#include <stdio.h>
+#include <unistd.h>
 
 
 typedef struct {
@@ -14,14 +14,14 @@ typedef struct {
   double c;
 } TestStruct;
 
-static int test_time () {
+static int test_time() {
   uint64_t first = fcUtils_getCurrentTimeNs();
 
   // Time-consuming task
   volatile int v = 0;
   for (int i = 0; i < 10000; ++i) {
     for (int j = 0; j < 10000; ++j) {
-      v += (i*j) / 2;
+      v += (i * j) / 2;
     }
   }
 
@@ -36,7 +36,7 @@ static int test_time () {
   TEST_PASSED();
 }
 
-static int test_dir () {
+static int test_dir() {
   DIR* dir = fcUtils_createOpenDir("testdir");
   TEST_ASSERT_NE("create dir", dir, NULL);
   closedir(dir);
@@ -48,7 +48,7 @@ static int test_dir () {
   TEST_PASSED();
 }
 
-static int test_file () {
+static int test_file() {
   int fd = fcUtils_createOpenFile("testdir/testfile", O_RDWR);
   TEST_ASSERT_GE("create file", fd, 0);
   close(fd);
@@ -60,7 +60,7 @@ static int test_file () {
   TEST_PASSED();
 }
 
-static int test_rw () {
+static int test_rw() {
   int fd = fcUtils_createOpenFile("testdir/testfile", O_RDWR);
   TEST_ASSERT_GE("create file", fd, 0);
 
@@ -85,7 +85,7 @@ static int test_rw () {
   TEST_PASSED();
 }
 
-int main(int argc, const char *argv[]) {
+int main(int argc, const char* argv[]) {
   BEGIN_TESTS();
 
   RUN_TEST(test_time);

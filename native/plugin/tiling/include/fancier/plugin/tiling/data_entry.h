@@ -5,17 +5,17 @@
 #include <stdlib.h>
 
 
-#define DIR_POS(_dim) ((_dim) + 1)
-#define DIR_NEG(_dim) (-(_dim) - 1)
-#define DIR_SIGN(_dir) ((_dir) == 0? 0 : ((_dir) > 0? 1 : -1))
-#define DIR_DIM(_dir) (abs(_dir) - 1)
+#define DIR_POS(_dim)  ((_dim) + 1)
+#define DIR_NEG(_dim)  (-(_dim) -1)
+#define DIR_SIGN(_dir) ((_dir) == 0 ? 0 : ((_dir) > 0 ? 1 : -1))
+#define DIR_DIM(_dir)  (abs(_dir) - 1)
 
 #define FLAG_EXPL_STOPPED  0x01
 #define FLAG_EXPL_IMPROVED 0x02
 #define FLAG_EXPL_NEG      0x04
 
-#define MIN_TILE_SIZE 1 // 2^1 = 2
-#define MAX_TILE_SIZE 7 // 2^7 = 128
+#define MIN_TILE_SIZE 1  // 2^1 = 2
+#define MAX_TILE_SIZE 7  // 2^7 = 128
 
 #define TILE_SIZE(_power) ((uint32_t)(1 << (_power)))
 
@@ -30,32 +30,32 @@ struct fcpDataEntry {
   int8_t incDirection;
   uint8_t flags;
 
-  virtual ~fcpDataEntry () = default;
+  virtual ~fcpDataEntry() = default;
 
-  virtual const size_t* inputDims () const = 0;
-  virtual const uint8_t* bestTiles () const = 0;
+  virtual const size_t* inputDims() const = 0;
+  virtual const uint8_t* bestTiles() const = 0;
 
-  virtual int8_t explore () = 0;
-  virtual void update (int8_t dir, uint32_t newTimeUs) = 0;
+  virtual int8_t explore() = 0;
+  virtual void update(int8_t dir, uint32_t newTimeUs) = 0;
 };
 
 
-template <uint8_t N>
+template<uint8_t N>
 struct fcpDimDataEntry: public fcpDataEntry {
   size_t inputDim[N];
   uint8_t bestTile[N];
 
-  virtual ~fcpDimDataEntry () = default;
+  virtual ~fcpDimDataEntry() = default;
 
-  virtual const size_t* inputDims () const {
+  virtual const size_t* inputDims() const {
     return inputDim;
   }
 
-  virtual const uint8_t* bestTiles () const {
+  virtual const uint8_t* bestTiles() const {
     return bestTile;
   }
 
-  int8_t processDirDimensionBounds (int8_t dir) {
+  int8_t processDirDimensionBounds(int8_t dir) {
     // Explore smaller values
     if (dir > N && flags & FLAG_EXPL_NEG) {
       flags |= FLAG_EXPL_IMPROVED;
@@ -71,7 +71,7 @@ struct fcpDimDataEntry: public fcpDataEntry {
     return dir;
   }
 
-  virtual int8_t explore () {
+  virtual int8_t explore() {
     if (flags & FLAG_EXPL_STOPPED)
       return 0;
 
@@ -80,7 +80,7 @@ struct fcpDimDataEntry: public fcpDataEntry {
     if (flags & FLAG_EXPL_IMPROVED) {
       // Reset to first dim
       flags &= ~FLAG_EXPL_IMPROVED;
-      dir = DIR_SIGN(incDirection); // +/- X
+      dir = DIR_SIGN(incDirection);  // +/- X
     }
     else {
       // Increment dimension
@@ -111,7 +111,7 @@ struct fcpDimDataEntry: public fcpDataEntry {
     return dir;
   }
 
-  virtual void update (int8_t dir, uint32_t newTimeUs) {
+  virtual void update(int8_t dir, uint32_t newTimeUs) {
     incDirection = dir;
 
     if (dir != 0 && newTimeUs < bestTimeUs) {
@@ -125,7 +125,7 @@ struct fcpDimDataEntry: public fcpDataEntry {
     }
   }
 
-  size_t getTotalInputDim () const {
+  size_t getTotalInputDim() const {
     size_t totalInput = 1;
     for (uint8_t i = 0; i < N; ++i)
       totalInput *= inputDim[i];
@@ -133,9 +133,9 @@ struct fcpDimDataEntry: public fcpDataEntry {
     return totalInput;
   }
 
-  bool operator< (const fcpDimDataEntry<N>& other) const {
+  bool operator<(const fcpDimDataEntry<N>& other) const {
     size_t totalInput = getTotalInputDim();
-    size_t otherTotalInput =  other.getTotalInputDim();
+    size_t otherTotalInput = other.getTotalInputDim();
 
     if (totalInput != otherTotalInput)
       return totalInput < otherTotalInput;
@@ -148,7 +148,7 @@ struct fcpDimDataEntry: public fcpDataEntry {
     return false;
   }
 
-  bool operator== (const fcpDimDataEntry<N>& other) const {
+  bool operator==(const fcpDimDataEntry<N>& other) const {
     for (uint8_t i = 0; i < N; ++i) {
       if (inputDim[i] != other.inputDim[i])
         return false;
@@ -159,7 +159,7 @@ struct fcpDimDataEntry: public fcpDataEntry {
 };
 
 
-int fcPluginTiling_writeEntry (int fd, size_t idx, bool isNewEntry, const void* entry,
-                               size_t entrySz);
+int fcPluginTiling_writeEntry(int fd, size_t idx, bool isNewEntry, const void* entry,
+                              size_t entrySz);
 
-#endif // _DATA_ENTRY_H_
+#endif  // _DATA_ENTRY_H_

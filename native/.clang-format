@@ -1,0 +1,71 @@
+---
+BasedOnStyle: Google
+TabWidth: 4
+IndentWidth: 2
+UseTab: Never
+ColumnLimit: 100
+DeriveLineEnding: false
+UseCRLF: false
+---
+Language: Cpp
+Standard: Cpp11
+AccessModifierOffset: -2
+AlignConsecutiveMacros: true
+AllowShortBlocksOnASingleLine: Empty
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLambdasOnASingleLine: Empty
+AllowShortLoopsOnASingleLine: false
+AlwaysBreakBeforeMultilineStrings: false
+BreakBeforeTernaryOperators: false
+BreakInheritanceList: AfterColon
+BreakConstructorInitializers: AfterColon
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel: false
+  AfterClass: false
+  AfterControlStatement: Never
+  AfterEnum: false
+  AfterFunction: false
+  AfterNamespace: false
+  AfterStruct: false
+  AfterUnion: false
+  AfterExternBlock: false
+  BeforeCatch: true
+  BeforeElse: true
+  BeforeLambdaBody: false
+  BeforeWhile: false
+  IndentBraces: false
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: true
+CompactNamespaces: true
+ConstructorInitializerAllOnOneLineOrOnePerLine: false
+DerivePointerAlignment: false
+MaxEmptyLinesToKeep: 2
+PointerAlignment: Left
+IncludeIsMainRegex: '([_](test))?$'
+IncludeCategories:
+  - Regex:           '^<fancier(/.*)?\.h(pp)?>'
+    Priority:        2
+  - Regex:           '^<CL/.*'
+    Priority:        3
+  - Regex:           '^<jni.h>$'
+    Priority:        3
+  - Regex:           '^<[^/]*\.h>'
+    Priority:        5
+  - Regex:           '^<.*'
+    Priority:        4
+  - Regex:           '.*'
+    Priority:        1
+IndentCaseLabels: false
+IndentExternBlock: NoIndent
+SpaceAfterCStyleCast: true
+SpaceAfterTemplateKeyword: false
+SpaceBeforeCtorInitializerColon: false
+SpaceBeforeInheritanceColon: false
+SpaceBeforeRangeBasedForLoopColon: false
+StatementMacros:
+  - FC_JAVA_INSTANCE_HANDLERS
+...

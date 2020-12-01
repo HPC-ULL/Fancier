@@ -1,22 +1,22 @@
 #ifndef _CLASS_TILING_DATA_H_
 #define _CLASS_TILING_DATA_H_
 
+#include <fancier/plugin/tiling/data_entry_set.h>
+#include <fancier/plugin/tiling/unique_ptr_content_comp.h>
+
 #include <memory>
 #include <set>
 #include <string>
 
-#include <fancier/plugin/tiling/data_entry_set.h>
-#include <fancier/plugin/tiling/unique_ptr_content_comp.h>
-
 
 struct fcpClassTilingData {
   std::string pkgClassName;
-  std::set< std::unique_ptr<fcpDataEntrySet>, fcpUniquePtrContentComp<fcpDataEntrySet> > entrySets;
+  std::set<std::unique_ptr<fcpDataEntrySet>, fcpUniquePtrContentComp<fcpDataEntrySet>> entrySets;
 
-  fcpClassTilingData (std::string pkgClassName): pkgClassName(pkgClassName) {}
+  fcpClassTilingData(std::string pkgClassName): pkgClassName(pkgClassName) {}
 
-  template <uint8_t N>
-  DimDataEntrySet<N>* fcPluginTiling_getDataEntrySet (const char* kernelName) {
+  template<uint8_t N>
+  DimDataEntrySet<N>* fcPluginTiling_getDataEntrySet(const char* kernelName) {
     // Find in entrySets the fcpDataEntrySet with the specified name
     std::unique_ptr<fcpDataEntrySet> newEntrySet(new DimDataEntrySet<N>);
     newEntrySet->fullKernelName = pkgClassName + "." + kernelName;
@@ -46,4 +46,4 @@ struct fcpClassTilingData {
   }
 };
 
-#endif // _CLASS_TILING_DATA_H_
+#endif  // _CLASS_TILING_DATA_H_

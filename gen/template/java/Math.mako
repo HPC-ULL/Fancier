@@ -73,18 +73,18 @@ public class Math {
 
 % for fname, num_params in math_alltype_functions.items():
 % for type in types:
-  public static native ${type|l} ${fname} (${', '.join([f'{type.lower()} {chr(i + ord("a"))}' for i in range(num_params)])});
+  public static native ${type|l} ${fname}(${', '.join([f'{type.lower()} {chr(i + ord("a"))}' for i in range(num_params)])});
 % endfor
 % endfor
 % for type in types:
-  public static native ${type|l} select (${type|l} a, ${type} b, int c);
+  public static native ${type|l} select(${type|l} a, ${type} b, int c);
 % endfor
 
   // Int types
 
 % for fname, num_params in math_int_functions.items():
 % for type in inttypes:
-  public static native ${type|l} ${fname} (${', '.join([f'{type.lower()} {chr(i + ord("a"))}' for i in range(num_params)])});
+  public static native ${type|l} ${fname}(${', '.join([f'{type.lower()} {chr(i + ord("a"))}' for i in range(num_params)])});
 % endfor
 % endfor
   public static native int mad24 (int a, int b, int c);
@@ -94,22 +94,22 @@ public class Math {
 
 % for fname, num_params in math_float_functions.items():
 % for type in floattypes:
-  public static native ${type|l} ${fname} (${', '.join([f'{type.lower()} {chr(i + ord("a"))}' for i in range(num_params)])});
+  public static native ${type|l} ${fname}(${', '.join([f'{type.lower()} {chr(i + ord("a"))}' for i in range(num_params)])});
 % endfor
 % endfor
 % for fname in ('scalb', 'ldexp', 'pown', 'rootn'):
 % for type in floattypes:
-  public static native ${type|l} ${fname} (${type|l} a, int n);
+  public static native ${type|l} ${fname}(${type|l} a, int n);
 % endfor
 % endfor
 % for fname in ('isFinite', 'isInf', 'isNaN', 'isNormal'):
 % for type in floattypes:
-  public static native int ${fname} (${type|l} x);
+  public static native int ${fname}(${type|l} x);
 % endfor
 % endfor
 % for fname in ('isOrdered', 'isUnordered'):
 % for type in floattypes:
-  public static native int ${fname} (${type|l} x, ${type|l} y);
+  public static native int ${fname}(${type|l} x, ${type|l} y);
 % endfor
 % endfor
 }

@@ -32,12 +32,12 @@ extern const fcByte4 fcARGBColor_BLACK;
 extern const fcByte4 fcARGBColor_TRANSPARENT;
 
 
-FANCIER_API cl_int fcARGBColor_toArgb (fcByte4 color);
-FANCIER_API fcByte4  fcARGBColor_fromArgb (cl_int argb);
+FANCIER_API cl_int fcARGBColor_toArgb(fcByte4 color);
+FANCIER_API fcByte4 fcARGBColor_fromArgb(cl_int argb);
 
-FANCIER_API cl_byte fcARGBColor_alpha (fcByte4 color);
-FANCIER_API cl_byte fcARGBColor_red (fcByte4 color);
-FANCIER_API cl_byte fcARGBColor_green (fcByte4 color);
-FANCIER_API cl_byte fcARGBColor_blue (fcByte4 color);
+FANCIER_API cl_byte fcARGBColor_alpha(fcByte4 color);
+FANCIER_API cl_byte fcARGBColor_red(fcByte4 color);
+FANCIER_API cl_byte fcARGBColor_green(fcByte4 color);
+FANCIER_API cl_byte fcARGBColor_blue(fcByte4 color);
 
-#endif // _FANCIER_COLOR_H_
+#endif  // _FANCIER_COLOR_H_

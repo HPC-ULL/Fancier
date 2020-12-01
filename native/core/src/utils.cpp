@@ -1,13 +1,14 @@
 #include <fancier/utils.h>
 
+#include <sys/stat.h>
+
 #include <errno.h>
 #include <fcntl.h>
-#include <sys/stat.h>
 #include <time.h>
 #include <unistd.h>
 
 
-uint64_t fcUtils_getCurrentTimeNs () {
+uint64_t fcUtils_getCurrentTimeNs() {
   struct timespec t;
 
   if (clock_gettime(CLOCK_MONOTONIC, &t) < 0)
@@ -16,14 +17,15 @@ uint64_t fcUtils_getCurrentTimeNs () {
   return ((uint64_t) t.tv_sec) * FC_NANOSECONDS_PER_SECOND + t.tv_nsec;
 }
 
-uint32_t fcUtils_getElapsedTimeUs (uint64_t prevTimeNs) {
+uint32_t fcUtils_getElapsedTimeUs(uint64_t prevTimeNs) {
   uint64_t curTimeNs = fcUtils_getCurrentTimeNs();
 
-  return (curTimeNs == UINT64_MAX || prevTimeNs == UINT64_MAX)?
-    UINT32_MAX : (uint32_t)((curTimeNs - prevTimeNs) / FC_NANOSECONDS_PER_MICROSECOND);
+  return (curTimeNs == UINT64_MAX || prevTimeNs == UINT64_MAX) ?
+             UINT32_MAX :
+             (uint32_t)((curTimeNs - prevTimeNs) / FC_NANOSECONDS_PER_MICROSECOND);
 }
 
-DIR* fcUtils_createOpenDir (const char* path) {
+DIR* fcUtils_createOpenDir(const char* path) {
   DIR* base_dir = opendir(path);
 
   if (!base_dir) {
@@ -42,11 +44,11 @@ DIR* fcUtils_createOpenDir (const char* path) {
   return base_dir;
 }
 
-int fcUtils_createOpenFile (const char* fileName, int openMode) {
+int fcUtils_createOpenFile(const char* fileName, int openMode) {
   return open(fileName, O_CREAT | openMode, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
 }
 
-int fcUtils_writeFileData (int fd, const char* data, size_t count) {
+int fcUtils_writeFileData(int fd, const char* data, size_t count) {
   size_t written = 0;
 
   while (written < count) {
@@ -61,7 +63,7 @@ int fcUtils_writeFileData (int fd, const char* data, size_t count) {
   return 0;
 }
 
-int fcUtils_readFileData (int fd, char* data, size_t count) {
+int fcUtils_readFileData(int fd, char* data, size_t count) {
   size_t read_bytes = 0;
 
   while (read_bytes < count) {

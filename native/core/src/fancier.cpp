@@ -1,15 +1,15 @@
 #define FC_LOG_TAG "libfancier"
 
+#include <fancier.h>
+#include <fancier/utils.h>
+
 #include <string>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #include <dlfcn.h>
 #include <fcntl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <unistd.h>
-
-#include <fancier.h>
-#include <fancier/utils.h>
 
 
 /// The name of the directory where the last update time of each generated
@@ -33,11 +33,11 @@ static int initCount = 0;
 // Private helper functions
 //
 
-static jint runSetupFunction (SetupFunc setup, JNIEnv* env) {
-  return (!setup)? FC_EXCEPTION_INVALID_STATE : setup(env);
+static jint runSetupFunction(SetupFunc setup, JNIEnv* env) {
+  return (!setup) ? FC_EXCEPTION_INVALID_STATE : setup(env);
 }
 
-static int runSharedSetupFunction (void* libHandle, const char* funcName, JNIEnv* env) {
+static int runSharedSetupFunction(void* libHandle, const char* funcName, JNIEnv* env) {
   int retValue = 0;
 
   if (libHandle) {
@@ -48,7 +48,7 @@ static int runSharedSetupFunction (void* libHandle, const char* funcName, JNIEnv
   return retValue;
 }
 
-static std::string pluginLibraryName (JNIEnv* env, jstring pluginName) {
+static std::string pluginLibraryName(JNIEnv* env, jstring pluginName) {
   const char* plugin = FC_JNI_CALL(env, GetStringUTFChars, pluginName, NULL);
 
   std::string library = "lib";
@@ -65,7 +65,7 @@ static std::string pluginLibraryName (JNIEnv* env, jstring pluginName) {
  * @return A negative value if the directory creation was not possible or zero if
  *         these directories were created or they already existed.
  */
-bool setupPrivateFancierDirs () {
+bool setupPrivateFancierDirs() {
   DIR* dir = fcUtils_createOpenDir(FC_CACHE_BASE_PATH);
 
   if (dir)
@@ -90,7 +90,9 @@ bool setupPrivateFancierDirs () {
 // Java Interface Implementation
 //
 
-extern "C" JNIEXPORT jboolean JNICALL Java_es_ull_pcg_hpc_fancier_Fancier_initNative__Ljava_lang_String_2 (JNIEnv* env, jclass cls, jstring basePath) {
+FANCIER_API JNIEXPORT jboolean JNICALL
+Java_es_ull_pcg_hpc_fancier_Fancier_initNative__Ljava_lang_String_2(JNIEnv* env, jclass cls,
+                                                                    jstring basePath) {
   FC_CACHE_BASE_PATH = env->GetStringUTFChars(basePath, NULL);
   FC_CACHE_BASE_PATH_STR = FC_CACHE_BASE_PATH;
   env->ReleaseStringUTFChars(basePath, FC_CACHE_BASE_PATH);
@@ -104,11 +106,14 @@ extern "C" JNIEXPORT jboolean JNICALL Java_es_ull_pcg_hpc_fancier_Fancier_initNa
   return JNI_FALSE;
 }
 
-extern "C" JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_Fancier_releaseNative (JNIEnv* env, jclass cls) {
+FANCIER_API JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_Fancier_releaseNative(JNIEnv* env,
+                                                                                     jclass cls) {
   fcFancier_releaseJNI(env);
 }
 
-extern "C" JNIEXPORT jboolean JNICALL Java_es_ull_pcg_hpc_fancier_Fancier_loadPluginNative__Ljava_lang_String_2 (JNIEnv* env, jclass cls, jstring pluginName) {
+FANCIER_API JNIEXPORT jboolean JNICALL
+Java_es_ull_pcg_hpc_fancier_Fancier_loadPluginNative__Ljava_lang_String_2(JNIEnv* env, jclass cls,
+                                                                          jstring pluginName) {
   std::string library = pluginLibraryName(env, pluginName);
   void* handle = dlopen(library.c_str(), RTLD_LAZY);
 
@@ -118,7 +123,9 @@ extern "C" JNIEXPORT jboolean JNICALL Java_es_ull_pcg_hpc_fancier_Fancier_loadPl
   return JNI_FALSE;
 }
 
-extern "C" JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_Fancier_unloadPluginNative__Ljava_lang_String_2 (JNIEnv* env, jclass cls, jstring pluginName) {
+FANCIER_API JNIEXPORT void JNICALL
+Java_es_ull_pcg_hpc_fancier_Fancier_unloadPluginNative__Ljava_lang_String_2(JNIEnv* env, jclass cls,
+                                                                            jstring pluginName) {
   // FIXME We call dlopen() twice and never dlclose()
   std::string library = pluginLibraryName(env, pluginName);
   void* handle = dlopen(library.c_str(), RTLD_LAZY);
@@ -132,7 +139,7 @@ extern "C" JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_Fancier_unloadPlug
 //
 
 // TODO Separate into its own source and header
-bool fcCache_updateStoredClassData (const char* className, uint64_t lastCodeUpdateTime) {
+bool fcCache_updateStoredClassData(const char* className, uint64_t lastCodeUpdateTime) {
   bool newUpdate = false;
 
   // Open file
@@ -146,7 +153,8 @@ bool fcCache_updateStoredClassData (const char* className, uint64_t lastCodeUpda
 
   // Read previous data, if it exists
   uint64_t prevUpdateTime;
-  if (fcUtils_readFileData(fd, (char*) &prevUpdateTime, sizeof(uint64_t)) < 0 || prevUpdateTime != lastCodeUpdateTime) {
+  if (fcUtils_readFileData(fd, (char*) &prevUpdateTime, sizeof(uint64_t)) < 0 ||
+      prevUpdateTime != lastCodeUpdateTime) {
     newUpdate = true;
 
     // Write lastCodeUpdateTime
@@ -158,7 +166,7 @@ bool fcCache_updateStoredClassData (const char* className, uint64_t lastCodeUpda
   return newUpdate;
 }
 
-jint fcFancier_initJNI (JNIEnv* env) {
+jint fcFancier_initJNI(JNIEnv* env) {
   if (setupPrivateFancierDirs())
     return FC_EXCEPTION_DIR_ERROR;
 
@@ -187,7 +195,7 @@ jint fcFancier_initJNI (JNIEnv* env) {
   return err;
 }
 
-void fcFancier_releaseJNI (JNIEnv* env) {
+void fcFancier_releaseJNI(JNIEnv* env) {
   if (initCount == 1) {
     fcOpenCL_releaseJNI(env);
     fcImage_releaseJNI(env);

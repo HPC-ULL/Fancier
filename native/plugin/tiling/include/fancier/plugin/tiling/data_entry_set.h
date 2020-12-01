@@ -1,46 +1,46 @@
 #ifndef _DATA_ENTRY_SET_H_
 #define _DATA_ENTRY_SET_H_
 
+#include <fancier/plugin/tiling.h>
+#include <fancier/plugin/tiling/data_entry.h>
+#include <fancier/utils.h>
+
 #include <cstdarg>
 #include <set>
 #include <string>
 
 #include <unistd.h>
 
-#include <fancier/plugin/tiling.h>
-#include <fancier/utils.h>
-#include <fancier/plugin/tiling/data_entry.h>
-
 
 struct fcpDataEntrySet {
   const uint8_t dims;
   std::string fullKernelName;
 
-  fcpDataEntrySet (uint8_t dims): dims(dims) {}
-  virtual ~fcpDataEntrySet () = default;
+  fcpDataEntrySet(uint8_t dims): dims(dims) {}
+  virtual ~fcpDataEntrySet() = default;
 
-  bool operator< (const fcpDataEntrySet& other) const {
+  bool operator<(const fcpDataEntrySet& other) const {
     return fullKernelName < other.fullKernelName;
   }
 
-  virtual fcpDataEntry* getDataEntry (size_t* idx, va_list args) {
+  virtual fcpDataEntry* getDataEntry(size_t* idx, va_list args) {
     return NULL;
   }
 
-  virtual int readEntries (int fd) {
+  virtual int readEntries(int fd) {
     return -1;
   }
 };
 
 
-template <uint8_t N>
+template<uint8_t N>
 struct DimDataEntrySet: public fcpDataEntrySet {
-  std::set< fcpDimDataEntry<N> > entries;
+  std::set<fcpDimDataEntry<N>> entries;
 
-  DimDataEntrySet (): fcpDataEntrySet(N) {}
-  virtual ~DimDataEntrySet () = default;
+  DimDataEntrySet(): fcpDataEntrySet(N) {}
+  virtual ~DimDataEntrySet() = default;
 
-  virtual fcpDataEntry* getDataEntry (size_t* idx, va_list args) {
+  virtual fcpDataEntry* getDataEntry(size_t* idx, va_list args) {
     fcpDimDataEntry<N> elem;
     size_t localIdx;
     bool entryExists = false;
@@ -109,7 +109,9 @@ struct DimDataEntrySet: public fcpDataEntrySet {
       fileName.append(FC_PLUGIN_TILING_SUBDIR_NAME "/").append(fullKernelName);
 
       int fd = fcUtils_createOpenFile(fileName.c_str(), O_RDWR);
-      if (fd < 0 || fcPluginTiling_writeEntry(fd, localIdx, true, &elem, sizeof(fcpDimDataEntry<N>)) < 0 || close(fd) < 0) {
+      if (fd < 0 ||
+          fcPluginTiling_writeEntry(fd, localIdx, true, &elem, sizeof(fcpDimDataEntry<N>)) < 0 ||
+          close(fd) < 0) {
         // Close fd in case the call to fcPluginTiling_writeEntry is the one that failed
         close(fd);
 
@@ -127,7 +129,7 @@ struct DimDataEntrySet: public fcpDataEntrySet {
     return const_cast<fcpDimDataEntry<N>*>(&(*iter));
   }
 
-  virtual int readEntries (int fd) {
+  virtual int readEntries(int fd) {
     entries.clear();
 
     // Check in the file header if the data is compatible with this class
@@ -144,8 +146,8 @@ struct DimDataEntrySet: public fcpDataEntrySet {
 
     lseek(fd, sizeof(fcpDataHeader), SEEK_SET);
 
-    // Read and insert entries in the set efficiently, taking advantage of the fact that entries must
-    // be ordered in the file
+    // Read and insert entries in the set efficiently, taking advantage of the fact that entries
+    // must be ordered in the file
     fcpDimDataEntry<N> entry;
     auto lastInsert = entries.begin();
 
@@ -160,4 +162,4 @@ struct DimDataEntrySet: public fcpDataEntrySet {
   }
 };
 
-#endif // _DATA_ENTRY_SET_H_
+#endif  // _DATA_ENTRY_SET_H_

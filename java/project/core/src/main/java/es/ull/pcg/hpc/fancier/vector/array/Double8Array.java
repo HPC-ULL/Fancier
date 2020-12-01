@@ -5,19 +5,19 @@ import es.ull.pcg.hpc.fancier.vector.Double8;
 public class Double8Array implements AutoCloseable {
   private long nativeInstancePtr = 0L;
 
-  private Double8Array (long nativePtr) {
+  private Double8Array(long nativePtr) {
     initNative(nativePtr);
   }
 
-  public Double8Array (int n) {
+  public Double8Array(int n) {
     initNative(n);
   }
 
-  public Double8Array (double[] v) {
+  public Double8Array(double[] v) {
     initNative(v);
   }
 
-  public Double8Array (Double8Array array) {
+  public Double8Array(Double8Array array) {
     initNative(array);
   }
 
@@ -26,38 +26,38 @@ public class Double8Array implements AutoCloseable {
    *
    * This must be called in order to avoid memory leaks.
    */
-  public void release () throws Exception {
+  public void release() {
     if (nativeInstancePtr != 0L)
       releaseNative();
   }
 
   @Override
-  public void close () throws Exception {
+  public void close() {
     release();
   }
 
   @Override
-  public void finalize () throws Throwable {
+  public void finalize() throws Throwable {
     if (nativeInstancePtr != 0L)
       releaseNativeRef();
 
     super.finalize();
   }
 
-  private native void initNative (long nativePtr);
-  private native void initNative (int n);
-  private native void initNative (double[] v);
-  private native void initNative (Double8Array array);
-  private native void releaseNative ();
-  private native void releaseNativeRef ();
+  private native void initNative(long nativePtr);
+  private native void initNative(int n);
+  private native void initNative(double[] v);
+  private native void initNative(Double8Array array);
+  private native void releaseNative();
+  private native void releaseNativeRef();
 
-  public native Double8 get (int i);
-  public native void set (int i, Double8 x);
-  public native long length ();
+  public native Double8 get(int i);
+  public native void set(int i, Double8 x);
+  public native long length();
 
-  public native double[] getContents ();
-  public native void setContents (double[] v);
+  public native double[] getContents();
+  public native void setContents(double[] v);
 
-  public native void syncToNative ();
-  public native void syncToOCL ();
+  public native void syncToNative();
+  public native void syncToOCL();
 }

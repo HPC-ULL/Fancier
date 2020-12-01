@@ -12,8 +12,11 @@ LOCAL_MODULE     := OpenCL
 LOCAL_CFLAGS     += $(MY_CFLAGS)
 LOCAL_C_INCLUDES += $(MY_INCLUDES)
 LOCAL_SRC_FILES  := \
-	$(MY_SRC_PATH)/CL/cl.c \
-	$(MY_SRC_PATH)/CL/cl_ext.c
+	$(MY_SRC_PATH)/CL/cl_egl.c \
+	$(MY_SRC_PATH)/CL/cl_ext_intel.c \
+	$(MY_SRC_PATH)/CL/cl_ext.c \
+	$(MY_SRC_PATH)/CL/cl_gl.c \
+	$(MY_SRC_PATH)/CL/cl.c
 
 include $(BUILD_SHARED_LIBRARY)
 
@@ -37,23 +40,5 @@ LOCAL_SRC_FILES  := \
 	$(MY_SRC_PATH)/utils.cpp \
 	$(MY_SRC_PATH)/vector_array.c \
 	$(MY_SRC_PATH)/vector.c
-
-include $(BUILD_SHARED_LIBRARY)
-
-
-# Plugins
-
-MY_PLUGIN_DIR := $(LOCAL_PATH)/plugin
-
-# libfanciertiling.so
-include $(CLEAR_VARS)
-LOCAL_MODULE     := fancier_tiling
-LOCAL_CFLAGS     += $(MY_CFLAGS)
-LOCAL_C_INCLUDES += $(MY_INCLUDES) $(LOCAL_PATH)/plugin/tiling/include
-LOCAL_LDLIBS     += $(MY_LDLIBS)
-LOCAL_SHARED_LIBRARIES += fancier
-LOCAL_SRC_FILES  := \
-	$(MY_PLUGIN_DIR)/tiling/src/tiling.cpp \
-	$(MY_PLUGIN_DIR)/tiling/src/data_entry.cpp
 
 include $(BUILD_SHARED_LIBRARY)

@@ -1,16 +1,18 @@
 #include <fancier/plugin/tiling/data_entry.h>
-
-#include <sys/types.h>
-#include <unistd.h>
 #include <fancier/utils.h>
 
-#define IO_BUFFER_SZ (4 * 1024) // 4K
+#include <sys/types.h>
+
+#include <unistd.h>
+
+#define IO_BUFFER_SZ (4 * 1024)  // 4K
 
 
-int fcPluginTiling_writeEntry (int fd, size_t idx, bool isNewEntry, const void* entry, size_t entrySz) {
-  // If sizeof(fcpDataHeader) + (idx * entrySz) exceeds the size of the file, the new data is appended
-  // If not, it is replaced at the right spot
-  // isNewEntry is used when inserting at the middle of the file. It ensures that no data is replaced
+int fcPluginTiling_writeEntry(int fd, size_t idx, bool isNewEntry, const void* entry,
+                              size_t entrySz) {
+  // If sizeof(fcpDataHeader) + (idx * entrySz) exceeds the size of the file, the new data is
+  // appended If not, it is replaced at the right spot isNewEntry is used when inserting at the
+  // middle of the file. It ensures that no data is replaced
   off_t fileSize = lseek(fd, 0, SEEK_END);
   off_t entryPos = lseek(fd, sizeof(fcpDataHeader) + idx * entrySz, SEEK_SET);
 

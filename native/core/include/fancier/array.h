@@ -3,14 +3,14 @@
 
 #include <fancier/platform.h>
 
-
+// clang-format off
 /// Current possible memory locations for the updated array data.
 typedef enum {
   FC_ARRAY_LOCATION_NONE,
   FC_ARRAY_LOCATION_NATIVE,
   FC_ARRAY_LOCATION_OPENCL,
 } fcArrayLocation;
-
+// clang-format on
 
 // Global Java References
 
@@ -47,7 +47,7 @@ typedef struct {
   size_t len;
 
   /// Pointer to native elements. Only valid when `location = FC_ARRAY_LOCATION_NATIVE`.
-  jbyte *c;
+  jbyte* c;
 
   /// OpenCL buffer to array elements. Only valid when `location = FC_ARRAY_LOCATION_OPENCL`.
   cl_mem ocl;
@@ -68,7 +68,7 @@ typedef struct {
   size_t len;
 
   /// Pointer to native elements. Only valid when `location = FC_ARRAY_LOCATION_NATIVE`.
-  jshort *c;
+  jshort* c;
 
   /// OpenCL buffer to array elements. Only valid when `location = FC_ARRAY_LOCATION_OPENCL`.
   cl_mem ocl;
@@ -89,7 +89,7 @@ typedef struct {
   size_t len;
 
   /// Pointer to native elements. Only valid when `location = FC_ARRAY_LOCATION_NATIVE`.
-  jint *c;
+  jint* c;
 
   /// OpenCL buffer to array elements. Only valid when `location = FC_ARRAY_LOCATION_OPENCL`.
   cl_mem ocl;
@@ -110,7 +110,7 @@ typedef struct {
   size_t len;
 
   /// Pointer to native elements. Only valid when `location = FC_ARRAY_LOCATION_NATIVE`.
-  jlong *c;
+  jlong* c;
 
   /// OpenCL buffer to array elements. Only valid when `location = FC_ARRAY_LOCATION_OPENCL`.
   cl_mem ocl;
@@ -131,7 +131,7 @@ typedef struct {
   size_t len;
 
   /// Pointer to native elements. Only valid when `location = FC_ARRAY_LOCATION_NATIVE`.
-  jfloat *c;
+  jfloat* c;
 
   /// OpenCL buffer to array elements. Only valid when `location = FC_ARRAY_LOCATION_OPENCL`.
   cl_mem ocl;
@@ -152,7 +152,7 @@ typedef struct {
   size_t len;
 
   /// Pointer to native elements. Only valid when `location = FC_ARRAY_LOCATION_NATIVE`.
-  jdouble *c;
+  jdouble* c;
 
   /// OpenCL buffer to array elements. Only valid when `location = FC_ARRAY_LOCATION_OPENCL`.
   cl_mem ocl;
@@ -167,94 +167,94 @@ typedef struct {
 FANCIER_API jint fcArray_initJNI(JNIEnv* env);
 FANCIER_API void fcArray_releaseJNI(JNIEnv* env);
 
-FANCIER_API fcByteArray* fcByteArray_getJava (JNIEnv* env, jobject obj);
-FANCIER_API int fcByteArray_createRef (fcByteArray* array);
-FANCIER_API int fcByteArray_releaseRef (fcByteArray* array);
-FANCIER_API int fcByteArray_init (fcByteArray* self);
-FANCIER_API int fcByteArray_initSize (fcByteArray* self, int n);
-FANCIER_API int fcByteArray_initArray (fcByteArray* self, int len, jbyte* v);
-FANCIER_API int fcByteArray_initCopy (fcByteArray* self, const fcByteArray* array);
-FANCIER_API int fcByteArray_release (fcByteArray* self);
-FANCIER_API jbyte fcByteArray_get (fcByteArray* self, int i, int* err);
-FANCIER_API int fcByteArray_set (fcByteArray* self, int i, jbyte x);
-FANCIER_API int fcByteArray_setContents (fcByteArray* self, int len, jbyte* v);
-FANCIER_API int fcByteArray_syncToNative (fcByteArray* self);
-FANCIER_API int fcByteArray_syncToOCL (fcByteArray* self);
-FANCIER_API jboolean fcByteArray_valid (const fcByteArray* self);
+FANCIER_API fcByteArray* fcByteArray_getJava(JNIEnv* env, jobject obj);
+FANCIER_API int fcByteArray_createRef(fcByteArray* array);
+FANCIER_API int fcByteArray_releaseRef(fcByteArray* array);
+FANCIER_API int fcByteArray_init(fcByteArray* self);
+FANCIER_API int fcByteArray_initSize(fcByteArray* self, int n);
+FANCIER_API int fcByteArray_initArray(fcByteArray* self, int len, jbyte* v);
+FANCIER_API int fcByteArray_initCopy(fcByteArray* self, const fcByteArray* array);
+FANCIER_API int fcByteArray_release(fcByteArray* self);
+FANCIER_API jbyte fcByteArray_get(fcByteArray* self, int i, int* err);
+FANCIER_API int fcByteArray_set(fcByteArray* self, int i, jbyte x);
+FANCIER_API int fcByteArray_setContents(fcByteArray* self, int len, jbyte* v);
+FANCIER_API int fcByteArray_syncToNative(fcByteArray* self);
+FANCIER_API int fcByteArray_syncToOCL(fcByteArray* self);
+FANCIER_API jboolean fcByteArray_valid(const fcByteArray* self);
 
-FANCIER_API fcShortArray* fcShortArray_getJava (JNIEnv* env, jobject obj);
-FANCIER_API int fcShortArray_createRef (fcShortArray* array);
-FANCIER_API int fcShortArray_releaseRef (fcShortArray* array);
-FANCIER_API int fcShortArray_init (fcShortArray* self);
-FANCIER_API int fcShortArray_initSize (fcShortArray* self, int n);
-FANCIER_API int fcShortArray_initArray (fcShortArray* self, int len, jshort* v);
-FANCIER_API int fcShortArray_initCopy (fcShortArray* self, const fcShortArray* array);
-FANCIER_API int fcShortArray_release (fcShortArray* self);
-FANCIER_API jshort fcShortArray_get (fcShortArray* self, int i, int* err);
-FANCIER_API int fcShortArray_set (fcShortArray* self, int i, jshort x);
-FANCIER_API int fcShortArray_setContents (fcShortArray* self, int len, jshort* v);
-FANCIER_API int fcShortArray_syncToNative (fcShortArray* self);
-FANCIER_API int fcShortArray_syncToOCL (fcShortArray* self);
-FANCIER_API jboolean fcShortArray_valid (const fcShortArray* self);
+FANCIER_API fcShortArray* fcShortArray_getJava(JNIEnv* env, jobject obj);
+FANCIER_API int fcShortArray_createRef(fcShortArray* array);
+FANCIER_API int fcShortArray_releaseRef(fcShortArray* array);
+FANCIER_API int fcShortArray_init(fcShortArray* self);
+FANCIER_API int fcShortArray_initSize(fcShortArray* self, int n);
+FANCIER_API int fcShortArray_initArray(fcShortArray* self, int len, jshort* v);
+FANCIER_API int fcShortArray_initCopy(fcShortArray* self, const fcShortArray* array);
+FANCIER_API int fcShortArray_release(fcShortArray* self);
+FANCIER_API jshort fcShortArray_get(fcShortArray* self, int i, int* err);
+FANCIER_API int fcShortArray_set(fcShortArray* self, int i, jshort x);
+FANCIER_API int fcShortArray_setContents(fcShortArray* self, int len, jshort* v);
+FANCIER_API int fcShortArray_syncToNative(fcShortArray* self);
+FANCIER_API int fcShortArray_syncToOCL(fcShortArray* self);
+FANCIER_API jboolean fcShortArray_valid(const fcShortArray* self);
 
-FANCIER_API fcIntArray* fcIntArray_getJava (JNIEnv* env, jobject obj);
-FANCIER_API int fcIntArray_createRef (fcIntArray* array);
-FANCIER_API int fcIntArray_releaseRef (fcIntArray* array);
-FANCIER_API int fcIntArray_init (fcIntArray* self);
-FANCIER_API int fcIntArray_initSize (fcIntArray* self, int n);
-FANCIER_API int fcIntArray_initArray (fcIntArray* self, int len, jint* v);
-FANCIER_API int fcIntArray_initCopy (fcIntArray* self, const fcIntArray* array);
-FANCIER_API int fcIntArray_release (fcIntArray* self);
-FANCIER_API jint fcIntArray_get (fcIntArray* self, int i, int* err);
-FANCIER_API int fcIntArray_set (fcIntArray* self, int i, jint x);
-FANCIER_API int fcIntArray_setContents (fcIntArray* self, int len, jint* v);
-FANCIER_API int fcIntArray_syncToNative (fcIntArray* self);
-FANCIER_API int fcIntArray_syncToOCL (fcIntArray* self);
-FANCIER_API jboolean fcIntArray_valid (const fcIntArray* self);
+FANCIER_API fcIntArray* fcIntArray_getJava(JNIEnv* env, jobject obj);
+FANCIER_API int fcIntArray_createRef(fcIntArray* array);
+FANCIER_API int fcIntArray_releaseRef(fcIntArray* array);
+FANCIER_API int fcIntArray_init(fcIntArray* self);
+FANCIER_API int fcIntArray_initSize(fcIntArray* self, int n);
+FANCIER_API int fcIntArray_initArray(fcIntArray* self, int len, jint* v);
+FANCIER_API int fcIntArray_initCopy(fcIntArray* self, const fcIntArray* array);
+FANCIER_API int fcIntArray_release(fcIntArray* self);
+FANCIER_API jint fcIntArray_get(fcIntArray* self, int i, int* err);
+FANCIER_API int fcIntArray_set(fcIntArray* self, int i, jint x);
+FANCIER_API int fcIntArray_setContents(fcIntArray* self, int len, jint* v);
+FANCIER_API int fcIntArray_syncToNative(fcIntArray* self);
+FANCIER_API int fcIntArray_syncToOCL(fcIntArray* self);
+FANCIER_API jboolean fcIntArray_valid(const fcIntArray* self);
 
-FANCIER_API fcLongArray* fcLongArray_getJava (JNIEnv* env, jobject obj);
-FANCIER_API int fcLongArray_createRef (fcLongArray* array);
-FANCIER_API int fcLongArray_releaseRef (fcLongArray* array);
-FANCIER_API int fcLongArray_init (fcLongArray* self);
-FANCIER_API int fcLongArray_initSize (fcLongArray* self, int n);
-FANCIER_API int fcLongArray_initArray (fcLongArray* self, int len, jlong* v);
-FANCIER_API int fcLongArray_initCopy (fcLongArray* self, const fcLongArray* array);
-FANCIER_API int fcLongArray_release (fcLongArray* self);
-FANCIER_API jlong fcLongArray_get (fcLongArray* self, int i, int* err);
-FANCIER_API int fcLongArray_set (fcLongArray* self, int i, jlong x);
-FANCIER_API int fcLongArray_setContents (fcLongArray* self, int len, jlong* v);
-FANCIER_API int fcLongArray_syncToNative (fcLongArray* self);
-FANCIER_API int fcLongArray_syncToOCL (fcLongArray* self);
-FANCIER_API jboolean fcLongArray_valid (const fcLongArray* self);
+FANCIER_API fcLongArray* fcLongArray_getJava(JNIEnv* env, jobject obj);
+FANCIER_API int fcLongArray_createRef(fcLongArray* array);
+FANCIER_API int fcLongArray_releaseRef(fcLongArray* array);
+FANCIER_API int fcLongArray_init(fcLongArray* self);
+FANCIER_API int fcLongArray_initSize(fcLongArray* self, int n);
+FANCIER_API int fcLongArray_initArray(fcLongArray* self, int len, jlong* v);
+FANCIER_API int fcLongArray_initCopy(fcLongArray* self, const fcLongArray* array);
+FANCIER_API int fcLongArray_release(fcLongArray* self);
+FANCIER_API jlong fcLongArray_get(fcLongArray* self, int i, int* err);
+FANCIER_API int fcLongArray_set(fcLongArray* self, int i, jlong x);
+FANCIER_API int fcLongArray_setContents(fcLongArray* self, int len, jlong* v);
+FANCIER_API int fcLongArray_syncToNative(fcLongArray* self);
+FANCIER_API int fcLongArray_syncToOCL(fcLongArray* self);
+FANCIER_API jboolean fcLongArray_valid(const fcLongArray* self);
 
-FANCIER_API fcFloatArray* fcFloatArray_getJava (JNIEnv* env, jobject obj);
-FANCIER_API int fcFloatArray_createRef (fcFloatArray* array);
-FANCIER_API int fcFloatArray_releaseRef (fcFloatArray* array);
-FANCIER_API int fcFloatArray_init (fcFloatArray* self);
-FANCIER_API int fcFloatArray_initSize (fcFloatArray* self, int n);
-FANCIER_API int fcFloatArray_initArray (fcFloatArray* self, int len, jfloat* v);
-FANCIER_API int fcFloatArray_initCopy (fcFloatArray* self, const fcFloatArray* array);
-FANCIER_API int fcFloatArray_release (fcFloatArray* self);
-FANCIER_API jfloat fcFloatArray_get (fcFloatArray* self, int i, int* err);
-FANCIER_API int fcFloatArray_set (fcFloatArray* self, int i, jfloat x);
-FANCIER_API int fcFloatArray_setContents (fcFloatArray* self, int len, jfloat* v);
-FANCIER_API int fcFloatArray_syncToNative (fcFloatArray* self);
-FANCIER_API int fcFloatArray_syncToOCL (fcFloatArray* self);
-FANCIER_API jboolean fcFloatArray_valid (const fcFloatArray* self);
+FANCIER_API fcFloatArray* fcFloatArray_getJava(JNIEnv* env, jobject obj);
+FANCIER_API int fcFloatArray_createRef(fcFloatArray* array);
+FANCIER_API int fcFloatArray_releaseRef(fcFloatArray* array);
+FANCIER_API int fcFloatArray_init(fcFloatArray* self);
+FANCIER_API int fcFloatArray_initSize(fcFloatArray* self, int n);
+FANCIER_API int fcFloatArray_initArray(fcFloatArray* self, int len, jfloat* v);
+FANCIER_API int fcFloatArray_initCopy(fcFloatArray* self, const fcFloatArray* array);
+FANCIER_API int fcFloatArray_release(fcFloatArray* self);
+FANCIER_API jfloat fcFloatArray_get(fcFloatArray* self, int i, int* err);
+FANCIER_API int fcFloatArray_set(fcFloatArray* self, int i, jfloat x);
+FANCIER_API int fcFloatArray_setContents(fcFloatArray* self, int len, jfloat* v);
+FANCIER_API int fcFloatArray_syncToNative(fcFloatArray* self);
+FANCIER_API int fcFloatArray_syncToOCL(fcFloatArray* self);
+FANCIER_API jboolean fcFloatArray_valid(const fcFloatArray* self);
 
-FANCIER_API fcDoubleArray* fcDoubleArray_getJava (JNIEnv* env, jobject obj);
-FANCIER_API int fcDoubleArray_createRef (fcDoubleArray* array);
-FANCIER_API int fcDoubleArray_releaseRef (fcDoubleArray* array);
-FANCIER_API int fcDoubleArray_init (fcDoubleArray* self);
-FANCIER_API int fcDoubleArray_initSize (fcDoubleArray* self, int n);
-FANCIER_API int fcDoubleArray_initArray (fcDoubleArray* self, int len, jdouble* v);
-FANCIER_API int fcDoubleArray_initCopy (fcDoubleArray* self, const fcDoubleArray* array);
-FANCIER_API int fcDoubleArray_release (fcDoubleArray* self);
-FANCIER_API jdouble fcDoubleArray_get (fcDoubleArray* self, int i, int* err);
-FANCIER_API int fcDoubleArray_set (fcDoubleArray* self, int i, jdouble x);
-FANCIER_API int fcDoubleArray_setContents (fcDoubleArray* self, int len, jdouble* v);
-FANCIER_API int fcDoubleArray_syncToNative (fcDoubleArray* self);
-FANCIER_API int fcDoubleArray_syncToOCL (fcDoubleArray* self);
-FANCIER_API jboolean fcDoubleArray_valid (const fcDoubleArray* self);
+FANCIER_API fcDoubleArray* fcDoubleArray_getJava(JNIEnv* env, jobject obj);
+FANCIER_API int fcDoubleArray_createRef(fcDoubleArray* array);
+FANCIER_API int fcDoubleArray_releaseRef(fcDoubleArray* array);
+FANCIER_API int fcDoubleArray_init(fcDoubleArray* self);
+FANCIER_API int fcDoubleArray_initSize(fcDoubleArray* self, int n);
+FANCIER_API int fcDoubleArray_initArray(fcDoubleArray* self, int len, jdouble* v);
+FANCIER_API int fcDoubleArray_initCopy(fcDoubleArray* self, const fcDoubleArray* array);
+FANCIER_API int fcDoubleArray_release(fcDoubleArray* self);
+FANCIER_API jdouble fcDoubleArray_get(fcDoubleArray* self, int i, int* err);
+FANCIER_API int fcDoubleArray_set(fcDoubleArray* self, int i, jdouble x);
+FANCIER_API int fcDoubleArray_setContents(fcDoubleArray* self, int len, jdouble* v);
+FANCIER_API int fcDoubleArray_syncToNative(fcDoubleArray* self);
+FANCIER_API int fcDoubleArray_syncToOCL(fcDoubleArray* self);
+FANCIER_API jboolean fcDoubleArray_valid(const fcDoubleArray* self);
 
-#endif // _FANCIER_ARRAY_H_
+#endif  // _FANCIER_ARRAY_H_

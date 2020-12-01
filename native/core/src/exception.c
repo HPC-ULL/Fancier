@@ -1,12 +1,11 @@
 #include <fancier/exception.h>
-
-#include <assert.h>
-#include <stdio.h>
-
 #include <fancier/log.h>
 #include <fancier/ocl.h>
 
 #include <fancier/internal/snippets.inc>
+
+#include <assert.h>
+#include <stdio.h>
 
 
 jclass fcException_NativeException_class = NULL;
@@ -16,48 +15,50 @@ jmethodID fcException_NativeException_constructor_st = NULL;
 jmethodID fcException_OpenCLException_constructor_is = NULL;
 
 static const char* const NATIVE_EXCEPTION_TEXT[] = {
-  "",
+    "",
 
-  "Invalid 'this' pointer",
-  "Invalid parameter specified",
-  "Invalid instance state",
-  "Memory copy failed",
+    "Invalid 'this' pointer",
+    "Invalid parameter specified",
+    "Invalid instance state",
+    "Memory copy failed",
 
-  "Directory error",
-  "File error",
+    "Directory error",
+    "File error",
 
-  "Java class not found",
-  "Java method not found",
-  "Java field not found",
-  "Out of memory exception creating new global reference",
-  "Cannot get array elements",
-  "Invalid array length",
+    "Java class not found",
+    "Java method not found",
+    "Java field not found",
+    "Out of memory exception creating new global reference",
+    "Cannot get array elements",
+    "Invalid array length",
 
-  "Cannot get Bitmap information",
-  "Unsupported Bitmap format",
-  "Cannot lock Bitmap pixel buffer",
-  "Cannot unlock Bitmap pixel buffer",
-  "Invalid Bitmap dimensions",
+    "Cannot get Bitmap information",
+    "Unsupported Bitmap format",
+    "Cannot lock Bitmap pixel buffer",
+    "Cannot unlock Bitmap pixel buffer",
+    "Invalid Bitmap dimensions",
 
-  "Other error encountered"
-};
+    "Other error encountered"};
 
 
-#define EXCEPTION_STRING_SIZE 8 * 1024 // 8K chars maximum message size
+#define EXCEPTION_STRING_SIZE 8 * 1024  // 8K chars maximum message size
 static char EXCEPTION_STRING_BUFFER[EXCEPTION_STRING_SIZE];
 
-#define FORWARD_EXCEPTION_IF(_env, _pred, _ret)\
-  if ((_pred) || FC_JNI_CALL(_env, ExceptionCheck)) {\
-    return _ret;\
-  } else ((void) 0)
+#define FORWARD_EXCEPTION_IF(_env, _pred, _ret)       \
+  if ((_pred) || FC_JNI_CALL(_env, ExceptionCheck)) { \
+    return _ret;                                      \
+  }                                                   \
+  else                                                \
+    ((void) 0)
 
 
-static void formatExceptionString (const char* file, int line, const char* function,
-                                   const char* message) {
-  snprintf(EXCEPTION_STRING_BUFFER, EXCEPTION_STRING_SIZE, "[%s:%d] %s :: %s.", file, line, function, message);
+static void formatExceptionString(const char* file, int line, const char* function,
+                                  const char* message) {
+  snprintf(EXCEPTION_STRING_BUFFER, EXCEPTION_STRING_SIZE, "[%s:%d] %s :: %s.", file, line,
+           function, message);
 }
 
-static const char* formatOpenCLError (int clerror) {
+static const char* formatOpenCLError(int clerror) {
   switch (clerror) {
   case CL_DEVICE_NOT_FOUND:
     return "CL_DEVICE_NOT_FOUND";
@@ -162,7 +163,7 @@ static const char* formatOpenCLError (int clerror) {
   }
 }
 
-int fcException_initJNI (JNIEnv* env) {
+int fcException_initJNI(JNIEnv* env) {
   // Do not use the FC_INIT_CLASS_REF macro to initialize NativeException references because being
   // initialized is a pre-requisite of the macro
   jclass cls = FC_JNI_CALL(env, FindClass, "es/ull/pcg/hpc/fancier/NativeException");
@@ -172,12 +173,14 @@ int fcException_initJNI (JNIEnv* env) {
 
   // Do not use the FC_INIT_CONSTRUCTOR macro to initialize NativeException constructors because
   // having these references initialized is a pre-requisite of the macro
-  fcException_NativeException_constructor_s = FC_JNI_CALL(env, GetMethodID,
-      fcException_NativeException_class, "<init>", "(Ljava/lang/String;)V");
-  FORWARD_EXCEPTION_IF(env, !fcException_NativeException_constructor_s, FC_EXCEPTION_METHOD_NOT_FOUND);
+  fcException_NativeException_constructor_s = FC_JNI_CALL(
+      env, GetMethodID, fcException_NativeException_class, "<init>", "(Ljava/lang/String;)V");
+  FORWARD_EXCEPTION_IF(env, !fcException_NativeException_constructor_s,
+                       FC_EXCEPTION_METHOD_NOT_FOUND);
 
-  fcException_NativeException_constructor_st = FC_JNI_CALL(env, GetMethodID,
-      fcException_NativeException_class, "<init>", "(Ljava/lang/String;Ljava/lang/Throwable;)V");
+  fcException_NativeException_constructor_st =
+      FC_JNI_CALL(env, GetMethodID, fcException_NativeException_class, "<init>",
+                  "(Ljava/lang/String;Ljava/lang/Throwable;)V");
   FORWARD_EXCEPTION_IF(env, !fcException_NativeException_constructor_st,
                        FC_EXCEPTION_METHOD_NOT_FOUND);
 
@@ -192,7 +195,7 @@ int fcException_initJNI (JNIEnv* env) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-void fcException_releaseJNI (JNIEnv* env) {
+void fcException_releaseJNI(JNIEnv* env) {
   FC_FREE_CLASS_REF(env, fcException_OpenCLException_class);
   fcException_OpenCLException_constructor_is = NULL;
   FC_FREE_CLASS_REF(env, fcException_NativeException_class);
@@ -200,47 +203,51 @@ void fcException_releaseJNI (JNIEnv* env) {
   fcException_NativeException_constructor_s = NULL;
 }
 
-jstring fcException_createString (JNIEnv* env, const char* file, int line, const char* function,
-                                  const char* message) {
+jstring fcException_createString(JNIEnv* env, const char* file, int line, const char* function,
+                                 const char* message) {
   formatExceptionString(file, line, function, message);
   return FC_JNI_CALL(env, NewStringUTF, EXCEPTION_STRING_BUFFER);
 }
 
-void fcException_throwWrappedNative (JNIEnv* env, const char* file, int line, const char* function,
-                                     jthrowable cause) {
+void fcException_throwWrappedNative(JNIEnv* env, const char* file, int line, const char* function,
+                                    jthrowable cause) {
   FC_JNI_CALL(env, ExceptionClear);
-  jstring error_message = fcException_createString(env, file, line, function, "Exception occurred during last operation");
-  jthrowable exception_obj = (jthrowable) FC_JNI_CALL(env, NewObject, fcException_NativeException_class, fcException_NativeException_constructor_st, error_message, cause);
+  jstring error_message = fcException_createString(env, file, line, function,
+                                                   "Exception occurred during last operation");
+  jthrowable exception_obj =
+      (jthrowable) FC_JNI_CALL(env, NewObject, fcException_NativeException_class,
+                               fcException_NativeException_constructor_st, error_message, cause);
   FC_JNI_CALL(env, Throw, exception_obj);
 }
 
-void fcException_throwNative (JNIEnv* env, const char* file, int line, const char* function,
-                              int error) {
+void fcException_throwNative(JNIEnv* env, const char* file, int line, const char* function,
+                             int error) {
   assert(error > FC_EXCEPTION_SUCCESS && error <= FC_EXCEPTION_OTHER);
   FC_JNI_CALL(env, ExceptionClear);
 
-  jstring error_message = fcException_createString(env, file, line, function,
-                                                   NATIVE_EXCEPTION_TEXT[error]);
-  jthrowable exception_obj = (jthrowable) FC_JNI_CALL(env, NewObject,
-      fcException_NativeException_class, fcException_NativeException_constructor_st, error_message);
+  jstring error_message =
+      fcException_createString(env, file, line, function, NATIVE_EXCEPTION_TEXT[error]);
+  jthrowable exception_obj =
+      (jthrowable) FC_JNI_CALL(env, NewObject, fcException_NativeException_class,
+                               fcException_NativeException_constructor_st, error_message);
   FC_JNI_CALL(env, Throw, exception_obj);
 }
 
-void fcException_throwOpenCL (JNIEnv* env, const char* file, int line, const char* function,
-                              int clerror) {
+void fcException_throwOpenCL(JNIEnv* env, const char* file, int line, const char* function,
+                             int clerror) {
   assert(clerror < FC_EXCEPTION_SUCCESS && clerror != CL_BUILD_PROGRAM_FAILURE);
   FC_JNI_CALL(env, ExceptionClear);
 
-  jstring error_message = fcException_createString(env, file, line, function,
-                                                   formatOpenCLError(clerror));
-  jthrowable exception_obj = (jthrowable) FC_JNI_CALL(env, NewObject,
-      fcException_OpenCLException_class, fcException_OpenCLException_constructor_is, clerror,
-      error_message);
+  jstring error_message =
+      fcException_createString(env, file, line, function, formatOpenCLError(clerror));
+  jthrowable exception_obj =
+      (jthrowable) FC_JNI_CALL(env, NewObject, fcException_OpenCLException_class,
+                               fcException_OpenCLException_constructor_is, clerror, error_message);
   FC_JNI_CALL(env, Throw, exception_obj);
 }
 
-void fcException_throwOpenCLBuild (JNIEnv* env, const char* file, int line, const char* function,
-                                   cl_program program) {
+void fcException_throwOpenCLBuild(JNIEnv* env, const char* file, int line, const char* function,
+                                  cl_program program) {
   FC_JNI_CALL(env, ExceptionClear);
 
   char build_log[EXCEPTION_STRING_SIZE];
@@ -248,19 +255,19 @@ void fcException_throwOpenCLBuild (JNIEnv* env, const char* file, int line, cons
                         build_log, NULL);
 
   jstring error_message = fcException_createString(env, file, line, function, build_log);
-  jthrowable exception_obj = (jthrowable) FC_JNI_CALL(env, NewObject,
-      fcException_OpenCLException_class, fcException_OpenCLException_constructor_is,
+  jthrowable exception_obj = (jthrowable) FC_JNI_CALL(
+      env, NewObject, fcException_OpenCLException_class, fcException_OpenCLException_constructor_is,
       CL_BUILD_PROGRAM_FAILURE, error_message);
   FC_JNI_CALL(env, Throw, exception_obj);
 }
 
-void fcException_logNative (const char* file, int line, const char* function, int error) {
+void fcException_logNative(const char* file, int line, const char* function, int error) {
   assert(error > FC_EXCEPTION_SUCCESS && error <= FC_EXCEPTION_OTHER);
   formatExceptionString(file, line, function, NATIVE_EXCEPTION_TEXT[error]);
   FC_LOGERROR(EXCEPTION_STRING_BUFFER);
 }
 
-void fcException_logOpenCL (const char* file, int line, const char* function, int clerror) {
+void fcException_logOpenCL(const char* file, int line, const char* function, int clerror) {
   assert(clerror < FC_EXCEPTION_SUCCESS && clerror >= CL_INVALID_PROPERTY);
 
   formatExceptionString(file, line, function, formatOpenCLError(clerror));

@@ -58,14 +58,10 @@ public class OpenCLException extends NativeException {
 
     private static ErrorCode[] values = ErrorCode.values();
 
-    /**
-     * Obtiene el código de error OpenCL correspondiente al valor proporcionado.
-     * @param value El valor del que se quiere obtener el código de error.
-     * @return El código de error correspondiente al valor proporcionado.
-     */
-    public static ErrorCode valueOf (int value) {
-      if (value > 0 || value < CL_INVALID_PROPERTY.value ||
-          (value < CL_EXEC_STATUS_ERROR_FOR_EVENTS_IN_WAIT_LIST.value && value > CL_INVALID_VALUE.value))
+    public static ErrorCode valueOf(int value) {
+      if (value > 0 || value < CL_INVALID_PROPERTY.value
+          || (value < CL_EXEC_STATUS_ERROR_FOR_EVENTS_IN_WAIT_LIST.value
+              && value > CL_INVALID_VALUE.value))
         throw new EnumConstantNotPresentException(ErrorCode.class, String.valueOf(value));
 
       int index;
@@ -78,31 +74,27 @@ public class OpenCLException extends NativeException {
     }
 
     private int value;
-    ErrorCode (int value) {
+    ErrorCode(int value) {
       this.value = value;
     }
 
-    /**
-     * Obtiene el valor del código de error.
-     * @return Valor del código de error.
-     */
-    public int getValue () {
+    public int getValue() {
       return value;
     }
   }
 
   private ErrorCode clErrorCode;
 
-  public OpenCLException (int clErrorCode) {
+  public OpenCLException(int clErrorCode) {
     this.clErrorCode = ErrorCode.valueOf(clErrorCode);
   }
 
-  public OpenCLException (int clErrorCode, String message) {
+  public OpenCLException(int clErrorCode, String message) {
     super(message);
     this.clErrorCode = ErrorCode.valueOf(clErrorCode);
   }
 
-  public ErrorCode getOpenCLErrorCode () {
+  public ErrorCode getOpenCLErrorCode() {
     return clErrorCode;
   }
 }

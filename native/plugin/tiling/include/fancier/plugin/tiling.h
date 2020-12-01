@@ -7,10 +7,10 @@
 #ifndef _FANCIER_TILING_H_
 #define _FANCIER_TILING_H_
 
+#include <fancier.h>
+
 #include <stddef.h>
 #include <stdint.h>
-
-#include <fancier.h>
 
 
 /// It contains the data representing all dynamic tiling information for a single Java class.
@@ -37,9 +37,9 @@ typedef struct fcpDataEntry fcpDataEntry;
  * Create the directories that will hold all the dynamic tiling information.
  * @return \c 0 if the operation ended successfully or \c -1 if it failed.
  */
-FANCIER_API jint loadFancierPlugin (JNIEnv* env);
+FANCIER_API jint loadFancierPlugin(JNIEnv* env);
 
-FANCIER_API jint unloadFancierPlugin (JNIEnv* env);
+FANCIER_API jint unloadFancierPlugin(JNIEnv* env);
 
 /**
  * @}
@@ -55,17 +55,17 @@ FANCIER_API jint unloadFancierPlugin (JNIEnv* env);
  * @param pkgClassName The fully qualified Java package and class name.
  * @return The existing dynamic tiling data for the selected class or \c NULL if the base tiling
  *         directory could not be opened.
- * @note The returned object must be released by a call to \c fcPluginTiling_freeClassTilingData to avoid memory
- *       leaks.
+ * @note The returned object must be released by a call to \c fcPluginTiling_freeClassTilingData to
+ * avoid memory leaks.
  */
-FANCIER_API fcpClassTilingData* fcPluginTiling_readClassTilingData (const char* pkgClassName,
-                                                                    bool reset);
+FANCIER_API fcpClassTilingData* fcPluginTiling_readClassTilingData(const char* pkgClassName,
+                                                                   bool reset);
 
 /**
  * Free the memory allocated for dynamic tiling data.
  * @param tilingData The memory object to deallocate.
  */
-FANCIER_API void fcPluginTiling_freeClassTilingData (fcpClassTilingData* tilingData);
+FANCIER_API void fcPluginTiling_freeClassTilingData(fcpClassTilingData* tilingData);
 
 /**
  * Retrieves a data entry set, or the set of tiling data entries for a single kernel. If it does
@@ -75,9 +75,9 @@ FANCIER_API void fcPluginTiling_freeClassTilingData (fcpClassTilingData* tilingD
  * @param numDims The number of dimensions used for tiling.
  * @return The data entry set corresponding to the selected class and kernel.
  */
-FANCIER_API fcpDataEntrySet* fcPluginTiling_getDataEntrySet (fcpClassTilingData* tilingData,
-                                                             const char* kernelName,
-                                                             uint8_t numDims);
+FANCIER_API fcpDataEntrySet* fcPluginTiling_getDataEntrySet(fcpClassTilingData* tilingData,
+                                                            const char* kernelName,
+                                                            uint8_t numDims);
 
 /**
  * @}
@@ -98,7 +98,7 @@ FANCIER_API fcpDataEntrySet* fcPluginTiling_getDataEntrySet (fcpClassTilingData*
  * @param ... The input dimensions, of type \c size_t.
  * @return The data entry of the specified kernel and input size.
  */
-FANCIER_API fcpDataEntry* fcPluginTiling_getDataEntry (fcpDataEntrySet* entries, size_t* idx, ...);
+FANCIER_API fcpDataEntry* fcPluginTiling_getDataEntry(fcpDataEntrySet* entries, size_t* idx, ...);
 
 /**
  * @}
@@ -115,8 +115,8 @@ FANCIER_API fcpDataEntry* fcPluginTiling_getDataEntry (fcpDataEntrySet* entries,
  * @param numDims The number of tiling dimensions.
  * @param tiles The output buffer where the sizes will be copied.
  */
-FANCIER_API void fcPluginTiling_getDataEntryBestTile (fcpDataEntry* entry, uint8_t numDims,
-                                                      size_t* tiles);
+FANCIER_API void fcPluginTiling_getDataEntryBestTile(fcpDataEntry* entry, uint8_t numDims,
+                                                     size_t* tiles);
 
 /**
  * Obtain the next tile size to use in the dynamic adaptation process.
@@ -125,8 +125,8 @@ FANCIER_API void fcPluginTiling_getDataEntryBestTile (fcpDataEntry* entry, uint8
  * @param tiles The output buffer where the next tile size will be stored.
  * @return The direction in which the tile size has been modified.
  */
-FANCIER_API int8_t fcPluginTiling_exploreNextTiles (fcpDataEntry* entry, uint8_t numDims,
-                                                    size_t* tiles);
+FANCIER_API int8_t fcPluginTiling_exploreNextTiles(fcpDataEntry* entry, uint8_t numDims,
+                                                   size_t* tiles);
 
 /**
  * Update a data entry with the results of the last execution, in order to continue exploration.
@@ -141,8 +141,8 @@ FANCIER_API int8_t fcPluginTiling_exploreNextTiles (fcpDataEntry* entry, uint8_t
  *        specified entry, using the tile size returned by the latest call to \c exploreNextTiles.
  * @return \c 0 if the update can be performed and stored in disk or \c -1 otherwise.
  */
-FANCIER_API int fcPluginTiling_updateDataEntry (fcpDataEntrySet* entries, fcpDataEntry* entry,
-                                                size_t entryIdx, int8_t dir, uint32_t newTimeUs);
+FANCIER_API int fcPluginTiling_updateDataEntry(fcpDataEntrySet* entries, fcpDataEntry* entry,
+                                               size_t entryIdx, int8_t dir, uint32_t newTimeUs);
 
 /**
  * @}

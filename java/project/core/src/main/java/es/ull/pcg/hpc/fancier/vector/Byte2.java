@@ -6,240 +6,240 @@ public class Byte2 {
   public byte x;
   public byte y;
 
-  public Byte2 (byte x, byte y) {
+  public Byte2(byte x, byte y) {
     this.x = x;
     this.y = y;
   }
 
-  public Byte2 (byte v) {
+  public Byte2(byte v) {
     this(v, v);
   }
 
-  public Byte2 () {
+  public Byte2() {
     this((byte) 0);
   }
 
-  public Byte2 (Byte2 vec1) {
+  public Byte2(Byte2 vec1) {
     this(vec1.x, vec1.y);
   }
 
-  public Short2 convertShort2 () {
+  public Short2 convertShort2() {
     return new Short2((short) x, (short) y);
   }
 
-  public Int2 convertInt2 () {
+  public Int2 convertInt2() {
     return new Int2((int) x, (int) y);
   }
 
-  public Long2 convertLong2 () {
+  public Long2 convertLong2() {
     return new Long2((long) x, (long) y);
   }
 
-  public Float2 convertFloat2 () {
+  public Float2 convertFloat2() {
     return new Float2((float) x, (float) y);
   }
 
-  public Double2 convertDouble2 () {
+  public Double2 convertDouble2() {
     return new Double2((double) x, (double) y);
   }
 
-  public static Int2 isEqual (Byte2 a, Byte2 b) {
+  public static Int2 isEqual(Byte2 a, Byte2 b) {
     return new Int2(a.x == b.x? 1 : 0, a.y == b.y? 1 : 0);
   }
 
-  public static Int2 isNotEqual (Byte2 a, Byte2 b) {
+  public static Int2 isNotEqual(Byte2 a, Byte2 b) {
     return new Int2(a.x != b.x? 1 : 0, a.y != b.y? 1 : 0);
   }
 
-  public static Int2 isGreater (Byte2 a, Byte2 b) {
+  public static Int2 isGreater(Byte2 a, Byte2 b) {
     return new Int2(a.x > b.x? 1 : 0, a.y > b.y? 1 : 0);
   }
 
-  public static Int2 isGreaterEqual (Byte2 a, Byte2 b) {
+  public static Int2 isGreaterEqual(Byte2 a, Byte2 b) {
     return new Int2(a.x >= b.x? 1 : 0, a.y >= b.y? 1 : 0);
   }
 
-  public static Int2 isLess (Byte2 a, Byte2 b) {
+  public static Int2 isLess(Byte2 a, Byte2 b) {
     return new Int2(a.x < b.x? 1 : 0, a.y < b.y? 1 : 0);
   }
 
-  public static Int2 isLessEqual (Byte2 a, Byte2 b) {
+  public static Int2 isLessEqual(Byte2 a, Byte2 b) {
     return new Int2(a.x <= b.x? 1 : 0, a.y <= b.y? 1 : 0);
   }
 
-  public static Byte2 select (Byte2 a, Byte2 b, Int2 c) {
+  public static Byte2 select(Byte2 a, Byte2 b, Int2 c) {
     return new Byte2(Math.select(a.x, b.x, c.x), Math.select(a.y, b.y, c.y));
   }
 
-  public static int any (Byte2 a) {
+  public static int any(Byte2 a) {
     return (a.x != (byte) 0 || a.y != (byte) 0)? 1 : 0;
   }
 
-  public static int all (Byte2 a) {
+  public static int all(Byte2 a) {
     return (a.x == (byte) 0 || a.y == (byte) 0)? 1 : 0;
   }
 
-  public static Byte2 add (Byte2 a, Byte2 b) {
+  public static Byte2 add(Byte2 a, Byte2 b) {
     return new Byte2((byte)(a.x + b.x), (byte)(a.y + b.y));
   }
 
-  public static Byte2 sub (Byte2 a, Byte2 b) {
+  public static Byte2 sub(Byte2 a, Byte2 b) {
     return new Byte2((byte)(a.x - b.x), (byte)(a.y - b.y));
   }
 
-  public static Byte2 mul (Byte2 a, Byte2 b) {
+  public static Byte2 mul(Byte2 a, Byte2 b) {
     return new Byte2((byte)(a.x * b.x), (byte)(a.y * b.y));
   }
 
-  public static Byte2 mul (Byte2 a, byte k) {
+  public static Byte2 mul(Byte2 a, byte k) {
     return new Byte2((byte)(a.x * k), (byte)(a.y * k));
   }
 
-  public static Double2 mul (Byte2 a, Double2 b) {
+  public static Double2 mul(Byte2 a, Double2 b) {
     return new Double2((double)(a.x * b.x), (double)(a.y * b.y));
   }
 
-  public static Double2 mul (Byte2 a, double k) {
+  public static Double2 mul(Byte2 a, double k) {
     return new Double2((double)(a.x * k), (double)(a.y * k));
   }
 
-  public static Float2 mul (Byte2 a, Float2 b) {
+  public static Float2 mul(Byte2 a, Float2 b) {
     return new Float2((float)(a.x * b.x), (float)(a.y * b.y));
   }
 
-  public static Float2 mul (Byte2 a, float k) {
+  public static Float2 mul(Byte2 a, float k) {
     return new Float2((float)(a.x * k), (float)(a.y * k));
   }
 
-  public static Byte2 div (Byte2 a, Byte2 b) {
+  public static Byte2 div(Byte2 a, Byte2 b) {
     return new Byte2((byte)(a.x / b.x), (byte)(a.y / b.y));
   }
 
-  public static Byte2 div (Byte2 a, byte k) {
+  public static Byte2 div(Byte2 a, byte k) {
     return new Byte2((byte)(a.x / k), (byte)(a.y / k));
   }
 
-  public static Double2 div (Byte2 a, Double2 b) {
+  public static Double2 div(Byte2 a, Double2 b) {
     return new Double2((double)(a.x / b.x), (double)(a.y / b.y));
   }
 
-  public static Double2 div (Byte2 a, double k) {
+  public static Double2 div(Byte2 a, double k) {
     return new Double2((double)(a.x / k), (double)(a.y / k));
   }
 
-  public static Float2 div (Byte2 a, Float2 b) {
+  public static Float2 div(Byte2 a, Float2 b) {
     return new Float2((float)(a.x / b.x), (float)(a.y / b.y));
   }
 
-  public static Float2 div (Byte2 a, float k) {
+  public static Float2 div(Byte2 a, float k) {
     return new Float2((float)(a.x / k), (float)(a.y / k));
   }
 
-  public static Byte2 mod (Byte2 a, Byte2 b) {
+  public static Byte2 mod(Byte2 a, Byte2 b) {
     return new Byte2((byte)(a.x % b.x), (byte)(a.y % b.y));
   }
 
-  public static Byte2 mod (Byte2 a, byte k) {
+  public static Byte2 mod(Byte2 a, byte k) {
     return new Byte2((byte)(a.x % k), (byte)(a.y % k));
   }
 
-  public static Byte2 bitAnd (Byte2 a, Byte2 b) {
+  public static Byte2 bitAnd(Byte2 a, Byte2 b) {
     return new Byte2((byte)(a.x & b.x), (byte)(a.y & b.y));
   }
 
-  public static Byte2 bitOr (Byte2 a, Byte2 b) {
+  public static Byte2 bitOr(Byte2 a, Byte2 b) {
     return new Byte2((byte)(a.x | b.x), (byte)(a.y | b.y));
   }
 
-  public static Byte2 bitXor (Byte2 a, Byte2 b) {
+  public static Byte2 bitXor(Byte2 a, Byte2 b) {
     return new Byte2((byte)(a.x ^ b.x), (byte)(a.y ^ b.y));
   }
 
-  public static Byte2 bitNot (Byte2 a) {
+  public static Byte2 bitNot(Byte2 a) {
     return new Byte2((byte)(~a.x), (byte)(~a.y));
   }
 
-  public static Byte2 abs (Byte2 a) {
+  public static Byte2 abs(Byte2 a) {
     return new Byte2(Math.abs(a.x), Math.abs(a.y));
   }
 
-  public static Byte2 clamp (Byte2 a, Byte2 b, Byte2 c) {
+  public static Byte2 clamp(Byte2 a, Byte2 b, Byte2 c) {
     return new Byte2(Math.clamp(a.x, b.x, c.x), Math.clamp(a.y, b.y, c.y));
   }
 
-  public static Byte2 max (Byte2 a, Byte2 b) {
+  public static Byte2 max(Byte2 a, Byte2 b) {
     return new Byte2(Math.max(a.x, b.x), Math.max(a.y, b.y));
   }
 
-  public static Byte2 maxMag (Byte2 a, Byte2 b) {
+  public static Byte2 maxMag(Byte2 a, Byte2 b) {
     return new Byte2(Math.maxMag(a.x, b.x), Math.maxMag(a.y, b.y));
   }
 
-  public static Byte2 min (Byte2 a, Byte2 b) {
+  public static Byte2 min(Byte2 a, Byte2 b) {
     return new Byte2(Math.min(a.x, b.x), Math.min(a.y, b.y));
   }
 
-  public static Byte2 minMag (Byte2 a, Byte2 b) {
+  public static Byte2 minMag(Byte2 a, Byte2 b) {
     return new Byte2(Math.minMag(a.x, b.x), Math.minMag(a.y, b.y));
   }
 
-  public static Byte2 mix (Byte2 a, Byte2 b, Byte2 c) {
+  public static Byte2 mix(Byte2 a, Byte2 b, Byte2 c) {
     return new Byte2(Math.mix(a.x, b.x, c.x), Math.mix(a.y, b.y, c.y));
   }
 
-  public static Byte2 clamp (Byte2 v, byte min, byte max) {
+  public static Byte2 clamp(Byte2 v, byte min, byte max) {
     return new Byte2(Math.clamp(v.x, min, max), Math.clamp(v.y, min, max));
   }
 
-  public static Byte2 max (Byte2 x, byte y) {
+  public static Byte2 max(Byte2 x, byte y) {
     return new Byte2(Math.max(x.x, y), Math.max(x.y, y));
   }
 
-  public static Byte2 min (Byte2 x, byte y) {
+  public static Byte2 min(Byte2 x, byte y) {
     return new Byte2(Math.min(x.x, y), Math.min(x.y, y));
   }
 
-  public static Byte2 mix (Byte2 x, Byte2 y, byte a) {
+  public static Byte2 mix(Byte2 x, Byte2 y, byte a) {
     return new Byte2(Math.mix(x.x, y.x, a), Math.mix(x.y, y.y, a));
   }
 
-  public static Byte2 absDiff (Byte2 a, Byte2 b) {
+  public static Byte2 absDiff(Byte2 a, Byte2 b) {
     return new Byte2(Math.absDiff(a.x, b.x), Math.absDiff(a.y, b.y));
   }
 
-  public static Byte2 addSat (Byte2 a, Byte2 b) {
+  public static Byte2 addSat(Byte2 a, Byte2 b) {
     return new Byte2(Math.addSat(a.x, b.x), Math.addSat(a.y, b.y));
   }
 
-  public static Byte2 clz (Byte2 a) {
+  public static Byte2 clz(Byte2 a) {
     return new Byte2(Math.clz(a.x), Math.clz(a.y));
   }
 
-  public static Byte2 hadd (Byte2 a, Byte2 b) {
+  public static Byte2 hadd(Byte2 a, Byte2 b) {
     return new Byte2(Math.hadd(a.x, b.x), Math.hadd(a.y, b.y));
   }
 
-  public static Byte2 madHi (Byte2 a, Byte2 b, Byte2 c) {
+  public static Byte2 madHi(Byte2 a, Byte2 b, Byte2 c) {
     return new Byte2(Math.madHi(a.x, b.x, c.x), Math.madHi(a.y, b.y, c.y));
   }
 
-  public static Byte2 madSat (Byte2 a, Byte2 b, Byte2 c) {
+  public static Byte2 madSat(Byte2 a, Byte2 b, Byte2 c) {
     return new Byte2(Math.madSat(a.x, b.x, c.x), Math.madSat(a.y, b.y, c.y));
   }
 
-  public static Byte2 mulHi (Byte2 a, Byte2 b) {
+  public static Byte2 mulHi(Byte2 a, Byte2 b) {
     return new Byte2(Math.mulHi(a.x, b.x), Math.mulHi(a.y, b.y));
   }
 
-  public static Byte2 rhadd (Byte2 a, Byte2 b) {
+  public static Byte2 rhadd(Byte2 a, Byte2 b) {
     return new Byte2(Math.rhadd(a.x, b.x), Math.rhadd(a.y, b.y));
   }
 
-  public static Byte2 rotate (Byte2 a, Byte2 b) {
+  public static Byte2 rotate(Byte2 a, Byte2 b) {
     return new Byte2(Math.rotate(a.x, b.x), Math.rotate(a.y, b.y));
   }
 
-  public static Byte2 subSat (Byte2 a, Byte2 b) {
+  public static Byte2 subSat(Byte2 a, Byte2 b) {
     return new Byte2(Math.subSat(a.x, b.x), Math.subSat(a.y, b.y));
   }
 }

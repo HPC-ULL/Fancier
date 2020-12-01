@@ -1,8 +1,7 @@
-#include <fancier/ocl.h>
-
 #include <fancier/exception.h>
 #define FC_LOG_TAG "ocl"
 #include <fancier/log.h>
+#include <fancier/ocl.h>
 
 #include <inttypes.h>
 #include <stdlib.h>
@@ -10,7 +9,7 @@
 
 #ifdef __ANDROID__
 #include <android/asset_manager.h>
-#endif // __ANDROID__
+#endif  // __ANDROID__
 
 
 #define BUFFER_SIZE 1024 * 8  // 8K buffer
@@ -24,9 +23,10 @@ fcOpenCLRT fcOpenCL_rt = {0};
 
 // Private helper functions
 
-static cl_platform_id* getPlatformIDs (cl_uint* numPlatforms, cl_int* err) {
+static cl_platform_id* getPlatformIDs(cl_uint* numPlatforms, cl_int* err) {
   cl_int __tmp_err;
-  if (!err) err = &__tmp_err;
+  if (!err)
+    err = &__tmp_err;
 
   cl_platform_id* platforms = NULL;
   *numPlatforms = 0;
@@ -41,9 +41,10 @@ static cl_platform_id* getPlatformIDs (cl_uint* numPlatforms, cl_int* err) {
   return platforms;
 }
 
-static cl_device_id* getDeviceIDs (cl_platform_id platformId, cl_uint* numDevices, cl_int* err) {
+static cl_device_id* getDeviceIDs(cl_platform_id platformId, cl_uint* numDevices, cl_int* err) {
   cl_int __tmp_err;
-  if (!err) err = &__tmp_err;
+  if (!err)
+    err = &__tmp_err;
 
   cl_device_id* devices = NULL;
   *numDevices = 0;
@@ -58,42 +59,53 @@ static cl_device_id* getDeviceIDs (cl_platform_id platformId, cl_uint* numDevice
   return devices;
 }
 
-static void fillfcOpenCLInfo () {
-  cl_int err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_TYPE, sizeof(cl_device_type), &fcOpenCL_info.deviceType, NULL);
+static void fillfcOpenCLInfo() {
+  cl_int err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_TYPE, sizeof(cl_device_type),
+                               &fcOpenCL_info.deviceType, NULL);
   FC_EXCEPTION_HANDLE_ERROR_LOG(err, "fillfcOpenCLInfo:CL_DEVICE_TYPE");
 
-  err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_GLOBAL_MEM_CACHE_SIZE, sizeof(cl_ulong), &fcOpenCL_info.globalCache, NULL);
+  err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_GLOBAL_MEM_CACHE_SIZE, sizeof(cl_ulong),
+                        &fcOpenCL_info.globalCache, NULL);
   FC_EXCEPTION_HANDLE_ERROR_LOG(err, "fillfcOpenCLInfo:CL_DEVICE_GLOBAL_MEM_CACHE_SIZE");
 
-  err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_GLOBAL_MEM_SIZE, sizeof(cl_ulong), &fcOpenCL_info.globalMemory, NULL);
+  err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_GLOBAL_MEM_SIZE, sizeof(cl_ulong),
+                        &fcOpenCL_info.globalMemory, NULL);
   FC_EXCEPTION_HANDLE_ERROR_LOG(err, "fillfcOpenCLInfo:CL_DEVICE_GLOBAL_MEM_SIZE");
 
-  err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_HOST_UNIFIED_MEMORY, sizeof(cl_bool), &fcOpenCL_info.unifiedMemory, NULL);
+  err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_HOST_UNIFIED_MEMORY, sizeof(cl_bool),
+                        &fcOpenCL_info.unifiedMemory, NULL);
   FC_EXCEPTION_HANDLE_ERROR_LOG(err, "fillfcOpenCLInfo:CL_DEVICE_HOST_UNIFIED_MEMORY");
 
-  err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_LOCAL_MEM_SIZE, sizeof(cl_ulong), &fcOpenCL_info.localMemory, NULL);
+  err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_LOCAL_MEM_SIZE, sizeof(cl_ulong),
+                        &fcOpenCL_info.localMemory, NULL);
   FC_EXCEPTION_HANDLE_ERROR_LOG(err, "fillfcOpenCLInfo:CL_DEVICE_LOCAL_MEM_SIZE");
 
-  err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(cl_uint), &fcOpenCL_info.computeUnits, NULL);
+  err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(cl_uint),
+                        &fcOpenCL_info.computeUnits, NULL);
   FC_EXCEPTION_HANDLE_ERROR_LOG(err, "fillfcOpenCLInfo:CL_DEVICE_MAX_COMPUTE_UNITS");
 
-  err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_MAX_WORK_GROUP_SIZE, sizeof(size_t), &fcOpenCL_info.workgroupSize, NULL);
+  err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_MAX_WORK_GROUP_SIZE, sizeof(size_t),
+                        &fcOpenCL_info.workgroupSize, NULL);
   FC_EXCEPTION_HANDLE_ERROR_LOG(err, "fillfcOpenCLInfo:CL_DEVICE_MAX_WORK_GROUP_SIZE");
 
-  err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_CHAR, sizeof(cl_uint), &fcOpenCL_info.preferredCharVectorWidth, NULL);
+  err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_CHAR, sizeof(cl_uint),
+                        &fcOpenCL_info.preferredCharVectorWidth, NULL);
   FC_EXCEPTION_HANDLE_ERROR_LOG(err, "fillfcOpenCLInfo:CL_DEVICE_PREFERRED_VECTOR_WIDTH_CHAR");
 
-  err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_NATIVE_VECTOR_WIDTH_CHAR, sizeof(cl_uint), &fcOpenCL_info.nativeCharVectorWidth, NULL);
+  err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_NATIVE_VECTOR_WIDTH_CHAR, sizeof(cl_uint),
+                        &fcOpenCL_info.nativeCharVectorWidth, NULL);
   FC_EXCEPTION_HANDLE_ERROR_LOG(err, "fillfcOpenCLInfo:CL_DEVICE_NATIVE_VECTOR_WIDTH_CHAR");
 
-  err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_FLOAT, sizeof(cl_uint), &fcOpenCL_info.preferredFloatVectorWidth, NULL);
+  err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_PREFERRED_VECTOR_WIDTH_FLOAT, sizeof(cl_uint),
+                        &fcOpenCL_info.preferredFloatVectorWidth, NULL);
   FC_EXCEPTION_HANDLE_ERROR_LOG(err, "fillfcOpenCLInfo:CL_DEVICE_PREFERRED_VECTOR_WIDTH_FLOAT");
 
-  err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_NATIVE_VECTOR_WIDTH_FLOAT, sizeof(cl_uint), &fcOpenCL_info.nativeFloatVectorWidth, NULL);
+  err = clGetDeviceInfo(fcOpenCL_rt.device, CL_DEVICE_NATIVE_VECTOR_WIDTH_FLOAT, sizeof(cl_uint),
+                        &fcOpenCL_info.nativeFloatVectorWidth, NULL);
   FC_EXCEPTION_HANDLE_ERROR_LOG(err, "fillfcOpenCLInfo:CL_DEVICE_NATIVE_VECTOR_WIDTH_FLOAT");
 }
 
-static void logOpenCLDeviceInfo (cl_device_id deviceId) {
+static void logOpenCLDeviceInfo(cl_device_id deviceId) {
   union {
     char t[BUFFER_SIZE];
     cl_uint ui;
@@ -140,16 +152,16 @@ static void logOpenCLDeviceInfo (cl_device_id deviceId) {
   FC_LOGINFO_FMT("      - Max work group size: %zu", buffer.s);
 
   clGetDeviceInfo(deviceId, CL_DEVICE_HOST_UNIFIED_MEMORY, BUFFER_SIZE, buffer.t, NULL);
-  FC_LOGINFO_FMT("      - Unified memory: %s", (buffer.b? "YES" : "NO"));
+  FC_LOGINFO_FMT("      - Unified memory: %s", (buffer.b ? "YES" : "NO"));
 
   clGetDeviceInfo(deviceId, CL_DEVICE_GLOBAL_MEM_SIZE, BUFFER_SIZE, buffer.t, NULL);
-  FC_LOGINFO_FMT("      - Global memory size: %"PRIu64" KB", buffer.ul / 1024UL);
+  FC_LOGINFO_FMT("      - Global memory size: %" PRIu64 " KB", buffer.ul / 1024UL);
 
   clGetDeviceInfo(deviceId, CL_DEVICE_LOCAL_MEM_SIZE, BUFFER_SIZE, buffer.t, NULL);
-  FC_LOGINFO_FMT("      - Local memory size: %"PRIu64" KB", buffer.ul / 1024UL);
+  FC_LOGINFO_FMT("      - Local memory size: %" PRIu64 " KB", buffer.ul / 1024UL);
 
   clGetDeviceInfo(deviceId, CL_DEVICE_GLOBAL_MEM_CACHE_SIZE, BUFFER_SIZE, buffer.t, NULL);
-  FC_LOGINFO_FMT("      - Cache memory size: %"PRIu64" KB", buffer.ul / 1024UL);
+  FC_LOGINFO_FMT("      - Cache memory size: %" PRIu64 " KB", buffer.ul / 1024UL);
 
   clGetDeviceInfo(deviceId, CL_DEVICE_PREFERRED_VECTOR_WIDTH_CHAR, BUFFER_SIZE, buffer.t, NULL);
   FC_LOGINFO_FMT("      - Preferred char vector width: %u", buffer.ui);
@@ -164,7 +176,7 @@ static void logOpenCLDeviceInfo (cl_device_id deviceId) {
   FC_LOGINFO_FMT("      - Native float vector width: %u", buffer.ui);
 }
 
-static void logOpenCLPlatformInfo (cl_platform_id platformId) {
+static void logOpenCLPlatformInfo(cl_platform_id platformId) {
   cl_uint numDevices, i;
   cl_device_id* devices = getDeviceIDs(fcOpenCL_rt.platform, &numDevices, NULL);
 
@@ -196,7 +208,7 @@ static void logOpenCLPlatformInfo (cl_platform_id platformId) {
 
 // Public API implementation
 
-jint fcOpenCL_initJNI (JNIEnv* env) {
+jint fcOpenCL_initJNI(JNIEnv* env) {
   cl_int err;
 
   // Platform select
@@ -229,13 +241,14 @@ jint fcOpenCL_initJNI (JNIEnv* env) {
   fcOpenCL_rt.context = clCreateContext(NULL, 1, &fcOpenCL_rt.device, NULL, NULL, &err);
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcOpenCL_initJNI", FC_EXCEPTION_OTHER);
 
-  fcOpenCL_rt.queue = clCreateCommandQueue(fcOpenCL_rt.context, fcOpenCL_rt.device,  CL_QUEUE_PROFILING_ENABLE, &err);
+  fcOpenCL_rt.queue = clCreateCommandQueue(fcOpenCL_rt.context, fcOpenCL_rt.device,
+                                           CL_QUEUE_PROFILING_ENABLE, &err);
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcOpenCL_initJNI", FC_EXCEPTION_OTHER);
 
   return FC_EXCEPTION_SUCCESS;
 }
 
-void fcOpenCL_releaseJNI (JNIEnv* env) {
+void fcOpenCL_releaseJNI(JNIEnv* env) {
   if (fcOpenCL_rt.queue)
     clReleaseCommandQueue(fcOpenCL_rt.queue);
 
@@ -248,7 +261,7 @@ void fcOpenCL_releaseJNI (JNIEnv* env) {
   fcOpenCL_rt.queue = NULL;
 }
 
-void fcOpenCL_logInfo () {
+void fcOpenCL_logInfo() {
   cl_uint numPlatforms, i;
   cl_platform_id* platforms = getPlatformIDs(&numPlatforms, NULL);
 
@@ -260,19 +273,21 @@ void fcOpenCL_logInfo () {
     free(platforms);
 }
 
-FANCIER_API cl_program fcOpenCL_compileKernel (int count, const char** src, cl_int* err) {
+FANCIER_API cl_program fcOpenCL_compileKernel(int count, const char** src, cl_int* err) {
   cl_int __tmp_err;
   if (err == NULL)
     err = &__tmp_err;
 
   cl_program program = clCreateProgramWithSource(fcOpenCL_rt.context, count, src, NULL, err);
-  if (*err) return NULL;
+  if (*err)
+    return NULL;
 
   *err = clBuildProgram(program, 1, &fcOpenCL_rt.device, "-cl-fast-relaxed-math", NULL, NULL);
   return program;
 }
 
-FANCIER_API cl_program fcOpenCL_compileKernelFile (const char* kernel_dir, const char* file_name, cl_int* err) {
+FANCIER_API cl_program fcOpenCL_compileKernelFile(const char* kernel_dir, const char* file_name,
+                                                  cl_int* err) {
   // TODO Implement function
   // Read file + math_lib.cl and call fcOpenCL_compileKernel
   return NULL;
@@ -280,7 +295,8 @@ FANCIER_API cl_program fcOpenCL_compileKernelFile (const char* kernel_dir, const
 
 #ifdef __ANDROID__
 
-FANCIER_API cl_program fcOpenCL_compileKernelAsset (JNIEnv* env, jobject mgr, const char* kernel_dir, const char* file_name, cl_int* err) {
+FANCIER_API cl_program fcOpenCL_compileKernelAsset(JNIEnv* env, jobject mgr, const char* kernel_dir,
+                                                   const char* file_name, cl_int* err) {
   // TODO Implement function
   /*
   // Read file + math_lib.cl and call fcOpenCL_compileKernel
@@ -298,4 +314,4 @@ FANCIER_API cl_program fcOpenCL_compileKernelAsset (JNIEnv* env, jobject mgr, co
   return NULL;
 }
 
-#endif // __ANDROID__
+#endif  // __ANDROID__

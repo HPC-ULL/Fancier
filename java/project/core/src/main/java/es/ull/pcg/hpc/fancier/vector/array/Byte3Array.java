@@ -5,19 +5,19 @@ import es.ull.pcg.hpc.fancier.vector.Byte3;
 public class Byte3Array implements AutoCloseable {
   private long nativeInstancePtr = 0L;
 
-  private Byte3Array (long nativePtr) {
+  private Byte3Array(long nativePtr) {
     initNative(nativePtr);
   }
 
-  public Byte3Array (int n) {
+  public Byte3Array(int n) {
     initNative(n);
   }
 
-  public Byte3Array (byte[] v) {
+  public Byte3Array(byte[] v) {
     initNative(v);
   }
 
-  public Byte3Array (Byte3Array array) {
+  public Byte3Array(Byte3Array array) {
     initNative(array);
   }
 
@@ -26,38 +26,38 @@ public class Byte3Array implements AutoCloseable {
    *
    * This must be called in order to avoid memory leaks.
    */
-  public void release () throws Exception {
+  public void release() {
     if (nativeInstancePtr != 0L)
       releaseNative();
   }
 
   @Override
-  public void close () throws Exception {
+  public void close() {
     release();
   }
 
   @Override
-  public void finalize () throws Throwable {
+  public void finalize() throws Throwable {
     if (nativeInstancePtr != 0L)
       releaseNativeRef();
 
     super.finalize();
   }
 
-  private native void initNative (long nativePtr);
-  private native void initNative (int n);
-  private native void initNative (byte[] v);
-  private native void initNative (Byte3Array array);
-  private native void releaseNative ();
-  private native void releaseNativeRef ();
+  private native void initNative(long nativePtr);
+  private native void initNative(int n);
+  private native void initNative(byte[] v);
+  private native void initNative(Byte3Array array);
+  private native void releaseNative();
+  private native void releaseNativeRef();
 
-  public native Byte3 get (int i);
-  public native void set (int i, Byte3 x);
-  public native long length ();
+  public native Byte3 get(int i);
+  public native void set(int i, Byte3 x);
+  public native long length();
 
-  public native byte[] getContents ();
-  public native void setContents (byte[] v);
+  public native byte[] getContents();
+  public native void setContents(byte[] v);
 
-  public native void syncToNative ();
-  public native void syncToOCL ();
+  public native void syncToNative();
+  public native void syncToOCL();
 }

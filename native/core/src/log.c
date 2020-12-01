@@ -1,27 +1,26 @@
 #include <fancier/log.h>
 
 #include <stdarg.h>
-
 #ifndef __ANDROID__
 #include <stdio.h>
 #endif
 
 #ifdef __ANDROID__
 
-void __fcinternal_log_fmt (fcLogLevels log_level, const char* log_tag, const char* format, ...) {
+void __fcinternal_log_fmt(fcLogLevels log_level, const char* log_tag, const char* format, ...) {
   va_list args;
   va_start(args, format);
   __android_log_vprint(log_level, log_tag, format, args);
   va_end(args);
 }
 
-void __fcinternal_log (fcLogLevels log_level, const char* log_tag, const char* message) {
+void __fcinternal_log(fcLogLevels log_level, const char* log_tag, const char* message) {
   __android_log_write(log_level, log_tag, message);
 }
 
 #else
 
-void __fcinternal_log_fmt (fcLogLevels log_level, const char* log_tag, const char* format, ...) {
+void __fcinternal_log_fmt(fcLogLevels log_level, const char* log_tag, const char* format, ...) {
   va_list args;
   char buffer[1024];
 
@@ -32,7 +31,7 @@ void __fcinternal_log_fmt (fcLogLevels log_level, const char* log_tag, const cha
   __fcinternal_log(log_level, log_tag, buffer);
 }
 
-void __fcinternal_log (fcLogLevels log_level, const char* log_tag, const char* message) {
+void __fcinternal_log(fcLogLevels log_level, const char* log_tag, const char* message) {
   const char* level = "UNK";
   switch (log_level) {
   case FC_LOG_VERBOSE:
@@ -58,4 +57,4 @@ void __fcinternal_log (fcLogLevels log_level, const char* log_tag, const char* m
   fprintf(stderr, "[%s] %s: %s\n", log_tag, level, message);
 }
 
-#endif // __ANDROID__
+#endif  // __ANDROID__

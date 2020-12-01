@@ -1,4 +1,4 @@
-BUILD_DIR=build
+BUILD_DIR=build/linux
 PLUGIN_BUILD_DIR=$(BUILD_DIR)/plugin
 SRC_DIR=core/src
 PLUGIN_SRC_DIR=plugin
@@ -11,7 +11,7 @@ CC?=gcc
 CXX?=g++
 CPPFLAGS=-O2 -g -Wall -Wno-dangling-else -I$(INCLUDE_DIR) -I${JAVA_HOME}/include -I${JAVA_HOME}/include/linux -fPIC
 CXXFLAGS=-fno-rtti -fno-exceptions -std=c++11
-LDFLAGS=-Lbuild -lOpenCL -ldl -lm
+LDFLAGS=-L$(BUILD_DIR) -lOpenCL -ldl -lm
 PLUGIN_LDLFLAGS=$(LDFLAGS) -lfancier
 LIB_FLAGS=-shared
 

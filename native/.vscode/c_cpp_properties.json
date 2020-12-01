@@ -6,7 +6,7 @@
         "${workspaceFolder}/core/include",
         "${workspaceFolder}/plugin/tiling/include",
         "${workspaceFolder}/test/include",
-        "${env:NDK_HOME}/sysroot/usr/include"
+        "${env:NDK_INCLUDE}"
       ],
       "defines": [
         "_DEBUG",
@@ -25,7 +25,7 @@
         "${workspaceFolder}/core/include",
         "${workspaceFolder}/plugin/tiling/include",
         "${workspaceFolder}/test/include",
-        "${env:NDK_HOME}/sysroot/usr/include"
+        "${env:NDK_INCLUDE}"
       ],
       "defines": [
         "_DEBUG",

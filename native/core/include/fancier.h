@@ -18,8 +18,8 @@
 #include <fancier/ocl.h>
 #include <fancier/platform.h>
 #include <fancier/utils.h>
-#include <fancier/vector_array.h>
 #include <fancier/vector.h>
+#include <fancier/vector_array.h>
 
 
 /// The parent directory of all private fancier directories
@@ -59,4 +59,4 @@ FANCIER_API jint fcFancier_initJNI(JNIEnv* env);
 FANCIER_API void fcFancier_releaseJNI(JNIEnv* env);
 
 
-#endif // _FANCIER_H_
+#endif  // _FANCIER_H_
