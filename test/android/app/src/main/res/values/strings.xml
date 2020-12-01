@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Fancier Android Test</string>
+
+    <string name="button_run">Run</string>
+    <string name="input_desc">Input image</string>
+    <string name="output_desc">Output image</string>
+
+    <string name="test_not_implemented">The selected test \"%1$s\" has not been implemented yet</string>
+    <string name="test_added">&lt;b&gt;[#%1$02d %2$s]&lt;/b&gt; Test added to the queue.</string>
+    <string name="test_start">&lt;b&gt;[#%1$02d %2$s]&lt;/b&gt; Test starting.</string>
+    <string name="test_setup">&lt;b&gt;[#%1$02d %2$s]&lt;/b&gt; Set-up finished. Running test.</string>
+    <string name="test_success">&lt;b&gt;[#%1$02d %2$s]&lt;/b&gt; Test finished successfully!</string>
+    <string name="test_error">&lt;b&gt;[#%1$02d %2$s]&lt;/b&gt; Test finished with an error!</string>
+    <string name="test_teardown">&lt;b&gt;[#%1$02d %2$s]&lt;/b&gt; Tearing down test.</string>
+    <string name="test_teardown_finish">&lt;b&gt;[#%1$02d %2$s]&lt;/b&gt; Tear-down finished.</string>
+    <string name="test_exception">&lt;b&gt;[#%1$02d %2$s]&lt;/b&gt; Exception occurred:&lt;br/&gt;%3$s</string>
+
+    <string name="info_tag">Fancier:INF</string>
+    <string name="success_tag">Fancier:SUC</string>
+    <string name="warning_tag">Fancier:WAR</string>
+    <string name="error_tag">Fancier:ERR</string>
+
+    <string-array name="tests">
+        <item>Fancier Init</item>
+        <item>Fancier Release</item>
+
+        <item>Fancier Math</item>
+        <item>Fancier Vector</item>
+        <item>Fancier Array</item>
+        <item>Fancier Vector Array</item>
+
+        <item>Greyscale</item>
+        <item>Gaussian Blur</item>
+        <item>Laplacian</item>
+        <item>Convolve 3x3</item>
+        <item>Convolve 5x5</item>
+    </string-array>
+</resources>

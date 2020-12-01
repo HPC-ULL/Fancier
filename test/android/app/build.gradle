@@ -1,0 +1,60 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        applicationId "es.ull.pcg.hpc.fancier.androidtest"
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        externalNativeBuild {
+            cmake {
+                arguments '-DANDROID_STL=c++_shared'
+                cFlags '-Wall', '-Wno-int-to-pointer-cast', '-Wno-dangling-else'
+                cppFlags '-fno-exceptions', '-fno-rtti', '-std=c++11'
+            }
+        }
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    packagingOptions {
+        // List here all non-standard system library stubs needed for linking, but which should be
+        // already present on target devices
+        exclude 'lib/*/libOpenCL.so'
+    }
+
+    sourceSets {
+        main {
+            // Plugins have to always be copied into the apk, even if they are not linked to any
+            // target, so we need to put them in a separate directory and include it here
+            jniLibs.srcDirs = ['jni-libs/plugin']
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            version '3.10.2'
+            path 'CMakeLists.txt'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}

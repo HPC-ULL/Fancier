@@ -70,22 +70,24 @@ This section refers to the contents of the "_native_" directory.
 Native libraries are built using different methods if they are to be executed in an Android system
 or a regular Linux one.
 
-For Linux, the `make` command should be enough to build the core and plugins into the "_build_"
-directory. For that to work, a development version of the Java Development Kit (JDK) version 1.8 or
-more recent must be installed in the system, and the environment variable `JAVA_HOME` must be set.
+For Linux, the `make all plugins` command should be enough to build the core and plugins into the
+"_build_" and "_build/plugin_" directories, respectively. For that to work, a development version of
+the Java Development Kit (JDK) version 1.8 or more recent must be installed in the system, and the
+environment variable `JAVA_HOME` must be set.
 
-For Android, the `Android.mk` and `Application.mk` makefiles are used instead, which are configured
-to work properly with the latest (as of 2020) versions of `ndk-build`, which is provided with the
-Android Native Development Kit (NDK). In this case, the command for compilation is:
+For Android, the `Android.mk`, `AndroidPlugin.mk` and `Application.mk` makefiles are used instead,
+which are configured to work with the `ndk-build` program, provided with the Android Native
+Development Kit (NDK). In this case, the commands for compiling the core and plugin libraries are:
 ```
-$ ndk-build NDK_PROJECT_PATH=build APP_BUILD_SCRIPT=Android.mk NDK_APPLICATION_MK=Application.mk
+$ ndk-build NDK_PROJECT_PATH=build/android/core APP_BUILD_SCRIPT=Android.mk NDK_APPLICATION_MK=Application.mk
+$ ndk-build NDK_PROJECT_PATH=build/android/plugin APP_BUILD_SCRIPT=AndroidPlugin.mk NDK_APPLICATION_MK=Application.mk
 ```
 
 The libraries generated are `libfancier.so`, `libOpenCL.so` and one `libfancier_<plugin>.so` for
 each plugin defined within the "_plugin_" directory. When building with `ndk-build`, there will be
-a "_build/libs_" directory containing one subdirectory for each supported Application Binary
-Interface (ABI) with each of these libraries. When building with `make`, the resulting libraries
-will be found in the "_build_" directory.
+a "_build/android/{core|plugin}/libs_" directory containing one subdirectory for each supported
+Application Binary Interface (ABI) with each of these libraries. When building with `make`, the
+resulting libraries will be found in the "_build/linux_" and "_build/linux/plugin_" directories.
 
 `libOpenCL.so` is only a library of stubs that allows compiling in systems where the actual OpenCL
 library is not installed and, most importantly, it allows Android applications to be compiled
@@ -120,3 +122,17 @@ unavoidable, so it is recommended that calls to `get`, `set` and `getContents` o
 should be kept to a minimum, by reducing the interleaving of execution over these arrays between
 Java and C/C++/OpenCL. It is best to `getContents` before processing a _Fancier_ array in Java
 rather than use `get` and `set` if the amount of work to do on the array is substantial.
+
+## Test applications
+
+The "_test_" directory includes test applications showing the intended usage and configuration of
+the _Fancier_ API. The `copy_libs.sh` script copies the already-compiled `.jar` and `.so` files from
+their build directories into the paths where these test applications expect them to be placed in
+order to be able to link and run their code.
+
+## License
+
+See [LICENSE](LICENSE.txt).
+
+This project uses third-party software distributed under their own terms. See
+[LICENSE-3RD-PARTY](LICENSE-3RD-PARTY.txt).
