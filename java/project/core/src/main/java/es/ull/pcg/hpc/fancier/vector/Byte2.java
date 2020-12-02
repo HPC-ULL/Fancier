@@ -76,7 +76,7 @@ public class Byte2 {
   }
 
   public static int all(Byte2 a) {
-    return (a.x == (byte) 0 || a.y == (byte) 0)? 1 : 0;
+    return (a.x == (byte) 0 || a.y == (byte) 0)? 0 : 1;
   }
 
   public static Byte2 add(Byte2 a, Byte2 b) {

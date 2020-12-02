@@ -100,7 +100,7 @@ public class Double2 {
   }
 
   public static int all(Double2 a) {
-    return (a.x == 0.0 || a.y == 0.0)? 1 : 0;
+    return (a.x == 0.0 || a.y == 0.0)? 0 : 1;
   }
 
   public static Double2 add(Double2 a, Double2 b) {

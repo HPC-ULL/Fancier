@@ -229,7 +229,7 @@ void fcException_throwNative(JNIEnv* env, const char* file, int line, const char
       fcException_createString(env, file, line, function, NATIVE_EXCEPTION_TEXT[error]);
   jthrowable exception_obj =
       (jthrowable) FC_JNI_CALL(env, NewObject, fcException_NativeException_class,
-                               fcException_NativeException_constructor_st, error_message);
+                               fcException_NativeException_constructor_s, error_message);
   FC_JNI_CALL(env, Throw, exception_obj);
 }
 

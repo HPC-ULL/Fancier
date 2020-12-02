@@ -109,7 +109,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_${type|c}${vlen}Array_initNative__Les_u
   fc${type|c}${vlen}Array* self = fc${type|c}${vlen}Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fc${type|c}${vlen}Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fc${type|c}${vlen}Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fc${type|c}${vlen}Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fc${type|c}${vlen}Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_${type|c}${vlen}Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fc${type|c}${vlen}Array* __tmp_array = fc${type|c}${vlen}Array_getJava(env, array);
@@ -302,7 +302,7 @@ int fc${type|c}${vlen}Array_initSize(fc${type|c}${vlen}Array* self, int n) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fc${type|c}${vlen}Array_initArray(fc${type|c}${vlen}Array* self, int len, j${type|l}* v) {
+int fc${type|c}${vlen}Array_initArray(fc${type|c}${vlen}Array* self, int len, const j${type|l}* v) {
   int err;
 
   // Check parameters

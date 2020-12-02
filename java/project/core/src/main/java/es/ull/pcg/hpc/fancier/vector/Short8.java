@@ -541,7 +541,7 @@ public class Short8 {
   }
 
   public static int all(Short8 a) {
-    return (a.x == (short) 0 || a.y == (short) 0 || a.z == (short) 0 || a.w == (short) 0 || a.s[0] == (short) 0 || a.s[1] == (short) 0 || a.s[2] == (short) 0 || a.s[3] == (short) 0)? 1 : 0;
+    return (a.x == (short) 0 || a.y == (short) 0 || a.z == (short) 0 || a.w == (short) 0 || a.s[0] == (short) 0 || a.s[1] == (short) 0 || a.s[2] == (short) 0 || a.s[3] == (short) 0)? 0 : 1;
   }
 
   public static Short8 add(Short8 a, Short8 b) {

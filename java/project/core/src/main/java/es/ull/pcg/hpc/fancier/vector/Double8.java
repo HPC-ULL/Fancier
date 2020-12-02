@@ -565,7 +565,7 @@ public class Double8 {
   }
 
   public static int all(Double8 a) {
-    return (a.x == 0.0 || a.y == 0.0 || a.z == 0.0 || a.w == 0.0 || a.s[0] == 0.0 || a.s[1] == 0.0 || a.s[2] == 0.0 || a.s[3] == 0.0)? 1 : 0;
+    return (a.x == 0.0 || a.y == 0.0 || a.z == 0.0 || a.w == 0.0 || a.s[0] == 0.0 || a.s[1] == 0.0 || a.s[2] == 0.0 || a.s[3] == 0.0)? 0 : 1;
   }
 
   public static Double8 add(Double8 a, Double8 b) {

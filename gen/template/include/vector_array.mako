@@ -56,7 +56,7 @@ FANCIER_API int fc${type|c}${vlen}Array_createRef(fc${type|c}${vlen}Array* array
 FANCIER_API int fc${type|c}${vlen}Array_releaseRef(fc${type|c}${vlen}Array* array);
 FANCIER_API int fc${type|c}${vlen}Array_init(fc${type|c}${vlen}Array* self);
 FANCIER_API int fc${type|c}${vlen}Array_initSize(fc${type|c}${vlen}Array* self, int n);
-FANCIER_API int fc${type|c}${vlen}Array_initArray(fc${type|c}${vlen}Array* self, int len, j${type|l}* v);
+FANCIER_API int fc${type|c}${vlen}Array_initArray(fc${type|c}${vlen}Array* self, int len, const j${type|l}* v);
 FANCIER_API int fc${type|c}${vlen}Array_initCopy(fc${type|c}${vlen}Array* self, const fc${type|c}${vlen}Array* array);
 FANCIER_API int fc${type|c}${vlen}Array_release(fc${type|c}${vlen}Array* self);
 FANCIER_API fc${type|c}${vlen} fc${type|c}${vlen}Array_get(fc${type|c}${vlen}Array* self, int i, int* err);

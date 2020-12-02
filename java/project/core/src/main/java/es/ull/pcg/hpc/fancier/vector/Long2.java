@@ -76,7 +76,7 @@ public class Long2 {
   }
 
   public static int all(Long2 a) {
-    return (a.x == 0L || a.y == 0L)? 1 : 0;
+    return (a.x == 0L || a.y == 0L)? 0 : 1;
   }
 
   public static Long2 add(Long2 a, Long2 b) {

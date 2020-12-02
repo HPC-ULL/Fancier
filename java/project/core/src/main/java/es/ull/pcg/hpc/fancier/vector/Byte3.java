@@ -90,7 +90,7 @@ public class Byte3 {
   }
 
   public static int all(Byte3 a) {
-    return (a.x == (byte) 0 || a.y == (byte) 0 || a.z == (byte) 0)? 1 : 0;
+    return (a.x == (byte) 0 || a.y == (byte) 0 || a.z == (byte) 0)? 0 : 1;
   }
 
   public static Byte3 add(Byte3 a, Byte3 b) {

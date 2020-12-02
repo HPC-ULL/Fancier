@@ -152,7 +152,7 @@ public class Float4 {
   }
 
   public static int all(Float4 a) {
-    return (a.x == 0.0f || a.y == 0.0f || a.z == 0.0f || a.w == 0.0f)? 1 : 0;
+    return (a.x == 0.0f || a.y == 0.0f || a.z == 0.0f || a.w == 0.0f)? 0 : 1;
   }
 
   public static Float4 add(Float4 a, Float4 b) {

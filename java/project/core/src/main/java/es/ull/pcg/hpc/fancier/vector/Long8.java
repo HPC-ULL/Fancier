@@ -541,7 +541,7 @@ public class Long8 {
   }
 
   public static int all(Long8 a) {
-    return (a.x == 0L || a.y == 0L || a.z == 0L || a.w == 0L || a.s[0] == 0L || a.s[1] == 0L || a.s[2] == 0L || a.s[3] == 0L)? 1 : 0;
+    return (a.x == 0L || a.y == 0L || a.z == 0L || a.w == 0L || a.s[0] == 0L || a.s[1] == 0L || a.s[2] == 0L || a.s[3] == 0L)? 0 : 1;
   }
 
   public static Long8 add(Long8 a, Long8 b) {

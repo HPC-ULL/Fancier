@@ -128,7 +128,7 @@ public class Int4 {
   }
 
   public static int all(Int4 a) {
-    return (a.x == 0 || a.y == 0 || a.z == 0 || a.w == 0)? 1 : 0;
+    return (a.x == 0 || a.y == 0 || a.z == 0 || a.w == 0)? 0 : 1;
   }
 
   public static Int4 add(Int4 a, Int4 b) {

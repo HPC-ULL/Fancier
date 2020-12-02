@@ -258,6 +258,7 @@ fcByte2 fcByte2_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.x = x;
   result.y = y;
 
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -291,6 +292,7 @@ fcByte3 fcByte3_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.y = y;
   result.z = z;
 
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -329,6 +331,7 @@ fcByte4 fcByte4_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.z = z;
   result.w = w;
 
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -388,6 +391,7 @@ fcByte8 fcByte8_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.s7 = s[3];
 
   FC_JNI_CALL(env, ReleaseByteArrayElements, *s_arr, s, JNI_ABORT);
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -416,6 +420,7 @@ fcShort2 fcShort2_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.x = x;
   result.y = y;
 
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -449,6 +454,7 @@ fcShort3 fcShort3_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.y = y;
   result.z = z;
 
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -487,6 +493,7 @@ fcShort4 fcShort4_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.z = z;
   result.w = w;
 
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -546,6 +553,7 @@ fcShort8 fcShort8_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.s7 = s[3];
 
   FC_JNI_CALL(env, ReleaseShortArrayElements, *s_arr, s, JNI_ABORT);
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -574,6 +582,7 @@ fcInt2 fcInt2_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.x = x;
   result.y = y;
 
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -607,6 +616,7 @@ fcInt3 fcInt3_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.y = y;
   result.z = z;
 
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -645,6 +655,7 @@ fcInt4 fcInt4_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.z = z;
   result.w = w;
 
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -704,6 +715,7 @@ fcInt8 fcInt8_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.s7 = s[3];
 
   FC_JNI_CALL(env, ReleaseIntArrayElements, *s_arr, s, JNI_ABORT);
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -732,6 +744,7 @@ fcLong2 fcLong2_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.x = x;
   result.y = y;
 
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -765,6 +778,7 @@ fcLong3 fcLong3_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.y = y;
   result.z = z;
 
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -803,6 +817,7 @@ fcLong4 fcLong4_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.z = z;
   result.w = w;
 
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -862,6 +877,7 @@ fcLong8 fcLong8_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.s7 = s[3];
 
   FC_JNI_CALL(env, ReleaseLongArrayElements, *s_arr, s, JNI_ABORT);
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -890,6 +906,7 @@ fcFloat2 fcFloat2_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.x = x;
   result.y = y;
 
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -923,6 +940,7 @@ fcFloat3 fcFloat3_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.y = y;
   result.z = z;
 
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -961,6 +979,7 @@ fcFloat4 fcFloat4_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.z = z;
   result.w = w;
 
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -1020,6 +1039,7 @@ fcFloat8 fcFloat8_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.s7 = s[3];
 
   FC_JNI_CALL(env, ReleaseFloatArrayElements, *s_arr, s, JNI_ABORT);
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -1048,6 +1068,7 @@ fcDouble2 fcDouble2_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.x = x;
   result.y = y;
 
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -1081,6 +1102,7 @@ fcDouble3 fcDouble3_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.y = y;
   result.z = z;
 
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -1119,6 +1141,7 @@ fcDouble4 fcDouble4_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.z = z;
   result.w = w;
 
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -1178,6 +1201,7 @@ fcDouble8 fcDouble8_unwrap(JNIEnv* env, jobject vec, int* err) {
   result.s7 = s[3];
 
   FC_JNI_CALL(env, ReleaseDoubleArrayElements, *s_arr, s, JNI_ABORT);
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -1250,7 +1274,7 @@ cl_int fcByte2_any(fcByte2 a) {
 }
 
 cl_int fcByte2_all(fcByte2 a) {
-  return a.x == '\0' || a.y == '\0';
+  return !(a.x == '\0' || a.y == '\0');
 }
 
 fcByte2 fcByte2_add(fcByte2 a, fcByte2 b) {
@@ -1487,7 +1511,7 @@ cl_int fcByte3_any(fcByte3 a) {
 }
 
 cl_int fcByte3_all(fcByte3 a) {
-  return a.x == '\0' || a.y == '\0' || a.z == '\0';
+  return !(a.x == '\0' || a.y == '\0' || a.z == '\0');
 }
 
 fcByte3 fcByte3_add(fcByte3 a, fcByte3 b) {
@@ -1737,7 +1761,7 @@ cl_int fcByte4_any(fcByte4 a) {
 }
 
 cl_int fcByte4_all(fcByte4 a) {
-  return a.x == '\0' || a.y == '\0' || a.z == '\0' || a.w == '\0';
+  return !(a.x == '\0' || a.y == '\0' || a.z == '\0' || a.w == '\0');
 }
 
 fcByte4 fcByte4_add(fcByte4 a, fcByte4 b) {
@@ -1995,7 +2019,7 @@ cl_int fcByte8_any(fcByte8 a) {
 }
 
 cl_int fcByte8_all(fcByte8 a) {
-  return a.x == '\0' || a.y == '\0' || a.z == '\0' || a.w == '\0' || a.s4 == '\0' || a.s5 == '\0' || a.s6 == '\0' || a.s7 == '\0';
+  return !(a.x == '\0' || a.y == '\0' || a.z == '\0' || a.w == '\0' || a.s4 == '\0' || a.s5 == '\0' || a.s6 == '\0' || a.s7 == '\0');
 }
 
 fcByte8 fcByte8_add(fcByte8 a, fcByte8 b) {
@@ -2227,7 +2251,7 @@ cl_int fcShort2_any(fcShort2 a) {
 }
 
 cl_int fcShort2_all(fcShort2 a) {
-  return a.x == 0 || a.y == 0;
+  return !(a.x == 0 || a.y == 0);
 }
 
 fcShort2 fcShort2_add(fcShort2 a, fcShort2 b) {
@@ -2464,7 +2488,7 @@ cl_int fcShort3_any(fcShort3 a) {
 }
 
 cl_int fcShort3_all(fcShort3 a) {
-  return a.x == 0 || a.y == 0 || a.z == 0;
+  return !(a.x == 0 || a.y == 0 || a.z == 0);
 }
 
 fcShort3 fcShort3_add(fcShort3 a, fcShort3 b) {
@@ -2714,7 +2738,7 @@ cl_int fcShort4_any(fcShort4 a) {
 }
 
 cl_int fcShort4_all(fcShort4 a) {
-  return a.x == 0 || a.y == 0 || a.z == 0 || a.w == 0;
+  return !(a.x == 0 || a.y == 0 || a.z == 0 || a.w == 0);
 }
 
 fcShort4 fcShort4_add(fcShort4 a, fcShort4 b) {
@@ -2972,7 +2996,7 @@ cl_int fcShort8_any(fcShort8 a) {
 }
 
 cl_int fcShort8_all(fcShort8 a) {
-  return a.x == 0 || a.y == 0 || a.z == 0 || a.w == 0 || a.s4 == 0 || a.s5 == 0 || a.s6 == 0 || a.s7 == 0;
+  return !(a.x == 0 || a.y == 0 || a.z == 0 || a.w == 0 || a.s4 == 0 || a.s5 == 0 || a.s6 == 0 || a.s7 == 0);
 }
 
 fcShort8 fcShort8_add(fcShort8 a, fcShort8 b) {
@@ -3204,7 +3228,7 @@ cl_int fcInt2_any(fcInt2 a) {
 }
 
 cl_int fcInt2_all(fcInt2 a) {
-  return a.x == 0 || a.y == 0;
+  return !(a.x == 0 || a.y == 0);
 }
 
 fcInt2 fcInt2_add(fcInt2 a, fcInt2 b) {
@@ -3449,7 +3473,7 @@ cl_int fcInt3_any(fcInt3 a) {
 }
 
 cl_int fcInt3_all(fcInt3 a) {
-  return a.x == 0 || a.y == 0 || a.z == 0;
+  return !(a.x == 0 || a.y == 0 || a.z == 0);
 }
 
 fcInt3 fcInt3_add(fcInt3 a, fcInt3 b) {
@@ -3707,7 +3731,7 @@ cl_int fcInt4_any(fcInt4 a) {
 }
 
 cl_int fcInt4_all(fcInt4 a) {
-  return a.x == 0 || a.y == 0 || a.z == 0 || a.w == 0;
+  return !(a.x == 0 || a.y == 0 || a.z == 0 || a.w == 0);
 }
 
 fcInt4 fcInt4_add(fcInt4 a, fcInt4 b) {
@@ -3973,7 +3997,7 @@ cl_int fcInt8_any(fcInt8 a) {
 }
 
 cl_int fcInt8_all(fcInt8 a) {
-  return a.x == 0 || a.y == 0 || a.z == 0 || a.w == 0 || a.s4 == 0 || a.s5 == 0 || a.s6 == 0 || a.s7 == 0;
+  return !(a.x == 0 || a.y == 0 || a.z == 0 || a.w == 0 || a.s4 == 0 || a.s5 == 0 || a.s6 == 0 || a.s7 == 0);
 }
 
 fcInt8 fcInt8_add(fcInt8 a, fcInt8 b) {
@@ -4213,7 +4237,7 @@ cl_int fcLong2_any(fcLong2 a) {
 }
 
 cl_int fcLong2_all(fcLong2 a) {
-  return a.x == 0L || a.y == 0L;
+  return !(a.x == 0L || a.y == 0L);
 }
 
 fcLong2 fcLong2_add(fcLong2 a, fcLong2 b) {
@@ -4450,7 +4474,7 @@ cl_int fcLong3_any(fcLong3 a) {
 }
 
 cl_int fcLong3_all(fcLong3 a) {
-  return a.x == 0L || a.y == 0L || a.z == 0L;
+  return !(a.x == 0L || a.y == 0L || a.z == 0L);
 }
 
 fcLong3 fcLong3_add(fcLong3 a, fcLong3 b) {
@@ -4700,7 +4724,7 @@ cl_int fcLong4_any(fcLong4 a) {
 }
 
 cl_int fcLong4_all(fcLong4 a) {
-  return a.x == 0L || a.y == 0L || a.z == 0L || a.w == 0L;
+  return !(a.x == 0L || a.y == 0L || a.z == 0L || a.w == 0L);
 }
 
 fcLong4 fcLong4_add(fcLong4 a, fcLong4 b) {
@@ -4958,7 +4982,7 @@ cl_int fcLong8_any(fcLong8 a) {
 }
 
 cl_int fcLong8_all(fcLong8 a) {
-  return a.x == 0L || a.y == 0L || a.z == 0L || a.w == 0L || a.s4 == 0L || a.s5 == 0L || a.s6 == 0L || a.s7 == 0L;
+  return !(a.x == 0L || a.y == 0L || a.z == 0L || a.w == 0L || a.s4 == 0L || a.s5 == 0L || a.s6 == 0L || a.s7 == 0L);
 }
 
 fcLong8 fcLong8_add(fcLong8 a, fcLong8 b) {
@@ -5214,7 +5238,7 @@ cl_int fcFloat2_any(fcFloat2 a) {
 }
 
 cl_int fcFloat2_all(fcFloat2 a) {
-  return a.x == 0.0f || a.y == 0.0f;
+  return !(a.x == 0.0f || a.y == 0.0f);
 }
 
 fcFloat2 fcFloat2_add(fcFloat2 a, fcFloat2 b) {
@@ -5640,7 +5664,7 @@ cl_int fcFloat3_any(fcFloat3 a) {
 }
 
 cl_int fcFloat3_all(fcFloat3 a) {
-  return a.x == 0.0f || a.y == 0.0f || a.z == 0.0f;
+  return !(a.x == 0.0f || a.y == 0.0f || a.z == 0.0f);
 }
 
 fcFloat3 fcFloat3_add(fcFloat3 a, fcFloat3 b) {
@@ -6086,7 +6110,7 @@ cl_int fcFloat4_any(fcFloat4 a) {
 }
 
 cl_int fcFloat4_all(fcFloat4 a) {
-  return a.x == 0.0f || a.y == 0.0f || a.z == 0.0f || a.w == 0.0f;
+  return !(a.x == 0.0f || a.y == 0.0f || a.z == 0.0f || a.w == 0.0f);
 }
 
 fcFloat4 fcFloat4_add(fcFloat4 a, fcFloat4 b) {
@@ -6540,7 +6564,7 @@ cl_int fcFloat8_any(fcFloat8 a) {
 }
 
 cl_int fcFloat8_all(fcFloat8 a) {
-  return a.x == 0.0f || a.y == 0.0f || a.z == 0.0f || a.w == 0.0f || a.s4 == 0.0f || a.s5 == 0.0f || a.s6 == 0.0f || a.s7 == 0.0f;
+  return !(a.x == 0.0f || a.y == 0.0f || a.z == 0.0f || a.w == 0.0f || a.s4 == 0.0f || a.s5 == 0.0f || a.s6 == 0.0f || a.s7 == 0.0f);
 }
 
 fcFloat8 fcFloat8_add(fcFloat8 a, fcFloat8 b) {
@@ -6961,7 +6985,7 @@ cl_int fcDouble2_any(fcDouble2 a) {
 }
 
 cl_int fcDouble2_all(fcDouble2 a) {
-  return a.x == 0.0 || a.y == 0.0;
+  return !(a.x == 0.0 || a.y == 0.0);
 }
 
 fcDouble2 fcDouble2_add(fcDouble2 a, fcDouble2 b) {
@@ -7387,7 +7411,7 @@ cl_int fcDouble3_any(fcDouble3 a) {
 }
 
 cl_int fcDouble3_all(fcDouble3 a) {
-  return a.x == 0.0 || a.y == 0.0 || a.z == 0.0;
+  return !(a.x == 0.0 || a.y == 0.0 || a.z == 0.0);
 }
 
 fcDouble3 fcDouble3_add(fcDouble3 a, fcDouble3 b) {
@@ -7833,7 +7857,7 @@ cl_int fcDouble4_any(fcDouble4 a) {
 }
 
 cl_int fcDouble4_all(fcDouble4 a) {
-  return a.x == 0.0 || a.y == 0.0 || a.z == 0.0 || a.w == 0.0;
+  return !(a.x == 0.0 || a.y == 0.0 || a.z == 0.0 || a.w == 0.0);
 }
 
 fcDouble4 fcDouble4_add(fcDouble4 a, fcDouble4 b) {
@@ -8287,7 +8311,7 @@ cl_int fcDouble8_any(fcDouble8 a) {
 }
 
 cl_int fcDouble8_all(fcDouble8 a) {
-  return a.x == 0.0 || a.y == 0.0 || a.z == 0.0 || a.w == 0.0 || a.s4 == 0.0 || a.s5 == 0.0 || a.s6 == 0.0 || a.s7 == 0.0;
+  return !(a.x == 0.0 || a.y == 0.0 || a.z == 0.0 || a.w == 0.0 || a.s4 == 0.0 || a.s5 == 0.0 || a.s6 == 0.0 || a.s7 == 0.0);
 }
 
 fcDouble8 fcDouble8_add(fcDouble8 a, fcDouble8 b) {

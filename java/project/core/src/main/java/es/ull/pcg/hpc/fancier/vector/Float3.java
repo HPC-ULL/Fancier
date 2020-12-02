@@ -114,7 +114,7 @@ public class Float3 {
   }
 
   public static int all(Float3 a) {
-    return (a.x == 0.0f || a.y == 0.0f || a.z == 0.0f)? 1 : 0;
+    return (a.x == 0.0f || a.y == 0.0f || a.z == 0.0f)? 0 : 1;
   }
 
   public static Float3 add(Float3 a, Float3 b) {

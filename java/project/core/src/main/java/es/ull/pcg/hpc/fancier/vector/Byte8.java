@@ -541,7 +541,7 @@ public class Byte8 {
   }
 
   public static int all(Byte8 a) {
-    return (a.x == (byte) 0 || a.y == (byte) 0 || a.z == (byte) 0 || a.w == (byte) 0 || a.s[0] == (byte) 0 || a.s[1] == (byte) 0 || a.s[2] == (byte) 0 || a.s[3] == (byte) 0)? 1 : 0;
+    return (a.x == (byte) 0 || a.y == (byte) 0 || a.z == (byte) 0 || a.w == (byte) 0 || a.s[0] == (byte) 0 || a.s[1] == (byte) 0 || a.s[2] == (byte) 0 || a.s[3] == (byte) 0)? 0 : 1;
   }
 
   public static Byte8 add(Byte8 a, Byte8 b) {

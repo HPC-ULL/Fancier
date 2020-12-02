@@ -128,12 +128,12 @@ Java_es_ull_pcg_hpc_fancier_array_ByteArray_initNative___3B(JNIEnv* env, jobject
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_array_ByteArray_initNative__Les_ull_pcg_hpc_fancier_array_fcByteArray_2(JNIEnv* env, jobject obj, jobject array) {
+Java_es_ull_pcg_hpc_fancier_array_ByteArray_initNative__Les_ull_pcg_hpc_fancier_array_ByteArray_2(JNIEnv* env, jobject obj, jobject array) {
   // Allocate instance
   fcByteArray* self = fcByteArray_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByteArray_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcByteArray_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcByteArray;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcByteArray_initNative__Les_ull_pcg_hpc_fancier_vector_array_ByteArray;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcByteArray* __tmp_array = fcByteArray_getJava(env, array);
@@ -572,12 +572,12 @@ Java_es_ull_pcg_hpc_fancier_array_ShortArray_initNative___3S(JNIEnv* env, jobjec
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_array_ShortArray_initNative__Les_ull_pcg_hpc_fancier_array_fcShortArray_2(JNIEnv* env, jobject obj, jobject array) {
+Java_es_ull_pcg_hpc_fancier_array_ShortArray_initNative__Les_ull_pcg_hpc_fancier_array_ShortArray_2(JNIEnv* env, jobject obj, jobject array) {
   // Allocate instance
   fcShortArray* self = fcShortArray_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShortArray_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcShortArray_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcShortArray;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcShortArray_initNative__Les_ull_pcg_hpc_fancier_vector_array_ShortArray;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcShortArray* __tmp_array = fcShortArray_getJava(env, array);
@@ -1016,12 +1016,12 @@ Java_es_ull_pcg_hpc_fancier_array_IntArray_initNative___3I(JNIEnv* env, jobject 
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_array_IntArray_initNative__Les_ull_pcg_hpc_fancier_array_fcIntArray_2(JNIEnv* env, jobject obj, jobject array) {
+Java_es_ull_pcg_hpc_fancier_array_IntArray_initNative__Les_ull_pcg_hpc_fancier_array_IntArray_2(JNIEnv* env, jobject obj, jobject array) {
   // Allocate instance
   fcIntArray* self = fcIntArray_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcIntArray_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcIntArray_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcIntArray;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcIntArray_initNative__Les_ull_pcg_hpc_fancier_vector_array_IntArray;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcIntArray* __tmp_array = fcIntArray_getJava(env, array);
@@ -1460,12 +1460,12 @@ Java_es_ull_pcg_hpc_fancier_array_LongArray_initNative___3J(JNIEnv* env, jobject
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_array_LongArray_initNative__Les_ull_pcg_hpc_fancier_array_fcLongArray_2(JNIEnv* env, jobject obj, jobject array) {
+Java_es_ull_pcg_hpc_fancier_array_LongArray_initNative__Les_ull_pcg_hpc_fancier_array_LongArray_2(JNIEnv* env, jobject obj, jobject array) {
   // Allocate instance
   fcLongArray* self = fcLongArray_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLongArray_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcLongArray_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcLongArray;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcLongArray_initNative__Les_ull_pcg_hpc_fancier_vector_array_LongArray;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcLongArray* __tmp_array = fcLongArray_getJava(env, array);
@@ -1904,12 +1904,12 @@ Java_es_ull_pcg_hpc_fancier_array_FloatArray_initNative___3F(JNIEnv* env, jobjec
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_array_FloatArray_initNative__Les_ull_pcg_hpc_fancier_array_fcFloatArray_2(JNIEnv* env, jobject obj, jobject array) {
+Java_es_ull_pcg_hpc_fancier_array_FloatArray_initNative__Les_ull_pcg_hpc_fancier_array_FloatArray_2(JNIEnv* env, jobject obj, jobject array) {
   // Allocate instance
   fcFloatArray* self = fcFloatArray_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloatArray_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcFloatArray_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcFloatArray;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcFloatArray_initNative__Les_ull_pcg_hpc_fancier_vector_array_FloatArray;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcFloatArray* __tmp_array = fcFloatArray_getJava(env, array);
@@ -2348,12 +2348,12 @@ Java_es_ull_pcg_hpc_fancier_array_DoubleArray_initNative___3D(JNIEnv* env, jobje
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_array_DoubleArray_initNative__Les_ull_pcg_hpc_fancier_array_fcDoubleArray_2(JNIEnv* env, jobject obj, jobject array) {
+Java_es_ull_pcg_hpc_fancier_array_DoubleArray_initNative__Les_ull_pcg_hpc_fancier_array_DoubleArray_2(JNIEnv* env, jobject obj, jobject array) {
   // Allocate instance
   fcDoubleArray* self = fcDoubleArray_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDoubleArray_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcDoubleArray_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcDoubleArray;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcDoubleArray_initNative__Les_ull_pcg_hpc_fancier_vector_array_DoubleArray;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcDoubleArray* __tmp_array = fcDoubleArray_getJava(env, array);

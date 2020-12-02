@@ -171,7 +171,7 @@ public class ${type|c}${vlen} {
   }
 
   public static int all(${type|c}${vlen} a) {
-    return (${' || '.join([f'a.{field} == {defaults[type.lower()]}' for field in vfields[:vlen]])})? 1 : 0;
+    return (${' || '.join([f'a.{field} == {defaults[type.lower()]}' for field in vfields[:vlen]])})? 0 : 1;
   }
 
   ## Basic element-wise arithmetic operations

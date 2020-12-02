@@ -76,7 +76,7 @@ public class Short2 {
   }
 
   public static int all(Short2 a) {
-    return (a.x == (short) 0 || a.y == (short) 0)? 1 : 0;
+    return (a.x == (short) 0 || a.y == (short) 0)? 0 : 1;
   }
 
   public static Short2 add(Short2 a, Short2 b) {

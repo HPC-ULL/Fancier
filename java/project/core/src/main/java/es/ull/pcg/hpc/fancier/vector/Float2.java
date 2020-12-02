@@ -100,7 +100,7 @@ public class Float2 {
   }
 
   public static int all(Float2 a) {
-    return (a.x == 0.0f || a.y == 0.0f)? 1 : 0;
+    return (a.x == 0.0f || a.y == 0.0f)? 0 : 1;
   }
 
   public static Float2 add(Float2 a, Float2 b) {

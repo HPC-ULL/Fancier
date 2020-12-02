@@ -90,7 +90,7 @@ public class Int3 {
   }
 
   public static int all(Int3 a) {
-    return (a.x == 0 || a.y == 0 || a.z == 0)? 1 : 0;
+    return (a.x == 0 || a.y == 0 || a.z == 0)? 0 : 1;
   }
 
   public static Int3 add(Int3 a, Int3 b) {

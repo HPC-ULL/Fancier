@@ -90,7 +90,7 @@ public class Short3 {
   }
 
   public static int all(Short3 a) {
-    return (a.x == (short) 0 || a.y == (short) 0 || a.z == (short) 0)? 1 : 0;
+    return (a.x == (short) 0 || a.y == (short) 0 || a.z == (short) 0)? 0 : 1;
   }
 
   public static Short3 add(Short3 a, Short3 b) {

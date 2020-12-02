@@ -565,7 +565,7 @@ public class Float8 {
   }
 
   public static int all(Float8 a) {
-    return (a.x == 0.0f || a.y == 0.0f || a.z == 0.0f || a.w == 0.0f || a.s[0] == 0.0f || a.s[1] == 0.0f || a.s[2] == 0.0f || a.s[3] == 0.0f)? 1 : 0;
+    return (a.x == 0.0f || a.y == 0.0f || a.z == 0.0f || a.w == 0.0f || a.s[0] == 0.0f || a.s[1] == 0.0f || a.s[2] == 0.0f || a.s[3] == 0.0f)? 0 : 1;
   }
 
   public static Float8 add(Float8 a, Float8 b) {

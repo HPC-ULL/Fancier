@@ -114,7 +114,7 @@ public class Double3 {
   }
 
   public static int all(Double3 a) {
-    return (a.x == 0.0 || a.y == 0.0 || a.z == 0.0)? 1 : 0;
+    return (a.x == 0.0 || a.y == 0.0 || a.z == 0.0)? 0 : 1;
   }
 
   public static Double3 add(Double3 a, Double3 b) {

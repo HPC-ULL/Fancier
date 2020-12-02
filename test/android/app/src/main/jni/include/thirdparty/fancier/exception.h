@@ -105,11 +105,11 @@ FANCIER_API void fcException_logOpenCL(const char* file, int line, const char* f
     ((void) 0)
 
 #define FC_EXCEPTION_HANDLE_ERROR(_env, _err, _func, _ret)          \
-  if (_err < 0) {                                                   \
+  if (_err > 0) {                                                   \
     fcException_throwNative(_env, __FILE__, __LINE__, _func, _err); \
     return _ret;                                                    \
   }                                                                 \
-  else if (_err > 0) {                                              \
+  else if (_err < 0) {                                              \
     fcException_throwOpenCL(_env, __FILE__, __LINE__, _func, _err); \
     return _ret;                                                    \
   }                                                                 \
@@ -132,10 +132,10 @@ FANCIER_API void fcException_logOpenCL(const char* file, int line, const char* f
     ((void) 0)
 
 #define FC_EXCEPTION_HANDLE_ERROR_LOG(_err, _func)          \
-  if (_err < 0) {                                           \
+  if (_err > 0) {                                           \
     fcException_logNative(__FILE__, __LINE__, _func, _err); \
   }                                                         \
-  else if (_err > 0) {                                      \
+  else if (_err < 0) {                                      \
     fcException_logOpenCL(__FILE__, __LINE__, _func, _err); \
   }                                                         \
   else                                                      \

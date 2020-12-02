@@ -288,7 +288,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Byte2Array_initNative__Les_ull_pcg_hpc_
   fcByte2Array* self = fcByte2Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByte2Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcByte2Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcByte2Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcByte2Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Byte2Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcByte2Array* __tmp_array = fcByte2Array_getJava(env, array);
@@ -745,7 +745,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Byte3Array_initNative__Les_ull_pcg_hpc_
   fcByte3Array* self = fcByte3Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByte3Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcByte3Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcByte3Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcByte3Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Byte3Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcByte3Array* __tmp_array = fcByte3Array_getJava(env, array);
@@ -1202,7 +1202,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Byte4Array_initNative__Les_ull_pcg_hpc_
   fcByte4Array* self = fcByte4Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByte4Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcByte4Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcByte4Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcByte4Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Byte4Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcByte4Array* __tmp_array = fcByte4Array_getJava(env, array);
@@ -1659,7 +1659,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Byte8Array_initNative__Les_ull_pcg_hpc_
   fcByte8Array* self = fcByte8Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByte8Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcByte8Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcByte8Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcByte8Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Byte8Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcByte8Array* __tmp_array = fcByte8Array_getJava(env, array);
@@ -2116,7 +2116,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Short2Array_initNative__Les_ull_pcg_hpc
   fcShort2Array* self = fcShort2Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShort2Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcShort2Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcShort2Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcShort2Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Short2Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcShort2Array* __tmp_array = fcShort2Array_getJava(env, array);
@@ -2573,7 +2573,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Short3Array_initNative__Les_ull_pcg_hpc
   fcShort3Array* self = fcShort3Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShort3Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcShort3Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcShort3Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcShort3Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Short3Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcShort3Array* __tmp_array = fcShort3Array_getJava(env, array);
@@ -3030,7 +3030,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Short4Array_initNative__Les_ull_pcg_hpc
   fcShort4Array* self = fcShort4Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShort4Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcShort4Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcShort4Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcShort4Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Short4Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcShort4Array* __tmp_array = fcShort4Array_getJava(env, array);
@@ -3487,7 +3487,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Short8Array_initNative__Les_ull_pcg_hpc
   fcShort8Array* self = fcShort8Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShort8Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcShort8Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcShort8Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcShort8Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Short8Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcShort8Array* __tmp_array = fcShort8Array_getJava(env, array);
@@ -3944,7 +3944,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Int2Array_initNative__Les_ull_pcg_hpc_f
   fcInt2Array* self = fcInt2Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcInt2Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcInt2Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcInt2Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcInt2Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Int2Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcInt2Array* __tmp_array = fcInt2Array_getJava(env, array);
@@ -4401,7 +4401,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Int3Array_initNative__Les_ull_pcg_hpc_f
   fcInt3Array* self = fcInt3Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcInt3Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcInt3Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcInt3Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcInt3Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Int3Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcInt3Array* __tmp_array = fcInt3Array_getJava(env, array);
@@ -4858,7 +4858,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Int4Array_initNative__Les_ull_pcg_hpc_f
   fcInt4Array* self = fcInt4Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcInt4Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcInt4Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcInt4Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcInt4Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Int4Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcInt4Array* __tmp_array = fcInt4Array_getJava(env, array);
@@ -5315,7 +5315,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Int8Array_initNative__Les_ull_pcg_hpc_f
   fcInt8Array* self = fcInt8Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcInt8Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcInt8Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcInt8Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcInt8Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Int8Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcInt8Array* __tmp_array = fcInt8Array_getJava(env, array);
@@ -5772,7 +5772,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Long2Array_initNative__Les_ull_pcg_hpc_
   fcLong2Array* self = fcLong2Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLong2Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcLong2Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcLong2Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcLong2Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Long2Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcLong2Array* __tmp_array = fcLong2Array_getJava(env, array);
@@ -6229,7 +6229,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Long3Array_initNative__Les_ull_pcg_hpc_
   fcLong3Array* self = fcLong3Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLong3Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcLong3Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcLong3Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcLong3Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Long3Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcLong3Array* __tmp_array = fcLong3Array_getJava(env, array);
@@ -6686,7 +6686,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Long4Array_initNative__Les_ull_pcg_hpc_
   fcLong4Array* self = fcLong4Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLong4Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcLong4Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcLong4Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcLong4Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Long4Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcLong4Array* __tmp_array = fcLong4Array_getJava(env, array);
@@ -7143,7 +7143,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Long8Array_initNative__Les_ull_pcg_hpc_
   fcLong8Array* self = fcLong8Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLong8Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcLong8Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcLong8Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcLong8Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Long8Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcLong8Array* __tmp_array = fcLong8Array_getJava(env, array);
@@ -7600,7 +7600,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Float2Array_initNative__Les_ull_pcg_hpc
   fcFloat2Array* self = fcFloat2Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloat2Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcFloat2Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcFloat2Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcFloat2Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Float2Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcFloat2Array* __tmp_array = fcFloat2Array_getJava(env, array);
@@ -8057,7 +8057,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Float3Array_initNative__Les_ull_pcg_hpc
   fcFloat3Array* self = fcFloat3Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloat3Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcFloat3Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcFloat3Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcFloat3Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Float3Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcFloat3Array* __tmp_array = fcFloat3Array_getJava(env, array);
@@ -8514,7 +8514,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Float4Array_initNative__Les_ull_pcg_hpc
   fcFloat4Array* self = fcFloat4Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloat4Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcFloat4Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcFloat4Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcFloat4Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Float4Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcFloat4Array* __tmp_array = fcFloat4Array_getJava(env, array);
@@ -8971,7 +8971,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Float8Array_initNative__Les_ull_pcg_hpc
   fcFloat8Array* self = fcFloat8Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloat8Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcFloat8Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcFloat8Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcFloat8Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Float8Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcFloat8Array* __tmp_array = fcFloat8Array_getJava(env, array);
@@ -9428,7 +9428,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Double2Array_initNative__Les_ull_pcg_hp
   fcDouble2Array* self = fcDouble2Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDouble2Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcDouble2Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcDouble2Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcDouble2Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Double2Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcDouble2Array* __tmp_array = fcDouble2Array_getJava(env, array);
@@ -9885,7 +9885,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Double3Array_initNative__Les_ull_pcg_hp
   fcDouble3Array* self = fcDouble3Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDouble3Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcDouble3Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcDouble3Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcDouble3Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Double3Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcDouble3Array* __tmp_array = fcDouble3Array_getJava(env, array);
@@ -10342,7 +10342,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Double4Array_initNative__Les_ull_pcg_hp
   fcDouble4Array* self = fcDouble4Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDouble4Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcDouble4Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcDouble4Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcDouble4Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Double4Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcDouble4Array* __tmp_array = fcDouble4Array_getJava(env, array);
@@ -10799,7 +10799,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Double8Array_initNative__Les_ull_pcg_hp
   fcDouble8Array* self = fcDouble8Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDouble8Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcDouble8Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fcDouble8Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcDouble8Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_Double8Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fcDouble8Array* __tmp_array = fcDouble8Array_getJava(env, array);

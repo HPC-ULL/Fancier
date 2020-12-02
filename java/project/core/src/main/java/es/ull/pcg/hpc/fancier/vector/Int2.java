@@ -76,7 +76,7 @@ public class Int2 {
   }
 
   public static int all(Int2 a) {
-    return (a.x == 0 || a.y == 0)? 1 : 0;
+    return (a.x == 0 || a.y == 0)? 0 : 1;
   }
 
   public static Int2 add(Int2 a, Int2 b) {

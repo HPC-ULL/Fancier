@@ -152,7 +152,7 @@ public class Double4 {
   }
 
   public static int all(Double4 a) {
-    return (a.x == 0.0 || a.y == 0.0 || a.z == 0.0 || a.w == 0.0)? 1 : 0;
+    return (a.x == 0.0 || a.y == 0.0 || a.z == 0.0 || a.w == 0.0)? 0 : 1;
   }
 
   public static Double4 add(Double4 a, Double4 b) {

@@ -96,12 +96,12 @@ Java_es_ull_pcg_hpc_fancier_array_${type|c}Array_initNative___3${signatures[type
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_array_${type|c}Array_initNative__Les_ull_pcg_hpc_fancier_array_fc${type|c}Array_2(JNIEnv* env, jobject obj, jobject array) {
+Java_es_ull_pcg_hpc_fancier_array_${type|c}Array_initNative__Les_ull_pcg_hpc_fancier_array_${type|c}Array_2(JNIEnv* env, jobject obj, jobject array) {
   // Allocate instance
   fc${type|c}Array* self = fc${type|c}Array_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fc${type|c}Array_allocJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fc${type|c}Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_fc${type|c}Array;:array", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fc${type|c}Array_initNative__Les_ull_pcg_hpc_fancier_vector_array_${type|c}Array;:array", FC_VOID_EXPR);
 
   // Initialize array
   fc${type|c}Array* __tmp_array = fc${type|c}Array_getJava(env, array);
@@ -277,7 +277,7 @@ int fc${type|c}Array_initSize(fc${type|c}Array* self, int n) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fc${type|c}Array_initArray(fc${type|c}Array* self, int len, j${type|l}* v) {
+int fc${type|c}Array_initArray(fc${type|c}Array* self, int len, const j${type|l}* v) {
   int err;
 
   // Check parameters

@@ -128,7 +128,7 @@ public class Byte4 {
   }
 
   public static int all(Byte4 a) {
-    return (a.x == (byte) 0 || a.y == (byte) 0 || a.z == (byte) 0 || a.w == (byte) 0)? 1 : 0;
+    return (a.x == (byte) 0 || a.y == (byte) 0 || a.z == (byte) 0 || a.w == (byte) 0)? 0 : 1;
   }
 
   public static Byte4 add(Byte4 a, Byte4 b) {

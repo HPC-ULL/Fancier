@@ -141,6 +141,7 @@ fc${type|c}${vlen} fc${type|c}${vlen}_unwrap(JNIEnv* env, jobject vec, int* err)
 % if vlen > 4:
   FC_JNI_CALL(env, Release${type|c}ArrayElements, *s_arr, s, JNI_ABORT);
 % endif
+  *err = FC_EXCEPTION_SUCCESS;
   return result;
 }
 
@@ -219,7 +220,7 @@ cl_int fc${type|c}${vlen}_any(fc${type|c}${vlen} a) {
 }
 
 cl_int fc${type|c}${vlen}_all(fc${type|c}${vlen} a) {
-  return ${' || '.join([f'a.{field} == {defaults[type.lower()]}' for field in vfields[:vlen]])};
+  return !(${' || '.join([f'a.{field} == {defaults[type.lower()]}' for field in vfields[:vlen]])});
 }
 
 % for fname, op in zip(['add', 'sub'], ['+', '-']):

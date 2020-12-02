@@ -90,7 +90,7 @@ public class Long3 {
   }
 
   public static int all(Long3 a) {
-    return (a.x == 0L || a.y == 0L || a.z == 0L)? 1 : 0;
+    return (a.x == 0L || a.y == 0L || a.z == 0L)? 0 : 1;
   }
 
   public static Long3 add(Long3 a, Long3 b) {
