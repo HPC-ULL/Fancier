@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.10.2)
 # Paths
 
 set ( libs-dir
-        "${CMAKE_SOURCE_DIR}/jni-libs/core" )
+      "${CMAKE_SOURCE_DIR}/jni-libs/core" )
 
 set ( root-dir
       "${CMAKE_SOURCE_DIR}/src/main/jni" )
@@ -50,7 +50,8 @@ add_library( test-lib
              SHARED
              "${sources-dir}/array_test.c"
              "${sources-dir}/math_test.c"
-             "${sources-dir}/vector_test.c" )
+             "${sources-dir}/vector_test.c"
+             "${sources-dir}/vector_array_test.c" )
 
 target_link_libraries(test-lib
                       ${android-lib} ${log-lib} ${jnigraphics-lib}
