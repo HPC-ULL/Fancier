@@ -1,6 +1,8 @@
 package es.ull.pcg.hpc.fancier.androidtest.activity;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.Button;
@@ -41,20 +43,19 @@ public class MainActivity extends AppCompatActivity {
     outputPanel.setMovementMethod(new ScrollingMovementMethod());
 
     if (!INTERACTIVE) {
-      TestRunner.Tests[] testSequence = new TestRunner.Tests[]{TestRunner.Tests.TEST_INIT,
+      BitmapFactory.Options options = new BitmapFactory.Options();
+      options.inMutable = false;
+      options.inPreferredConfig = Bitmap.Config.ARGB_8888;
 
-                                                               TestRunner.Tests.TEST_MATH,
-                                                               TestRunner.Tests.TEST_VECTOR,
-                                                               TestRunner.Tests.TEST_ARRAY,
-                                                               TestRunner.Tests.TEST_VECTOR_ARRAY,
-
-                                                               TestRunner.Tests.TEST_RELEASE};
+      Bitmap inBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.fullhd, options);
+      Bitmap outBitmap =
+          Bitmap.createBitmap(inBitmap.getWidth(), inBitmap.getHeight(), inBitmap.getConfig());
 
       TestRunner controller = new TestRunner(this);
       String[] testNames = getResources().getStringArray(R.array.tests);
 
-      for (TestRunner.Tests selectedTest: testSequence) {
-        controller.runTest(selectedTest, testNames[selectedTest.ordinal()]);
+      for (TestRunner.Tests selectedTest: TestRunner.Tests.values()) {
+        controller.runTest(selectedTest, testNames[selectedTest.ordinal()], inBitmap, outBitmap);
       }
     }
   }

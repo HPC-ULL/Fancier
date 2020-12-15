@@ -57,7 +57,7 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_VectorArrayTest_nativeRun(JNIEnv* e
     return JNI_FALSE;
 
   for (int i = 0; i < n; ++i) {
-    err = fcFloat3Array_set(f0, i, fcFloat3_create(1.0f * i, 1.5f * i, 2.0f * i));
+    err = fcFloat3Array_set(f0, i, fcFloat3_create111(1.0f * i, 1.5f * i, 2.0f * i));
     FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat3Array_set:f0", JNI_FALSE);
   }
 
@@ -65,7 +65,7 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_VectorArrayTest_nativeRun(JNIEnv* e
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat3Array_syncToNative:f0", JNI_FALSE);
 
   for (int i = 0; i < n; ++i) {
-    if (fcInt3_any(fcFloat3_isNotEqual(f0->c[i], fcFloat3_create(1.0f * i, 1.5f * i, 2.0f * i))))
+    if (fcInt3_any(fcFloat3_isNotEqual(f0->c[i], fcFloat3_create111(1.0f * i, 1.5f * i, 2.0f * i))))
       return JNI_FALSE;
   }
 
@@ -100,7 +100,7 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_VectorArrayTest_nativeRun(JNIEnv* e
     f0_notaligned[outIdx + 2] = f0_[srcIdx + 2];
   }
 
-  err = fcFloat3Array_setContents(f0, f0->len * 3, f0_notaligned);
+  err = fcFloat3Array_setArray(f0, f0->len * 3, f0_notaligned);
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat3Array_setContents:f0", JNI_FALSE);
 
   for (int i = 0; i < n; ++i) {
@@ -174,11 +174,10 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_VectorArrayTest_nativeRun(JNIEnv* e
       return JNI_FALSE;
   }
 
-  // TODO Use `b1->c[0].hi` in (byte, byte, byte2) constructor
-  b1->c[0] = fcByte4_create((cl_byte) (b1->c[0].x + 10), b1->c[0].y, b1->c[0].z, b1->c[0].w);
+  b1->c[0] = fcByte4_create112((cl_byte) (b1->c[0].x + 10), b1->c[0].y, b1->c[0].hi);
   fcInt4 b0b1_eq = fcByte4_isEqual(b0->c[0], b1->c[0]);
 
-  if (b0b1_eq.x != 0 || !fcInt3_all(fcInt3_create(b0b1_eq.y, b0b1_eq.z, b0b1_eq.w)))
+  if (b0b1_eq.x != 0 || !fcInt3_all(fcInt3_create111(b0b1_eq.y, b0b1_eq.z, b0b1_eq.w)))
     return JNI_FALSE;
 
   err = fcFloat3Array_release(f0);

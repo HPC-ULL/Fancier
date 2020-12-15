@@ -1,6 +1,8 @@
 package es.ull.pcg.hpc.fancier.androidtest.test;
 
 
+import java.nio.ByteBuffer;
+
 import es.ull.pcg.hpc.fancier.vector.Byte4;
 import es.ull.pcg.hpc.fancier.vector.Float3;
 import es.ull.pcg.hpc.fancier.vector.Int3;
@@ -18,92 +20,120 @@ public class VectorArrayTest implements RuntimeTest {
 
   @Override
   public boolean run() {
-    Float3Array f0 = new Float3Array(n);
-
-    if (f0.length() != n)
-      return false;
-
-    for (int i = 0; i < n; ++i)
-      f0.set(i, new Float3(1.0f * i, 1.5f * i, 2.0f * i));
-
-    f0.syncToNative();
-
-    for (int i = 0; i < n; ++i) {
-      if (Int3.any(Float3.isNotEqual(f0.get(i), new Float3(1.0f * i, 1.5f * i, 2.0f * i))) != 0)
+    // Float3 array
+    try (Float3Array f0 = new Float3Array(n)) {
+      // Initialization tests
+      if (f0.length() != n)
         return false;
+
+      for (int i = 0; i < n; ++i) { f0.set(i, new Float3(1.0f * i, 1.5f * i, 2.0f * i)); }
+
+      f0.syncToNative();
+
+      for (int i = 0; i < n; ++i) {
+        if (Int3.any(Float3.isNotEqual(f0.get(i), new Float3(1.0f * i, 1.5f * i, 2.0f * i))) != 0)
+          return false;
+      }
+
+      // Automatic sync-to-native test
+      f0.syncToOCL();
+
+      float[] f0Array = f0.getArray();
+      ByteBuffer f0Buffer = f0.getBuffer();
+
+      // getArray and getBuffer test
+      for (int i = 0; i < n; ++i) {
+        Float3 elem = f0.get(i);
+        Float3Array.indexBuffer(f0Buffer, i);
+        Float3 elemBuffer = Float3.fromBuffer(f0Buffer);
+
+        int baseIdx = i * 3;
+        if (elem.x != f0Array[baseIdx] || elem.y != f0Array[baseIdx + 1] ||
+            elem.z != f0Array[baseIdx + 2] || Int3.any(Float3.isNotEqual(elem, elemBuffer)) != 0)
+          return false;
+      }
+
+      // getArray must return a copy
+      f0Array[0] = f0Array[0] + 10;
+      if (f0Array[0] == f0.get(0).x || f0Array[1] != f0.get(0).y || f0Array[2] != f0.get(0).z)
+        return false;
+
+      // getBuffer must return a modifiable reference
+      Float3Array.indexBuffer(f0Buffer, 0);
+      Float3 firstElem = Float3.fromBuffer(f0Buffer);
+      firstElem.x += 50;
+      Float3Array.indexBuffer(f0Buffer, 0);
+      firstElem.toBuffer(f0Buffer);
+      Float3Array.indexBuffer(f0Buffer, 0);
+      if (Int3.any(Float3.isNotEqual(Float3.fromBuffer(f0Buffer), f0.get(0))) != 0)
+        return false;
+
+      // setArray test
+      f0.setArray(f0Array);
+
+      for (int i = 0; i < n; ++i) {
+        Float3 elem = f0.get(i);
+        int baseIdx = i * 3;
+
+        if (elem.x != f0Array[baseIdx] || elem.y != f0Array[baseIdx + 1] ||
+            elem.z != f0Array[baseIdx + 2])
+          return false;
+      }
+
+      // setBuffer test, using the same buffer as input and output
+      f0.setBuffer(f0Buffer);
+      f0Buffer.rewind();
+      for (int i = 0; i < n; ++i) {
+        if (Int3.any(Float3.isNotEqual(f0.get(i), Float3.fromBuffer(f0Buffer))) != 0)
+          return false;
+      }
     }
 
-    f0.syncToOCL();
-
-    float[] f0_ = f0.getContents();
-    for (int i = 0; i < n; ++i) {
-      Float3 elem = f0.get(i);
-      int baseIdx = i * 3;
-
-      if (elem.x != f0_[baseIdx] || elem.y != f0_[baseIdx+1] || elem.z != f0_[baseIdx+2])
+    // Byte4 array
+    try (Byte4Array b0 = new Byte4Array(x)) {
+      // Initialization tests
+      if (b0.length() != x.length / 4)
         return false;
+
+      for (int i = 0; i < b0.length(); ++i) {
+        Byte4 elem = b0.get(i);
+        int baseIdx = i * 4;
+
+        if (elem.x != x[baseIdx] || elem.y != x[baseIdx + 1] || elem.z != x[baseIdx + 2] ||
+            elem.w != x[baseIdx + 3])
+          return false;
+      }
+
+      // OpenCL execution test
+      byte[] b0_ = b0.getArray();
+      nativeProcess(b0);
+
+      for (int i = 0; i < b0.length(); ++i) {
+        Byte4 elem = b0.get(i);
+        int baseIdx = i * 4;
+
+        if (elem.x != b0_[baseIdx] + 1 || elem.y != b0_[baseIdx + 1] + 2 ||
+            elem.z != b0_[baseIdx + 2] + 3 || elem.w != b0_[baseIdx + 3] + 4)
+          return false;
+      }
+
+      // Vector array copy test
+      try (Byte4Array b1 = new Byte4Array(b0)) {
+        if (b1.length() != b0.length())
+          return false;
+
+        for (int i = 0; i < b0.length(); ++i) {
+          if (Int4.any(Byte4.isNotEqual(b0.get(i), b1.get(i))) != 0)
+            return false;
+        }
+
+        b1.set(0, new Byte4((byte) (b1.get(0).x + 10), b1.get(0).y, b1.get(0).hi()));
+        Int4 b0b1_eq = Byte4.isEqual(b0.get(0), b1.get(0));
+
+        if (b0b1_eq.x != 0 || Int3.all(new Int3(b0b1_eq.y, b0b1_eq.z, b0b1_eq.w)) == 0)
+          return false;
+      }
     }
-
-    f0_[0] = f0_[0] + 10;
-    if (f0_[0] == f0.get(0).x || f0_[1] != f0.get(0).y || f0_[2] != f0.get(0).z)
-      return false;
-
-    f0.setContents(f0_);
-
-    for (int i = 0; i < n; ++i) {
-      Float3 elem = f0.get(i);
-      int baseIdx = i * 3;
-
-      if (elem.x != f0_[baseIdx] || elem.y != f0_[baseIdx+1] || elem.z != f0_[baseIdx+2])
-        return false;
-    }
-
-    Byte4Array b0 = new Byte4Array(x);
-
-    if (b0.length() != x.length / 4)
-      return false;
-
-    for (int i = 0; i < b0.length(); ++i) {
-      Byte4 elem = b0.get(i);
-      int baseIdx = i * 4;
-
-      if (elem.x != x[baseIdx] || elem.y != x[baseIdx+1] || elem.z != x[baseIdx+2] || elem.w != x[baseIdx+3])
-        return false;
-    }
-
-    byte[] b0_ = b0.getContents();
-    nativeProcess(b0);
-
-    for (int i = 0; i < b0.length(); ++i) {
-      Byte4 elem = b0.get(i);
-      int baseIdx = i * 4;
-
-      if (elem.x != b0_[baseIdx] + 1 ||
-          elem.y != b0_[baseIdx+1] + 2 ||
-          elem.z != b0_[baseIdx+2] + 3 ||
-          elem.w != b0_[baseIdx+3] + 4)
-        return false;
-    }
-
-    Byte4Array b1 = new Byte4Array(b0);
-
-    if (b1.length() != b0.length())
-      return false;
-
-    for (int i = 0; i < b0.length(); ++i) {
-      if (Int4.any(Byte4.isNotEqual(b0.get(i), b1.get(i))) != 0)
-        return false;
-    }
-
-    b1.set(0, new Byte4((byte)(b1.get(0).x + 10), b1.get(0).y, b1.get(0).hi()));
-    Int4 b0b1_eq = Byte4.isEqual(b0.get(0), b1.get(0));
-
-    if (b0b1_eq.x != 0 || Int3.all(new Int3(b0b1_eq.y, b0b1_eq.z, b0b1_eq.w)) == 0)
-      return false;
-
-    f0.release();
-    b0.release();
-    b1.release();
 
     return nativeRun();
   }
@@ -112,5 +142,6 @@ public class VectorArrayTest implements RuntimeTest {
   public void teardown() {}
 
   private native boolean nativeRun();
+
   private native void nativeProcess(Byte4Array array);
 }

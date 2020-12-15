@@ -3,8 +3,8 @@
 
 JNIEXPORT jboolean JNICALL
 Java_es_ull_pcg_hpc_fancier_androidtest_test_VectorTest_nativeRun(JNIEnv* env, jobject obj) {
-  fcByte2 b20 = fcByte2_create(3, 3);
-  fcByte2 b21 = fcByte2_create(3, 4);
+  fcByte2 b20 = fcByte2_create1(3);
+  fcByte2 b21 = fcByte2_create11(3, 4);
 
   if (b20.x != 3 || b20.y != 3)
     return JNI_FALSE;
@@ -16,13 +16,12 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_VectorTest_nativeRun(JNIEnv* env, j
   if (b22.x != 6 || b22.y != 7)
     return JNI_FALSE;
 
-  fcByte2 b23 = fcByte2_select(b22, b21, fcInt2_create(0, 1));
+  fcByte2 b23 = fcByte2_select(b22, b21, fcInt2_create11(0, 1));
   if (b23.x != b22.x || b23.y != b21.y)
     return JNI_FALSE;
 
-  fcDouble4 d40 = fcDouble4_create(CL_M_2_PI, CL_M_PI, CL_M_1_PI, CL_M_LN2);
-  // TODO Allow all constructors: fcDouble4 d41 = fcDouble4_create(1.0, fcDouble4_asDouble2(d40), 5.0);
-  fcDouble4 d41 = fcDouble4_create(1.0, d40.x, d40.y, 5.0);
+  fcDouble4 d40 = fcDouble4_create1111(CL_M_2_PI, CL_M_PI, CL_M_1_PI, CL_M_LN2);
+  fcDouble4 d41 = fcDouble4_create121(1.0, fcDouble4_asDouble2(d40), 5.0);
 
   if (d40.x != CL_M_2_PI || d40.y != CL_M_PI || d40.z != CL_M_1_PI || d40.w != CL_M_LN2)
     return JNI_FALSE;

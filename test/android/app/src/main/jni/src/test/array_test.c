@@ -10,6 +10,7 @@ static const char* kernel_src = "#pragma OPENCL EXTENSION cl_khr_fp64 : enable\n
 static const int n = 10;
 static const double x[] = {1.0, 2.5, 4.0};
 
+
 static int process(fcDoubleArray* array) {
   cl_int err;
 
@@ -77,7 +78,7 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_ArrayTest_nativeRun(JNIEnv* env, jo
     s0_[i] = (short) (s0->c[i] + 1);
   }
 
-  err = fcShortArray_setContents(s0, n, s0_);
+  err = fcShortArray_setArray(s0, n, s0_);
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShortArray_setContents", JNI_FALSE);
   err = fcShortArray_syncToNative(s0); // Just in case... This doesn't add much overhead
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShortArray_syncToNative", JNI_FALSE);

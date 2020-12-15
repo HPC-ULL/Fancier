@@ -1,7 +1,15 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
     <option name="AUTODETECT_INDENTS" value="false" />
+    <option name="OTHER_INDENT_OPTIONS">
+      <value>
+        <option name="INDENT_SIZE" value="2" />
+      </value>
+    </option>
     <option name="LINE_SEPARATOR" value="&#10;" />
+    <CMakeCodeStyleSettings>
+      <option name="FORCE_COMMANDS_CASE" value="1" />
+    </CMakeCodeStyleSettings>
     <JavaCodeStyleSettings>
       <option name="ANNOTATION_PARAMETER_WRAP" value="1" />
       <option name="ALIGN_MULTILINE_ANNOTATION_PARAMETERS" value="true" />
@@ -54,6 +62,15 @@
       <option name="SPACE_AFTER_REFERENCE_IN_DECLARATION" value="true" />
       <option name="SPACE_BEFORE_DICTIONARY_LITERAL_COLON" value="true" />
     </Objective-C>
+    <codeStyleSettings language="CMake">
+      <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
+      <option name="SPACE_WITHIN_METHOD_CALL_PARENTHESES" value="true" />
+      <option name="SPACE_WITHIN_METHOD_PARENTHESES" value="true" />
+      <option name="SPACE_WITHIN_IF_PARENTHESES" value="true" />
+      <option name="SPACE_WITHIN_WHILE_PARENTHESES" value="true" />
+      <option name="SPACE_WITHIN_FOR_PARENTHESES" value="true" />
+      <option name="SOFT_MARGINS" value="100" />
+    </codeStyleSettings>
     <codeStyleSettings language="JAVA">
       <option name="RIGHT_MARGIN" value="100" />
       <option name="KEEP_LINE_BREAKS" value="false" />
