@@ -4,258 +4,355 @@
 
 #include <fancier/internal/snippets.inc>
 
+#include <string.h>
+
 
 //
 // Global Java References
 //
 
-jclass fcARGBImage_class = NULL;
-jmethodID fcARGBImage_constructor = NULL;
+jclass fcRGBAImage_class = NULL;
+jmethodID fcRGBAImage_constructor = NULL;
 
 //
 // Global Java Initialization / Destruction
 //
 
 jint fcImage_initJNI(JNIEnv* env) {
-  FC_INIT_CLASS_REF(env, "es/ull/pcg/hpc/fancier/image/ARGBImage", fcARGBImage_class,
+  FC_INIT_CLASS_REF(env, "es/ull/pcg/hpc/fancier/image/RGBAImage", fcRGBAImage_class,
                     "fcImage_initJNI", FC_EXCEPTION_OTHER);
-  FC_INIT_CONSTRUCTOR(env, fcARGBImage_constructor, fcARGBImage_class, "J", "fcImage_initJNI",
+  FC_INIT_CONSTRUCTOR(env, fcRGBAImage_constructor, fcRGBAImage_class, "J", "fcImage_initJNI",
                       FC_EXCEPTION_METHOD_NOT_FOUND);
 
   return FC_EXCEPTION_SUCCESS;
 }
 
 void fcImage_releaseJNI(JNIEnv* env) {
-  FC_FREE_CLASS_REF(env, fcARGBImage_class);
-  fcARGBImage_constructor = NULL;
+  FC_FREE_CLASS_REF(env, fcRGBAImage_class);
+  fcRGBAImage_constructor = NULL;
 }
 
 
 //
-// fcARGBImage
+// fcRGBAImage
 //
 
-FC_JAVA_INSTANCE_HANDLERS(fcARGBImage);
+FC_JAVA_INSTANCE_HANDLERS(fcRGBAImage);
 
 //
 // Java Interface Implementation
 //
 
-JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_ARGBImage_initNative__L(JNIEnv* env,
+JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_initNative__L(JNIEnv* env,
                                                                                  jobject obj,
                                                                                  jlong nativePtr) {
-  fcARGBImage_setJava(env, obj, nativePtr);
+  fcRGBAImage_setJava(env, obj, nativePtr);
 }
 
-JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_ARGBImage_initNative__II(JNIEnv* env,
+JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_initNative__II(JNIEnv* env,
                                                                                   jobject obj,
                                                                                   jint width,
                                                                                   jint height) {
   // Allocate instance
-  fcARGBImage* self = fcARGBImage_allocJava(env, obj);
-  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcARGBImage_allocJava",
+  fcRGBAImage* self = fcRGBAImage_allocJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_allocJava",
                            FC_VOID_EXPR);
 
   // Initialize image
-  jint err = fcARGBImage_initSize(self, width, height);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcARGBImage_initSize", FC_VOID_EXPR);
+  jint err = fcRGBAImage_initSize(self, width, height);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcRGBAImage_initSize", FC_VOID_EXPR);
 }
 
-JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_ARGBImage_initNative___3II(
+JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_initNative___3II(
     JNIEnv* env, jobject obj, jintArray pixels, jint width) {
   // Allocate instance
-  fcARGBImage* self = fcARGBImage_allocJava(env, obj);
-  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcARGBImage_allocJava",
+  fcRGBAImage* self = fcRGBAImage_allocJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_allocJava",
                            FC_VOID_EXPR);
 
   FC_EXCEPTION_HANDLE_NULL(env, pixels, FC_EXCEPTION_BAD_PARAMETER,
-                           "ARGBImage_initNative__[II:pixels", FC_VOID_EXPR);
+                           "RGBAImage_initNative__[II:pixels", FC_VOID_EXPR);
 
   // Initialize image
   jsize __tmp_len = FC_JNI_CALL(env, GetArrayLength, pixels);
   if (__tmp_len % width != 0)
     FC_EXCEPTION_HANDLE_ERROR(env, FC_EXCEPTION_BAD_PARAMETER,
-                              "ARGBImage_initNative__[II:pixels,width", FC_VOID_EXPR);
+                              "RGBAImage_initNative__[II:pixels,width", FC_VOID_EXPR);
 
   jint* __tmp_elems_pixels = FC_JNI_CALL(env, GetIntArrayElements, pixels, NULL);
   FC_EXCEPTION_HANDLE_NULL(env, __tmp_elems_pixels, FC_EXCEPTION_ARRAY_GET_ELEMENTS,
-                           "ARGBImage_initNative__[II:pixels", FC_VOID_EXPR);
+                           "RGBAImage_initNative__[II:pixels", FC_VOID_EXPR);
 
-  jint err = fcARGBImage_initPixels(self, __tmp_elems_pixels, width, __tmp_len / width);
+  jint err = fcRGBAImage_initPixels(self, width, __tmp_len / width, __tmp_elems_pixels);
 
   // Free temporary native array reference
   FC_JNI_CALL(env, ReleaseIntArrayElements, pixels, __tmp_elems_pixels, JNI_ABORT);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcARGBImage_initPixels", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcRGBAImage_initPixels", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_image_ARGBImage_initNative__Les_ull_pcg_hpc_fancier_ARGBImage_2(
+Java_es_ull_pcg_hpc_fancier_image_RGBAImage_initNative__Les_ull_pcg_hpc_fancier_image_RGBAImage_2(
     JNIEnv* env, jobject obj, jobject image) {
   // Allocate instance
-  fcARGBImage* self = fcARGBImage_allocJava(env, obj);
-  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcARGBImage_allocJava",
+  fcRGBAImage* self = fcRGBAImage_allocJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_allocJava",
                            FC_VOID_EXPR);
 
   // Initialize image
-  fcARGBImage* __tmp_image = fcARGBImage_getJava(env, image);
+  fcRGBAImage* __tmp_image = fcRGBAImage_getJava(env, image);
   FC_EXCEPTION_HANDLE_NULL(env, __tmp_image, FC_EXCEPTION_BAD_PARAMETER,
-                           "fcARGBImage_getJava:image", FC_VOID_EXPR);
+                           "fcRGBAImage_getJava:image", FC_VOID_EXPR);
 
-  jint err = fcARGBImage_initCopy(self, __tmp_image);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcARGBImage_initCopy", FC_VOID_EXPR);
+  jint err = fcRGBAImage_initCopy(self, __tmp_image);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcRGBAImage_initCopy", FC_VOID_EXPR);
 }
 
-JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_ARGBImage_releaseNative(JNIEnv* env,
+JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_releaseNative(JNIEnv* env,
                                                                                  jobject obj) {
-  fcARGBImage* self = fcARGBImage_getJava(env, obj);
-  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcARGBImage_getJava",
+  fcRGBAImage* self = fcRGBAImage_getJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_getJava",
                            FC_VOID_EXPR);
 
   // Release memory buffers and decrease the reference count to the instance object
-  jint err = fcARGBImage_release(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcARGBImage_release", FC_VOID_EXPR);
+  jint err = fcRGBAImage_release(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcRGBAImage_release", FC_VOID_EXPR);
 
-  fcARGBImage_setJava(env, obj, 0L);
+  fcRGBAImage_setJava(env, obj, 0L);
 }
 
-JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_ARGBImage_releaseNativeRef(JNIEnv* env,
+JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_releaseNativeRef(JNIEnv* env,
                                                                                     jobject obj) {
-  fcARGBImage* self = fcARGBImage_getJava(env, obj);
-  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcARGBImage_getJava",
+  fcRGBAImage* self = fcRGBAImage_getJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_getJava",
                            FC_VOID_EXPR);
 
   // Release the reference to the instance object and only release the buffers in it as well if this
   // was the only remaining reference to that object
-  jint err = fcARGBImage_releaseRef(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcARGBImage_releaseRef", FC_VOID_EXPR);
+  jint err = fcRGBAImage_releaseRef(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcRGBAImage_releaseRef", FC_VOID_EXPR);
 
-  fcARGBImage_setJava(env, obj, 0L);
+  fcRGBAImage_setJava(env, obj, 0L);
 }
 
-JNIEXPORT jobject JNICALL Java_es_ull_pcg_hpc_fancier_image_ARGBImage_get__II(JNIEnv* env,
+JNIEXPORT jobject JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_get__II(JNIEnv* env,
                                                                               jobject obj, jint x,
                                                                               jint y) {
-  fcARGBImage* self = fcARGBImage_getJava(env, obj);
-  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcARGBImage_getJava", NULL);
+  fcRGBAImage* self = fcRGBAImage_getJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_getJava", NULL);
 
   jint err;
-  fcByte4 __tmp_ret = fcARGBImage_get(self, x, y, &err);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcARGBImage_get", NULL);
+  fcByte4 __tmp_ret = fcRGBAImage_get(self, x, y, &err);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcRGBAImage_get", NULL);
 
   return fcByte4_wrap(env, __tmp_ret);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_image_ARGBImage_set__IILes_ull_pcg_hpc_fancier_vector_Byte4_2(
+Java_es_ull_pcg_hpc_fancier_image_RGBAImage_set__IILes_ull_pcg_hpc_fancier_vector_Byte4_2(
     JNIEnv* env, jobject obj, jint x, jint y, jobject argb) {
-  fcARGBImage* self = fcARGBImage_getJava(env, obj);
-  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcARGBImage_getJava",
+  fcRGBAImage* self = fcRGBAImage_getJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_getJava",
                            FC_VOID_EXPR);
 
   FC_EXCEPTION_HANDLE_NULL(env, argb, FC_EXCEPTION_BAD_PARAMETER,
-                           "ARGBImage_set__IILes_ull_pcg_hpc_fancier_vector_Byte4;:argb",
+                           "RGBAImage_set__IILes_ull_pcg_hpc_fancier_vector_Byte4;:argb",
                            FC_VOID_EXPR);
 
   jint err;
   fcByte4 __tmp_argb = fcByte4_unwrap(env, argb, &err);
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte4_unwrap", FC_VOID_EXPR);
 
-  err = fcARGBImage_set(self, x, y, __tmp_argb);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcARGBImage_set", FC_VOID_EXPR);
+  err = fcRGBAImage_set(self, x, y, __tmp_argb);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcRGBAImage_set", FC_VOID_EXPR);
 }
 
-JNIEXPORT jobject JNICALL Java_es_ull_pcg_hpc_fancier_image_ARGBImage_getPixels(JNIEnv* env,
+JNIEXPORT jobject JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_getPixels(JNIEnv* env,
                                                                                 jobject obj) {
-  fcARGBImage* self = fcARGBImage_getJava(env, obj);
-  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcARGBImage_getJava", NULL);
+  fcRGBAImage* self = fcRGBAImage_getJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_getJava", NULL);
 
   FC_EXCEPTION_HANDLE_NULL(env, self->pixels, FC_EXCEPTION_INVALID_STATE,
-                           "ARGBImage_getPixels:pixels", NULL);
+                           "RGBAImage_getPixels:pixels", NULL);
   return FC_JNI_CALL(env, NewObject, fcByte4Array_class, fcByte4Array_constructor,
                      (jlong) self->pixels);
 }
 
-JNIEXPORT jobject JNICALL Java_es_ull_pcg_hpc_fancier_image_ARGBImage_getDims(JNIEnv* env,
+JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_setPixels__3II(JNIEnv* env,
+                                                                                  jobject obj,
+                                                                                  jintArray pixels,
+                                                                                  jint width) {
+  fcRGBAImage* self = fcRGBAImage_getJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_getJava",
+                           FC_VOID_EXPR);
+
+  FC_EXCEPTION_HANDLE_NULL(env, self->pixels, FC_EXCEPTION_INVALID_STATE,
+                           "RGBAImage_setPixels:pixels", FC_VOID_EXPR);
+
+  // Initialize image
+  jsize __tmp_len = FC_JNI_CALL(env, GetArrayLength, pixels);
+  if (__tmp_len % width != 0)
+    FC_EXCEPTION_HANDLE_ERROR(env, FC_EXCEPTION_BAD_PARAMETER, "RGBAImage_setPixels:pixels,width",
+                              FC_VOID_EXPR);
+
+  jint* __tmp_elems_pixels = FC_JNI_CALL(env, GetIntArrayElements, pixels, NULL);
+  FC_EXCEPTION_HANDLE_NULL(env, __tmp_elems_pixels, FC_EXCEPTION_ARRAY_GET_ELEMENTS,
+                           "RGBAImage_setPixels:pixels", FC_VOID_EXPR);
+
+  jint err = fcRGBAImage_setPixels(self, width, __tmp_len / width, __tmp_elems_pixels);
+
+  // Free temporary native array reference
+  FC_JNI_CALL(env, ReleaseIntArrayElements, pixels, __tmp_elems_pixels, JNI_ABORT);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcRGBAImage_setPixels", FC_VOID_EXPR);
+}
+
+JNIEXPORT jobject JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_getDims(JNIEnv* env,
                                                                               jobject obj) {
-  fcARGBImage* self = fcARGBImage_getJava(env, obj);
-  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcARGBImage_getJava", NULL);
+  fcRGBAImage* self = fcRGBAImage_getJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_getJava", NULL);
 
   return fcInt2_wrap(env, self->dims);
 }
 
-JNIEXPORT jint JNICALL Java_es_ull_pcg_hpc_fancier_image_ARGBImage_getWidth(JNIEnv* env,
+JNIEXPORT jint JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_getWidth(JNIEnv* env,
                                                                             jobject obj) {
-  fcARGBImage* self = fcARGBImage_getJava(env, obj);
-  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcARGBImage_getJava", 0);
+  fcRGBAImage* self = fcRGBAImage_getJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_getJava", 0);
 
   return self->dims.x;
 }
 
-JNIEXPORT jint JNICALL Java_es_ull_pcg_hpc_fancier_image_ARGBImage_getHeight(JNIEnv* env,
+JNIEXPORT jint JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_getHeight(JNIEnv* env,
                                                                              jobject obj) {
-  fcARGBImage* self = fcARGBImage_getJava(env, obj);
-  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcARGBImage_getJava", 0);
+  fcRGBAImage* self = fcRGBAImage_getJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_getJava", 0);
 
   return self->dims.y;
 }
 
-JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_ARGBImage_syncToNative(JNIEnv* env,
+JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_syncToNative(JNIEnv* env,
                                                                                 jobject obj) {
-  fcARGBImage* self = fcARGBImage_getJava(env, obj);
-  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcARGBImage_getJava",
+  fcRGBAImage* self = fcRGBAImage_getJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_getJava",
                            FC_VOID_EXPR);
 
-  jint err = fcARGBImage_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcARGBImage_syncToNative", FC_VOID_EXPR);
+  jint err = fcRGBAImage_syncToNative(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcRGBAImage_syncToNative", FC_VOID_EXPR);
 }
 
-JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_ARGBImage_syncToOCL(JNIEnv* env,
+JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_syncToOCL(JNIEnv* env,
                                                                              jobject obj) {
-  fcARGBImage* self = fcARGBImage_getJava(env, obj);
-  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcARGBImage_getJava",
+  fcRGBAImage* self = fcRGBAImage_getJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_getJava",
                            FC_VOID_EXPR);
 
-  jint err = fcARGBImage_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcARGBImage_syncToOCL", FC_VOID_EXPR);
+  jint err = fcRGBAImage_syncToOCL(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcRGBAImage_syncToOCL", FC_VOID_EXPR);
 }
 
 #ifdef __ANDROID__
 
+static int readBitmap(JNIEnv* env, jobject bmp, AndroidBitmapInfo* info, void** pixels) {
+  if (AndroidBitmap_getInfo(env, bmp, info))
+    return FC_EXCEPTION_BITMAP_INFO;
+
+  if (AndroidBitmap_lockPixels(env, bmp, pixels))
+    return FC_EXCEPTION_BITMAP_LOCK_PIXELS;
+
+  return FC_EXCEPTION_SUCCESS;
+}
+
+static int freeBitmap(JNIEnv* env, jobject bmp) {
+  if (AndroidBitmap_unlockPixels(env, bmp))
+    return FC_EXCEPTION_BITMAP_UNLOCK_PIXELS;
+
+  return FC_EXCEPTION_SUCCESS;
+}
+
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_image_ARGBImage_initNative__Landroid_graphics_Bitmap_2(JNIEnv* env,
+Java_es_ull_pcg_hpc_fancier_image_RGBAImage_initNative__Landroid_graphics_Bitmap_2(JNIEnv* env,
                                                                                    jobject obj,
                                                                                    jobject bmp) {
-  jint err = FC_EXCEPTION_SUCCESS;
+  jint err;
 
   // Allocate instance
-  fcARGBImage* self = fcARGBImage_allocJava(env, obj);
-  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcARGBImage_getJava",
+  fcRGBAImage* self = fcRGBAImage_allocJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_allocJava",
                            FC_VOID_EXPR);
 
   FC_EXCEPTION_HANDLE_NULL(env, bmp, FC_EXCEPTION_BAD_PARAMETER,
-                           "ARGBImage_initNative__Landroid_graphics_Bitmap;:bmp", FC_VOID_EXPR);
+                           "RGBAImage_initNative__Landroid_graphics_Bitmap;:bmp", FC_VOID_EXPR);
 
   // Initialize image
   AndroidBitmapInfo __tmp_info;
-  if (AndroidBitmap_getInfo(env, bmp, &__tmp_info))
-    err = FC_EXCEPTION_BITMAP_INFO;
-
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "AndroidBitmap_getInfo", FC_VOID_EXPR);
-
   void* __tmp_pixels;
-  if (AndroidBitmap_lockPixels(env, bmp, &__tmp_pixels))
-    err = FC_EXCEPTION_BITMAP_LOCK_PIXELS;
 
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "AndroidBitmap_lockPixels", FC_VOID_EXPR);
+  err = readBitmap(env, bmp, &__tmp_info, &__tmp_pixels);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "readBitmap", FC_VOID_EXPR);
 
-  err = fcARGBImage_initBitmap(self, __tmp_info, __tmp_pixels);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcARGBImage_initBitmap", FC_VOID_EXPR);
+  err = fcRGBAImage_initBitmap(self, __tmp_info, __tmp_pixels);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcRGBAImage_initBitmap", FC_VOID_EXPR);
 
   // Free temporary native array reference
-  if (AndroidBitmap_unlockPixels(env, bmp))
-    err = FC_EXCEPTION_BITMAP_UNLOCK_PIXELS;
+  err = freeBitmap(env, bmp);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "freeBitmap", FC_VOID_EXPR);
+}
 
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "AndroidBitmap_unlockPixels", FC_VOID_EXPR);
+JNIEXPORT void JNICALL
+Java_es_ull_pcg_hpc_fancier_image_RGBAImage_setPixels__Landroid_graphics_Bitmap_2(JNIEnv* env,
+                                                                                  jobject obj,
+                                                                                  jobject bmp) {
+  jint err;
+
+  // Get instance
+  fcRGBAImage* self = fcRGBAImage_getJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_getJava",
+                           FC_VOID_EXPR);
+
+  FC_EXCEPTION_HANDLE_NULL(env, bmp, FC_EXCEPTION_BAD_PARAMETER,
+                           "RGBAImage_setPixels__Landroid_graphics_Bitmap;:bmp", FC_VOID_EXPR);
+
+  // Obtain Bitmap pixels
+  AndroidBitmapInfo __tmp_info;
+  void* __tmp_pixels;
+
+  err = readBitmap(env, bmp, &__tmp_info, &__tmp_pixels);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "readBitmap", FC_VOID_EXPR);
+
+  err = fcRGBAImage_setPixelsBitmap(self, __tmp_info, __tmp_pixels);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcRGBAImage_setPixelsBitmap", FC_VOID_EXPR);
+
+  // Free temporary native array reference
+  err = freeBitmap(env, bmp);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "freeBitmap", FC_VOID_EXPR);
+}
+
+JNIEXPORT void JNICALL
+Java_es_ull_pcg_hpc_fancier_image_RGBAImage_updateBitmap__Landroid_graphics_Bitmap_2(JNIEnv* env,
+                                                                                     jobject obj,
+                                                                                     jobject bmp) {
+  jint err;
+
+  // Get instance
+  fcRGBAImage* self = fcRGBAImage_getJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_getJava",
+                           FC_VOID_EXPR);
+
+  FC_EXCEPTION_HANDLE_NULL(env, bmp, FC_EXCEPTION_BAD_PARAMETER,
+                           "RGBAImage_setPixels__Landroid_graphics_Bitmap;:bmp", FC_VOID_EXPR);
+
+  // Obtain Bitmap pixels
+  AndroidBitmapInfo __tmp_info;
+  void* __tmp_pixels;
+
+  err = readBitmap(env, bmp, &__tmp_info, &__tmp_pixels);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "readBitmap", FC_VOID_EXPR);
+
+  err = fcRGBAImage_updateBitmap(self, __tmp_info, __tmp_pixels);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcRGBAImage_updateBitmap", FC_VOID_EXPR);
+
+  // Free temporary native array reference
+  err = freeBitmap(env, bmp);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "freeBitmap", FC_VOID_EXPR);
 }
 
 #endif  // __ANDROID__
@@ -264,7 +361,7 @@ Java_es_ull_pcg_hpc_fancier_image_ARGBImage_initNative__Landroid_graphics_Bitmap
 // Native Interface Implementation
 //
 
-int fcARGBImage_createRef(fcARGBImage* img) {
+int fcRGBAImage_createRef(fcRGBAImage* img) {
   if (img == NULL || img->pixels == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
@@ -272,18 +369,18 @@ int fcARGBImage_createRef(fcARGBImage* img) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcARGBImage_releaseRef(fcARGBImage* img) {
+int fcRGBAImage_releaseRef(fcRGBAImage* img) {
   if (img == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
   if (img->ref_count <= 1)
-    return fcARGBImage_release(img);
+    return fcRGBAImage_release(img);
 
   --img->ref_count;
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcARGBImage_init(fcARGBImage* self) {
+int fcRGBAImage_init(fcRGBAImage* self) {
   if (self->pixels != NULL)
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -291,18 +388,18 @@ int fcARGBImage_init(fcARGBImage* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcARGBImage_initDims(fcARGBImage* self, fcInt2 dims) {
-  return fcARGBImage_initSize(self, dims.x, dims.y);
+int fcRGBAImage_initDims(fcRGBAImage* self, fcInt2 dims) {
+  return fcRGBAImage_initSize(self, dims.x, dims.y);
 }
 
-int fcARGBImage_initSize(fcARGBImage* self, int width, int height) {
+int fcRGBAImage_initSize(fcRGBAImage* self, int width, int height) {
   int err;
 
   // Check parameters
   if (width <= 0 || height <= 0)
     return FC_EXCEPTION_BITMAP_BAD_DIMENSIONS;
 
-  err = fcARGBImage_init(self);
+  err = fcRGBAImage_init(self);
   if (err)
     return err;
 
@@ -322,7 +419,7 @@ int fcARGBImage_initSize(fcARGBImage* self, int width, int height) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcARGBImage_initPixels(fcARGBImage* self, jint* pixels, int width, int height) {
+int fcRGBAImage_initPixels(fcRGBAImage* self, int width, int height, const jint* pixels) {
   int err;
 
   // Check parameters
@@ -332,7 +429,7 @@ int fcARGBImage_initPixels(fcARGBImage* self, jint* pixels, int width, int heigh
   if (width <= 0 || height <= 0)
     return FC_EXCEPTION_BITMAP_BAD_DIMENSIONS;
 
-  err = fcARGBImage_init(self);
+  err = fcRGBAImage_init(self);
   if (err)
     return err;
 
@@ -342,7 +439,8 @@ int fcARGBImage_initPixels(fcARGBImage* self, jint* pixels, int width, int heigh
 
   // Allocate array
   self->pixels = calloc(1, sizeof(fcByte4Array));
-  err = fcByte4Array_initArray(self->pixels, self->dims.x * self->dims.y * 4, (jbyte*) pixels);
+  err =
+      fcByte4Array_initArray(self->pixels, self->dims.x * self->dims.y * 4, (const jbyte*) pixels);
   if (err) {
     fcByte4Array_release(self->pixels);
     self->pixels = NULL;
@@ -352,14 +450,14 @@ int fcARGBImage_initPixels(fcARGBImage* self, jint* pixels, int width, int heigh
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcARGBImage_initCopy(fcARGBImage* self, const fcARGBImage* other) {
+int fcRGBAImage_initCopy(fcRGBAImage* self, const fcRGBAImage* other) {
   int err;
 
   // Check parameters
   if (other == NULL || other->pixels == NULL || !fcByte4Array_valid(other->pixels))
     return FC_EXCEPTION_BAD_PARAMETER;
 
-  err = fcARGBImage_init(self);
+  err = fcRGBAImage_init(self);
   if (err)
     return err;
 
@@ -378,7 +476,7 @@ int fcARGBImage_initCopy(fcARGBImage* self, const fcARGBImage* other) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcARGBImage_release(fcARGBImage* self) {
+int fcRGBAImage_release(fcRGBAImage* self) {
   --self->ref_count;
   if (self->pixels != NULL) {
     int err = fcByte4Array_release(self->pixels);
@@ -398,17 +496,17 @@ int fcARGBImage_release(fcARGBImage* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-fcByte4 fcARGBImage_getCoords(fcARGBImage* self, fcInt2 coords, int* err) {
-  return fcARGBImage_get(self, coords.x, coords.y, err);
+fcByte4 fcRGBAImage_getCoords(fcRGBAImage* self, fcInt2 coords, int* err) {
+  return fcRGBAImage_get(self, coords.x, coords.y, err);
 }
 
-fcByte4 fcARGBImage_get(fcARGBImage* self, int x, int y, int* err) {
+fcByte4 fcRGBAImage_get(fcRGBAImage* self, int x, int y, int* err) {
   int __tmp_err;
   if (err == NULL)
     err = &__tmp_err;
 
   fcByte4 __tmp_ret = {.s = {0}};
-  if (!fcARGBImage_valid(self)) {
+  if (!fcRGBAImage_valid(self)) {
     *err = FC_EXCEPTION_INVALID_STATE;
     return __tmp_ret;
   }
@@ -421,12 +519,12 @@ fcByte4 fcARGBImage_get(fcARGBImage* self, int x, int y, int* err) {
   return fcByte4Array_get(self->pixels, y * self->dims.x + x, err);
 }
 
-int fcARGBImage_setCoords(fcARGBImage* self, fcInt2 coords, fcByte4 argb) {
-  return fcARGBImage_set(self, coords.x, coords.y, argb);
+int fcRGBAImage_setCoords(fcRGBAImage* self, fcInt2 coords, fcByte4 argb) {
+  return fcRGBAImage_set(self, coords.x, coords.y, argb);
 }
 
-int fcARGBImage_set(fcARGBImage* self, int x, int y, fcByte4 argb) {
-  if (!fcARGBImage_valid(self))
+int fcRGBAImage_set(fcRGBAImage* self, int x, int y, fcByte4 argb) {
+  if (!fcRGBAImage_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
   if (x < 0 || y < 0 || x >= self->dims.x || y >= self->dims.y)
@@ -435,34 +533,87 @@ int fcARGBImage_set(fcARGBImage* self, int x, int y, fcByte4 argb) {
   return fcByte4Array_set(self->pixels, y * self->dims.x + x, argb);
 }
 
-int fcARGBImage_syncToNative(fcARGBImage* self) {
-  if (!fcARGBImage_valid(self))
+int fcRGBAImage_setPixels(fcRGBAImage* self, int width, int height, const jint* pixels) {
+  if (!fcRGBAImage_valid(self))
+    return FC_EXCEPTION_INVALID_STATE;
+
+  // Check parameters
+  if (pixels == NULL)
+    return FC_EXCEPTION_BAD_PARAMETER;
+
+  if (self->dims.x != width || self->dims.y != height)
+    return FC_EXCEPTION_BITMAP_BAD_DIMENSIONS;
+
+  // Allocate array
+  int err = fcByte4Array_setArray(self->pixels, self->dims.x * self->dims.y * 4,
+                                  (const jbyte*)  pixels);
+  if (err)
+    return err;
+
+  return FC_EXCEPTION_SUCCESS;
+}
+
+int fcRGBAImage_syncToNative(fcRGBAImage* self) {
+  if (!fcRGBAImage_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
   return fcByte4Array_syncToNative(self->pixels);
 }
 
-int fcARGBImage_syncToOCL(fcARGBImage* self) {
-  if (!fcARGBImage_valid(self))
+int fcRGBAImage_syncToOCL(fcRGBAImage* self) {
+  if (!fcRGBAImage_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
   return fcByte4Array_syncToOCL(self->pixels);
 }
 
-jboolean fcARGBImage_valid(const fcARGBImage* self) {
+jboolean fcRGBAImage_valid(const fcRGBAImage* self) {
   return self->dims.x > 0 && self->dims.y > 0 && self->pixels != NULL &&
          fcByte4Array_valid(self->pixels);
 }
 
 #ifdef __ANDROID__
 
-int fcARGBImage_initBitmap(fcARGBImage* self, AndroidBitmapInfo info, const void* pixels) {
+int fcRGBAImage_initBitmap(fcRGBAImage* self, AndroidBitmapInfo info, const void* pixels) {
   // Check parameters
   if (info.format != ANDROID_BITMAP_FORMAT_RGBA_8888)
     return FC_EXCEPTION_BITMAP_UNSUPPORTED_FORMAT;
 
-  // TODO info.stride?
-  return fcARGBImage_initPixels(self, (jint*) pixels, info.width, info.height);
+  return fcRGBAImage_initPixels(self, info.width, info.height, (const jint*) pixels);
+}
+
+int fcRGBAImage_setPixelsBitmap(fcRGBAImage* self, AndroidBitmapInfo info, const void* pixels) {
+  if (!fcRGBAImage_valid(self))
+    return FC_EXCEPTION_INVALID_STATE;
+
+  // Check parameters
+  if (info.format != ANDROID_BITMAP_FORMAT_RGBA_8888)
+    return FC_EXCEPTION_BITMAP_UNSUPPORTED_FORMAT;
+
+  return fcRGBAImage_setPixels(self, info.width, info.height, (const jint*) pixels);
+}
+
+int fcRGBAImage_updateBitmap(fcRGBAImage* self, AndroidBitmapInfo info, void* pixels) {
+  if (!fcRGBAImage_valid(self))
+    return FC_EXCEPTION_INVALID_STATE;
+
+  // Check parameters
+  if (pixels == NULL)
+    return FC_EXCEPTION_BAD_PARAMETER;
+
+  if (info.format != ANDROID_BITMAP_FORMAT_RGBA_8888)
+    return FC_EXCEPTION_BITMAP_UNSUPPORTED_FORMAT;
+
+  if (info.width != self->dims.x || info.height != self->dims.y)
+    return FC_EXCEPTION_BITMAP_BAD_DIMENSIONS;
+
+  int err = fcByte4Array_syncToNative(self->pixels);
+  if (err)
+    return err;
+
+  return memcpy(pixels, self->pixels->c, self->pixels->len * sizeof(cl_byte4)) ?
+             FC_EXCEPTION_SUCCESS :
+             FC_EXCEPTION_FAILED_COPY;
 }
 
 #endif  // __ANDROID__

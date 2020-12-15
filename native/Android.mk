@@ -37,7 +37,7 @@ LOCAL_SRC_FILES  := \
 	$(MY_SRC_PATH)/math.c \
 	$(MY_SRC_PATH)/ocl.c \
 	$(MY_SRC_PATH)/fancier.cpp \
-	$(MY_SRC_PATH)/utils.cpp \
+	$(MY_SRC_PATH)/utils.c \
 	$(MY_SRC_PATH)/vector_array.c \
 	$(MY_SRC_PATH)/vector.c
 

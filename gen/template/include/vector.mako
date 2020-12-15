@@ -64,8 +64,18 @@ FANCIER_API fc${type|c}${vlen} fc${type|c}${vlen}_unwrap(JNIEnv* env, jobject ve
 
 % for type in types:
 % for vlen in vlens:
-## TODO Mirror the OpenCL/Java constructors
-FANCIER_API fc${type|c}${vlen} fc${type|c}${vlen}_create(${', '.join([f'cl_{type.lower()} {param_name(i)}' for i in range(vlen)])});
+FANCIER_API fc${type|c}${vlen} fc${type|c}${vlen}_create();
+FANCIER_API fc${type|c}${vlen} fc${type|c}${vlen}_create1(cl_${type|l} v);
+FANCIER_API fc${type|c}${vlen} fc${type|c}${vlen}_create${'1' * vlen}(${', '.join([f'cl_{type.lower()} {param_name(i)}' for i in range(vlen)])});
+% for param_set in sorted(set(fill_params(vlen))):
+% if len(param_set) != vlen:
+<%
+  params, args = make_delegate_constructor(param_set, type, vfields, True)
+  ctor_sig = ''.join([str(param_len) for param_len in param_set])
+%>\
+FANCIER_API fc${type|c}${vlen} fc${type|c}${vlen}_create${ctor_sig}(${', '.join(params)});
+% endif
+% endfor
 
 % if vlen > 2 and vlen % 2 == 0:
 FANCIER_API fc${type|c}${vlen//2} fc${type|c}${vlen}_odd(fc${type|c}${vlen} a);

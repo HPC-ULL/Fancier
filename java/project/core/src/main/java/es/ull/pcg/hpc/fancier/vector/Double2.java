@@ -1,5 +1,7 @@
 package es.ull.pcg.hpc.fancier.vector;
 
+import java.nio.ByteBuffer;
+
 import es.ull.pcg.hpc.fancier.Math;
 
 public class Double2 {
@@ -23,6 +25,19 @@ public class Double2 {
     this(vec1.x, vec1.y);
   }
 
+  public static Double2 fromBuffer(ByteBuffer buffer) {
+    Double2 result = new Double2();
+
+    result.x = buffer.getDouble();
+    result.y = buffer.getDouble();
+
+    return result;
+  }
+
+  public void toBuffer(ByteBuffer buffer) {
+    buffer.putDouble(this.x);
+    buffer.putDouble(this.y);
+  }
   public Byte2 convertByte2() {
     return new Byte2((byte) x, (byte) y);
   }

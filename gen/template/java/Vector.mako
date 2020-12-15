@@ -1,6 +1,4 @@
 <%!
-  import re
-
   defaults = {
     'float': '0.0f',
     'double': '0.0',
@@ -9,43 +7,6 @@
     'int': '0',
     'long': '0L'
   }
-
-  def fill_params(target_size, prev_params=tuple(), current_size=0):
-    if current_size == target_size:
-      yield prev_params
-
-    for vlen in range(1, (target_size - current_size) + 1):
-      if vlen in vlens:
-        params = prev_params + (vlen,)
-        for alt in fill_params(target_size, params, current_size + vlen):
-          yield alt
-
-      params = prev_params + (1,) * vlen
-      for alt in fill_params(target_size, params, current_size + vlen):
-        yield alt
-
-  def field_to_varname(field):
-    return re.sub(r"\[|\]", '', field)
-
-  def make_delegate_constructor(param_set, type):
-    params = []
-    args = []
-    obj_index = arg_index = 0
-
-    for param_len in param_set:
-      if param_len == 1:
-        param_name = field_to_varname(vfields[arg_index])
-        params.append(f'{type.lower()} {param_name}')
-        args.append(param_name)
-      else:
-        obj_index += 1
-        other_len = f'{type.capitalize()}{param_len}'
-        params.append(f'{other_len} vec{obj_index}')
-        args += [f'vec{obj_index}.{vfields[i]}' for i in range(param_len)]
-
-      arg_index += param_len
-
-    return params, args
 %>\
 <%def name="simple_elementwise(fname)">
 <%
@@ -70,6 +31,8 @@
 % endif
 </%def>\
 package es.ull.pcg.hpc.fancier.vector;
+
+import java.nio.ByteBuffer;
 
 import es.ull.pcg.hpc.fancier.Math;
 
@@ -99,13 +62,38 @@ public class ${type|c}${vlen} {
 
   % for param_set in sorted(set(fill_params(vlen))):
   % if len(param_set) != vlen:
-<% params, args = make_delegate_constructor(param_set, type) %>\
+<% params, args = make_delegate_constructor(param_set, type, vfields) %>\
   public ${type|c}${vlen}(${', '.join(params)}) {
     this(${', '.join(args)});
   }
 
   % endif
   % endfor
+<% buffer_get = f'get{type.capitalize()}' if type.lower() != 'byte' else 'get' %>\
+<% buffer_put = f'put{type.capitalize()}' if type.lower() != 'byte' else 'put' %>\
+  public static ${type|c}${vlen} fromBuffer(ByteBuffer buffer) {
+    ${type|c}${vlen} result = new ${type|c}${vlen}();
+
+    % for field in vfields[:vlen]:
+    result.${field} = buffer.${buffer_get}();
+    % endfor
+    % if vlen == 3:
+    // Advance index to compensate for memory alignment
+    buffer.${buffer_get}();
+    % endif
+
+    return result;
+  }
+
+  public void toBuffer(ByteBuffer buffer) {
+    % for field in vfields[:vlen]:
+    buffer.${buffer_put}(this.${field});
+    % endfor
+    % if vlen == 3:
+    // Advance index to compensate for memory alignment
+    buffer.${buffer_get}();
+    % endif
+  }
   ## Indexing
   % if vlen > 2 and vlen % 2 == 0:
   public ${type|c}${vlen//2} lo() {

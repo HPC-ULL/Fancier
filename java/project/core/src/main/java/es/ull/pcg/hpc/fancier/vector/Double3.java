@@ -1,5 +1,7 @@
 package es.ull.pcg.hpc.fancier.vector;
 
+import java.nio.ByteBuffer;
+
 import es.ull.pcg.hpc.fancier.Math;
 
 public class Double3 {
@@ -33,6 +35,25 @@ public class Double3 {
     this(vec1.x, vec1.y, vec1.z);
   }
 
+  public static Double3 fromBuffer(ByteBuffer buffer) {
+    Double3 result = new Double3();
+
+    result.x = buffer.getDouble();
+    result.y = buffer.getDouble();
+    result.z = buffer.getDouble();
+    // Advance index to compensate for memory alignment
+    buffer.getDouble();
+
+    return result;
+  }
+
+  public void toBuffer(ByteBuffer buffer) {
+    buffer.putDouble(this.x);
+    buffer.putDouble(this.y);
+    buffer.putDouble(this.z);
+    // Advance index to compensate for memory alignment
+    buffer.getDouble();
+  }
   public Byte3 convertByte3() {
     return new Byte3((byte) x, (byte) y, (byte) z);
   }

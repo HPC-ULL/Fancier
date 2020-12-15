@@ -1,4 +1,4 @@
-import argparse, sys
+import argparse, re, sys
 from mako.template import Template
 
 
@@ -35,6 +35,52 @@ def typed_float_fname(fname, ftype):
 
 def typed_fname(fname, ftype):
   return typed_int_fname(typed_float_fname(fname, ftype), ftype)
+
+def vwidth(vlen):
+  return vlen if vlen != 3 else 4
+
+def fill_params(target_size, prev_params=tuple(), current_size=0):
+  if current_size == target_size:
+    yield prev_params
+
+  for vlen in range(1, (target_size - current_size) + 1):
+    if vlen in vlens:
+      params = prev_params + (vlen,)
+      for alt in fill_params(target_size, params, current_size + vlen):
+        yield alt
+
+    params = prev_params + (1,) * vlen
+    for alt in fill_params(target_size, params, current_size + vlen):
+      yield alt
+
+def field_to_varname(field):
+  return re.sub(r"\[|\]", '', field)
+
+def make_delegate_constructor(param_set, type, vfields, native=False):
+  params = []
+  args = []
+  obj_index = arg_index = 0
+
+  for param_len in param_set:
+    if param_len == 1:
+      param_name = field_to_varname(vfields[arg_index])
+      if native:
+        params.append(f'cl_{type.lower()} {param_name}')
+      else:
+        params.append(f'{type.lower()} {param_name}')
+      args.append(param_name)
+    else:
+      obj_index += 1
+      other_len = f'{type.capitalize()}{param_len}'
+      if native:
+        other_len = 'fc' + other_len
+
+      params.append(f'{other_len} vec{obj_index}')
+      args += [f'vec{obj_index}.{vfields[i]}' for i in range(param_len)]
+
+    arg_index += param_len
+
+  return params, args
 
 # Shared constants
 
@@ -95,15 +141,20 @@ math_float_functions = { 'acos': 1, 'asin': 1, 'atan': 1, 'atan2': 2, 'cbrt': 1,
 # Input processing
 
 def __process_param(param):
-  try:
-    iparam = int(param)
-    return iparam
-  except ValueError:
+  if param == 'True':
+    return True
+  elif param == 'False':
+    return False
+  else:
     try:
-      fparam = float(param)
-      return fparam
+      iparam = int(param)
+      return iparam
     except ValueError:
-      return param
+      try:
+        fparam = float(param)
+        return fparam
+      except ValueError:
+        return param
 
 def __process_format(format_arg):
   fmt = {}
@@ -125,9 +176,11 @@ if __name__ == "__main__":
   p.add_argument('format', nargs='*', help="substitution element, in the format <field>=<value>")
   args = p.parse_args()
 
-  template = Template(filename=args.input, imports=['from template_fill import l, c, vlens, types, inttypes, ' +
-    'floattypes, signatures, defaults, literal_suf, vfields, math_alltype_functions, math_int_functions, ' +
-    'math_float_functions, param_name, typed_int_fname, typed_float_fname, typed_fname'])
+  template = Template(filename=args.input, imports=['from template_fill import l, c, vlens, ' +
+      'types, inttypes, floattypes, signatures, defaults, literal_suf, vfields, ' +
+      'math_alltype_functions, math_int_functions, math_float_functions, param_name, ' +
+      'typed_int_fname, typed_float_fname, typed_fname, vwidth, fill_params, field_to_varname, ' +
+      'make_delegate_constructor'])
   fmt = __process_format(args.format)
 
   fmt_display = ' '.join([f'{fmt_k}={fmt_v}' for fmt_k, fmt_v in fmt.items()])

@@ -1,5 +1,7 @@
 package es.ull.pcg.hpc.fancier.vector;
 
+import java.nio.ByteBuffer;
+
 import es.ull.pcg.hpc.fancier.Math;
 
 public class Byte8 {
@@ -460,6 +462,31 @@ public class Byte8 {
     this(vec1.x, vec1.y, vec1.z, vec1.w, vec1.s[0], vec1.s[1], vec1.s[2], vec1.s[3]);
   }
 
+  public static Byte8 fromBuffer(ByteBuffer buffer) {
+    Byte8 result = new Byte8();
+
+    result.x = buffer.get();
+    result.y = buffer.get();
+    result.z = buffer.get();
+    result.w = buffer.get();
+    result.s[0] = buffer.get();
+    result.s[1] = buffer.get();
+    result.s[2] = buffer.get();
+    result.s[3] = buffer.get();
+
+    return result;
+  }
+
+  public void toBuffer(ByteBuffer buffer) {
+    buffer.put(this.x);
+    buffer.put(this.y);
+    buffer.put(this.z);
+    buffer.put(this.w);
+    buffer.put(this.s[0]);
+    buffer.put(this.s[1]);
+    buffer.put(this.s[2]);
+    buffer.put(this.s[3]);
+  }
   public Byte4 lo() {
     return new Byte4(x, y, z, w);
   }

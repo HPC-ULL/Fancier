@@ -103,7 +103,20 @@ FANCIER_API int fcUtils_writeFileData(int fd, const char* data, size_t count);
 FANCIER_API int fcUtils_readFileData(int fd, char* data, size_t count);
 
 /**
+ * Read a whole file into memory, allocating the necessary space in the heap.
+ */
+FANCIER_API int fcUtils_readFile(const char* dirName, const char* fileName, size_t* length,
+                                 char** out);
+
+/**
  * @}
  */
+
+#ifdef __ANDROID__
+
+FANCIER_API int fcUtils_readAsset(JNIEnv* env, jobject asset_manager, const char* dir_name,
+                                  const char* file_name, size_t* length, char** out);
+
+#endif // __ANDROID__
 
 #endif

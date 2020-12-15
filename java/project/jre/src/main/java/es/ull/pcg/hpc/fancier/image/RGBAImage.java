@@ -4,28 +4,30 @@ import es.ull.pcg.hpc.fancier.vector.Byte4;
 import es.ull.pcg.hpc.fancier.vector.Int2;
 import es.ull.pcg.hpc.fancier.vector.array.Byte4Array;
 
-public class ARGBImage implements AutoCloseable {
+
+public class RGBAImage implements AutoCloseable {
   private long nativeInstancePtr = 0L;
 
-  private ARGBImage(long nativePtr) {
+  private RGBAImage(long nativePtr) {
     initNative(nativePtr);
   }
 
-  public ARGBImage(Int2 dims) {
+  public RGBAImage(Int2 dims) {
     this(dims.x, dims.y);
   }
 
-  public ARGBImage(int width, int height) {
+  public RGBAImage(int width, int height) {
     initNative(width, height);
   }
 
-  public ARGBImage(int[] pixels, int width) {
+  public RGBAImage(int[] pixels, int width) {
     initNative(pixels, width);
   }
 
-  public ARGBImage(ARGBImage other) {
+  public RGBAImage(RGBAImage other) {
     initNative(other);
   }
+
 
   public void release() {
     if (nativeInstancePtr != 0L)
@@ -48,7 +50,7 @@ public class ARGBImage implements AutoCloseable {
   private native void initNative(long nativePtr);
   private native void initNative(int width, int height);
   private native void initNative(int[] pixels, int width);
-  private native void initNative(ARGBImage other);
+  private native void initNative(RGBAImage other);
   private native void releaseNative();
   private native void releaseNativeRef();
 
@@ -62,7 +64,10 @@ public class ARGBImage implements AutoCloseable {
 
   public native Byte4 get(int x, int y);
   public native void set(int x, int y, Byte4 argb);
+
   public native Byte4Array getPixels();
+  public native void setPixels(int[] pixels, int width);
+
   public native Int2 getDims();
   public native int getWidth();
   public native int getHeight();

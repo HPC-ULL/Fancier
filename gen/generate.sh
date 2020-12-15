@@ -24,8 +24,8 @@ if [ "$#" -eq 1 ]; then
   ACTION="$1"
 fi
 
-if ! word_in_list "$ACTION" all c java opencl array math vector; then
-  echo "Usage: $0 [all | c | java | opencl | array | math | vector]"
+if ! word_in_list "$ACTION" all c java opencl array math vector image; then
+  echo "Usage: $0 [all | c | java | opencl | array | math | vector | image]"
   exit 1
 fi
 
@@ -39,10 +39,14 @@ OCL_TEMPLATES="$TEMPLATES/opencl"
 
 SRC_DIR="$DIR/../native/core/src"
 INC_DIR="$DIR/../native/core/include/fancier"
-JAVA_DIR="$DIR/../java/project/core/src/main/java/es/ull/pcg/hpc/fancier"
+JAVA_DIR="$DIR/../java/project"
+JAVA_CORE_DIR="$JAVA_DIR/core/src/main/java/es/ull/pcg/hpc/fancier"
+JAVA_ANDROID_DIR="$JAVA_DIR/android/src/main/java/es/ull/pcg/hpc/fancier"
+JAVA_JRE_DIR="$JAVA_DIR/jre/src/main/java/es/ull/pcg/hpc/fancier"
 OCL_DIR="$DIR/../opencl"
 
-mkdir -p "$INC_DIR" "$SRC_DIR" "$OCL_DIR" "$JAVA_DIR/array" "$JAVA_DIR/vector/array"
+mkdir -p "$INC_DIR" "$SRC_DIR" "$OCL_DIR" "$JAVA_CORE_DIR/array" "$JAVA_CORE_DIR/vector/array"     \
+         "$JAVA_ANDROID_DIR/image" "$JAVA_JRE_DIR/image"
 
 if word_in_list "$ACTION" all c array; then
   python "$FILL" "$SRC_TEMPLATES/array.mako" "$SRC_DIR/array.c"
@@ -61,7 +65,7 @@ if word_in_list "$ACTION" all c vector; then
 fi
 
 if word_in_list "$ACTION" all java math; then
-  python "$FILL" "$JAVA_TEMPLATES/Math.mako" "$JAVA_DIR/Math.java"
+  python "$FILL" "$JAVA_TEMPLATES/Math.mako" "$JAVA_CORE_DIR/Math.java"
 fi
 
 if word_in_list "$ACTION" all opencl math; then
@@ -70,18 +74,24 @@ fi
 
 for cls in Byte Double Float Int Long Short; do
   if word_in_list "$ACTION" all java array; then
-    python "$FILL" "$JAVA_TEMPLATES/Array.mako" "$JAVA_DIR/array/${cls}Array.java" type=$cls
+    python "$FILL" "$JAVA_TEMPLATES/Array.mako" "$JAVA_CORE_DIR/array/${cls}Array.java" type=$cls
   fi
 
   for vlen in 2 3 4 8; do
     if word_in_list "$ACTION" all java vector; then
-      python "$FILL" "$JAVA_TEMPLATES/Vector.mako" "$JAVA_DIR/vector/${cls}${vlen}.java" \
+      python "$FILL" "$JAVA_TEMPLATES/Vector.mako" "$JAVA_CORE_DIR/vector/${cls}${vlen}.java"      \
              type=$cls vlen=$vlen
     fi
 
     if word_in_list "$ACTION" all java array; then
       python "$FILL" "$JAVA_TEMPLATES/VectorArray.mako" \
-             "$JAVA_DIR/vector/array/${cls}${vlen}Array.java" type=$cls vlen=$vlen
+             "$JAVA_CORE_DIR/vector/array/${cls}${vlen}Array.java" type=$cls vlen=$vlen
     fi
   done
 done
+
+if word_in_list "$ACTION" all java image; then
+  python "$FILL" "$JAVA_TEMPLATES/RGBAImage.mako" "$JAVA_ANDROID_DIR/image/RGBAImage.java"         \
+         android=True
+  python "$FILL" "$JAVA_TEMPLATES/RGBAImage.mako" "$JAVA_JRE_DIR/image/RGBAImage.java" android=False
+fi

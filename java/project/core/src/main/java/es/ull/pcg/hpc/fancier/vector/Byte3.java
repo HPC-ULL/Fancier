@@ -1,5 +1,7 @@
 package es.ull.pcg.hpc.fancier.vector;
 
+import java.nio.ByteBuffer;
+
 import es.ull.pcg.hpc.fancier.Math;
 
 public class Byte3 {
@@ -33,6 +35,25 @@ public class Byte3 {
     this(vec1.x, vec1.y, vec1.z);
   }
 
+  public static Byte3 fromBuffer(ByteBuffer buffer) {
+    Byte3 result = new Byte3();
+
+    result.x = buffer.get();
+    result.y = buffer.get();
+    result.z = buffer.get();
+    // Advance index to compensate for memory alignment
+    buffer.get();
+
+    return result;
+  }
+
+  public void toBuffer(ByteBuffer buffer) {
+    buffer.put(this.x);
+    buffer.put(this.y);
+    buffer.put(this.z);
+    // Advance index to compensate for memory alignment
+    buffer.get();
+  }
   public Short3 convertShort3() {
     return new Short3((short) x, (short) y, (short) z);
   }

@@ -1,5 +1,8 @@
 package es.ull.pcg.hpc.fancier.array;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
 public class ByteArray implements AutoCloseable {
   private long nativeInstancePtr = 0L;
 
@@ -42,6 +45,14 @@ public class ByteArray implements AutoCloseable {
     super.finalize();
   }
 
+  public ByteBuffer getBuffer() {
+    return getBufferImpl().order(ByteOrder.nativeOrder());
+  }
+
+  public static void indexBuffer(ByteBuffer buffer, int index) {
+    buffer.position(index * Byte.BYTES);
+  }
+
   private native void initNative(long nativePtr);
   private native void initNative(int n);
   private native void initNative(byte[] v);
@@ -53,8 +64,10 @@ public class ByteArray implements AutoCloseable {
   public native void set(int i, byte x);
   public native long length();
 
-  public native byte[] getContents();
-  public native void setContents(byte[] v);
+  public native byte[] getArray();
+  public native void setArray(byte[] v);
+  private native ByteBuffer getBufferImpl();
+  public native void setBuffer(ByteBuffer buffer);
 
   public native void syncToNative();
   public native void syncToOCL();

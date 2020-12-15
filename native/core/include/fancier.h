@@ -10,6 +10,7 @@
 #define _FANCIER_H_
 
 #include <fancier/array.h>
+#include <fancier/color.h>
 #include <fancier/exception.h>
 #include <fancier/image.h>
 #include <fancier/java.h>

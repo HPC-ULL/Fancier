@@ -62,7 +62,7 @@ FC_JAVA_INSTANCE_HANDLERS(fc${type|c}${vlen}Array);
 //
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_${type|c}${vlen}Array_initNative__L(JNIEnv* env, jobject obj, jlong nativePtr) {
+Java_es_ull_pcg_hpc_fancier_vector_array_${type|c}${vlen}Array_initNative__J(JNIEnv* env, jobject obj, jlong nativePtr) {
   // Create reference
   fc${type|c}${vlen}Array* self = (fc${type|c}${vlen}Array*) nativePtr;
   jint err = fc${type|c}${vlen}Array_createRef(self);
@@ -183,7 +183,7 @@ Java_es_ull_pcg_hpc_fancier_vector_array_${type|c}${vlen}Array_length(JNIEnv* en
 }
 
 JNIEXPORT j${type|l}Array JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_${type|c}${vlen}Array_getContents(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_${type|c}${vlen}Array_getArray(JNIEnv* env, jobject obj) {
   fc${type|c}${vlen}Array* self = fc${type|c}${vlen}Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fc${type|c}${vlen}Array_getJava", NULL);
 
@@ -193,11 +193,11 @@ Java_es_ull_pcg_hpc_fancier_vector_array_${type|c}${vlen}Array_getContents(JNIEn
 
   // Create Java array and populate it
   j${type|l}Array __tmp_ret = FC_JNI_CALL(env, New${type|c}Array, self->len * ${vlen});
-  FC_EXCEPTION_HANDLE_PENDING(env, !__tmp_ret, "fc${type|c}${vlen}Array_getContents", NULL);
+  FC_EXCEPTION_HANDLE_PENDING(env, !__tmp_ret, "fc${type|c}${vlen}Array_getArray", NULL);
 
   // Cannot use JNI's SetArrayRegion directly because of the memory alignment of vector primitives
   j${type|l}* __tmp_elems = FC_JNI_CALL(env, Get${type|c}ArrayElements, __tmp_ret, NULL);
-  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_ARRAY_GET_ELEMENTS, "fc${type|c}${vlen}Array_getContents", NULL);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_ARRAY_GET_ELEMENTS, "fc${type|c}${vlen}Array_getArray", NULL);
 
   for (size_t i = 0; i < self->len; ++i) {
     if (!memcpy(&__tmp_elems[i * ${vlen}], self->c[i].s, sizeof(j${type|l}) * ${vlen})) {
@@ -207,28 +207,57 @@ Java_es_ull_pcg_hpc_fancier_vector_array_${type|c}${vlen}Array_getContents(JNIEn
   }
 
   FC_JNI_CALL(env, Release${type|c}ArrayElements, __tmp_ret, __tmp_elems, 0);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fc${type|c}${vlen}Array_getContents", NULL);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fc${type|c}${vlen}Array_getArray", NULL);
 
   return __tmp_ret;
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_${type|c}${vlen}Array_setContents(JNIEnv* env, jobject obj, j${type|l}Array v) {
+Java_es_ull_pcg_hpc_fancier_vector_array_${type|c}${vlen}Array_setArray(JNIEnv* env, jobject obj, j${type|l}Array v) {
   fc${type|c}${vlen}Array* self = fc${type|c}${vlen}Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fc${type|c}${vlen}Array_getJava", FC_VOID_EXPR);
 
-  FC_EXCEPTION_HANDLE_NULL(env, v, FC_EXCEPTION_BAD_PARAMETER, "fc${type|c}${vlen}Array_setContents:v", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, v, FC_EXCEPTION_BAD_PARAMETER, "fc${type|c}${vlen}Array_setArray:v", FC_VOID_EXPR);
 
   // Initialize array
   jsize __tmp_len = FC_JNI_CALL(env, GetArrayLength, v);
   j${type|l}* __tmp_elems_v = FC_JNI_CALL(env, Get${type|c}ArrayElements, v, NULL);
-  FC_EXCEPTION_HANDLE_NULL(env, __tmp_elems_v, FC_EXCEPTION_ARRAY_GET_ELEMENTS, "fc${type|c}${vlen}Array_setContents:v", FC_VOID_EXPR);
+  FC_EXCEPTION_HANDLE_NULL(env, __tmp_elems_v, FC_EXCEPTION_ARRAY_GET_ELEMENTS, "fc${type|c}${vlen}Array_setArray:v", FC_VOID_EXPR);
 
-  jint err = fc${type|c}${vlen}Array_setContents(self, __tmp_len, __tmp_elems_v);
+  jint err = fc${type|c}${vlen}Array_setArray(self, __tmp_len, __tmp_elems_v);
 
   // Free temporary native array reference
   FC_JNI_CALL(env, Release${type|c}ArrayElements, v, __tmp_elems_v, JNI_ABORT);
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fc${type|c}${vlen}Array_initArray", FC_VOID_EXPR);
+}
+
+JNIEXPORT jobject JNICALL
+Java_es_ull_pcg_hpc_fancier_vector_array_${type|c}${vlen}Array_getBufferImpl(JNIEnv* env, jobject obj) {
+  fc${type|c}${vlen}Array* self = fc${type|c}${vlen}Array_getJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fc${type|c}${vlen}Array_getJava", NULL);
+
+  // Ensure native array is synced
+  jint err = fc${type|c}${vlen}Array_syncToNative(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fc${type|c}${vlen}Array_syncToNative", NULL);
+
+  // Create and return direct byte buffer pointing to the native data
+  return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(cl_${type|l}${vlen}));
+}
+
+JNIEXPORT void JNICALL
+Java_es_ull_pcg_hpc_fancier_vector_array_${type|c}${vlen}Array_setBuffer(JNIEnv* env, jobject obj, jobject v) {
+  fc${type|c}${vlen}Array* self = fc${type|c}${vlen}Array_getJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fc${type|c}${vlen}Array_getJava", FC_VOID_EXPR);
+
+  FC_EXCEPTION_HANDLE_NULL(env, v, FC_EXCEPTION_BAD_PARAMETER, "fc${type|c}${vlen}Array_setBuffer:v", FC_VOID_EXPR);
+
+  // Get buffer size and pointer
+  jlong __tmp_len = FC_JNI_CALL(env, GetDirectBufferCapacity, v);
+  void* __tmp_elems_v = FC_JNI_CALL(env, GetDirectBufferAddress, v);
+  FC_EXCEPTION_HANDLE_NULL(env, __tmp_elems_v, FC_EXCEPTION_ARRAY_GET_ELEMENTS, "fc${type|c}${vlen}Array_setBuffer:v", FC_VOID_EXPR);
+
+  jint err = fc${type|c}${vlen}Array_setBuffer(self, __tmp_len, __tmp_elems_v);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fc${type|c}${vlen}Array_setBuffer", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
@@ -324,7 +353,7 @@ int fc${type|c}${vlen}Array_initArray(fc${type|c}${vlen}Array* self, int len, co
 
   // Initialize array
   self->location = FC_ARRAY_LOCATION_OPENCL;
-  err = fc${type|c}${vlen}Array_setContents(self, len, v);
+  err = fc${type|c}${vlen}Array_setArray(self, len, v);
 
   if (err) {
     self->location = FC_ARRAY_LOCATION_NONE;
@@ -355,7 +384,7 @@ int fc${type|c}${vlen}Array_initCopy(fc${type|c}${vlen}Array* self, const fc${ty
 
   // Copy array data
   if (array->location == FC_ARRAY_LOCATION_OPENCL)
-    err = clEnqueueCopyBuffer(fcOpenCL_rt.queue, array->ocl, self->ocl, 0, 0, self->len * sizeof(cl_${type|l}), 0, NULL, NULL);
+    err = clEnqueueCopyBuffer(fcOpenCL_rt.queue, array->ocl, self->ocl, 0, 0, self->len * sizeof(cl_${type|l}${vlen}), 0, NULL, NULL);
   else /* FC_ARRAY_LOCATION_NATIVE */
     err = clEnqueueWriteBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, 0, self->len * sizeof(cl_${type|l}${vlen}), array->c, 0, NULL, NULL);
 
@@ -448,7 +477,7 @@ int fc${type|c}${vlen}Array_set(fc${type|c}${vlen}Array* self, int i, fc${type|c
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fc${type|c}${vlen}Array_setContents(fc${type|c}${vlen}Array* self, int len, j${type|l}* v) {
+int fc${type|c}${vlen}Array_setArray(fc${type|c}${vlen}Array* self, jsize len, const j${type|l}* v) {
   int err;
 
   // Check parameters
@@ -470,6 +499,23 @@ int fc${type|c}${vlen}Array_setContents(fc${type|c}${vlen}Array* self, int len, 
   }
 
   return FC_EXCEPTION_SUCCESS;
+}
+
+int fc${type|c}${vlen}Array_setBuffer(fc${type|c}${vlen}Array* self, jlong len, const void* v) {
+  // Check parameters
+  if (len % sizeof(cl_${type|l}${vlen}) != 0 || len / sizeof(cl_${type|l}${vlen}) != self->len)
+    return FC_EXCEPTION_ARRAY_BAD_LENGTH;
+
+  if (v == NULL)
+    return FC_EXCEPTION_BAD_PARAMETER;
+
+  // TODO If not unified memory, don't sync and just set native data and update location
+  // Initialize array
+  // Map to host, and write data considering alignment
+  int err = fc${type|c}${vlen}Array_syncToNative(self);
+  if (err) return err;
+
+  return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
 int fc${type|c}${vlen}Array_syncToNative(fc${type|c}${vlen}Array* self) {

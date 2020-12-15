@@ -54,14 +54,19 @@ FANCIER_API void fcVectorArray_releaseJNI(JNIEnv* env);
 FANCIER_API fc${type|c}${vlen}Array* fc${type|c}${vlen}Array_getJava(JNIEnv* env, jobject obj);
 FANCIER_API int fc${type|c}${vlen}Array_createRef(fc${type|c}${vlen}Array* array);
 FANCIER_API int fc${type|c}${vlen}Array_releaseRef(fc${type|c}${vlen}Array* array);
+
 FANCIER_API int fc${type|c}${vlen}Array_init(fc${type|c}${vlen}Array* self);
 FANCIER_API int fc${type|c}${vlen}Array_initSize(fc${type|c}${vlen}Array* self, int n);
-FANCIER_API int fc${type|c}${vlen}Array_initArray(fc${type|c}${vlen}Array* self, int len, const j${type|l}* v);
+FANCIER_API int fc${type|c}${vlen}Array_initArray(fc${type|c}${vlen}Array* self, jsize len, const j${type|l}* v);
 FANCIER_API int fc${type|c}${vlen}Array_initCopy(fc${type|c}${vlen}Array* self, const fc${type|c}${vlen}Array* array);
 FANCIER_API int fc${type|c}${vlen}Array_release(fc${type|c}${vlen}Array* self);
+
 FANCIER_API fc${type|c}${vlen} fc${type|c}${vlen}Array_get(fc${type|c}${vlen}Array* self, int i, int* err);
 FANCIER_API int fc${type|c}${vlen}Array_set(fc${type|c}${vlen}Array* self, int i, fc${type|c}${vlen} x);
-FANCIER_API int fc${type|c}${vlen}Array_setContents(fc${type|c}${vlen}Array* self, int len, j${type|l}* v);
+
+FANCIER_API int fc${type|c}${vlen}Array_setArray(fc${type|c}${vlen}Array* self, jsize len, const j${type|l}* v);
+FANCIER_API int fc${type|c}${vlen}Array_setBuffer(fc${type|c}${vlen}Array* self, jlong len, const void* v);
+
 FANCIER_API int fc${type|c}${vlen}Array_syncToNative(fc${type|c}${vlen}Array* self);
 FANCIER_API int fc${type|c}${vlen}Array_syncToOCL(fc${type|c}${vlen}Array* self);
 FANCIER_API jboolean fc${type|c}${vlen}Array_valid(const fc${type|c}${vlen}Array* self);

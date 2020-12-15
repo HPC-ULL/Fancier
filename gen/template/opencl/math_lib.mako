@@ -3,6 +3,8 @@
   types[0] = 'char'
   inttypes = types[:4]
 %>\
+#pragma OPENCL EXTENSION cl_khr_fp64 : enable
+
 % for type in floattypes:
 ${type|l} ${typed_float_fname('scalb', type)}(${type|l} a, int scaleFactor) {
   return a * exp2((${type|l}) scaleFactor);
@@ -16,6 +18,7 @@ ${type|l}${vlen} ${type|l}${vlen}_scalb(${type|l}${vlen} a, int${vlen} scaleFact
 % endfor
 % endfor
 % for type in inttypes:
+## TODO clampi, so that builtin clamp is not shadowed
 ${type|l} ${typed_int_fname('clamp', type)}(${type|l} a, ${type|l} min, ${type|l} max) {
   return a < min? min : (a > max? max : a);
 }

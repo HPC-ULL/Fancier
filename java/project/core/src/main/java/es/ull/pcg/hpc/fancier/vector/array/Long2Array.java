@@ -2,6 +2,10 @@ package es.ull.pcg.hpc.fancier.vector.array;
 
 import es.ull.pcg.hpc.fancier.vector.Long2;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
+
 public class Long2Array implements AutoCloseable {
   private long nativeInstancePtr = 0L;
 
@@ -44,6 +48,14 @@ public class Long2Array implements AutoCloseable {
     super.finalize();
   }
 
+  public ByteBuffer getBuffer() {
+    return getBufferImpl().order(ByteOrder.nativeOrder());
+  }
+
+  public static void indexBuffer(ByteBuffer buffer, int index) {
+    buffer.position(index * Long.BYTES * 2);
+  }
+
   private native void initNative(long nativePtr);
   private native void initNative(int n);
   private native void initNative(long[] v);
@@ -55,8 +67,10 @@ public class Long2Array implements AutoCloseable {
   public native void set(int i, Long2 x);
   public native long length();
 
-  public native long[] getContents();
-  public native void setContents(long[] v);
+  public native long[] getArray();
+  public native void setArray(long[] v);
+  private native ByteBuffer getBufferImpl();
+  public native void setBuffer(ByteBuffer v);
 
   public native void syncToNative();
   public native void syncToOCL();

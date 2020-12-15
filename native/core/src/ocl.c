@@ -2,17 +2,15 @@
 #define FC_LOG_TAG "ocl"
 #include <fancier/log.h>
 #include <fancier/ocl.h>
+#include <fancier/utils.h>
 
 #include <inttypes.h>
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef __ANDROID__
-#include <android/asset_manager.h>
-#endif  // __ANDROID__
 
-
-#define BUFFER_SIZE 1024 * 8  // 8K buffer
+#define BUFFER_SIZE   1024 * 8  // 8K buffer
+#define MATH_LIB_NAME "math_lib.cl"
 
 
 // Public global variables
@@ -273,7 +271,7 @@ void fcOpenCL_logInfo() {
     free(platforms);
 }
 
-FANCIER_API cl_program fcOpenCL_compileKernel(int count, const char** src, cl_int* err) {
+cl_program fcOpenCL_compileKernel(int count, const char** src, cl_int* err) {
   cl_int __tmp_err;
   if (err == NULL)
     err = &__tmp_err;
@@ -286,32 +284,61 @@ FANCIER_API cl_program fcOpenCL_compileKernel(int count, const char** src, cl_in
   return program;
 }
 
-FANCIER_API cl_program fcOpenCL_compileKernelFile(const char* kernel_dir, const char* file_name,
-                                                  cl_int* err) {
-  // TODO Implement function
-  // Read file + math_lib.cl and call fcOpenCL_compileKernel
-  return NULL;
+cl_program fcOpenCL_compileKernelFile(const char* kernel_dir, const char* file_name, cl_int* err) {
+  cl_int __tmp_err;
+  if (err == NULL)
+    err = &__tmp_err;
+
+  size_t lengths[2];
+  char* src[2];
+
+  // Read Fancier OpenCL library
+  *err = fcUtils_readFile(kernel_dir, MATH_LIB_NAME, &lengths[0], &src[0]);
+  if (*err)
+    return NULL;
+
+  // Read program
+  *err = fcUtils_readFile(kernel_dir, file_name, &lengths[1], &src[1]);
+  if (*err) {
+    free(src[0]);
+    return NULL;
+  }
+
+  // Compile and return program
+  cl_program program = fcOpenCL_compileKernel(2, (const char**) src, err);
+  free(src[0]);
+  free(src[1]);
+  return program;
 }
 
 #ifdef __ANDROID__
 
-FANCIER_API cl_program fcOpenCL_compileKernelAsset(JNIEnv* env, jobject mgr, const char* kernel_dir,
-                                                   const char* file_name, cl_int* err) {
-  // TODO Implement function
-  /*
-  // Read file + math_lib.cl and call fcOpenCL_compileKernel
-  AAssetDir* assetDir = AAssetManager_openDir(asset_manager, kernel_dir);
-  const char* filename;
-  while ((filename = AAssetDir_getNextFileName(assetDir)) != NULL) {
-    if (strcmp(filename, file_name) == 0) {
-      // https://code-examples.net/en/q/cb350b
-      AAsset *asset = AAssetManager_open(mgr, filename, AASSET_MODE_STREAMING);
-      AAsset_close(asset);
-    }
+cl_program fcOpenCL_compileKernelAsset(JNIEnv* env, jobject asset_manager, const char* kernel_dir,
+                                       const char* file_name, cl_int* err) {
+  cl_int __tmp_err;
+  if (err == NULL)
+    err = &__tmp_err;
+
+  size_t lengths[2];
+  char* src[2];
+
+  // Read Fancier OpenCL library
+  *err = fcUtils_readAsset(env, asset_manager, kernel_dir, MATH_LIB_NAME, &lengths[0], &src[0]);
+  if (*err)
+    return NULL;
+
+  // Read program
+  *err = fcUtils_readAsset(env, asset_manager, kernel_dir, file_name, &lengths[1], &src[1]);
+  if (*err) {
+    free(src[0]);
+    return NULL;
   }
-  AAssetDir_close(assetDir);
-  */
-  return NULL;
+
+  // Compile and return program
+  cl_program program = fcOpenCL_compileKernel(2, (const char**) src, err);
+  free(src[0]);
+  free(src[1]);
+  return program;
 }
 
 #endif  // __ANDROID__

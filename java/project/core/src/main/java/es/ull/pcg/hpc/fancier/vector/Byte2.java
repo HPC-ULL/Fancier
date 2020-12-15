@@ -1,5 +1,7 @@
 package es.ull.pcg.hpc.fancier.vector;
 
+import java.nio.ByteBuffer;
+
 import es.ull.pcg.hpc.fancier.Math;
 
 public class Byte2 {
@@ -23,6 +25,19 @@ public class Byte2 {
     this(vec1.x, vec1.y);
   }
 
+  public static Byte2 fromBuffer(ByteBuffer buffer) {
+    Byte2 result = new Byte2();
+
+    result.x = buffer.get();
+    result.y = buffer.get();
+
+    return result;
+  }
+
+  public void toBuffer(ByteBuffer buffer) {
+    buffer.put(this.x);
+    buffer.put(this.y);
+  }
   public Short2 convertShort2() {
     return new Short2((short) x, (short) y);
   }
