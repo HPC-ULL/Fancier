@@ -57,8 +57,9 @@ FANCIER_API cl_program fcOpenCL_compileKernelFile(const char* kernel_dir, const 
                                                   cl_int* err);
 
 #ifdef __ANDROID__
-FANCIER_API cl_program fcOpenCL_compileKernelAsset(JNIEnv* env, jobject mgr, const char* kernel_dir,
-                                                   const char* file_name, cl_int* err);
+FANCIER_API cl_program fcOpenCL_compileKernelAsset(JNIEnv* env, jobject asset_manager,
+                                                   const char* kernel_dir, const char* file_name,
+                                                   cl_int* err);
 #endif  // __ANDROID__
 
 

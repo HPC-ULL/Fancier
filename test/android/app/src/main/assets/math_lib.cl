@@ -1,3 +1,5 @@
+#pragma OPENCL EXTENSION cl_khr_fp64 : enable
+
 float scalbf(float a, int scaleFactor) {
   return a * exp2((float) scaleFactor);
 }
