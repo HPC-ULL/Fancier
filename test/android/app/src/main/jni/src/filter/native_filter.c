@@ -32,7 +32,6 @@ typedef struct {
   cl_program m_program;
   cl_kernel m_kernels[MAX_KERNELS];
   int m_kernel_id;
-  fcRGBAImage* m_input;
 } NativeImageFilter;
 
 enum {
@@ -115,7 +114,8 @@ Java_es_ull_pcg_hpc_fancier_androidtest_model_NativeImageFilter_setupImpl(JNIEnv
     kernel_names[0] = "posterize";
     break;
   default:
-    FC_LOGERROR_FMT("Unknown kernel id: %d", kernel_id);
+    FC_LOGERROR_FMT("Kernel ID: %d not implemented", kernel_id);
+    fcException_throwNative(env, __FILE__, __LINE__, "NativeImageFilter_setupImpl", FC_EXCEPTION_OTHER);
     num_kernels = 0;
     break;
   }
@@ -655,24 +655,6 @@ cleanup:
 
 static int run_posterize(NativeImageFilter* self, fcRGBAImage* input, fcRGBAImage* output) {
   int err;
-
-  // Copy input image into output, to use it the output as read-write buffer
-  // TODO Replace with {fcRGBAImage|fc<X>Array|fc<X><N>Array}_setCopy()
-  err = fcRGBAImage_syncToNative(input);
-  if (err)
-    return err;
-
-  err = fcByte4Array_setBuffer(output->pixels, output->pixels->len * sizeof(cl_byte4), input->pixels->c);
-  if (err)
-    return err;
-
-  err = fcRGBAImage_syncToOCL(input);
-  if (err)
-    return err;
-
-  err = fcRGBAImage_syncToOCL(output);
-  if (err)
-    return err;
 
   // Execute kernel
   size_t sz[] = {input->dims.x, input->dims.y};

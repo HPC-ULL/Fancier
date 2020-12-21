@@ -29,16 +29,8 @@ uchar4 bilinear_interp(global const uchar4* img, uint2 dims, float2 coord) {
   return convert_uchar4_sat(out);
 }
 
-float3 matrix3x3_vector_multiply(global const float3* m, float3 v) {
-  const float3 row0 = m[0] * v; // TODO dot
-  const float3 row1 = m[1] * v;
-  const float3 row2 = m[2] * v;
-
-  return (float3)(
-      row0.x + row0.y + row0.z,
-      row1.x + row1.y + row1.z,
-      row2.x + row2.y + row2.z
-  );
+inline float3 matrix3x3_vector_multiply(global const float3* m, float3 v) {
+  return (float3)(dot(m[0], v), dot(m[1], v), dot(m[2], v));
 }
 
 // Kernels
@@ -227,8 +219,8 @@ kernel void median(global const uchar4* in, const int radius, global uchar4* out
       int x = clampi((int) id.x + rx, 0, (int) dims.x - 1);
       int y = clampi((int) id.y + ry, 0, (int) dims.y - 1);
 
-      const uchar3 pixel = in[index_img(dims, x, y)].xyz;
-      val[pixel.x].xyz += 1;
+      const uchar pixel = in[index_img(dims, x, y)].x;
+      val[pixel].xyz += 1;
     }
   }
 
@@ -237,21 +229,21 @@ kernel void median(global const uchar4* in, const int radius, global uchar4* out
   uchar4 out_pixel = 0xff;
 
   for (uchar i = 0; any(out_pixel.xyz == (uchar3)(0xff)); ++i) {
-    if (out_pixel.x == 0xff){
+    if (out_pixel.x == 0xff) {
       rgb.x += val[i].x;
 
       if (rgb.x >= median)
         out_pixel.x = i;
     }
 
-    if (out_pixel.y == 0xff){
+    if (out_pixel.y == 0xff) {
       rgb.y += val[i].y;
 
       if (rgb.y >= median)
         out_pixel.y = i;
     }
 
-    if (out_pixel.z == 0xff){
+    if (out_pixel.z == 0xff) {
       rgb.z += val[i].z;
 
       if (rgb.z >= median)
