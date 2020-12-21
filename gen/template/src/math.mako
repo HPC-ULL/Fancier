@@ -37,14 +37,6 @@ Java_es_ull_pcg_hpc_fancier_Math_${fname}__${signatures[type] * nparams}(JNIEnv*
 //
 
 
-${jni_macro('abs', types, 1)}\
-${jni_macro('max', types, 2)}\
-${jni_macro('min', types, 2)}\
-${jni_macro('clamp', types, 3)}\
-${jni_macro('mix', types, 3)}\
-${jni_macro('absDiff', inttypes, 2)}\
-${jni_macro('maxMag', types, 2)}\
-${jni_macro('minMag', types, 2)}\
 ${jni('acos', floattypes, 1)}\
 ${jni('asin', floattypes, 1)}\
 ${jni('atan', floattypes, 1)}\
@@ -135,13 +127,6 @@ Java_es_ull_pcg_hpc_fancier_Math_${fname}__${signatures[type]}I(JNIEnv* env, jcl
 }
 
 % endfor
-% endfor
-% for type in types:
-JNIEXPORT j${type} JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_select__${signatures[type] * 2}I(JNIEnv* env, jclass cls, j${type} x, j${type} y, jint z) {
-  return fcMath_select(x, y, z);
-}
-
 % endfor
 
 //
@@ -440,8 +425,7 @@ cl_${type} fcMath_${typed_fname('rootn', type)}(cl_${type} x, cl_int y) {
 }
 
 cl_${type} fcMath_${typed_fname('rsqrt', type)}(cl_${type} x) {
-  // TODO Implement function
-  return ${defaults[type]};
+  return fcMath_${typed_fname('pow', type)}(x, -0.5);
 }
 
 cl_${type} fcMath_${typed_fname('tgamma', type)}(cl_${type} x) {

@@ -71,54 +71,192 @@ public class Math {
 
   // All types
 
-  public static native byte abs(byte a);
-  public static native short abs(short a);
-  public static native int abs(int a);
-  public static native long abs(long a);
-  public static native float abs(float a);
-  public static native double abs(double a);
-  public static native byte max(byte a, byte b);
-  public static native short max(short a, short b);
-  public static native int max(int a, int b);
-  public static native long max(long a, long b);
-  public static native float max(float a, float b);
-  public static native double max(double a, double b);
-  public static native byte min(byte a, byte b);
-  public static native short min(short a, short b);
-  public static native int min(int a, int b);
-  public static native long min(long a, long b);
-  public static native float min(float a, float b);
-  public static native double min(double a, double b);
-  public static native byte clamp(byte a, byte b, byte c);
-  public static native short clamp(short a, short b, short c);
-  public static native int clamp(int a, int b, int c);
-  public static native long clamp(long a, long b, long c);
-  public static native float clamp(float a, float b, float c);
-  public static native double clamp(double a, double b, double c);
-  public static native byte mix(byte a, byte b, byte c);
-  public static native short mix(short a, short b, short c);
-  public static native int mix(int a, int b, int c);
-  public static native long mix(long a, long b, long c);
-  public static native float mix(float a, float b, float c);
-  public static native double mix(double a, double b, double c);
-  public static native byte maxMag(byte a, byte b);
-  public static native short maxMag(short a, short b);
-  public static native int maxMag(int a, int b);
-  public static native long maxMag(long a, long b);
-  public static native float maxMag(float a, float b);
-  public static native double maxMag(double a, double b);
-  public static native byte minMag(byte a, byte b);
-  public static native short minMag(short a, short b);
-  public static native int minMag(int a, int b);
-  public static native long minMag(long a, long b);
-  public static native float minMag(float a, float b);
-  public static native double minMag(double a, double b);
-  public static native byte select(byte a, byte b, int c);
-  public static native short select(short a, short b, int c);
-  public static native int select(int a, int b, int c);
-  public static native long select(long a, long b, int c);
-  public static native float select(float a, float b, int c);
-  public static native double select(double a, double b, int c);
+  public static byte abs(byte a) {
+    return a < '\0'? (byte) -a : a;
+  }
+
+  public static byte max(byte a, byte b) {
+    return a > b? a : b;
+  }
+
+  public static byte min(byte a, byte b) {
+    return a < b? a : b;
+  }
+
+  public static byte clamp(byte a, byte b, byte c) {
+    return a < b? b : (a > c? c : a);
+  }
+
+  public static byte mix(byte a, byte b, byte c) {
+    return (byte) (a + (b - a) * c);
+  }
+
+  public static byte maxMag(byte a, byte b) {
+    return abs(a) > abs(b)? a : b;
+  }
+
+  public static byte minMag(byte a, byte b) {
+    return abs(a) < abs(b)? a : b;
+  }
+
+  public static byte select(byte a, byte b, int c) {
+    return c == 0? a : b;
+  }
+  public static short abs(short a) {
+    return a < 0? (short) -a : a;
+  }
+
+  public static short max(short a, short b) {
+    return a > b? a : b;
+  }
+
+  public static short min(short a, short b) {
+    return a < b? a : b;
+  }
+
+  public static short clamp(short a, short b, short c) {
+    return a < b? b : (a > c? c : a);
+  }
+
+  public static short mix(short a, short b, short c) {
+    return (short) (a + (b - a) * c);
+  }
+
+  public static short maxMag(short a, short b) {
+    return abs(a) > abs(b)? a : b;
+  }
+
+  public static short minMag(short a, short b) {
+    return abs(a) < abs(b)? a : b;
+  }
+
+  public static short select(short a, short b, int c) {
+    return c == 0? a : b;
+  }
+  public static int abs(int a) {
+    return a < 0? (int) -a : a;
+  }
+
+  public static int max(int a, int b) {
+    return a > b? a : b;
+  }
+
+  public static int min(int a, int b) {
+    return a < b? a : b;
+  }
+
+  public static int clamp(int a, int b, int c) {
+    return a < b? b : (a > c? c : a);
+  }
+
+  public static int mix(int a, int b, int c) {
+    return (int) (a + (b - a) * c);
+  }
+
+  public static int maxMag(int a, int b) {
+    return abs(a) > abs(b)? a : b;
+  }
+
+  public static int minMag(int a, int b) {
+    return abs(a) < abs(b)? a : b;
+  }
+
+  public static int select(int a, int b, int c) {
+    return c == 0? a : b;
+  }
+  public static long abs(long a) {
+    return a < 0L? (long) -a : a;
+  }
+
+  public static long max(long a, long b) {
+    return a > b? a : b;
+  }
+
+  public static long min(long a, long b) {
+    return a < b? a : b;
+  }
+
+  public static long clamp(long a, long b, long c) {
+    return a < b? b : (a > c? c : a);
+  }
+
+  public static long mix(long a, long b, long c) {
+    return (long) (a + (b - a) * c);
+  }
+
+  public static long maxMag(long a, long b) {
+    return abs(a) > abs(b)? a : b;
+  }
+
+  public static long minMag(long a, long b) {
+    return abs(a) < abs(b)? a : b;
+  }
+
+  public static long select(long a, long b, int c) {
+    return c == 0? a : b;
+  }
+  public static float abs(float a) {
+    return a < 0.0f? (float) -a : a;
+  }
+
+  public static float max(float a, float b) {
+    return a > b? a : b;
+  }
+
+  public static float min(float a, float b) {
+    return a < b? a : b;
+  }
+
+  public static float clamp(float a, float b, float c) {
+    return a < b? b : (a > c? c : a);
+  }
+
+  public static float mix(float a, float b, float c) {
+    return (float) (a + (b - a) * c);
+  }
+
+  public static float maxMag(float a, float b) {
+    return abs(a) > abs(b)? a : b;
+  }
+
+  public static float minMag(float a, float b) {
+    return abs(a) < abs(b)? a : b;
+  }
+
+  public static float select(float a, float b, int c) {
+    return c == 0? a : b;
+  }
+  public static double abs(double a) {
+    return a < 0.0? (double) -a : a;
+  }
+
+  public static double max(double a, double b) {
+    return a > b? a : b;
+  }
+
+  public static double min(double a, double b) {
+    return a < b? a : b;
+  }
+
+  public static double clamp(double a, double b, double c) {
+    return a < b? b : (a > c? c : a);
+  }
+
+  public static double mix(double a, double b, double c) {
+    return (double) (a + (b - a) * c);
+  }
+
+  public static double maxMag(double a, double b) {
+    return abs(a) > abs(b)? a : b;
+  }
+
+  public static double minMag(double a, double b) {
+    return abs(a) < abs(b)? a : b;
+  }
+
+  public static double select(double a, double b, int c) {
+    return c == 0? a : b;
+  }
 
   // Int types
 

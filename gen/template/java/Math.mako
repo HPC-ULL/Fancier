@@ -71,13 +71,38 @@ public class Math {
 
   // All types
 
-% for fname, num_params in math_alltype_functions.items():
 % for type in types:
-  public static native ${type|l} ${fname}(${', '.join([f'{type.lower()} {chr(i + ord("a"))}' for i in range(num_params)])});
-% endfor
-% endfor
-% for type in types:
-  public static native ${type|l} select(${type|l} a, ${type} b, int c);
+  public static ${type|l} abs(${type|l} a) {
+    return a < ${defaults[type.lower()]}? (${type|l}) -a : a;
+  }
+
+  public static ${type|l} max(${type|l} a, ${type|l} b) {
+    return a > b? a : b;
+  }
+
+  public static ${type|l} min(${type|l} a, ${type|l} b) {
+    return a < b? a : b;
+  }
+
+  public static ${type|l} clamp(${type|l} a, ${type|l} b, ${type|l} c) {
+    return a < b? b : (a > c? c : a);
+  }
+
+  public static ${type|l} mix(${type|l} a, ${type|l} b, ${type|l} c) {
+    return (${type|l}) (a + (b - a) * c);
+  }
+
+  public static ${type|l} maxMag(${type|l} a, ${type|l} b) {
+    return abs(a) > abs(b)? a : b;
+  }
+
+  public static ${type|l} minMag(${type|l} a, ${type|l} b) {
+    return abs(a) < abs(b)? a : b;
+  }
+
+  public static ${type|l} select(${type|l} a, ${type|l} b, int c) {
+    return c == 0? a : b;
+  }
 % endfor
 
   // Int types

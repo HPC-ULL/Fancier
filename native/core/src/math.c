@@ -10,236 +10,6 @@
 //
 
 
-JNIEXPORT jbyte JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_abs__B(JNIEnv* env, jclass cls, jbyte a) {
-  return fcMath_abs(a);
-}
-
-JNIEXPORT jshort JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_abs__S(JNIEnv* env, jclass cls, jshort a) {
-  return fcMath_abs(a);
-}
-
-JNIEXPORT jint JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_abs__I(JNIEnv* env, jclass cls, jint a) {
-  return fcMath_abs(a);
-}
-
-JNIEXPORT jlong JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_abs__J(JNIEnv* env, jclass cls, jlong a) {
-  return fcMath_abs(a);
-}
-
-JNIEXPORT jfloat JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_abs__F(JNIEnv* env, jclass cls, jfloat a) {
-  return fcMath_abs(a);
-}
-
-JNIEXPORT jdouble JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_abs__D(JNIEnv* env, jclass cls, jdouble a) {
-  return fcMath_abs(a);
-}
-
-JNIEXPORT jbyte JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_max__BB(JNIEnv* env, jclass cls, jbyte a, jbyte b) {
-  return fcMath_max(a, b);
-}
-
-JNIEXPORT jshort JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_max__SS(JNIEnv* env, jclass cls, jshort a, jshort b) {
-  return fcMath_max(a, b);
-}
-
-JNIEXPORT jint JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_max__II(JNIEnv* env, jclass cls, jint a, jint b) {
-  return fcMath_max(a, b);
-}
-
-JNIEXPORT jlong JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_max__JJ(JNIEnv* env, jclass cls, jlong a, jlong b) {
-  return fcMath_max(a, b);
-}
-
-JNIEXPORT jfloat JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_max__FF(JNIEnv* env, jclass cls, jfloat a, jfloat b) {
-  return fcMath_max(a, b);
-}
-
-JNIEXPORT jdouble JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_max__DD(JNIEnv* env, jclass cls, jdouble a, jdouble b) {
-  return fcMath_max(a, b);
-}
-
-JNIEXPORT jbyte JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_min__BB(JNIEnv* env, jclass cls, jbyte a, jbyte b) {
-  return fcMath_min(a, b);
-}
-
-JNIEXPORT jshort JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_min__SS(JNIEnv* env, jclass cls, jshort a, jshort b) {
-  return fcMath_min(a, b);
-}
-
-JNIEXPORT jint JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_min__II(JNIEnv* env, jclass cls, jint a, jint b) {
-  return fcMath_min(a, b);
-}
-
-JNIEXPORT jlong JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_min__JJ(JNIEnv* env, jclass cls, jlong a, jlong b) {
-  return fcMath_min(a, b);
-}
-
-JNIEXPORT jfloat JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_min__FF(JNIEnv* env, jclass cls, jfloat a, jfloat b) {
-  return fcMath_min(a, b);
-}
-
-JNIEXPORT jdouble JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_min__DD(JNIEnv* env, jclass cls, jdouble a, jdouble b) {
-  return fcMath_min(a, b);
-}
-
-JNIEXPORT jbyte JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_clamp__BBB(JNIEnv* env, jclass cls, jbyte a, jbyte b, jbyte c) {
-  return fcMath_clamp(a, b, c);
-}
-
-JNIEXPORT jshort JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_clamp__SSS(JNIEnv* env, jclass cls, jshort a, jshort b, jshort c) {
-  return fcMath_clamp(a, b, c);
-}
-
-JNIEXPORT jint JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_clamp__III(JNIEnv* env, jclass cls, jint a, jint b, jint c) {
-  return fcMath_clamp(a, b, c);
-}
-
-JNIEXPORT jlong JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_clamp__JJJ(JNIEnv* env, jclass cls, jlong a, jlong b, jlong c) {
-  return fcMath_clamp(a, b, c);
-}
-
-JNIEXPORT jfloat JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_clamp__FFF(JNIEnv* env, jclass cls, jfloat a, jfloat b, jfloat c) {
-  return fcMath_clamp(a, b, c);
-}
-
-JNIEXPORT jdouble JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_clamp__DDD(JNIEnv* env, jclass cls, jdouble a, jdouble b, jdouble c) {
-  return fcMath_clamp(a, b, c);
-}
-
-JNIEXPORT jbyte JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_mix__BBB(JNIEnv* env, jclass cls, jbyte a, jbyte b, jbyte c) {
-  return fcMath_mix(a, b, c);
-}
-
-JNIEXPORT jshort JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_mix__SSS(JNIEnv* env, jclass cls, jshort a, jshort b, jshort c) {
-  return fcMath_mix(a, b, c);
-}
-
-JNIEXPORT jint JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_mix__III(JNIEnv* env, jclass cls, jint a, jint b, jint c) {
-  return fcMath_mix(a, b, c);
-}
-
-JNIEXPORT jlong JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_mix__JJJ(JNIEnv* env, jclass cls, jlong a, jlong b, jlong c) {
-  return fcMath_mix(a, b, c);
-}
-
-JNIEXPORT jfloat JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_mix__FFF(JNIEnv* env, jclass cls, jfloat a, jfloat b, jfloat c) {
-  return fcMath_mix(a, b, c);
-}
-
-JNIEXPORT jdouble JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_mix__DDD(JNIEnv* env, jclass cls, jdouble a, jdouble b, jdouble c) {
-  return fcMath_mix(a, b, c);
-}
-
-JNIEXPORT jbyte JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_absDiff__BB(JNIEnv* env, jclass cls, jbyte a, jbyte b) {
-  return fcMath_absDiff(a, b);
-}
-
-JNIEXPORT jshort JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_absDiff__SS(JNIEnv* env, jclass cls, jshort a, jshort b) {
-  return fcMath_absDiff(a, b);
-}
-
-JNIEXPORT jint JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_absDiff__II(JNIEnv* env, jclass cls, jint a, jint b) {
-  return fcMath_absDiff(a, b);
-}
-
-JNIEXPORT jlong JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_absDiff__JJ(JNIEnv* env, jclass cls, jlong a, jlong b) {
-  return fcMath_absDiff(a, b);
-}
-
-JNIEXPORT jbyte JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_maxMag__BB(JNIEnv* env, jclass cls, jbyte a, jbyte b) {
-  return fcMath_maxMag(a, b);
-}
-
-JNIEXPORT jshort JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_maxMag__SS(JNIEnv* env, jclass cls, jshort a, jshort b) {
-  return fcMath_maxMag(a, b);
-}
-
-JNIEXPORT jint JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_maxMag__II(JNIEnv* env, jclass cls, jint a, jint b) {
-  return fcMath_maxMag(a, b);
-}
-
-JNIEXPORT jlong JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_maxMag__JJ(JNIEnv* env, jclass cls, jlong a, jlong b) {
-  return fcMath_maxMag(a, b);
-}
-
-JNIEXPORT jfloat JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_maxMag__FF(JNIEnv* env, jclass cls, jfloat a, jfloat b) {
-  return fcMath_maxMag(a, b);
-}
-
-JNIEXPORT jdouble JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_maxMag__DD(JNIEnv* env, jclass cls, jdouble a, jdouble b) {
-  return fcMath_maxMag(a, b);
-}
-
-JNIEXPORT jbyte JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_minMag__BB(JNIEnv* env, jclass cls, jbyte a, jbyte b) {
-  return fcMath_minMag(a, b);
-}
-
-JNIEXPORT jshort JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_minMag__SS(JNIEnv* env, jclass cls, jshort a, jshort b) {
-  return fcMath_minMag(a, b);
-}
-
-JNIEXPORT jint JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_minMag__II(JNIEnv* env, jclass cls, jint a, jint b) {
-  return fcMath_minMag(a, b);
-}
-
-JNIEXPORT jlong JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_minMag__JJ(JNIEnv* env, jclass cls, jlong a, jlong b) {
-  return fcMath_minMag(a, b);
-}
-
-JNIEXPORT jfloat JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_minMag__FF(JNIEnv* env, jclass cls, jfloat a, jfloat b) {
-  return fcMath_minMag(a, b);
-}
-
-JNIEXPORT jdouble JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_minMag__DD(JNIEnv* env, jclass cls, jdouble a, jdouble b) {
-  return fcMath_minMag(a, b);
-}
-
 JNIEXPORT jfloat JNICALL
 Java_es_ull_pcg_hpc_fancier_Math_acos__F(JNIEnv* env, jclass cls, jfloat a) {
   return fcMath_acosf(a);
@@ -1055,36 +825,6 @@ Java_es_ull_pcg_hpc_fancier_Math_rootn__DI(JNIEnv* env, jclass cls, jdouble x, j
   return fcMath_rootn(x, n);
 }
 
-JNIEXPORT jbyte JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_select__BBI(JNIEnv* env, jclass cls, jbyte x, jbyte y, jint z) {
-  return fcMath_select(x, y, z);
-}
-
-JNIEXPORT jshort JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_select__SSI(JNIEnv* env, jclass cls, jshort x, jshort y, jint z) {
-  return fcMath_select(x, y, z);
-}
-
-JNIEXPORT jint JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_select__III(JNIEnv* env, jclass cls, jint x, jint y, jint z) {
-  return fcMath_select(x, y, z);
-}
-
-JNIEXPORT jlong JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_select__JJI(JNIEnv* env, jclass cls, jlong x, jlong y, jint z) {
-  return fcMath_select(x, y, z);
-}
-
-JNIEXPORT jfloat JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_select__FFI(JNIEnv* env, jclass cls, jfloat x, jfloat y, jint z) {
-  return fcMath_select(x, y, z);
-}
-
-JNIEXPORT jdouble JNICALL
-Java_es_ull_pcg_hpc_fancier_Math_select__DDI(JNIEnv* env, jclass cls, jdouble x, jdouble y, jint z) {
-  return fcMath_select(x, y, z);
-}
-
 
 //
 // Native Interface
@@ -1642,8 +1382,7 @@ cl_float fcMath_rootnf(cl_float x, cl_int y) {
 }
 
 cl_float fcMath_rsqrtf(cl_float x) {
-  // TODO Implement function
-  return 0.0f;
+  return fcMath_powf(x, -0.5);
 }
 
 cl_float fcMath_tgammaf(cl_float x) {
@@ -1736,8 +1475,7 @@ cl_double fcMath_rootn(cl_double x, cl_int y) {
 }
 
 cl_double fcMath_rsqrt(cl_double x) {
-  // TODO Implement function
-  return 0.0;
+  return fcMath_pow(x, -0.5);
 }
 
 cl_double fcMath_tgamma(cl_double x) {

@@ -120,44 +120,44 @@ short8 short8_mix(short8 x, short8 y, short8 a) {
   return (short8)(mixs(x.x, y.x, a.x), mixs(x.y, y.y, a.y), mixs(x.z, y.z, a.z), mixs(x.w, y.w, a.w), mixs(x.s4, y.s4, a.s4), mixs(x.s5, y.s5, a.s5), mixs(x.s6, y.s6, a.s6), mixs(x.s7, y.s7, a.s7));
 }
 
-int clamp(int a, int min, int max) {
+int clampi(int a, int min, int max) {
   return a < min? min : (a > max? max : a);
 }
 
-int mix(int x, int y, int a) {
+int mixi(int x, int y, int a) {
   return x + (y - x) * a;
 }
 
 int2 int2_clamp(int2 a, int2 min, int2 max) {
-  return (int2)(clamp(a.x, min.x, max.x), clamp(a.y, min.y, max.y));
+  return (int2)(clampi(a.x, min.x, max.x), clampi(a.y, min.y, max.y));
 }
 
 int2 int2_mix(int2 x, int2 y, int2 a) {
-  return (int2)(mix(x.x, y.x, a.x), mix(x.y, y.y, a.y));
+  return (int2)(mixi(x.x, y.x, a.x), mixi(x.y, y.y, a.y));
 }
 
 int3 int3_clamp(int3 a, int3 min, int3 max) {
-  return (int3)(clamp(a.x, min.x, max.x), clamp(a.y, min.y, max.y), clamp(a.z, min.z, max.z));
+  return (int3)(clampi(a.x, min.x, max.x), clampi(a.y, min.y, max.y), clampi(a.z, min.z, max.z));
 }
 
 int3 int3_mix(int3 x, int3 y, int3 a) {
-  return (int3)(mix(x.x, y.x, a.x), mix(x.y, y.y, a.y), mix(x.z, y.z, a.z));
+  return (int3)(mixi(x.x, y.x, a.x), mixi(x.y, y.y, a.y), mixi(x.z, y.z, a.z));
 }
 
 int4 int4_clamp(int4 a, int4 min, int4 max) {
-  return (int4)(clamp(a.x, min.x, max.x), clamp(a.y, min.y, max.y), clamp(a.z, min.z, max.z), clamp(a.w, min.w, max.w));
+  return (int4)(clampi(a.x, min.x, max.x), clampi(a.y, min.y, max.y), clampi(a.z, min.z, max.z), clampi(a.w, min.w, max.w));
 }
 
 int4 int4_mix(int4 x, int4 y, int4 a) {
-  return (int4)(mix(x.x, y.x, a.x), mix(x.y, y.y, a.y), mix(x.z, y.z, a.z), mix(x.w, y.w, a.w));
+  return (int4)(mixi(x.x, y.x, a.x), mixi(x.y, y.y, a.y), mixi(x.z, y.z, a.z), mixi(x.w, y.w, a.w));
 }
 
 int8 int8_clamp(int8 a, int8 min, int8 max) {
-  return (int8)(clamp(a.x, min.x, max.x), clamp(a.y, min.y, max.y), clamp(a.z, min.z, max.z), clamp(a.w, min.w, max.w), clamp(a.s4, min.s4, max.s4), clamp(a.s5, min.s5, max.s5), clamp(a.s6, min.s6, max.s6), clamp(a.s7, min.s7, max.s7));
+  return (int8)(clampi(a.x, min.x, max.x), clampi(a.y, min.y, max.y), clampi(a.z, min.z, max.z), clampi(a.w, min.w, max.w), clampi(a.s4, min.s4, max.s4), clampi(a.s5, min.s5, max.s5), clampi(a.s6, min.s6, max.s6), clampi(a.s7, min.s7, max.s7));
 }
 
 int8 int8_mix(int8 x, int8 y, int8 a) {
-  return (int8)(mix(x.x, y.x, a.x), mix(x.y, y.y, a.y), mix(x.z, y.z, a.z), mix(x.w, y.w, a.w), mix(x.s4, y.s4, a.s4), mix(x.s5, y.s5, a.s5), mix(x.s6, y.s6, a.s6), mix(x.s7, y.s7, a.s7));
+  return (int8)(mixi(x.x, y.x, a.x), mixi(x.y, y.y, a.y), mixi(x.z, y.z, a.z), mixi(x.w, y.w, a.w), mixi(x.s4, y.s4, a.s4), mixi(x.s5, y.s5, a.s5), mixi(x.s6, y.s6, a.s6), mixi(x.s7, y.s7, a.s7));
 }
 
 long clampl(long a, long min, long max) {
