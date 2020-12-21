@@ -48,16 +48,26 @@ public class TestRunner {
     case TEST_VECTOR_ARRAY:
       test = new VectorArrayTest();
       break;
-    case TEST_GRAYSCALE:
-    case TEST_BLUR:
-    case TEST_CONVOLVE3:
-    case TEST_CONVOLVE5:
-    case TEST_BILATERAL:
-    case TEST_MEDIAN:
-    case TEST_CONTRAST:
-    case TEST_FISHEYE:
-    case TEST_LEVELS:
-    case TEST_POSTERIZE:
+    case TEST_OCL_GRAYSCALE:
+    case TEST_OCL_BLUR:
+    case TEST_OCL_CONVOLVE3:
+    case TEST_OCL_CONVOLVE5:
+    case TEST_OCL_BILATERAL:
+    case TEST_OCL_MEDIAN:
+    case TEST_OCL_CONTRAST:
+    case TEST_OCL_FISHEYE:
+    case TEST_OCL_LEVELS:
+    case TEST_OCL_POSTERIZE:
+    case TEST_JAVA_GRAYSCALE:
+    case TEST_JAVA_BLUR:
+    case TEST_JAVA_CONVOLVE3:
+    case TEST_JAVA_CONVOLVE5:
+    case TEST_JAVA_BILATERAL:
+    case TEST_JAVA_MEDIAN:
+    case TEST_JAVA_CONTRAST:
+    case TEST_JAVA_FISHEYE:
+    case TEST_JAVA_LEVELS:
+    case TEST_JAVA_POSTERIZE:
       filterTest = new FilterTest();
       break;
     default:
@@ -68,38 +78,76 @@ public class TestRunner {
     // If it is a FilterTest, set the filter accordingly
     if (filterTest != null) {
       AssetManager assets = mMain.getResources().getAssets();
+      ImageFilters kernel = null;
       ImageFilter filter = null;
 
       switch (selectedTest) {
-      case TEST_GRAYSCALE:
-        filter = new NativeImageFilter(assets, NativeImageFilter.Kernels.GRAYSCALE);
+      case TEST_OCL_GRAYSCALE:
+      case TEST_JAVA_GRAYSCALE:
+        kernel = ImageFilters.GRAYSCALE;
         break;
-      case TEST_BLUR:
-        filter = new NativeImageFilter(assets, NativeImageFilter.Kernels.BLUR);
+      case TEST_OCL_BLUR:
+      case TEST_JAVA_BLUR:
+        kernel = ImageFilters.BLUR;
         break;
-      case TEST_CONVOLVE3:
-        filter = new NativeImageFilter(assets, NativeImageFilter.Kernels.CONVOLVE3);
+      case TEST_OCL_CONVOLVE3:
+      case TEST_JAVA_CONVOLVE3:
+        kernel = ImageFilters.CONVOLVE3;
         break;
-      case TEST_CONVOLVE5:
-        filter = new NativeImageFilter(assets, NativeImageFilter.Kernels.CONVOLVE5);
+      case TEST_OCL_CONVOLVE5:
+      case TEST_JAVA_CONVOLVE5:
+        kernel = ImageFilters.CONVOLVE5;
         break;
-      case TEST_BILATERAL:
-        filter = new NativeImageFilter(assets, NativeImageFilter.Kernels.BILATERAL);
+      case TEST_OCL_BILATERAL:
+      case TEST_JAVA_BILATERAL:
+        kernel = ImageFilters.BILATERAL;
         break;
-      case TEST_MEDIAN:
-        filter = new NativeImageFilter(assets, NativeImageFilter.Kernels.MEDIAN);
+      case TEST_OCL_MEDIAN:
+      case TEST_JAVA_MEDIAN:
+        kernel = ImageFilters.MEDIAN;
         break;
-      case TEST_CONTRAST:
-        filter = new NativeImageFilter(assets, NativeImageFilter.Kernels.CONTRAST);
+      case TEST_OCL_CONTRAST:
+      case TEST_JAVA_CONTRAST:
+        kernel = ImageFilters.CONTRAST;
         break;
-      case TEST_FISHEYE:
-        filter = new NativeImageFilter(assets, NativeImageFilter.Kernels.FISHEYE);
+      case TEST_OCL_FISHEYE:
+      case TEST_JAVA_FISHEYE:
+        kernel = ImageFilters.FISHEYE;
         break;
-      case TEST_LEVELS:
-        filter = new NativeImageFilter(assets, NativeImageFilter.Kernels.LEVELS);
+      case TEST_OCL_LEVELS:
+      case TEST_JAVA_LEVELS:
+        kernel = ImageFilters.LEVELS;
         break;
-      case TEST_POSTERIZE:
-        filter = new NativeImageFilter(assets, NativeImageFilter.Kernels.POSTERIZE);
+      case TEST_OCL_POSTERIZE:
+      case TEST_JAVA_POSTERIZE:
+        kernel = ImageFilters.POSTERIZE;
+        break;
+      }
+
+      switch (selectedTest) {
+      case TEST_OCL_GRAYSCALE:
+      case TEST_OCL_BLUR:
+      case TEST_OCL_CONVOLVE3:
+      case TEST_OCL_CONVOLVE5:
+      case TEST_OCL_BILATERAL:
+      case TEST_OCL_MEDIAN:
+      case TEST_OCL_CONTRAST:
+      case TEST_OCL_FISHEYE:
+      case TEST_OCL_LEVELS:
+      case TEST_OCL_POSTERIZE:
+        filter = new NativeImageFilter(assets, kernel);
+        break;
+      case TEST_JAVA_GRAYSCALE:
+      case TEST_JAVA_BLUR:
+      case TEST_JAVA_CONVOLVE3:
+      case TEST_JAVA_CONVOLVE5:
+      case TEST_JAVA_BILATERAL:
+      case TEST_JAVA_MEDIAN:
+      case TEST_JAVA_CONTRAST:
+      case TEST_JAVA_FISHEYE:
+      case TEST_JAVA_LEVELS:
+      case TEST_JAVA_POSTERIZE:
+        filter = new JavaImageFilter(kernel);
         break;
       default:
         printTestNotImplemented(selectedName);
@@ -138,10 +186,32 @@ public class TestRunner {
   public enum Tests {
     TEST_INIT,
 
-    TEST_MATH, TEST_VECTOR, TEST_ARRAY, TEST_VECTOR_ARRAY,
+    TEST_MATH,
+    TEST_VECTOR,
+    TEST_ARRAY,
+    TEST_VECTOR_ARRAY,
 
-    TEST_GRAYSCALE, TEST_BLUR, TEST_CONVOLVE3, TEST_CONVOLVE5, TEST_BILATERAL, TEST_MEDIAN,
-    TEST_CONTRAST, TEST_FISHEYE, TEST_LEVELS, TEST_POSTERIZE,
+    TEST_OCL_GRAYSCALE,
+    TEST_OCL_BLUR,
+    TEST_OCL_CONVOLVE3,
+    TEST_OCL_CONVOLVE5,
+    TEST_OCL_BILATERAL,
+    TEST_OCL_MEDIAN,
+    TEST_OCL_CONTRAST,
+    TEST_OCL_FISHEYE,
+    TEST_OCL_LEVELS,
+    TEST_OCL_POSTERIZE,
+
+    TEST_JAVA_GRAYSCALE,
+    TEST_JAVA_BLUR,
+    TEST_JAVA_CONVOLVE3,
+    TEST_JAVA_CONVOLVE5,
+    TEST_JAVA_BILATERAL,
+    TEST_JAVA_MEDIAN,
+    TEST_JAVA_CONTRAST,
+    TEST_JAVA_FISHEYE,
+    TEST_JAVA_LEVELS,
+    TEST_JAVA_POSTERIZE,
 
     TEST_RELEASE
   }

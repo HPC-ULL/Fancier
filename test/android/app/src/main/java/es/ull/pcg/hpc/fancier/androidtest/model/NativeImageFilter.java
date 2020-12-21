@@ -13,38 +13,15 @@ public class NativeImageFilter extends ImageFilter {
     System.loadLibrary("filters-lib");
   }
 
-  public enum Kernels {
-    GRAYSCALE, BLUR, CONVOLVE3, CONVOLVE5, BILATERAL, MEDIAN, CONTRAST, FISHEYE, LEVELS, POSTERIZE
-  }
-
   @SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal"})
   private long nativeInstancePtr = 0L;
 
-  private final Kernels mKernel;
+  private final ImageFilters mKernel;
   private final AssetManager mAssets;
-  private RGBAImage mInputImg = null;
 
-  public NativeImageFilter(AssetManager assets, Kernels kernel) {
+  public NativeImageFilter(AssetManager assets, ImageFilters kernel) {
     mAssets = assets;
     mKernel = kernel;
-  }
-
-  @Override
-  public void setInput(Bitmap input) {
-    super.setInput(input);
-
-    if (mInputImg != null) {
-      if (input.getWidth() == mInputImg.getWidth() && input.getHeight() == mInputImg.getHeight()) {
-        mInputImg.setPixels(input);
-      }
-      else {
-        mInputImg.release();
-        mInputImg = null;
-      }
-    }
-
-    if (mInputImg == null)
-      mInputImg = new RGBAImage(input);
   }
 
   @Override
@@ -54,25 +31,21 @@ public class NativeImageFilter extends ImageFilter {
 
   @Override
   public void process(Bitmap output) {
-    if (output.getWidth() != mInput.getWidth() || output.getHeight() != mInput.getHeight())
+    if (output.getWidth() != mOutput.getWidth() || output.getHeight() != mOutput.getHeight())
       throw new RuntimeException("Input and output dimensions do not match.");
 
     if (output.getConfig() != Bitmap.Config.ARGB_8888)
       Log.e("NativeImageFilter", "Output Bitmap has an unsupported format.");
 
     // Create output image and execute the filter
-    RGBAImage outputImg = new RGBAImage(mInputImg.getDims());
-    processImpl(mInputImg, outputImg);
+    processImpl(mInput, mOutput);
 
-    outputImg.updateBitmap(output);
+    mOutput.updateBitmap(output);
   }
 
   @Override
   public void release() {
-    if (mInputImg != null)
-      mInputImg.release();
-
-    mInputImg = null;
+    super.release();
 
     if (nativeInstancePtr != 0L)
       releaseImpl();

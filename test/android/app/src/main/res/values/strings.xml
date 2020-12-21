@@ -22,22 +22,34 @@
 
     <string-array name="tests">
         <item>Fancier Init</item>
-        <item>Fancier Release</item>
 
         <item>Fancier Math</item>
         <item>Fancier Vector</item>
         <item>Fancier Array</item>
         <item>Fancier Vector Array</item>
 
-        <item>Greyscale</item>
-        <item>Gaussian Blur</item>
-        <item>Convolve 3x3</item>
-        <item>Convolve 5x5</item>
-        <item>Bilateral</item>
-        <item>Median Blur</item>
-        <item>Contrast</item>
-        <item>Fisheye</item>
-        <item>Levels</item>
-        <item>Posterize</item>
+        <item>OpenCL: Greyscale</item>
+        <item>OpenCL: Gaussian Blur</item>
+        <item>OpenCL: Convolve 3x3</item>
+        <item>OpenCL: Convolve 5x5</item>
+        <item>OpenCL: Bilateral</item>
+        <item>OpenCL: Median Blur</item>
+        <item>OpenCL: Contrast</item>
+        <item>OpenCL: Fisheye</item>
+        <item>OpenCL: Levels</item>
+        <item>OpenCL: Posterize</item>
+
+        <item>Java: Greyscale</item>
+        <item>Java: Gaussian Blur</item>
+        <item>Java: Convolve 3x3</item>
+        <item>Java: Convolve 5x5</item>
+        <item>Java: Bilateral</item>
+        <item>Java: Median Blur</item>
+        <item>Java: Contrast</item>
+        <item>Java: Fisheye</item>
+        <item>Java: Levels</item>
+        <item>Java: Posterize</item>
+
+        <item>Fancier Release</item>
     </string-array>
 </resources>

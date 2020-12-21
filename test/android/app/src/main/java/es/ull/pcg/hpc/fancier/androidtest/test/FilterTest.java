@@ -3,6 +3,10 @@ package es.ull.pcg.hpc.fancier.androidtest.test;
 
 import android.graphics.Bitmap;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import es.ull.pcg.hpc.fancier.androidtest.model.ImageFilter;
 
 
@@ -44,6 +48,11 @@ public class FilterTest implements RuntimeTest {
       return false;
 
     mFilter.process(mOutput);
+    try (FileOutputStream fos = new FileOutputStream(
+        new File("/data/data/es.ull.pcg.hpc.fancier.androidtest/cache/output.png"))) {
+      mOutput.compress(Bitmap.CompressFormat.PNG, 70, fos);
+    } catch (IOException ignored) {}
+
     return true;
   }
 

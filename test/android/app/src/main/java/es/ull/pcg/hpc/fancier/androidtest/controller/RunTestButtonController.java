@@ -33,7 +33,7 @@ public class RunTestButtonController implements View.OnClickListener {
 
     // Show/Hide images depending on the type of test
     View imagesPanel = mMain.findViewById(R.id.imagesPanel);
-    if (selectedTest < TestRunner.Tests.TEST_GRAYSCALE.ordinal() ||
+    if (selectedTest < TestRunner.Tests.TEST_OCL_GRAYSCALE.ordinal() ||
         selectedTest == TestRunner.Tests.TEST_RELEASE.ordinal()) {
       imagesPanel.setVisibility(View.GONE);
     }

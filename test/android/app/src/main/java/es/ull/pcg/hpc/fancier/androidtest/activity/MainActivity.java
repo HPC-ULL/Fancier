@@ -54,7 +54,12 @@ public class MainActivity extends AppCompatActivity {
       TestRunner controller = new TestRunner(this);
       String[] testNames = getResources().getStringArray(R.array.tests);
 
-      for (TestRunner.Tests selectedTest: TestRunner.Tests.values()) {
+      //TestRunner.Tests[] enabledTests = TestRunner.Tests.values();
+      TestRunner.Tests[] enabledTests =
+          {TestRunner.Tests.TEST_INIT, TestRunner.Tests.TEST_JAVA_POSTERIZE,
+           TestRunner.Tests.TEST_RELEASE};
+
+      for (TestRunner.Tests selectedTest: enabledTests) {
         controller.runTest(selectedTest, testNames[selectedTest.ordinal()], inBitmap, outBitmap);
       }
     }
