@@ -52,8 +52,33 @@ public class Long8Array implements AutoCloseable {
     return getBufferImpl().order(ByteOrder.nativeOrder());
   }
 
-  public static void indexBuffer(ByteBuffer buffer, int index) {
-    buffer.position(index * Long.BYTES * 8);
+  public static Long8 getBuffer(ByteBuffer buffer, int index) {
+    final int baseIndex = index * Long.BYTES * 8;
+    return new Long8(buffer.getLong(baseIndex + 0 * Long.BYTES), buffer.getLong(baseIndex + 1 * Long.BYTES), buffer.getLong(baseIndex + 2 * Long.BYTES), buffer.getLong(baseIndex + 3 * Long.BYTES), buffer.getLong(baseIndex + 4 * Long.BYTES), buffer.getLong(baseIndex + 5 * Long.BYTES), buffer.getLong(baseIndex + 6 * Long.BYTES), buffer.getLong(baseIndex + 7 * Long.BYTES));
+  }
+
+  public static void getBuffer(ByteBuffer buffer, int index, Long8 result) {
+    final int baseIndex = index * Long.BYTES * 8;
+    result.x = buffer.getLong(baseIndex + 0 * Long.BYTES);
+    result.y = buffer.getLong(baseIndex + 1 * Long.BYTES);
+    result.z = buffer.getLong(baseIndex + 2 * Long.BYTES);
+    result.w = buffer.getLong(baseIndex + 3 * Long.BYTES);
+    result.s[0] = buffer.getLong(baseIndex + 4 * Long.BYTES);
+    result.s[1] = buffer.getLong(baseIndex + 5 * Long.BYTES);
+    result.s[2] = buffer.getLong(baseIndex + 6 * Long.BYTES);
+    result.s[3] = buffer.getLong(baseIndex + 7 * Long.BYTES);
+  }
+
+  public static void setBuffer(ByteBuffer buffer, int index, Long8 a) {
+    final int baseIndex = index * Long.BYTES * 8;
+    buffer.putLong(baseIndex + 0 * Long.BYTES, a.x);
+    buffer.putLong(baseIndex + 1 * Long.BYTES, a.y);
+    buffer.putLong(baseIndex + 2 * Long.BYTES, a.z);
+    buffer.putLong(baseIndex + 3 * Long.BYTES, a.w);
+    buffer.putLong(baseIndex + 4 * Long.BYTES, a.s[0]);
+    buffer.putLong(baseIndex + 5 * Long.BYTES, a.s[1]);
+    buffer.putLong(baseIndex + 6 * Long.BYTES, a.s[2]);
+    buffer.putLong(baseIndex + 7 * Long.BYTES, a.s[3]);
   }
 
   private native void initNative(long nativePtr);
@@ -69,6 +94,7 @@ public class Long8Array implements AutoCloseable {
 
   public native long[] getArray();
   public native void setArray(long[] v);
+  public native void setCopy(Long8Array array);
   private native ByteBuffer getBufferImpl();
   public native void setBuffer(ByteBuffer v);
 

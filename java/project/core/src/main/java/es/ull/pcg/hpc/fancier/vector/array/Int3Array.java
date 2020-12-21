@@ -52,8 +52,23 @@ public class Int3Array implements AutoCloseable {
     return getBufferImpl().order(ByteOrder.nativeOrder());
   }
 
-  public static void indexBuffer(ByteBuffer buffer, int index) {
-    buffer.position(index * Integer.BYTES * 4);
+  public static Int3 getBuffer(ByteBuffer buffer, int index) {
+    final int baseIndex = index * Integer.BYTES * 4;
+    return new Int3(buffer.getInt(baseIndex + 0 * Integer.BYTES), buffer.getInt(baseIndex + 1 * Integer.BYTES), buffer.getInt(baseIndex + 2 * Integer.BYTES));
+  }
+
+  public static void getBuffer(ByteBuffer buffer, int index, Int3 result) {
+    final int baseIndex = index * Integer.BYTES * 4;
+    result.x = buffer.getInt(baseIndex + 0 * Integer.BYTES);
+    result.y = buffer.getInt(baseIndex + 1 * Integer.BYTES);
+    result.z = buffer.getInt(baseIndex + 2 * Integer.BYTES);
+  }
+
+  public static void setBuffer(ByteBuffer buffer, int index, Int3 a) {
+    final int baseIndex = index * Integer.BYTES * 4;
+    buffer.putInt(baseIndex + 0 * Integer.BYTES, a.x);
+    buffer.putInt(baseIndex + 1 * Integer.BYTES, a.y);
+    buffer.putInt(baseIndex + 2 * Integer.BYTES, a.z);
   }
 
   private native void initNative(long nativePtr);
@@ -69,6 +84,7 @@ public class Int3Array implements AutoCloseable {
 
   public native int[] getArray();
   public native void setArray(int[] v);
+  public native void setCopy(Int3Array array);
   private native ByteBuffer getBufferImpl();
   public native void setBuffer(ByteBuffer v);
 

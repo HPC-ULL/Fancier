@@ -40,8 +40,7 @@ public class ArrayTest implements RuntimeTest {
 
       // getArray and getBuffer test
       for (int i = 0; i < n; ++i) {
-        ShortArray.indexBuffer(s0Buffer, i);
-        if (s0.get(i) != s0Array[i] || s0.get(i) != s0Buffer.getShort())
+        if (s0.get(i) != s0Array[i] || s0.get(i) != ShortArray.getBuffer(s0Buffer, i))
           return false;
       }
 

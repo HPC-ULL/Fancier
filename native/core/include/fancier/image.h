@@ -42,7 +42,7 @@ FANCIER_API int fcRGBAImage_setCoords(fcRGBAImage* self, fcInt2 coords, fcByte4 
 FANCIER_API int fcRGBAImage_set(fcRGBAImage* self, int x, int y, fcByte4 argb);
 
 FANCIER_API int fcRGBAImage_setPixels(fcRGBAImage* self, int width, int height, const jint* pixels);
-// TODO FANCIER_API int fcRGBAImage_setCopy(fcRGBAImage* self, fcRGBAImage* image);
+FANCIER_API int fcRGBAImage_setPixelsCopy(fcRGBAImage* self, const fcRGBAImage* image);
 
 FANCIER_API int fcRGBAImage_syncToNative(fcRGBAImage* self);
 FANCIER_API int fcRGBAImage_syncToOCL(fcRGBAImage* self);

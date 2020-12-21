@@ -52,12 +52,28 @@ public class ${type|c}${vlen}Array implements AutoCloseable {
     return getBufferImpl().order(ByteOrder.nativeOrder());
   }
 
-  public static void indexBuffer(ByteBuffer buffer, int index) {
-% if type.lower() == 'int':
-    buffer.position(index * Integer.BYTES * ${vwidth(vlen)});
-% else:
-    buffer.position(index * ${type|c}.BYTES * ${vwidth(vlen)});
-% endif
+<%
+  bytes_expr = ('Integer' if type.lower() == 'int' else type.capitalize()) + '.BYTES'
+  buffer_get = f'get{type.capitalize()}' if type.lower() != 'byte' else 'get'
+  buffer_put = f'put{type.capitalize()}' if type.lower() != 'byte' else 'put'
+%>\
+  public static ${type|c}${vlen} getBuffer(ByteBuffer buffer, int index) {
+    final int baseIndex = index * ${bytes_expr} * ${vwidth(vlen)};
+    return new ${type|c}${vlen}(${', '.join([f'buffer.{buffer_get}(baseIndex + {i} * {bytes_expr})' for i, field in enumerate(vfields[:vlen])])});
+  }
+
+  public static void getBuffer(ByteBuffer buffer, int index, ${type|c}${vlen} result) {
+    final int baseIndex = index * ${bytes_expr} * ${vwidth(vlen)};
+    % for i, field in enumerate(vfields[:vlen]):
+    result.${field} = buffer.${buffer_get}(baseIndex + ${i} * ${bytes_expr});
+    % endfor
+  }
+
+  public static void setBuffer(ByteBuffer buffer, int index, ${type|c}${vlen} a) {
+    final int baseIndex = index * ${bytes_expr} * ${vwidth(vlen)};
+    % for i, field in enumerate(vfields[:vlen]):
+    buffer.${buffer_put}(baseIndex + ${i} * ${bytes_expr}, a.${field});
+    % endfor
   }
 
   private native void initNative(long nativePtr);
@@ -73,6 +89,7 @@ public class ${type|c}${vlen}Array implements AutoCloseable {
 
   public native ${type|l}[] getArray();
   public native void setArray(${type|l}[] v);
+  public native void setCopy(${type|c}${vlen}Array array);
   private native ByteBuffer getBufferImpl();
   public native void setBuffer(ByteBuffer v);
 

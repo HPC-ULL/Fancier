@@ -52,8 +52,21 @@ public class Double2Array implements AutoCloseable {
     return getBufferImpl().order(ByteOrder.nativeOrder());
   }
 
-  public static void indexBuffer(ByteBuffer buffer, int index) {
-    buffer.position(index * Double.BYTES * 2);
+  public static Double2 getBuffer(ByteBuffer buffer, int index) {
+    final int baseIndex = index * Double.BYTES * 2;
+    return new Double2(buffer.getDouble(baseIndex + 0 * Double.BYTES), buffer.getDouble(baseIndex + 1 * Double.BYTES));
+  }
+
+  public static void getBuffer(ByteBuffer buffer, int index, Double2 result) {
+    final int baseIndex = index * Double.BYTES * 2;
+    result.x = buffer.getDouble(baseIndex + 0 * Double.BYTES);
+    result.y = buffer.getDouble(baseIndex + 1 * Double.BYTES);
+  }
+
+  public static void setBuffer(ByteBuffer buffer, int index, Double2 a) {
+    final int baseIndex = index * Double.BYTES * 2;
+    buffer.putDouble(baseIndex + 0 * Double.BYTES, a.x);
+    buffer.putDouble(baseIndex + 1 * Double.BYTES, a.y);
   }
 
   private native void initNative(long nativePtr);
@@ -69,6 +82,7 @@ public class Double2Array implements AutoCloseable {
 
   public native double[] getArray();
   public native void setArray(double[] v);
+  public native void setCopy(Double2Array array);
   private native ByteBuffer getBufferImpl();
   public native void setBuffer(ByteBuffer v);
 

@@ -52,8 +52,33 @@ public class Short8Array implements AutoCloseable {
     return getBufferImpl().order(ByteOrder.nativeOrder());
   }
 
-  public static void indexBuffer(ByteBuffer buffer, int index) {
-    buffer.position(index * Short.BYTES * 8);
+  public static Short8 getBuffer(ByteBuffer buffer, int index) {
+    final int baseIndex = index * Short.BYTES * 8;
+    return new Short8(buffer.getShort(baseIndex + 0 * Short.BYTES), buffer.getShort(baseIndex + 1 * Short.BYTES), buffer.getShort(baseIndex + 2 * Short.BYTES), buffer.getShort(baseIndex + 3 * Short.BYTES), buffer.getShort(baseIndex + 4 * Short.BYTES), buffer.getShort(baseIndex + 5 * Short.BYTES), buffer.getShort(baseIndex + 6 * Short.BYTES), buffer.getShort(baseIndex + 7 * Short.BYTES));
+  }
+
+  public static void getBuffer(ByteBuffer buffer, int index, Short8 result) {
+    final int baseIndex = index * Short.BYTES * 8;
+    result.x = buffer.getShort(baseIndex + 0 * Short.BYTES);
+    result.y = buffer.getShort(baseIndex + 1 * Short.BYTES);
+    result.z = buffer.getShort(baseIndex + 2 * Short.BYTES);
+    result.w = buffer.getShort(baseIndex + 3 * Short.BYTES);
+    result.s[0] = buffer.getShort(baseIndex + 4 * Short.BYTES);
+    result.s[1] = buffer.getShort(baseIndex + 5 * Short.BYTES);
+    result.s[2] = buffer.getShort(baseIndex + 6 * Short.BYTES);
+    result.s[3] = buffer.getShort(baseIndex + 7 * Short.BYTES);
+  }
+
+  public static void setBuffer(ByteBuffer buffer, int index, Short8 a) {
+    final int baseIndex = index * Short.BYTES * 8;
+    buffer.putShort(baseIndex + 0 * Short.BYTES, a.x);
+    buffer.putShort(baseIndex + 1 * Short.BYTES, a.y);
+    buffer.putShort(baseIndex + 2 * Short.BYTES, a.z);
+    buffer.putShort(baseIndex + 3 * Short.BYTES, a.w);
+    buffer.putShort(baseIndex + 4 * Short.BYTES, a.s[0]);
+    buffer.putShort(baseIndex + 5 * Short.BYTES, a.s[1]);
+    buffer.putShort(baseIndex + 6 * Short.BYTES, a.s[2]);
+    buffer.putShort(baseIndex + 7 * Short.BYTES, a.s[3]);
   }
 
   private native void initNative(long nativePtr);
@@ -69,6 +94,7 @@ public class Short8Array implements AutoCloseable {
 
   public native short[] getArray();
   public native void setArray(short[] v);
+  public native void setCopy(Short8Array array);
   private native ByteBuffer getBufferImpl();
   public native void setBuffer(ByteBuffer v);
 

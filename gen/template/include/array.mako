@@ -66,6 +66,7 @@ FANCIER_API j${type|l} fc${type|c}Array_get(fc${type|c}Array* self, int i, int* 
 FANCIER_API int fc${type|c}Array_set(fc${type|c}Array* self, int i, j${type|l} x);
 
 FANCIER_API int fc${type|c}Array_setArray(fc${type|c}Array* self, jsize len, const j${type|l}* v);
+FANCIER_API int fc${type|c}Array_setCopy(fc${type|c}Array* self, const fc${type|c}Array* array);
 FANCIER_API int fc${type|c}Array_setBuffer(fc${type|c}Array* self, jlong len, const void* v);
 
 FANCIER_API int fc${type|c}Array_syncToNative(fc${type|c}Array* self);

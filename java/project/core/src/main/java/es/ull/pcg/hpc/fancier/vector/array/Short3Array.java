@@ -52,8 +52,23 @@ public class Short3Array implements AutoCloseable {
     return getBufferImpl().order(ByteOrder.nativeOrder());
   }
 
-  public static void indexBuffer(ByteBuffer buffer, int index) {
-    buffer.position(index * Short.BYTES * 4);
+  public static Short3 getBuffer(ByteBuffer buffer, int index) {
+    final int baseIndex = index * Short.BYTES * 4;
+    return new Short3(buffer.getShort(baseIndex + 0 * Short.BYTES), buffer.getShort(baseIndex + 1 * Short.BYTES), buffer.getShort(baseIndex + 2 * Short.BYTES));
+  }
+
+  public static void getBuffer(ByteBuffer buffer, int index, Short3 result) {
+    final int baseIndex = index * Short.BYTES * 4;
+    result.x = buffer.getShort(baseIndex + 0 * Short.BYTES);
+    result.y = buffer.getShort(baseIndex + 1 * Short.BYTES);
+    result.z = buffer.getShort(baseIndex + 2 * Short.BYTES);
+  }
+
+  public static void setBuffer(ByteBuffer buffer, int index, Short3 a) {
+    final int baseIndex = index * Short.BYTES * 4;
+    buffer.putShort(baseIndex + 0 * Short.BYTES, a.x);
+    buffer.putShort(baseIndex + 1 * Short.BYTES, a.y);
+    buffer.putShort(baseIndex + 2 * Short.BYTES, a.z);
   }
 
   private native void initNative(long nativePtr);
@@ -69,6 +84,7 @@ public class Short3Array implements AutoCloseable {
 
   public native short[] getArray();
   public native void setArray(short[] v);
+  public native void setCopy(Short3Array array);
   private native ByteBuffer getBufferImpl();
   public native void setBuffer(ByteBuffer v);
 

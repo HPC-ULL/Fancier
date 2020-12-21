@@ -52,8 +52,21 @@ public class Int2Array implements AutoCloseable {
     return getBufferImpl().order(ByteOrder.nativeOrder());
   }
 
-  public static void indexBuffer(ByteBuffer buffer, int index) {
-    buffer.position(index * Integer.BYTES * 2);
+  public static Int2 getBuffer(ByteBuffer buffer, int index) {
+    final int baseIndex = index * Integer.BYTES * 2;
+    return new Int2(buffer.getInt(baseIndex + 0 * Integer.BYTES), buffer.getInt(baseIndex + 1 * Integer.BYTES));
+  }
+
+  public static void getBuffer(ByteBuffer buffer, int index, Int2 result) {
+    final int baseIndex = index * Integer.BYTES * 2;
+    result.x = buffer.getInt(baseIndex + 0 * Integer.BYTES);
+    result.y = buffer.getInt(baseIndex + 1 * Integer.BYTES);
+  }
+
+  public static void setBuffer(ByteBuffer buffer, int index, Int2 a) {
+    final int baseIndex = index * Integer.BYTES * 2;
+    buffer.putInt(baseIndex + 0 * Integer.BYTES, a.x);
+    buffer.putInt(baseIndex + 1 * Integer.BYTES, a.y);
   }
 
   private native void initNative(long nativePtr);
@@ -69,6 +82,7 @@ public class Int2Array implements AutoCloseable {
 
   public native int[] getArray();
   public native void setArray(int[] v);
+  public native void setCopy(Int2Array array);
   private native ByteBuffer getBufferImpl();
   public native void setBuffer(ByteBuffer v);
 

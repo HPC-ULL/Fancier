@@ -52,8 +52,33 @@ public class Byte8Array implements AutoCloseable {
     return getBufferImpl().order(ByteOrder.nativeOrder());
   }
 
-  public static void indexBuffer(ByteBuffer buffer, int index) {
-    buffer.position(index * Byte.BYTES * 8);
+  public static Byte8 getBuffer(ByteBuffer buffer, int index) {
+    final int baseIndex = index * Byte.BYTES * 8;
+    return new Byte8(buffer.get(baseIndex + 0 * Byte.BYTES), buffer.get(baseIndex + 1 * Byte.BYTES), buffer.get(baseIndex + 2 * Byte.BYTES), buffer.get(baseIndex + 3 * Byte.BYTES), buffer.get(baseIndex + 4 * Byte.BYTES), buffer.get(baseIndex + 5 * Byte.BYTES), buffer.get(baseIndex + 6 * Byte.BYTES), buffer.get(baseIndex + 7 * Byte.BYTES));
+  }
+
+  public static void getBuffer(ByteBuffer buffer, int index, Byte8 result) {
+    final int baseIndex = index * Byte.BYTES * 8;
+    result.x = buffer.get(baseIndex + 0 * Byte.BYTES);
+    result.y = buffer.get(baseIndex + 1 * Byte.BYTES);
+    result.z = buffer.get(baseIndex + 2 * Byte.BYTES);
+    result.w = buffer.get(baseIndex + 3 * Byte.BYTES);
+    result.s[0] = buffer.get(baseIndex + 4 * Byte.BYTES);
+    result.s[1] = buffer.get(baseIndex + 5 * Byte.BYTES);
+    result.s[2] = buffer.get(baseIndex + 6 * Byte.BYTES);
+    result.s[3] = buffer.get(baseIndex + 7 * Byte.BYTES);
+  }
+
+  public static void setBuffer(ByteBuffer buffer, int index, Byte8 a) {
+    final int baseIndex = index * Byte.BYTES * 8;
+    buffer.put(baseIndex + 0 * Byte.BYTES, a.x);
+    buffer.put(baseIndex + 1 * Byte.BYTES, a.y);
+    buffer.put(baseIndex + 2 * Byte.BYTES, a.z);
+    buffer.put(baseIndex + 3 * Byte.BYTES, a.w);
+    buffer.put(baseIndex + 4 * Byte.BYTES, a.s[0]);
+    buffer.put(baseIndex + 5 * Byte.BYTES, a.s[1]);
+    buffer.put(baseIndex + 6 * Byte.BYTES, a.s[2]);
+    buffer.put(baseIndex + 7 * Byte.BYTES, a.s[3]);
   }
 
   private native void initNative(long nativePtr);
@@ -69,6 +94,7 @@ public class Byte8Array implements AutoCloseable {
 
   public native byte[] getArray();
   public native void setArray(byte[] v);
+  public native void setCopy(Byte8Array array);
   private native ByteBuffer getBufferImpl();
   public native void setBuffer(ByteBuffer v);
 

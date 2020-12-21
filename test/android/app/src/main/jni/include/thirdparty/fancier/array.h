@@ -181,6 +181,7 @@ FANCIER_API jbyte fcByteArray_get(fcByteArray* self, int i, int* err);
 FANCIER_API int fcByteArray_set(fcByteArray* self, int i, jbyte x);
 
 FANCIER_API int fcByteArray_setArray(fcByteArray* self, jsize len, const jbyte* v);
+FANCIER_API int fcByteArray_setCopy(fcByteArray* self, const fcByteArray* array);
 FANCIER_API int fcByteArray_setBuffer(fcByteArray* self, jlong len, const void* v);
 
 FANCIER_API int fcByteArray_syncToNative(fcByteArray* self);
@@ -201,6 +202,7 @@ FANCIER_API jshort fcShortArray_get(fcShortArray* self, int i, int* err);
 FANCIER_API int fcShortArray_set(fcShortArray* self, int i, jshort x);
 
 FANCIER_API int fcShortArray_setArray(fcShortArray* self, jsize len, const jshort* v);
+FANCIER_API int fcShortArray_setCopy(fcShortArray* self, const fcShortArray* array);
 FANCIER_API int fcShortArray_setBuffer(fcShortArray* self, jlong len, const void* v);
 
 FANCIER_API int fcShortArray_syncToNative(fcShortArray* self);
@@ -221,6 +223,7 @@ FANCIER_API jint fcIntArray_get(fcIntArray* self, int i, int* err);
 FANCIER_API int fcIntArray_set(fcIntArray* self, int i, jint x);
 
 FANCIER_API int fcIntArray_setArray(fcIntArray* self, jsize len, const jint* v);
+FANCIER_API int fcIntArray_setCopy(fcIntArray* self, const fcIntArray* array);
 FANCIER_API int fcIntArray_setBuffer(fcIntArray* self, jlong len, const void* v);
 
 FANCIER_API int fcIntArray_syncToNative(fcIntArray* self);
@@ -241,6 +244,7 @@ FANCIER_API jlong fcLongArray_get(fcLongArray* self, int i, int* err);
 FANCIER_API int fcLongArray_set(fcLongArray* self, int i, jlong x);
 
 FANCIER_API int fcLongArray_setArray(fcLongArray* self, jsize len, const jlong* v);
+FANCIER_API int fcLongArray_setCopy(fcLongArray* self, const fcLongArray* array);
 FANCIER_API int fcLongArray_setBuffer(fcLongArray* self, jlong len, const void* v);
 
 FANCIER_API int fcLongArray_syncToNative(fcLongArray* self);
@@ -261,6 +265,7 @@ FANCIER_API jfloat fcFloatArray_get(fcFloatArray* self, int i, int* err);
 FANCIER_API int fcFloatArray_set(fcFloatArray* self, int i, jfloat x);
 
 FANCIER_API int fcFloatArray_setArray(fcFloatArray* self, jsize len, const jfloat* v);
+FANCIER_API int fcFloatArray_setCopy(fcFloatArray* self, const fcFloatArray* array);
 FANCIER_API int fcFloatArray_setBuffer(fcFloatArray* self, jlong len, const void* v);
 
 FANCIER_API int fcFloatArray_syncToNative(fcFloatArray* self);
@@ -281,6 +286,7 @@ FANCIER_API jdouble fcDoubleArray_get(fcDoubleArray* self, int i, int* err);
 FANCIER_API int fcDoubleArray_set(fcDoubleArray* self, int i, jdouble x);
 
 FANCIER_API int fcDoubleArray_setArray(fcDoubleArray* self, jsize len, const jdouble* v);
+FANCIER_API int fcDoubleArray_setCopy(fcDoubleArray* self, const fcDoubleArray* array);
 FANCIER_API int fcDoubleArray_setBuffer(fcDoubleArray* self, jlong len, const void* v);
 
 FANCIER_API int fcDoubleArray_syncToNative(fcDoubleArray* self);

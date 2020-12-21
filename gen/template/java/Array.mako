@@ -49,12 +49,17 @@ public class ${type|c}Array implements AutoCloseable {
     return getBufferImpl().order(ByteOrder.nativeOrder());
   }
 
-  public static void indexBuffer(ByteBuffer buffer, int index) {
-% if type.lower() == 'int':
-    buffer.position(index * Integer.BYTES);
-% else:
-    buffer.position(index * ${type|c}.BYTES);
-% endif
+<%
+  bytes_expr = ('Integer' if type.lower() == 'int' else type.capitalize()) + '.BYTES'
+  buffer_get = f'get{type.capitalize()}' if type.lower() != 'byte' else 'get'
+  buffer_put = f'put{type.capitalize()}' if type.lower() != 'byte' else 'put'
+%>\
+  public static ${type|l} getBuffer(ByteBuffer buffer, int index) {
+    return buffer.${buffer_get}(index * ${bytes_expr});
+  }
+
+  public static void setBuffer(ByteBuffer buffer, int index, ${type|l} x) {
+    buffer.${buffer_put}(index * ${bytes_expr}, x);
   }
 
   private native void initNative(long nativePtr);
@@ -70,6 +75,7 @@ public class ${type|c}Array implements AutoCloseable {
 
   public native ${type|l}[] getArray();
   public native void setArray(${type|l}[] v);
+  public native void setCopy(${type|c}Array array);
   private native ByteBuffer getBufferImpl();
   public native void setBuffer(ByteBuffer buffer);
 

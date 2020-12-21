@@ -206,6 +206,21 @@ Java_es_ull_pcg_hpc_fancier_array_${type|c}Array_setArray(JNIEnv* env, jobject o
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fc${type|c}Array_setArray", FC_VOID_EXPR);
 }
 
+JNIEXPORT void JNICALL
+Java_es_ull_pcg_hpc_fancier_array_${type|c}Array_setCopy(JNIEnv* env, jobject obj, jobject array) {
+  fc${type|c}Array* self = fc${type|c}Array_getJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fc${type|c}Array_getJava", FC_VOID_EXPR);
+
+  FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fc${type|c}Array_setCopy:array", FC_VOID_EXPR);
+
+  // Get array elements and length
+  fc${type|c}Array* __tmp_array = fc${type|c}Array_getJava(env, array);
+  FC_EXCEPTION_HANDLE_NULL(env, __tmp_array, FC_EXCEPTION_ARRAY_GET_ELEMENTS, "fc${type|c}Array_setCopy:array", FC_VOID_EXPR);
+
+  jint err = fc${type|c}Array_setCopy(self, __tmp_array);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fc${type|c}Array_setCopy", FC_VOID_EXPR);
+}
+
 JNIEXPORT jobject JNICALL
 Java_es_ull_pcg_hpc_fancier_array_${type|c}Array_getBufferImpl(JNIEnv* env, jobject obj) {
   fc${type|c}Array* self = fc${type|c}Array_getJava(env, obj);
@@ -358,20 +373,15 @@ int fc${type|c}Array_initCopy(fc${type|c}Array* self, const fc${type|c}Array* ar
   if (err) return err;
 
   // Copy array data
-  if (array->location == FC_ARRAY_LOCATION_OPENCL)
-    err = clEnqueueCopyBuffer(fcOpenCL_rt.queue, array->ocl, self->ocl, 0, 0, self->len * sizeof(cl_${type|l}), 0, NULL, NULL);
-  else /* FC_ARRAY_LOCATION_NATIVE */
-    err = clEnqueueWriteBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, 0, self->len * sizeof(cl_${type|l}), array->c, 0, NULL, NULL);
-
+  self->location = FC_ARRAY_LOCATION_OPENCL;
+  err = fc${type|c}Array_setCopy(self, array);
   if (err) {
+    self->location = FC_ARRAY_LOCATION_NONE;
     clReleaseMemObject(self->ocl);
     self->ocl = NULL;
-    return err;
   }
 
-  // Update location
-  self->location = FC_ARRAY_LOCATION_OPENCL;
-  return FC_EXCEPTION_SUCCESS;
+  return err;
 }
 
 int fc${type|c}Array_release(fc${type|c}Array* self) {
@@ -455,6 +465,33 @@ int fc${type|c}Array_set(fc${type|c}Array* self, int i, j${type|l} x) {
 int fc${type|c}Array_setArray(fc${type|c}Array* self, jsize len, const j${type|l}* v) {
   // No alignment issues, so we can just call setBuffer
   return fc${type|c}Array_setBuffer(self, len * sizeof(j${type|l}), v);
+}
+
+int fc${type|c}Array_setCopy(fc${type|c}Array* self, const fc${type|c}Array* array) {
+  if (!fc${type|c}Array_valid(self))
+    return FC_EXCEPTION_INVALID_STATE;
+
+  // Check parameters
+  if (array == NULL || !fc${type|c}Array_valid(array) || self->len != array->len)
+    return FC_EXCEPTION_BAD_PARAMETER;
+
+  // Copy array data
+  int err;
+  size_t size = self->len * sizeof(cl_${type|l});
+
+  if (self->location == FC_ARRAY_LOCATION_OPENCL) {
+    if (array->location == FC_ARRAY_LOCATION_OPENCL)
+      err = clEnqueueCopyBuffer(fcOpenCL_rt.queue, array->ocl, self->ocl, 0, 0, size, 0, NULL, NULL);
+    else /* array:FC_ARRAY_LOCATION_NATIVE */
+      err = clEnqueueWriteBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, 0, size, array->c, 0, NULL, NULL);
+  } else /* self:FC_ARRAY_LOCATION_NATIVE */ {
+    if (array->location == FC_ARRAY_LOCATION_OPENCL)
+      err = clEnqueueReadBuffer(fcOpenCL_rt.queue, array->ocl, CL_TRUE, 0, size, self->c, 0, NULL, NULL);
+    else /* array:FC_ARRAY_LOCATION_NATIVE */
+      err = memcpy(self->c, array->c, size) != NULL? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
+  }
+
+  return err;
 }
 
 int fc${type|c}Array_setBuffer(fc${type|c}Array* self, jlong len, const void* v) {

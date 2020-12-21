@@ -52,8 +52,25 @@ public class Double4Array implements AutoCloseable {
     return getBufferImpl().order(ByteOrder.nativeOrder());
   }
 
-  public static void indexBuffer(ByteBuffer buffer, int index) {
-    buffer.position(index * Double.BYTES * 4);
+  public static Double4 getBuffer(ByteBuffer buffer, int index) {
+    final int baseIndex = index * Double.BYTES * 4;
+    return new Double4(buffer.getDouble(baseIndex + 0 * Double.BYTES), buffer.getDouble(baseIndex + 1 * Double.BYTES), buffer.getDouble(baseIndex + 2 * Double.BYTES), buffer.getDouble(baseIndex + 3 * Double.BYTES));
+  }
+
+  public static void getBuffer(ByteBuffer buffer, int index, Double4 result) {
+    final int baseIndex = index * Double.BYTES * 4;
+    result.x = buffer.getDouble(baseIndex + 0 * Double.BYTES);
+    result.y = buffer.getDouble(baseIndex + 1 * Double.BYTES);
+    result.z = buffer.getDouble(baseIndex + 2 * Double.BYTES);
+    result.w = buffer.getDouble(baseIndex + 3 * Double.BYTES);
+  }
+
+  public static void setBuffer(ByteBuffer buffer, int index, Double4 a) {
+    final int baseIndex = index * Double.BYTES * 4;
+    buffer.putDouble(baseIndex + 0 * Double.BYTES, a.x);
+    buffer.putDouble(baseIndex + 1 * Double.BYTES, a.y);
+    buffer.putDouble(baseIndex + 2 * Double.BYTES, a.z);
+    buffer.putDouble(baseIndex + 3 * Double.BYTES, a.w);
   }
 
   private native void initNative(long nativePtr);
@@ -69,6 +86,7 @@ public class Double4Array implements AutoCloseable {
 
   public native double[] getArray();
   public native void setArray(double[] v);
+  public native void setCopy(Double4Array array);
   private native ByteBuffer getBufferImpl();
   public native void setBuffer(ByteBuffer v);
 

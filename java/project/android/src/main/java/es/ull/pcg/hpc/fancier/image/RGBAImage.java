@@ -1,5 +1,7 @@
 package es.ull.pcg.hpc.fancier.image;
 
+import java.nio.ByteBuffer;
+
 import es.ull.pcg.hpc.fancier.vector.Byte4;
 import es.ull.pcg.hpc.fancier.vector.Int2;
 import es.ull.pcg.hpc.fancier.vector.array.Byte4Array;
@@ -25,8 +27,8 @@ public class RGBAImage implements AutoCloseable {
     initNative(pixels, width);
   }
 
-  public RGBAImage(RGBAImage other) {
-    initNative(other);
+  public RGBAImage(RGBAImage image) {
+    initNative(image);
   }
 
   public RGBAImage(Bitmap bmp) {
@@ -54,7 +56,7 @@ public class RGBAImage implements AutoCloseable {
   private native void initNative(long nativePtr);
   private native void initNative(int width, int height);
   private native void initNative(int[] pixels, int width);
-  private native void initNative(RGBAImage other);
+  private native void initNative(RGBAImage image);
   private native void initNative(Bitmap bmp);
   private native void releaseNative();
   private native void releaseNativeRef();
@@ -63,15 +65,32 @@ public class RGBAImage implements AutoCloseable {
     return get(coords.x, coords.y);
   }
 
-  public void set(Int2 coords, Byte4 argb) {
-    set(coords.x, coords.y, argb);
+  public void set(Int2 coords, Byte4 rgba) {
+    set(coords.x, coords.y, rgba);
+  }
+
+  public ByteBuffer getBuffer() {
+    return getPixels().getBuffer();
+  }
+
+  public Byte4 getBuffer(ByteBuffer buffer, int x, int y) {
+    return Byte4Array.getBuffer(buffer, y * getWidth() + x);
+  }
+
+  public void getBuffer(ByteBuffer buffer, int x, int y, Byte4 result) {
+    Byte4Array.getBuffer(buffer, y * getWidth() + x, result);
+  }
+
+  public void setBuffer(ByteBuffer buffer, int x, int y, Byte4 rgba) {
+    Byte4Array.setBuffer(buffer, y * getWidth() + x, rgba);
   }
 
   public native Byte4 get(int x, int y);
-  public native void set(int x, int y, Byte4 argb);
+  public native void set(int x, int y, Byte4 rgba);
 
   public native Byte4Array getPixels();
   public native void setPixels(int[] pixels, int width);
+  public native void setPixels(RGBAImage image);
   public native void setPixels(Bitmap bmp);
   public native void updateBitmap(Bitmap bmp);
 

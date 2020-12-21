@@ -49,8 +49,12 @@ public class FloatArray implements AutoCloseable {
     return getBufferImpl().order(ByteOrder.nativeOrder());
   }
 
-  public static void indexBuffer(ByteBuffer buffer, int index) {
-    buffer.position(index * Float.BYTES);
+  public static float getBuffer(ByteBuffer buffer, int index) {
+    return buffer.getFloat(index * Float.BYTES);
+  }
+
+  public static void setBuffer(ByteBuffer buffer, int index, float x) {
+    buffer.putFloat(index * Float.BYTES, x);
   }
 
   private native void initNative(long nativePtr);
@@ -66,6 +70,7 @@ public class FloatArray implements AutoCloseable {
 
   public native float[] getArray();
   public native void setArray(float[] v);
+  public native void setCopy(FloatArray array);
   private native ByteBuffer getBufferImpl();
   public native void setBuffer(ByteBuffer buffer);
 

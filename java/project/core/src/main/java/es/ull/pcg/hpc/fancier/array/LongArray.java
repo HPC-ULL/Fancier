@@ -49,8 +49,12 @@ public class LongArray implements AutoCloseable {
     return getBufferImpl().order(ByteOrder.nativeOrder());
   }
 
-  public static void indexBuffer(ByteBuffer buffer, int index) {
-    buffer.position(index * Long.BYTES);
+  public static long getBuffer(ByteBuffer buffer, int index) {
+    return buffer.getLong(index * Long.BYTES);
+  }
+
+  public static void setBuffer(ByteBuffer buffer, int index, long x) {
+    buffer.putLong(index * Long.BYTES, x);
   }
 
   private native void initNative(long nativePtr);
@@ -66,6 +70,7 @@ public class LongArray implements AutoCloseable {
 
   public native long[] getArray();
   public native void setArray(long[] v);
+  public native void setCopy(LongArray array);
   private native ByteBuffer getBufferImpl();
   public native void setBuffer(ByteBuffer buffer);
 

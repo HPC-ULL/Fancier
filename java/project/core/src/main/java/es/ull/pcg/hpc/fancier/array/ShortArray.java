@@ -49,8 +49,12 @@ public class ShortArray implements AutoCloseable {
     return getBufferImpl().order(ByteOrder.nativeOrder());
   }
 
-  public static void indexBuffer(ByteBuffer buffer, int index) {
-    buffer.position(index * Short.BYTES);
+  public static short getBuffer(ByteBuffer buffer, int index) {
+    return buffer.getShort(index * Short.BYTES);
+  }
+
+  public static void setBuffer(ByteBuffer buffer, int index, short x) {
+    buffer.putShort(index * Short.BYTES, x);
   }
 
   private native void initNative(long nativePtr);
@@ -66,6 +70,7 @@ public class ShortArray implements AutoCloseable {
 
   public native short[] getArray();
   public native void setArray(short[] v);
+  public native void setCopy(ShortArray array);
   private native ByteBuffer getBufferImpl();
   public native void setBuffer(ByteBuffer buffer);
 

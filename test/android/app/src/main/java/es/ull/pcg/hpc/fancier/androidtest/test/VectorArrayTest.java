@@ -44,8 +44,7 @@ public class VectorArrayTest implements RuntimeTest {
       // getArray and getBuffer test
       for (int i = 0; i < n; ++i) {
         Float3 elem = f0.get(i);
-        Float3Array.indexBuffer(f0Buffer, i);
-        Float3 elemBuffer = Float3.fromBuffer(f0Buffer);
+        Float3 elemBuffer = Float3Array.getBuffer(f0Buffer, i);
 
         int baseIdx = i * 3;
         if (elem.x != f0Array[baseIdx] || elem.y != f0Array[baseIdx + 1] ||
@@ -59,13 +58,10 @@ public class VectorArrayTest implements RuntimeTest {
         return false;
 
       // getBuffer must return a modifiable reference
-      Float3Array.indexBuffer(f0Buffer, 0);
-      Float3 firstElem = Float3.fromBuffer(f0Buffer);
+      Float3 firstElem = Float3Array.getBuffer(f0Buffer, 0);
       firstElem.x += 50;
-      Float3Array.indexBuffer(f0Buffer, 0);
-      firstElem.toBuffer(f0Buffer);
-      Float3Array.indexBuffer(f0Buffer, 0);
-      if (Int3.any(Float3.isNotEqual(Float3.fromBuffer(f0Buffer), f0.get(0))) != 0)
+      Float3Array.setBuffer(f0Buffer, 0, firstElem);
+      if (Int3.any(Float3.isNotEqual(Float3Array.getBuffer(f0Buffer, 0), f0.get(0))) != 0)
         return false;
 
       // setArray test
@@ -82,9 +78,8 @@ public class VectorArrayTest implements RuntimeTest {
 
       // setBuffer test, using the same buffer as input and output
       f0.setBuffer(f0Buffer);
-      f0Buffer.rewind();
       for (int i = 0; i < n; ++i) {
-        if (Int3.any(Float3.isNotEqual(f0.get(i), Float3.fromBuffer(f0Buffer))) != 0)
+        if (Int3.any(Float3.isNotEqual(f0.get(i), Float3Array.getBuffer(f0Buffer, i))) != 0)
           return false;
       }
     }

@@ -52,8 +52,25 @@ public class Float4Array implements AutoCloseable {
     return getBufferImpl().order(ByteOrder.nativeOrder());
   }
 
-  public static void indexBuffer(ByteBuffer buffer, int index) {
-    buffer.position(index * Float.BYTES * 4);
+  public static Float4 getBuffer(ByteBuffer buffer, int index) {
+    final int baseIndex = index * Float.BYTES * 4;
+    return new Float4(buffer.getFloat(baseIndex + 0 * Float.BYTES), buffer.getFloat(baseIndex + 1 * Float.BYTES), buffer.getFloat(baseIndex + 2 * Float.BYTES), buffer.getFloat(baseIndex + 3 * Float.BYTES));
+  }
+
+  public static void getBuffer(ByteBuffer buffer, int index, Float4 result) {
+    final int baseIndex = index * Float.BYTES * 4;
+    result.x = buffer.getFloat(baseIndex + 0 * Float.BYTES);
+    result.y = buffer.getFloat(baseIndex + 1 * Float.BYTES);
+    result.z = buffer.getFloat(baseIndex + 2 * Float.BYTES);
+    result.w = buffer.getFloat(baseIndex + 3 * Float.BYTES);
+  }
+
+  public static void setBuffer(ByteBuffer buffer, int index, Float4 a) {
+    final int baseIndex = index * Float.BYTES * 4;
+    buffer.putFloat(baseIndex + 0 * Float.BYTES, a.x);
+    buffer.putFloat(baseIndex + 1 * Float.BYTES, a.y);
+    buffer.putFloat(baseIndex + 2 * Float.BYTES, a.z);
+    buffer.putFloat(baseIndex + 3 * Float.BYTES, a.w);
   }
 
   private native void initNative(long nativePtr);
@@ -69,6 +86,7 @@ public class Float4Array implements AutoCloseable {
 
   public native float[] getArray();
   public native void setArray(float[] v);
+  public native void setCopy(Float4Array array);
   private native ByteBuffer getBufferImpl();
   public native void setBuffer(ByteBuffer v);
 

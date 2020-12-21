@@ -52,8 +52,21 @@ public class Short2Array implements AutoCloseable {
     return getBufferImpl().order(ByteOrder.nativeOrder());
   }
 
-  public static void indexBuffer(ByteBuffer buffer, int index) {
-    buffer.position(index * Short.BYTES * 2);
+  public static Short2 getBuffer(ByteBuffer buffer, int index) {
+    final int baseIndex = index * Short.BYTES * 2;
+    return new Short2(buffer.getShort(baseIndex + 0 * Short.BYTES), buffer.getShort(baseIndex + 1 * Short.BYTES));
+  }
+
+  public static void getBuffer(ByteBuffer buffer, int index, Short2 result) {
+    final int baseIndex = index * Short.BYTES * 2;
+    result.x = buffer.getShort(baseIndex + 0 * Short.BYTES);
+    result.y = buffer.getShort(baseIndex + 1 * Short.BYTES);
+  }
+
+  public static void setBuffer(ByteBuffer buffer, int index, Short2 a) {
+    final int baseIndex = index * Short.BYTES * 2;
+    buffer.putShort(baseIndex + 0 * Short.BYTES, a.x);
+    buffer.putShort(baseIndex + 1 * Short.BYTES, a.y);
   }
 
   private native void initNative(long nativePtr);
@@ -69,6 +82,7 @@ public class Short2Array implements AutoCloseable {
 
   public native short[] getArray();
   public native void setArray(short[] v);
+  public native void setCopy(Short2Array array);
   private native ByteBuffer getBufferImpl();
   public native void setBuffer(ByteBuffer v);
 
