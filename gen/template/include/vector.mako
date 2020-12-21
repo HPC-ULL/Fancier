@@ -64,9 +64,10 @@ FANCIER_API fc${type|c}${vlen} fc${type|c}${vlen}_unwrap(JNIEnv* env, jobject ve
 
 % for type in types:
 % for vlen in vlens:
-FANCIER_API fc${type|c}${vlen} fc${type|c}${vlen}_create();
 FANCIER_API fc${type|c}${vlen} fc${type|c}${vlen}_create1(cl_${type|l} v);
+FANCIER_API void fc${type|c}${vlen}_set1(fc${type|c}${vlen}* self, cl_${type|l} v);
 FANCIER_API fc${type|c}${vlen} fc${type|c}${vlen}_create${'1' * vlen}(${', '.join([f'cl_{type.lower()} {param_name(i)}' for i in range(vlen)])});
+FANCIER_API void fc${type|c}${vlen}_set${'1' * vlen}(fc${type|c}${vlen}* self, ${', '.join([f'cl_{type.lower()} {param_name(i)}' for i in range(vlen)])});
 % for param_set in sorted(set(fill_params(vlen))):
 % if len(param_set) != vlen:
 <%
@@ -74,6 +75,7 @@ FANCIER_API fc${type|c}${vlen} fc${type|c}${vlen}_create${'1' * vlen}(${', '.joi
   ctor_sig = ''.join([str(param_len) for param_len in param_set])
 %>\
 FANCIER_API fc${type|c}${vlen} fc${type|c}${vlen}_create${ctor_sig}(${', '.join(params)});
+FANCIER_API void fc${type|c}${vlen}_set${ctor_sig}(fc${type|c}${vlen}* self, ${', '.join(params)});
 % endif
 % endfor
 
@@ -107,6 +109,7 @@ FANCIER_API fcInt${vlen} fc${type|c}${vlen}_${fname}(fc${type|c}${vlen} a, fc${t
 FANCIER_API cl_int fc${type|c}${vlen}_any(fc${type|c}${vlen} a);
 FANCIER_API cl_int fc${type|c}${vlen}_all(fc${type|c}${vlen} a);
 
+FANCIER_API fc${type|c}${vlen} fc${type|c}${vlen}_neg(fc${type|c}${vlen} a);
 FANCIER_API fc${type|c}${vlen} fc${type|c}${vlen}_add(fc${type|c}${vlen} a, fc${type|c}${vlen} b);
 FANCIER_API fc${type|c}${vlen} fc${type|c}${vlen}_sub(fc${type|c}${vlen} a, fc${type|c}${vlen} b);
 % for fname in ['mul', 'div']:

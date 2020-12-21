@@ -158,21 +158,24 @@ fc${type|c}${vlen} fc${type|c}${vlen}_unwrap(JNIEnv* env, jobject vec, int* err)
 // fc${type|c}${vlen}
 //
 
-fc${type|c}${vlen} fc${type|c}${vlen}_create() {
-  fc${type|c}${vlen} result = {.s = {${defaults[type]}}};
-  return result;
-}
-
 fc${type|c}${vlen} fc${type|c}${vlen}_create1(cl_${type|l} v) {
   return fc${type|c}${vlen}_create${'1' * vlen}(${', '.join('v' * vlen)});
 }
 
+void fc${type|c}${vlen}_set1(fc${type|c}${vlen}* self, cl_${type|l} v) {
+  fc${type|c}${vlen}_set${'1' * vlen}(self, ${', '.join('v' * vlen)});
+}
+
 fc${type|c}${vlen} fc${type|c}${vlen}_create${'1' * vlen}(${', '.join([f'cl_{type.lower()} {field}' for field in vfields[:vlen]])}) {
   fc${type|c}${vlen} result;
-  % for field in vfields[:vlen]:
-  result.${field} = ${field};
-  % endfor
+  fc${type|c}${vlen}_set${'1' * vlen}(&result, ${', '.join([f'{field}' for field in vfields[:vlen]])});
   return result;
+}
+
+void fc${type|c}${vlen}_set${'1' * vlen}(fc${type|c}${vlen}* self, ${', '.join([f'cl_{type.lower()} {field}' for field in vfields[:vlen]])}) {
+  % for field in vfields[:vlen]:
+  self->${field} = ${field};
+  % endfor
 }
 
 % for param_set in sorted(set(fill_params(vlen))):
@@ -184,9 +187,13 @@ fc${type|c}${vlen} fc${type|c}${vlen}_create${'1' * vlen}(${', '.join([f'cl_{typ
 fc${type|c}${vlen} fc${type|c}${vlen}_create${ctor_sig}(${', '.join(params)}) {
   return fc${type|c}${vlen}_create${'1' * vlen}(${', '.join(args)});
 }
+
+void fc${type|c}${vlen}_set${ctor_sig}(fc${type|c}${vlen}* self, ${', '.join(params)}) {
+  fc${type|c}${vlen}_set${'1' * vlen}(self, ${', '.join(args)});
+}
+
 % endif
 % endfor
-
 % if vlen > 2 and vlen % 2 == 0:
 fc${type|c}${vlen//2} fc${type|c}${vlen}_odd(fc${type|c}${vlen} a) {
   return fc${type|c}${vlen//2}_create${'1' * (vlen//2)}(${', '.join([f'a.{vfields[i]}' for i in range(1, vlen, 2)])});
@@ -241,6 +248,10 @@ cl_int fc${type|c}${vlen}_any(fc${type|c}${vlen} a) {
 
 cl_int fc${type|c}${vlen}_all(fc${type|c}${vlen} a) {
   return !(${' || '.join([f'a.{field} == {defaults[type.lower()]}' for field in vfields[:vlen]])});
+}
+
+fc${type|c}${vlen} fc${type|c}${vlen}_neg(fc${type|c}${vlen} a) {
+  return fc${type|c}${vlen}_create${'1' * vlen}(${', '.join([f'-a.{field}' for field in vfields[:vlen]])});
 }
 
 % for fname, op in zip(['add', 'sub'], ['+', '-']):

@@ -28,11 +28,15 @@
   public static ${type|c}${vlen} ${fname}(${', '.join(param_list)}) {
     return new ${type|c}${vlen}(${', '.join(native_calls)});
   }
+
+  public static void ${fname}(${', '.join(param_list)}, ${type|c}${vlen} result) {
+    % for field, value in zip(vfields[:vlen], native_calls):
+    result.${field} = ${value};
+    % endfor
+  }
 % endif
 </%def>\
 package es.ull.pcg.hpc.fancier.vector;
-
-import java.nio.ByteBuffer;
 
 import es.ull.pcg.hpc.fancier.Math;
 
@@ -46,18 +50,24 @@ public class ${type|c}${vlen} {
 % endif
 
   ## Constructors
+  public ${type|c}${vlen}() {}
+
   public ${type|c}${vlen}(${', '.join([f'{type.lower()} {field_to_varname(field)}' for field in vfields[:vlen]])}) {
-  % for field in vfields[:vlen]:
+    set(${', '.join([f'{field_to_varname(field)}' for field in vfields[:vlen]])});
+  }
+
+  public void set(${', '.join([f'{type.lower()} {field_to_varname(field)}' for field in vfields[:vlen]])}) {
+    % for field in vfields[:vlen]:
     this.${field} = ${field_to_varname(field)};
-  % endfor
+    % endfor
   }
 
   public ${type|c}${vlen}(${type|l} v) {
     this(${', '.join(['v'] * vlen)});
   }
 
-  public ${type|c}${vlen}() {
-    this((${type|l}) 0);
+  public void set(${type|l} v) {
+    set(${', '.join(['v'] * vlen)});
   }
 
   % for param_set in sorted(set(fill_params(vlen))):
@@ -67,57 +77,67 @@ public class ${type|c}${vlen} {
     this(${', '.join(args)});
   }
 
+  public void set(${', '.join(params)}) {
+    set(${', '.join(args)});
+  }
+
   % endif
   % endfor
-<% buffer_get = f'get{type.capitalize()}' if type.lower() != 'byte' else 'get' %>\
-<% buffer_put = f'put{type.capitalize()}' if type.lower() != 'byte' else 'put' %>\
-  public static ${type|c}${vlen} fromBuffer(ByteBuffer buffer) {
-    ${type|c}${vlen} result = new ${type|c}${vlen}();
-
-    % for field in vfields[:vlen]:
-    result.${field} = buffer.${buffer_get}();
-    % endfor
-    % if vlen == 3:
-    // Advance index to compensate for memory alignment
-    buffer.${buffer_get}();
-    % endif
-
-    return result;
-  }
-
-  public void toBuffer(ByteBuffer buffer) {
-    % for field in vfields[:vlen]:
-    buffer.${buffer_put}(this.${field});
-    % endfor
-    % if vlen == 3:
-    // Advance index to compensate for memory alignment
-    buffer.${buffer_get}();
-    % endif
-  }
   ## Indexing
   % if vlen > 2 and vlen % 2 == 0:
   public ${type|c}${vlen//2} lo() {
     return new ${type|c}${vlen//2}(${', '.join([field for field in vfields[:vlen//2]])});
   }
 
+  public void lo(${type|c}${vlen//2} result) {
+    % for field in vfields[:vlen//2]:
+    result.${field} = ${field};
+    % endfor
+  }
+
   public ${type|c}${vlen//2} hi() {
     return new ${type|c}${vlen//2}(${', '.join([field for field in vfields[vlen//2:vlen]])});
+  }
+
+  public void hi(${type|c}${vlen//2} result) {
+    % for field, ofield in zip(vfields[:vlen//2], vfields[vlen//2:vlen]):
+    result.${field} = ${ofield};
+    % endfor
   }
 
   public ${type|c}${vlen//2} odd() {
     return new ${type|c}${vlen//2}(${', '.join([f'{vfields[i]}' for i in range(1, vlen, 2)])});
   }
 
+  public void odd(${type|c}${vlen//2} result) {
+    % for field, ofield in zip(vfields[:vlen//2], [vfields[i] for i in range (1, vlen, 2)]):
+    result.${field} = ${ofield};
+    % endfor
+  }
+
   public ${type|c}${vlen//2} even() {
     return new ${type|c}${vlen//2}(${', '.join([f'{vfields[i]}' for i in range(0, vlen, 2)])});
   }
 
+  public void even(${type|c}${vlen//2} result) {
+    % for field, ofield in zip(vfields[:vlen//2], [vfields[i] for i in range (0, vlen, 2)]):
+    result.${field} = ${ofield};
+    % endfor
+  }
+
   % endif
   ## Conversion
+<% cast_mask = ' & 0xff' if type.lower() == 'byte' else '' %>\
   % for newtype in types:
   % if newtype != type.lower():
   public ${newtype|c}${vlen} convert${newtype|c}${vlen}() {
-    return new ${newtype|c}${vlen}(${', '.join([f'({newtype.lower()}) {field}' for field in vfields[:vlen]])});
+    return new ${newtype|c}${vlen}(${', '.join([f'({newtype.lower()})({field}{cast_mask})' for field in vfields[:vlen]])});
+  }
+
+  public void convert${newtype|c}${vlen}(${newtype|c}${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = (${newtype|l})(${field}${cast_mask});
+    % endfor
   }
 
   % endif
@@ -127,6 +147,12 @@ public class ${type|c}${vlen} {
     return new ${type|c}${newlen}(${', '.join([field for field in vfields[:newlen]])});
   }
 
+  public void as${type|c}${newlen}(${type|c}${newlen} result) {
+    % for field in vfields[:newlen]:
+    result.${field} = ${field};
+    % endfor
+  }
+
   % endfor
   ## Comparison operators
   % for fname, op in zip(['isEqual', 'isNotEqual', 'isGreater', 'isGreaterEqual', 'isLess', 'isLessEqual'], ['==', '!=', '>', '>=', '<', '<=']):
@@ -134,9 +160,21 @@ public class ${type|c}${vlen} {
     return new Int${vlen}(${', '.join([f'a.{field} {op} b.{field}? 1 : 0' for field in vfields[:vlen]])});
   }
 
+  public static void ${fname}(${type|c}${vlen} a, ${type|c}${vlen} b, Int${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = a.${field} ${op} b.${field}? 1 : 0;
+    % endfor
+  }
+
   % endfor
   public static ${type|c}${vlen} select(${type|c}${vlen} a, ${type|c}${vlen} b, Int${vlen} c) {
     return new ${type|c}${vlen}(${', '.join(f'Math.select(a.{field}, b.{field}, c.{field})' for field in vfields[:vlen])});
+  }
+
+  public static void select(${type|c}${vlen} a, ${type|c}${vlen} b, Int${vlen} c, ${type|c}${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = Math.select(a.${field}, b.${field}, c.${field});
+    % endfor
   }
 
   % if type.lower() in floattypes:
@@ -145,10 +183,22 @@ public class ${type|c}${vlen} {
     return new Int${vlen}(${', '.join(f'Math.{fname}(a.{field})' for field in vfields[:vlen])});
   }
 
+  public static void ${fname}(${type|c}${vlen} a, Int${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = Math.${fname}(a.${field});
+    % endfor
+  }
+
   % endfor
   % for fname in ('isOrdered', 'isUnordered'):
   public static Int${vlen} ${fname}(${type|c}${vlen} a, ${type|c}${vlen} b) {
     return new Int${vlen}(${', '.join(f'Math.{fname}(a.{field}, b.{field})' for field in vfields[:vlen])});
+  }
+
+  public static void ${fname}(${type|c}${vlen} a, ${type|c}${vlen} b, Int${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = Math.${fname}(a.${field}, b.${field});
+    % endfor
   }
 
   % endfor
@@ -163,9 +213,25 @@ public class ${type|c}${vlen} {
   }
 
   ## Basic element-wise arithmetic operations
+  public static ${type|c}${vlen} neg(${type|c}${vlen} a) {
+    return new ${type|c}${vlen}(${', '.join([f'({type.lower()})(-a.{field})' for field in vfields[:vlen]])});
+  }
+
+  public static void neg(${type|c}${vlen} a, ${type|c}${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = (${type|l})(-a.${field});
+    % endfor
+  }
+
   % for fname, op in zip(['add', 'sub'], ['+', '-']):
   public static ${type|c}${vlen} ${fname}(${type|c}${vlen} a, ${type|c}${vlen} b) {
     return new ${type|c}${vlen}(${', '.join([f'({type.lower()})(a.{field} {op} b.{field})' for field in vfields[:vlen]])});
+  }
+
+  public static void ${fname}(${type|c}${vlen} a, ${type|c}${vlen} b, ${type|c}${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = (${type|l})(a.${field} ${op} b.${field});
+    % endfor
   }
 
   % endfor
@@ -176,8 +242,20 @@ public class ${type|c}${vlen} {
     return new ${param_type|c}${vlen}(${', '.join([f'({param_type.lower()})(a.{field} {op} b.{field})' for field in vfields[:vlen]])});
   }
 
+  public static void ${fname}(${type|c}${vlen} a, ${param_type|c}${vlen} b, ${param_type|c}${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = (${param_type|l})(a.${field} ${op} b.${field});
+    % endfor
+  }
+
   public static ${param_type|c}${vlen} ${fname}(${type|c}${vlen} a, ${param_type|l} k) {
     return new ${param_type|c}${vlen}(${', '.join([f'({param_type.lower()})(a.{field} {op} k)' for field in vfields[:vlen]])});
+  }
+
+  public static void ${fname}(${type|c}${vlen} a, ${param_type|l} k, ${param_type|c}${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = (${param_type|l})(a.${field} ${op} k);
+    % endfor
   }
 
   % endfor
@@ -186,13 +264,17 @@ public class ${type|c}${vlen} {
   ## Vector cross product for vectors of length 3 and 4
   % if vlen in (3, 4):
   public static ${type|c}${vlen} cross(${type|c}${vlen} a, ${type|c}${vlen} b) {
-    ${type|l} resX = a.y * b.z - a.z * b.y;
-    ${type|l} resY = a.z * b.x - a.x * b.z;
-    ${type|l} resZ = a.x * b.y - a.y * b.x;
-    % if vlen == 3:
-    return new ${type|c}${vlen}(resX, resY, resZ);
-    % else:
-    return new ${type|c}${vlen}(resX, resY, resZ, ${defaults[type.lower()]});
+    ${type|c}${vlen} result = new ${type|c}${vlen}();
+    cross(a, b, result);
+    return result;
+  }
+
+  public static void cross(${type|c}${vlen} a, ${type|c}${vlen} b, ${type|c}${vlen} result) {
+    result.x = a.y * b.z - a.z * b.y;
+    result.y = a.z * b.x - a.x * b.z;
+    result.z = a.x * b.y - a.y * b.x;
+    % if vlen == 4:
+    result.w = ${defaults[type.lower()]};
     % endif
   }
 
@@ -202,7 +284,12 @@ public class ${type|c}${vlen} {
   }
 
   public static double distance(${type|c}${vlen} a, ${type|c}${vlen} b) {
-    return length(sub(a, b));
+    return distance(a, b, new ${type|c}${vlen}());
+  }
+
+  public static double distance(${type|c}${vlen} a, ${type|c}${vlen} b, ${type|c}${vlen} tmp) {
+    sub(a, b, tmp);
+    return length(tmp);
   }
 
   public static double length(${type|c}${vlen} a) {
@@ -210,18 +297,37 @@ public class ${type|c}${vlen} {
   }
 
   public static ${type|c}${vlen} normalize(${type|c}${vlen} a) {
-    double len = length(a);
-    return new ${type|c}${vlen}(${', '.join([f'({type.lower()})(a.{field} / len)' for field in vfields[:vlen]])});
+    ${type|c}${vlen} result = new ${type|c}${vlen}();
+    normalize(a, result);
+    return result;
   }
 
+  public static void normalize(${type|c}${vlen} a, ${type|c}${vlen} result) {
+    double len = length(a);
+    % for field in vfields[:vlen]:
+    result.${field} = (${type|l})(a.${field} / len);
+    % endfor
+  }
   % elif type.lower() in inttypes:
   ## Module (%) operator
   public static ${type|c}${vlen} mod(${type|c}${vlen} a, ${type|c}${vlen} b) {
     return new ${type|c}${vlen}(${', '.join([f'({type.lower()})(a.{field} % b.{field})' for field in vfields[:vlen]])});
   }
 
+  public static void mod(${type|c}${vlen} a, ${type|c}${vlen} b, ${type|c}${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = (${type|l})(a.${field} % b.${field});
+    % endfor
+  }
+
   public static ${type|c}${vlen} mod(${type|c}${vlen} a, ${type|l} k) {
     return new ${type|c}${vlen}(${', '.join([f'({type.lower()})(a.{field} % k)' for field in vfields[:vlen]])});
+  }
+
+  public static void mod(${type|c}${vlen} a, ${type|l} k, ${type|c}${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = (${type|l})(a.${field} % k);
+    % endfor
   }
 
   ## Bitwise operators
@@ -230,9 +336,21 @@ public class ${type|c}${vlen} {
     return new ${type|c}${vlen}(${', '.join([f'({type.lower()})(a.{field} {op} b.{field})' for field in vfields[:vlen]])});
   }
 
+  public static void ${fname}(${type|c}${vlen} a, ${type|c}${vlen} b, ${type|c}${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = (${type|l})(a.${field} ${op} b.${field});
+    % endfor
+  }
+
   % endfor
   public static ${type|c}${vlen} bitNot(${type|c}${vlen} a) {
     return new ${type|c}${vlen}(${', '.join([f'({type.lower()})(~a.{field})' for field in vfields[:vlen]])});
+  }
+
+  public static void bitNot(${type|c}${vlen} a, ${type|c}${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = (${type|l})(~a.${field});
+    % endfor
   }
   % endif
   % for fname in sorted(math_alltype_functions):
@@ -243,16 +361,40 @@ ${simple_elementwise(fname)}\
     return new ${type|c}${vlen}(${', '.join([f'Math.clamp(v.{field}, min, max)' for field in vfields[:vlen]])});
   }
 
+  public static void clamp(${type|c}${vlen} v, ${type|l} min, ${type|l} max, ${type|c}${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = Math.clamp(v.${field}, min, max);
+    % endfor
+  }
+
   public static ${type|c}${vlen} max(${type|c}${vlen} x, ${type|l} y) {
     return new ${type|c}${vlen}(${', '.join([f'Math.max(x.{field}, y)' for field in vfields[:vlen]])});
+  }
+
+  public static void max(${type|c}${vlen} x, ${type|l} y, ${type|c}${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = Math.max(x.${field}, y);
+    % endfor
   }
 
   public static ${type|c}${vlen} min(${type|c}${vlen} x, ${type|l} y) {
     return new ${type|c}${vlen}(${', '.join([f'Math.min(x.{field}, y)' for field in vfields[:vlen]])});
   }
 
+  public static void min(${type|c}${vlen} x, ${type|l} y, ${type|c}${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = Math.min(x.${field}, y);
+    % endfor
+  }
+
   public static ${type|c}${vlen} mix(${type|c}${vlen} x, ${type|c}${vlen} y, ${type|l} a) {
     return new ${type|c}${vlen}(${', '.join([f'Math.mix(x.{field}, y.{field}, a)' for field in vfields[:vlen]])});
+  }
+
+  public static void mix(${type|c}${vlen} x, ${type|c}${vlen} y, ${type|l} a, ${type|c}${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = Math.mix(x.${field}, y.${field}, a);
+    % endfor
   }
   % if type.lower() in floattypes:
   % for fname in sorted(math_float_functions):
@@ -263,20 +405,50 @@ ${simple_elementwise(fname)}\
     return new ${type|c}${vlen}(${', '.join([f'Math.scalb(a.{field}, n.{field})' for field in vfields[:vlen]])});
   }
 
+  public static void scalb(${type|c}${vlen} a, Int${vlen} n, ${type|c}${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = Math.scalb(a.${field}, n.${field});
+    % endfor
+  }
+
   public static ${type|c}${vlen} ldexp(${type|c}${vlen} a, Int${vlen} n) {
     return new ${type|c}${vlen}(${', '.join([f'Math.ldexp(a.{field}, n.{field})' for field in vfields[:vlen]])});
+  }
+
+  public static void ldexp(${type|c}${vlen} a, Int${vlen} n, ${type|c}${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = Math.ldexp(a.${field}, n.${field});
+    % endfor
   }
 
   public static ${type|c}${vlen} pown(${type|c}${vlen} a, Int${vlen} b) {
     return new ${type|c}${vlen}(${', '.join([f'Math.pown(a.{field}, b.{field})' for field in vfields[:vlen]])});
   }
 
+  public static void pown(${type|c}${vlen} a, Int${vlen} b, ${type|c}${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = Math.pown(a.${field}, b.${field});
+    % endfor
+  }
+
   public static ${type|c}${vlen} rootn(${type|c}${vlen} a, Int${vlen} b) {
     return new ${type|c}${vlen}(${', '.join([f'Math.pown(a.{field}, b.{field})' for field in vfields[:vlen]])});
   }
 
+  public static void rootn(${type|c}${vlen} a, Int${vlen} b, ${type|c}${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = Math.pown(a.${field}, b.${field});
+    % endfor
+  }
+
   public static ${type|c}${vlen} smoothStep(${type|c}${vlen} a, ${type|c}${vlen} b, ${type|l} c) {
     return new ${type|c}${vlen}(${', '.join([f'Math.smoothStep(a.{field}, b.{field}, c)' for field in vfields[:vlen]])});
+  }
+
+  public static void smoothStep(${type|c}${vlen} a, ${type|c}${vlen} b, ${type|l} c, ${type|c}${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = Math.smoothStep(a.${field}, b.${field}, c);
+    % endfor
   }
   % elif type.lower() in inttypes:
   % for fname in sorted(math_int_functions):
@@ -288,8 +460,20 @@ ${simple_elementwise(fname)}\
     return new ${type|c}${vlen}(${', '.join([f'Math.mad24(a.{field}, b.{field}, c.{field})' for field in vfields[:vlen]])});
   }
 
+  public static void mad24(${type|c}${vlen} a, ${type|c}${vlen} b, ${type|c}${vlen} c, ${type|c}${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = Math.mad24(a.${field}, b.${field}, c.${field});
+    % endfor
+  }
+
   public static ${type|c}${vlen} mul24(${type|c}${vlen} a, ${type|c}${vlen} b) {
     return new ${type|c}${vlen}(${', '.join([f'Math.mul24(a.{field}, b.{field})' for field in vfields[:vlen]])});
+  }
+
+  public static void mul24(${type|c}${vlen} a, ${type|c}${vlen} b, ${type|c}${vlen} result) {
+    % for field in vfields[:vlen]:
+    result.${field} = Math.mul24(a.${field}, b.${field});
+    % endfor
   }
   % endif
   % endif

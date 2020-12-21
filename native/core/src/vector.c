@@ -1214,24 +1214,31 @@ fcDouble8 fcDouble8_unwrap(JNIEnv* env, jobject vec, int* err) {
 // fcByte2
 //
 
-fcByte2 fcByte2_create() {
-  fcByte2 result = {.s = {'\0'}};
-  return result;
-}
-
 fcByte2 fcByte2_create1(cl_byte v) {
   return fcByte2_create11(v, v);
 }
 
+void fcByte2_set1(fcByte2* self, cl_byte v) {
+  fcByte2_set11(self, v, v);
+}
+
 fcByte2 fcByte2_create11(cl_byte x, cl_byte y) {
   fcByte2 result;
-  result.x = x;
-  result.y = y;
+  fcByte2_set11(&result, x, y);
   return result;
+}
+
+void fcByte2_set11(fcByte2* self, cl_byte x, cl_byte y) {
+  self->x = x;
+  self->y = y;
 }
 
 fcByte2 fcByte2_create2(fcByte2 vec1) {
   return fcByte2_create11(vec1.x, vec1.y);
+}
+
+void fcByte2_set2(fcByte2* self, fcByte2 vec1) {
+  fcByte2_set11(self, vec1.x, vec1.y);
 }
 
 fcShort2 fcByte2_convertShort2(fcByte2 a) {
@@ -1288,6 +1295,10 @@ cl_int fcByte2_any(fcByte2 a) {
 
 cl_int fcByte2_all(fcByte2 a) {
   return !(a.x == '\0' || a.y == '\0');
+}
+
+fcByte2 fcByte2_neg(fcByte2 a) {
+  return fcByte2_create11(-a.x, -a.y);
 }
 
 fcByte2 fcByte2_add(fcByte2 a, fcByte2 b) {
@@ -1459,31 +1470,48 @@ fcByte2 fcByte2_subSat(fcByte2 a, fcByte2 b) {
 // fcByte3
 //
 
-fcByte3 fcByte3_create() {
-  fcByte3 result = {.s = {'\0'}};
-  return result;
-}
-
 fcByte3 fcByte3_create1(cl_byte v) {
   return fcByte3_create111(v, v, v);
 }
 
+void fcByte3_set1(fcByte3* self, cl_byte v) {
+  fcByte3_set111(self, v, v, v);
+}
+
 fcByte3 fcByte3_create111(cl_byte x, cl_byte y, cl_byte z) {
   fcByte3 result;
-  result.x = x;
-  result.y = y;
-  result.z = z;
+  fcByte3_set111(&result, x, y, z);
   return result;
+}
+
+void fcByte3_set111(fcByte3* self, cl_byte x, cl_byte y, cl_byte z) {
+  self->x = x;
+  self->y = y;
+  self->z = z;
 }
 
 fcByte3 fcByte3_create12(cl_byte x, fcByte2 vec1) {
   return fcByte3_create111(x, vec1.x, vec1.y);
 }
+
+void fcByte3_set12(fcByte3* self, cl_byte x, fcByte2 vec1) {
+  fcByte3_set111(self, x, vec1.x, vec1.y);
+}
+
 fcByte3 fcByte3_create21(fcByte2 vec1, cl_byte z) {
   return fcByte3_create111(vec1.x, vec1.y, z);
 }
+
+void fcByte3_set21(fcByte3* self, fcByte2 vec1, cl_byte z) {
+  fcByte3_set111(self, vec1.x, vec1.y, z);
+}
+
 fcByte3 fcByte3_create3(fcByte3 vec1) {
   return fcByte3_create111(vec1.x, vec1.y, vec1.z);
+}
+
+void fcByte3_set3(fcByte3* self, fcByte3 vec1) {
+  fcByte3_set111(self, vec1.x, vec1.y, vec1.z);
 }
 
 fcShort3 fcByte3_convertShort3(fcByte3 a) {
@@ -1544,6 +1572,10 @@ cl_int fcByte3_any(fcByte3 a) {
 
 cl_int fcByte3_all(fcByte3 a) {
   return !(a.x == '\0' || a.y == '\0' || a.z == '\0');
+}
+
+fcByte3 fcByte3_neg(fcByte3 a) {
+  return fcByte3_create111(-a.x, -a.y, -a.z);
 }
 
 fcByte3 fcByte3_add(fcByte3 a, fcByte3 b) {
@@ -1715,44 +1747,81 @@ fcByte3 fcByte3_subSat(fcByte3 a, fcByte3 b) {
 // fcByte4
 //
 
-fcByte4 fcByte4_create() {
-  fcByte4 result = {.s = {'\0'}};
-  return result;
-}
-
 fcByte4 fcByte4_create1(cl_byte v) {
   return fcByte4_create1111(v, v, v, v);
 }
 
+void fcByte4_set1(fcByte4* self, cl_byte v) {
+  fcByte4_set1111(self, v, v, v, v);
+}
+
 fcByte4 fcByte4_create1111(cl_byte x, cl_byte y, cl_byte z, cl_byte w) {
   fcByte4 result;
-  result.x = x;
-  result.y = y;
-  result.z = z;
-  result.w = w;
+  fcByte4_set1111(&result, x, y, z, w);
   return result;
+}
+
+void fcByte4_set1111(fcByte4* self, cl_byte x, cl_byte y, cl_byte z, cl_byte w) {
+  self->x = x;
+  self->y = y;
+  self->z = z;
+  self->w = w;
 }
 
 fcByte4 fcByte4_create112(cl_byte x, cl_byte y, fcByte2 vec1) {
   return fcByte4_create1111(x, y, vec1.x, vec1.y);
 }
+
+void fcByte4_set112(fcByte4* self, cl_byte x, cl_byte y, fcByte2 vec1) {
+  fcByte4_set1111(self, x, y, vec1.x, vec1.y);
+}
+
 fcByte4 fcByte4_create121(cl_byte x, fcByte2 vec1, cl_byte w) {
   return fcByte4_create1111(x, vec1.x, vec1.y, w);
 }
+
+void fcByte4_set121(fcByte4* self, cl_byte x, fcByte2 vec1, cl_byte w) {
+  fcByte4_set1111(self, x, vec1.x, vec1.y, w);
+}
+
 fcByte4 fcByte4_create13(cl_byte x, fcByte3 vec1) {
   return fcByte4_create1111(x, vec1.x, vec1.y, vec1.z);
 }
+
+void fcByte4_set13(fcByte4* self, cl_byte x, fcByte3 vec1) {
+  fcByte4_set1111(self, x, vec1.x, vec1.y, vec1.z);
+}
+
 fcByte4 fcByte4_create211(fcByte2 vec1, cl_byte z, cl_byte w) {
   return fcByte4_create1111(vec1.x, vec1.y, z, w);
 }
+
+void fcByte4_set211(fcByte4* self, fcByte2 vec1, cl_byte z, cl_byte w) {
+  fcByte4_set1111(self, vec1.x, vec1.y, z, w);
+}
+
 fcByte4 fcByte4_create22(fcByte2 vec1, fcByte2 vec2) {
   return fcByte4_create1111(vec1.x, vec1.y, vec2.x, vec2.y);
 }
+
+void fcByte4_set22(fcByte4* self, fcByte2 vec1, fcByte2 vec2) {
+  fcByte4_set1111(self, vec1.x, vec1.y, vec2.x, vec2.y);
+}
+
 fcByte4 fcByte4_create31(fcByte3 vec1, cl_byte w) {
   return fcByte4_create1111(vec1.x, vec1.y, vec1.z, w);
 }
+
+void fcByte4_set31(fcByte4* self, fcByte3 vec1, cl_byte w) {
+  fcByte4_set1111(self, vec1.x, vec1.y, vec1.z, w);
+}
+
 fcByte4 fcByte4_create4(fcByte4 vec1) {
   return fcByte4_create1111(vec1.x, vec1.y, vec1.z, vec1.w);
+}
+
+void fcByte4_set4(fcByte4* self, fcByte4 vec1) {
+  fcByte4_set1111(self, vec1.x, vec1.y, vec1.z, vec1.w);
 }
 
 fcByte2 fcByte4_odd(fcByte4 a) {
@@ -1825,6 +1894,10 @@ cl_int fcByte4_any(fcByte4 a) {
 
 cl_int fcByte4_all(fcByte4 a) {
   return !(a.x == '\0' || a.y == '\0' || a.z == '\0' || a.w == '\0');
+}
+
+fcByte4 fcByte4_neg(fcByte4 a) {
+  return fcByte4_create1111(-a.x, -a.y, -a.z, -a.w);
 }
 
 fcByte4 fcByte4_add(fcByte4 a, fcByte4 b) {
@@ -1996,351 +2069,893 @@ fcByte4 fcByte4_subSat(fcByte4 a, fcByte4 b) {
 // fcByte8
 //
 
-fcByte8 fcByte8_create() {
-  fcByte8 result = {.s = {'\0'}};
-  return result;
-}
-
 fcByte8 fcByte8_create1(cl_byte v) {
   return fcByte8_create11111111(v, v, v, v, v, v, v, v);
 }
 
+void fcByte8_set1(fcByte8* self, cl_byte v) {
+  fcByte8_set11111111(self, v, v, v, v, v, v, v, v);
+}
+
 fcByte8 fcByte8_create11111111(cl_byte x, cl_byte y, cl_byte z, cl_byte w, cl_byte s4, cl_byte s5, cl_byte s6, cl_byte s7) {
   fcByte8 result;
-  result.x = x;
-  result.y = y;
-  result.z = z;
-  result.w = w;
-  result.s4 = s4;
-  result.s5 = s5;
-  result.s6 = s6;
-  result.s7 = s7;
+  fcByte8_set11111111(&result, x, y, z, w, s4, s5, s6, s7);
   return result;
+}
+
+void fcByte8_set11111111(fcByte8* self, cl_byte x, cl_byte y, cl_byte z, cl_byte w, cl_byte s4, cl_byte s5, cl_byte s6, cl_byte s7) {
+  self->x = x;
+  self->y = y;
+  self->z = z;
+  self->w = w;
+  self->s4 = s4;
+  self->s5 = s5;
+  self->s6 = s6;
+  self->s7 = s7;
 }
 
 fcByte8 fcByte8_create1111112(cl_byte x, cl_byte y, cl_byte z, cl_byte w, cl_byte s4, cl_byte s5, fcByte2 vec1) {
   return fcByte8_create11111111(x, y, z, w, s4, s5, vec1.x, vec1.y);
 }
+
+void fcByte8_set1111112(fcByte8* self, cl_byte x, cl_byte y, cl_byte z, cl_byte w, cl_byte s4, cl_byte s5, fcByte2 vec1) {
+  fcByte8_set11111111(self, x, y, z, w, s4, s5, vec1.x, vec1.y);
+}
+
 fcByte8 fcByte8_create1111121(cl_byte x, cl_byte y, cl_byte z, cl_byte w, cl_byte s4, fcByte2 vec1, cl_byte s7) {
   return fcByte8_create11111111(x, y, z, w, s4, vec1.x, vec1.y, s7);
 }
+
+void fcByte8_set1111121(fcByte8* self, cl_byte x, cl_byte y, cl_byte z, cl_byte w, cl_byte s4, fcByte2 vec1, cl_byte s7) {
+  fcByte8_set11111111(self, x, y, z, w, s4, vec1.x, vec1.y, s7);
+}
+
 fcByte8 fcByte8_create111113(cl_byte x, cl_byte y, cl_byte z, cl_byte w, cl_byte s4, fcByte3 vec1) {
   return fcByte8_create11111111(x, y, z, w, s4, vec1.x, vec1.y, vec1.z);
 }
+
+void fcByte8_set111113(fcByte8* self, cl_byte x, cl_byte y, cl_byte z, cl_byte w, cl_byte s4, fcByte3 vec1) {
+  fcByte8_set11111111(self, x, y, z, w, s4, vec1.x, vec1.y, vec1.z);
+}
+
 fcByte8 fcByte8_create1111211(cl_byte x, cl_byte y, cl_byte z, cl_byte w, fcByte2 vec1, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(x, y, z, w, vec1.x, vec1.y, s6, s7);
 }
+
+void fcByte8_set1111211(fcByte8* self, cl_byte x, cl_byte y, cl_byte z, cl_byte w, fcByte2 vec1, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, x, y, z, w, vec1.x, vec1.y, s6, s7);
+}
+
 fcByte8 fcByte8_create111122(cl_byte x, cl_byte y, cl_byte z, cl_byte w, fcByte2 vec1, fcByte2 vec2) {
   return fcByte8_create11111111(x, y, z, w, vec1.x, vec1.y, vec2.x, vec2.y);
 }
+
+void fcByte8_set111122(fcByte8* self, cl_byte x, cl_byte y, cl_byte z, cl_byte w, fcByte2 vec1, fcByte2 vec2) {
+  fcByte8_set11111111(self, x, y, z, w, vec1.x, vec1.y, vec2.x, vec2.y);
+}
+
 fcByte8 fcByte8_create111131(cl_byte x, cl_byte y, cl_byte z, cl_byte w, fcByte3 vec1, cl_byte s7) {
   return fcByte8_create11111111(x, y, z, w, vec1.x, vec1.y, vec1.z, s7);
 }
+
+void fcByte8_set111131(fcByte8* self, cl_byte x, cl_byte y, cl_byte z, cl_byte w, fcByte3 vec1, cl_byte s7) {
+  fcByte8_set11111111(self, x, y, z, w, vec1.x, vec1.y, vec1.z, s7);
+}
+
 fcByte8 fcByte8_create11114(cl_byte x, cl_byte y, cl_byte z, cl_byte w, fcByte4 vec1) {
   return fcByte8_create11111111(x, y, z, w, vec1.x, vec1.y, vec1.z, vec1.w);
 }
+
+void fcByte8_set11114(fcByte8* self, cl_byte x, cl_byte y, cl_byte z, cl_byte w, fcByte4 vec1) {
+  fcByte8_set11111111(self, x, y, z, w, vec1.x, vec1.y, vec1.z, vec1.w);
+}
+
 fcByte8 fcByte8_create1112111(cl_byte x, cl_byte y, cl_byte z, fcByte2 vec1, cl_byte s5, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(x, y, z, vec1.x, vec1.y, s5, s6, s7);
 }
+
+void fcByte8_set1112111(fcByte8* self, cl_byte x, cl_byte y, cl_byte z, fcByte2 vec1, cl_byte s5, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, x, y, z, vec1.x, vec1.y, s5, s6, s7);
+}
+
 fcByte8 fcByte8_create111212(cl_byte x, cl_byte y, cl_byte z, fcByte2 vec1, cl_byte s5, fcByte2 vec2) {
   return fcByte8_create11111111(x, y, z, vec1.x, vec1.y, s5, vec2.x, vec2.y);
 }
+
+void fcByte8_set111212(fcByte8* self, cl_byte x, cl_byte y, cl_byte z, fcByte2 vec1, cl_byte s5, fcByte2 vec2) {
+  fcByte8_set11111111(self, x, y, z, vec1.x, vec1.y, s5, vec2.x, vec2.y);
+}
+
 fcByte8 fcByte8_create111221(cl_byte x, cl_byte y, cl_byte z, fcByte2 vec1, fcByte2 vec2, cl_byte s7) {
   return fcByte8_create11111111(x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, s7);
 }
+
+void fcByte8_set111221(fcByte8* self, cl_byte x, cl_byte y, cl_byte z, fcByte2 vec1, fcByte2 vec2, cl_byte s7) {
+  fcByte8_set11111111(self, x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, s7);
+}
+
 fcByte8 fcByte8_create11123(cl_byte x, cl_byte y, cl_byte z, fcByte2 vec1, fcByte3 vec2) {
   return fcByte8_create11111111(x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z);
 }
+
+void fcByte8_set11123(fcByte8* self, cl_byte x, cl_byte y, cl_byte z, fcByte2 vec1, fcByte3 vec2) {
+  fcByte8_set11111111(self, x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z);
+}
+
 fcByte8 fcByte8_create111311(cl_byte x, cl_byte y, cl_byte z, fcByte3 vec1, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(x, y, z, vec1.x, vec1.y, vec1.z, s6, s7);
 }
+
+void fcByte8_set111311(fcByte8* self, cl_byte x, cl_byte y, cl_byte z, fcByte3 vec1, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, x, y, z, vec1.x, vec1.y, vec1.z, s6, s7);
+}
+
 fcByte8 fcByte8_create11132(cl_byte x, cl_byte y, cl_byte z, fcByte3 vec1, fcByte2 vec2) {
   return fcByte8_create11111111(x, y, z, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y);
 }
+
+void fcByte8_set11132(fcByte8* self, cl_byte x, cl_byte y, cl_byte z, fcByte3 vec1, fcByte2 vec2) {
+  fcByte8_set11111111(self, x, y, z, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y);
+}
+
 fcByte8 fcByte8_create11141(cl_byte x, cl_byte y, cl_byte z, fcByte4 vec1, cl_byte s7) {
   return fcByte8_create11111111(x, y, z, vec1.x, vec1.y, vec1.z, vec1.w, s7);
 }
+
+void fcByte8_set11141(fcByte8* self, cl_byte x, cl_byte y, cl_byte z, fcByte4 vec1, cl_byte s7) {
+  fcByte8_set11111111(self, x, y, z, vec1.x, vec1.y, vec1.z, vec1.w, s7);
+}
+
 fcByte8 fcByte8_create1121111(cl_byte x, cl_byte y, fcByte2 vec1, cl_byte s4, cl_byte s5, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(x, y, vec1.x, vec1.y, s4, s5, s6, s7);
 }
+
+void fcByte8_set1121111(fcByte8* self, cl_byte x, cl_byte y, fcByte2 vec1, cl_byte s4, cl_byte s5, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, x, y, vec1.x, vec1.y, s4, s5, s6, s7);
+}
+
 fcByte8 fcByte8_create112112(cl_byte x, cl_byte y, fcByte2 vec1, cl_byte s4, cl_byte s5, fcByte2 vec2) {
   return fcByte8_create11111111(x, y, vec1.x, vec1.y, s4, s5, vec2.x, vec2.y);
 }
+
+void fcByte8_set112112(fcByte8* self, cl_byte x, cl_byte y, fcByte2 vec1, cl_byte s4, cl_byte s5, fcByte2 vec2) {
+  fcByte8_set11111111(self, x, y, vec1.x, vec1.y, s4, s5, vec2.x, vec2.y);
+}
+
 fcByte8 fcByte8_create112121(cl_byte x, cl_byte y, fcByte2 vec1, cl_byte s4, fcByte2 vec2, cl_byte s7) {
   return fcByte8_create11111111(x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, s7);
 }
+
+void fcByte8_set112121(fcByte8* self, cl_byte x, cl_byte y, fcByte2 vec1, cl_byte s4, fcByte2 vec2, cl_byte s7) {
+  fcByte8_set11111111(self, x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, s7);
+}
+
 fcByte8 fcByte8_create11213(cl_byte x, cl_byte y, fcByte2 vec1, cl_byte s4, fcByte3 vec2) {
   return fcByte8_create11111111(x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcByte8_set11213(fcByte8* self, cl_byte x, cl_byte y, fcByte2 vec1, cl_byte s4, fcByte3 vec2) {
+  fcByte8_set11111111(self, x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcByte8 fcByte8_create112211(cl_byte x, cl_byte y, fcByte2 vec1, fcByte2 vec2, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, s6, s7);
 }
+
+void fcByte8_set112211(fcByte8* self, cl_byte x, cl_byte y, fcByte2 vec1, fcByte2 vec2, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, s6, s7);
+}
+
 fcByte8 fcByte8_create11222(cl_byte x, cl_byte y, fcByte2 vec1, fcByte2 vec2, fcByte2 vec3) {
   return fcByte8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcByte8_set11222(fcByte8* self, cl_byte x, cl_byte y, fcByte2 vec1, fcByte2 vec2, fcByte2 vec3) {
+  fcByte8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcByte8 fcByte8_create11231(cl_byte x, cl_byte y, fcByte2 vec1, fcByte3 vec2, cl_byte s7) {
   return fcByte8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcByte8_set11231(fcByte8* self, cl_byte x, cl_byte y, fcByte2 vec1, fcByte3 vec2, cl_byte s7) {
+  fcByte8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcByte8 fcByte8_create1124(cl_byte x, cl_byte y, fcByte2 vec1, fcByte4 vec2) {
   return fcByte8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcByte8_set1124(fcByte8* self, cl_byte x, cl_byte y, fcByte2 vec1, fcByte4 vec2) {
+  fcByte8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcByte8 fcByte8_create113111(cl_byte x, cl_byte y, fcByte3 vec1, cl_byte s5, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(x, y, vec1.x, vec1.y, vec1.z, s5, s6, s7);
 }
+
+void fcByte8_set113111(fcByte8* self, cl_byte x, cl_byte y, fcByte3 vec1, cl_byte s5, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, s5, s6, s7);
+}
+
 fcByte8 fcByte8_create11312(cl_byte x, cl_byte y, fcByte3 vec1, cl_byte s5, fcByte2 vec2) {
   return fcByte8_create11111111(x, y, vec1.x, vec1.y, vec1.z, s5, vec2.x, vec2.y);
 }
+
+void fcByte8_set11312(fcByte8* self, cl_byte x, cl_byte y, fcByte3 vec1, cl_byte s5, fcByte2 vec2) {
+  fcByte8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, s5, vec2.x, vec2.y);
+}
+
 fcByte8 fcByte8_create11321(cl_byte x, cl_byte y, fcByte3 vec1, fcByte2 vec2, cl_byte s7) {
   return fcByte8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s7);
 }
+
+void fcByte8_set11321(fcByte8* self, cl_byte x, cl_byte y, fcByte3 vec1, fcByte2 vec2, cl_byte s7) {
+  fcByte8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s7);
+}
+
 fcByte8 fcByte8_create1133(cl_byte x, cl_byte y, fcByte3 vec1, fcByte3 vec2) {
   return fcByte8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z);
 }
+
+void fcByte8_set1133(fcByte8* self, cl_byte x, cl_byte y, fcByte3 vec1, fcByte3 vec2) {
+  fcByte8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z);
+}
+
 fcByte8 fcByte8_create11411(cl_byte x, cl_byte y, fcByte4 vec1, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec1.w, s6, s7);
 }
+
+void fcByte8_set11411(fcByte8* self, cl_byte x, cl_byte y, fcByte4 vec1, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec1.w, s6, s7);
+}
+
 fcByte8 fcByte8_create1142(cl_byte x, cl_byte y, fcByte4 vec1, fcByte2 vec2) {
   return fcByte8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y);
 }
+
+void fcByte8_set1142(fcByte8* self, cl_byte x, cl_byte y, fcByte4 vec1, fcByte2 vec2) {
+  fcByte8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y);
+}
+
 fcByte8 fcByte8_create1211111(cl_byte x, fcByte2 vec1, cl_byte w, cl_byte s4, cl_byte s5, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, w, s4, s5, s6, s7);
 }
+
+void fcByte8_set1211111(fcByte8* self, cl_byte x, fcByte2 vec1, cl_byte w, cl_byte s4, cl_byte s5, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, w, s4, s5, s6, s7);
+}
+
 fcByte8 fcByte8_create121112(cl_byte x, fcByte2 vec1, cl_byte w, cl_byte s4, cl_byte s5, fcByte2 vec2) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcByte8_set121112(fcByte8* self, cl_byte x, fcByte2 vec1, cl_byte w, cl_byte s4, cl_byte s5, fcByte2 vec2) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, w, s4, s5, vec2.x, vec2.y);
+}
+
 fcByte8 fcByte8_create121121(cl_byte x, fcByte2 vec1, cl_byte w, cl_byte s4, fcByte2 vec2, cl_byte s7) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcByte8_set121121(fcByte8* self, cl_byte x, fcByte2 vec1, cl_byte w, cl_byte s4, fcByte2 vec2, cl_byte s7) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, s7);
+}
+
 fcByte8 fcByte8_create12113(cl_byte x, fcByte2 vec1, cl_byte w, cl_byte s4, fcByte3 vec2) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcByte8_set12113(fcByte8* self, cl_byte x, fcByte2 vec1, cl_byte w, cl_byte s4, fcByte3 vec2) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcByte8 fcByte8_create121211(cl_byte x, fcByte2 vec1, cl_byte w, fcByte2 vec2, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcByte8_set121211(fcByte8* self, cl_byte x, fcByte2 vec1, cl_byte w, fcByte2 vec2, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, s6, s7);
+}
+
 fcByte8 fcByte8_create12122(cl_byte x, fcByte2 vec1, cl_byte w, fcByte2 vec2, fcByte2 vec3) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcByte8_set12122(fcByte8* self, cl_byte x, fcByte2 vec1, cl_byte w, fcByte2 vec2, fcByte2 vec3) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcByte8 fcByte8_create12131(cl_byte x, fcByte2 vec1, cl_byte w, fcByte3 vec2, cl_byte s7) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcByte8_set12131(fcByte8* self, cl_byte x, fcByte2 vec1, cl_byte w, fcByte3 vec2, cl_byte s7) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcByte8 fcByte8_create1214(cl_byte x, fcByte2 vec1, cl_byte w, fcByte4 vec2) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcByte8_set1214(fcByte8* self, cl_byte x, fcByte2 vec1, cl_byte w, fcByte4 vec2) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcByte8 fcByte8_create122111(cl_byte x, fcByte2 vec1, fcByte2 vec2, cl_byte s5, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, s5, s6, s7);
 }
+
+void fcByte8_set122111(fcByte8* self, cl_byte x, fcByte2 vec1, fcByte2 vec2, cl_byte s5, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, s5, s6, s7);
+}
+
 fcByte8 fcByte8_create12212(cl_byte x, fcByte2 vec1, fcByte2 vec2, cl_byte s5, fcByte2 vec3) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, s5, vec3.x, vec3.y);
 }
+
+void fcByte8_set12212(fcByte8* self, cl_byte x, fcByte2 vec1, fcByte2 vec2, cl_byte s5, fcByte2 vec3) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, s5, vec3.x, vec3.y);
+}
+
 fcByte8 fcByte8_create12221(cl_byte x, fcByte2 vec1, fcByte2 vec2, fcByte2 vec3, cl_byte s7) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s7);
 }
+
+void fcByte8_set12221(fcByte8* self, cl_byte x, fcByte2 vec1, fcByte2 vec2, fcByte2 vec3, cl_byte s7) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s7);
+}
+
 fcByte8 fcByte8_create1223(cl_byte x, fcByte2 vec1, fcByte2 vec2, fcByte3 vec3) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
 }
+
+void fcByte8_set1223(fcByte8* self, cl_byte x, fcByte2 vec1, fcByte2 vec2, fcByte3 vec3) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
+}
+
 fcByte8 fcByte8_create12311(cl_byte x, fcByte2 vec1, fcByte3 vec2, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s6, s7);
 }
+
+void fcByte8_set12311(fcByte8* self, cl_byte x, fcByte2 vec1, fcByte3 vec2, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s6, s7);
+}
+
 fcByte8 fcByte8_create1232(cl_byte x, fcByte2 vec1, fcByte3 vec2, fcByte2 vec3) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
 }
+
+void fcByte8_set1232(fcByte8* self, cl_byte x, fcByte2 vec1, fcByte3 vec2, fcByte2 vec3) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
+}
+
 fcByte8 fcByte8_create1241(cl_byte x, fcByte2 vec1, fcByte4 vec2, cl_byte s7) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s7);
 }
+
+void fcByte8_set1241(fcByte8* self, cl_byte x, fcByte2 vec1, fcByte4 vec2, cl_byte s7) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s7);
+}
+
 fcByte8 fcByte8_create131111(cl_byte x, fcByte3 vec1, cl_byte s4, cl_byte s5, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, s5, s6, s7);
 }
+
+void fcByte8_set131111(fcByte8* self, cl_byte x, fcByte3 vec1, cl_byte s4, cl_byte s5, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, s5, s6, s7);
+}
+
 fcByte8 fcByte8_create13112(cl_byte x, fcByte3 vec1, cl_byte s4, cl_byte s5, fcByte2 vec2) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, s5, vec2.x, vec2.y);
 }
+
+void fcByte8_set13112(fcByte8* self, cl_byte x, fcByte3 vec1, cl_byte s4, cl_byte s5, fcByte2 vec2) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, s5, vec2.x, vec2.y);
+}
+
 fcByte8 fcByte8_create13121(cl_byte x, fcByte3 vec1, cl_byte s4, fcByte2 vec2, cl_byte s7) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, s7);
 }
+
+void fcByte8_set13121(fcByte8* self, cl_byte x, fcByte3 vec1, cl_byte s4, fcByte2 vec2, cl_byte s7) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, s7);
+}
+
 fcByte8 fcByte8_create1313(cl_byte x, fcByte3 vec1, cl_byte s4, fcByte3 vec2) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcByte8_set1313(fcByte8* self, cl_byte x, fcByte3 vec1, cl_byte s4, fcByte3 vec2) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcByte8 fcByte8_create13211(cl_byte x, fcByte3 vec1, fcByte2 vec2, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s6, s7);
 }
+
+void fcByte8_set13211(fcByte8* self, cl_byte x, fcByte3 vec1, fcByte2 vec2, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s6, s7);
+}
+
 fcByte8 fcByte8_create1322(cl_byte x, fcByte3 vec1, fcByte2 vec2, fcByte2 vec3) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcByte8_set1322(fcByte8* self, cl_byte x, fcByte3 vec1, fcByte2 vec2, fcByte2 vec3) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcByte8 fcByte8_create1331(cl_byte x, fcByte3 vec1, fcByte3 vec2, cl_byte s7) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcByte8_set1331(fcByte8* self, cl_byte x, fcByte3 vec1, fcByte3 vec2, cl_byte s7) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcByte8 fcByte8_create134(cl_byte x, fcByte3 vec1, fcByte4 vec2) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcByte8_set134(fcByte8* self, cl_byte x, fcByte3 vec1, fcByte4 vec2) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcByte8 fcByte8_create14111(cl_byte x, fcByte4 vec1, cl_byte s5, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, s5, s6, s7);
 }
+
+void fcByte8_set14111(fcByte8* self, cl_byte x, fcByte4 vec1, cl_byte s5, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, s5, s6, s7);
+}
+
 fcByte8 fcByte8_create1412(cl_byte x, fcByte4 vec1, cl_byte s5, fcByte2 vec2) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, s5, vec2.x, vec2.y);
 }
+
+void fcByte8_set1412(fcByte8* self, cl_byte x, fcByte4 vec1, cl_byte s5, fcByte2 vec2) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, s5, vec2.x, vec2.y);
+}
+
 fcByte8 fcByte8_create1421(cl_byte x, fcByte4 vec1, fcByte2 vec2, cl_byte s7) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s7);
 }
+
+void fcByte8_set1421(fcByte8* self, cl_byte x, fcByte4 vec1, fcByte2 vec2, cl_byte s7) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s7);
+}
+
 fcByte8 fcByte8_create143(cl_byte x, fcByte4 vec1, fcByte3 vec2) {
   return fcByte8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z);
 }
+
+void fcByte8_set143(fcByte8* self, cl_byte x, fcByte4 vec1, fcByte3 vec2) {
+  fcByte8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z);
+}
+
 fcByte8 fcByte8_create2111111(fcByte2 vec1, cl_byte z, cl_byte w, cl_byte s4, cl_byte s5, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, z, w, s4, s5, s6, s7);
 }
+
+void fcByte8_set2111111(fcByte8* self, fcByte2 vec1, cl_byte z, cl_byte w, cl_byte s4, cl_byte s5, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, z, w, s4, s5, s6, s7);
+}
+
 fcByte8 fcByte8_create211112(fcByte2 vec1, cl_byte z, cl_byte w, cl_byte s4, cl_byte s5, fcByte2 vec2) {
   return fcByte8_create11111111(vec1.x, vec1.y, z, w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcByte8_set211112(fcByte8* self, fcByte2 vec1, cl_byte z, cl_byte w, cl_byte s4, cl_byte s5, fcByte2 vec2) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, z, w, s4, s5, vec2.x, vec2.y);
+}
+
 fcByte8 fcByte8_create211121(fcByte2 vec1, cl_byte z, cl_byte w, cl_byte s4, fcByte2 vec2, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcByte8_set211121(fcByte8* self, fcByte2 vec1, cl_byte z, cl_byte w, cl_byte s4, fcByte2 vec2, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, s7);
+}
+
 fcByte8 fcByte8_create21113(fcByte2 vec1, cl_byte z, cl_byte w, cl_byte s4, fcByte3 vec2) {
   return fcByte8_create11111111(vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcByte8_set21113(fcByte8* self, fcByte2 vec1, cl_byte z, cl_byte w, cl_byte s4, fcByte3 vec2) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcByte8 fcByte8_create211211(fcByte2 vec1, cl_byte z, cl_byte w, fcByte2 vec2, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcByte8_set211211(fcByte8* self, fcByte2 vec1, cl_byte z, cl_byte w, fcByte2 vec2, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, s6, s7);
+}
+
 fcByte8 fcByte8_create21122(fcByte2 vec1, cl_byte z, cl_byte w, fcByte2 vec2, fcByte2 vec3) {
   return fcByte8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcByte8_set21122(fcByte8* self, fcByte2 vec1, cl_byte z, cl_byte w, fcByte2 vec2, fcByte2 vec3) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcByte8 fcByte8_create21131(fcByte2 vec1, cl_byte z, cl_byte w, fcByte3 vec2, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcByte8_set21131(fcByte8* self, fcByte2 vec1, cl_byte z, cl_byte w, fcByte3 vec2, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcByte8 fcByte8_create2114(fcByte2 vec1, cl_byte z, cl_byte w, fcByte4 vec2) {
   return fcByte8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcByte8_set2114(fcByte8* self, fcByte2 vec1, cl_byte z, cl_byte w, fcByte4 vec2) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcByte8 fcByte8_create212111(fcByte2 vec1, cl_byte z, fcByte2 vec2, cl_byte s5, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, s5, s6, s7);
 }
+
+void fcByte8_set212111(fcByte8* self, fcByte2 vec1, cl_byte z, fcByte2 vec2, cl_byte s5, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, s5, s6, s7);
+}
+
 fcByte8 fcByte8_create21212(fcByte2 vec1, cl_byte z, fcByte2 vec2, cl_byte s5, fcByte2 vec3) {
   return fcByte8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
 }
+
+void fcByte8_set21212(fcByte8* self, fcByte2 vec1, cl_byte z, fcByte2 vec2, cl_byte s5, fcByte2 vec3) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
+}
+
 fcByte8 fcByte8_create21221(fcByte2 vec1, cl_byte z, fcByte2 vec2, fcByte2 vec3, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
 }
+
+void fcByte8_set21221(fcByte8* self, fcByte2 vec1, cl_byte z, fcByte2 vec2, fcByte2 vec3, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
+}
+
 fcByte8 fcByte8_create2123(fcByte2 vec1, cl_byte z, fcByte2 vec2, fcByte3 vec3) {
   return fcByte8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
 }
+
+void fcByte8_set2123(fcByte8* self, fcByte2 vec1, cl_byte z, fcByte2 vec2, fcByte3 vec3) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
+}
+
 fcByte8 fcByte8_create21311(fcByte2 vec1, cl_byte z, fcByte3 vec2, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, s6, s7);
 }
+
+void fcByte8_set21311(fcByte8* self, fcByte2 vec1, cl_byte z, fcByte3 vec2, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, s6, s7);
+}
+
 fcByte8 fcByte8_create2132(fcByte2 vec1, cl_byte z, fcByte3 vec2, fcByte2 vec3) {
   return fcByte8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
 }
+
+void fcByte8_set2132(fcByte8* self, fcByte2 vec1, cl_byte z, fcByte3 vec2, fcByte2 vec3) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
+}
+
 fcByte8 fcByte8_create2141(fcByte2 vec1, cl_byte z, fcByte4 vec2, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
 }
+
+void fcByte8_set2141(fcByte8* self, fcByte2 vec1, cl_byte z, fcByte4 vec2, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
+}
+
 fcByte8 fcByte8_create221111(fcByte2 vec1, fcByte2 vec2, cl_byte s4, cl_byte s5, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, s6, s7);
 }
+
+void fcByte8_set221111(fcByte8* self, fcByte2 vec1, fcByte2 vec2, cl_byte s4, cl_byte s5, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, s6, s7);
+}
+
 fcByte8 fcByte8_create22112(fcByte2 vec1, fcByte2 vec2, cl_byte s4, cl_byte s5, fcByte2 vec3) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, vec3.x, vec3.y);
 }
+
+void fcByte8_set22112(fcByte8* self, fcByte2 vec1, fcByte2 vec2, cl_byte s4, cl_byte s5, fcByte2 vec3) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, vec3.x, vec3.y);
+}
+
 fcByte8 fcByte8_create22121(fcByte2 vec1, fcByte2 vec2, cl_byte s4, fcByte2 vec3, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, s7);
 }
+
+void fcByte8_set22121(fcByte8* self, fcByte2 vec1, fcByte2 vec2, cl_byte s4, fcByte2 vec3, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, s7);
+}
+
 fcByte8 fcByte8_create2213(fcByte2 vec1, fcByte2 vec2, cl_byte s4, fcByte3 vec3) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, vec3.z);
 }
+
+void fcByte8_set2213(fcByte8* self, fcByte2 vec1, fcByte2 vec2, cl_byte s4, fcByte3 vec3) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, vec3.z);
+}
+
 fcByte8 fcByte8_create22211(fcByte2 vec1, fcByte2 vec2, fcByte2 vec3, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s6, s7);
 }
+
+void fcByte8_set22211(fcByte8* self, fcByte2 vec1, fcByte2 vec2, fcByte2 vec3, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s6, s7);
+}
+
 fcByte8 fcByte8_create2222(fcByte2 vec1, fcByte2 vec2, fcByte2 vec3, fcByte2 vec4) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec4.x, vec4.y);
 }
+
+void fcByte8_set2222(fcByte8* self, fcByte2 vec1, fcByte2 vec2, fcByte2 vec3, fcByte2 vec4) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec4.x, vec4.y);
+}
+
 fcByte8 fcByte8_create2231(fcByte2 vec1, fcByte2 vec2, fcByte3 vec3, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, s7);
 }
+
+void fcByte8_set2231(fcByte8* self, fcByte2 vec1, fcByte2 vec2, fcByte3 vec3, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, s7);
+}
+
 fcByte8 fcByte8_create224(fcByte2 vec1, fcByte2 vec2, fcByte4 vec3) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, vec3.w);
 }
+
+void fcByte8_set224(fcByte8* self, fcByte2 vec1, fcByte2 vec2, fcByte4 vec3) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, vec3.w);
+}
+
 fcByte8 fcByte8_create23111(fcByte2 vec1, fcByte3 vec2, cl_byte s5, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, s6, s7);
 }
+
+void fcByte8_set23111(fcByte8* self, fcByte2 vec1, fcByte3 vec2, cl_byte s5, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, s6, s7);
+}
+
 fcByte8 fcByte8_create2312(fcByte2 vec1, fcByte3 vec2, cl_byte s5, fcByte2 vec3) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, vec3.x, vec3.y);
 }
+
+void fcByte8_set2312(fcByte8* self, fcByte2 vec1, fcByte3 vec2, cl_byte s5, fcByte2 vec3) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, vec3.x, vec3.y);
+}
+
 fcByte8 fcByte8_create2321(fcByte2 vec1, fcByte3 vec2, fcByte2 vec3, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, s7);
 }
+
+void fcByte8_set2321(fcByte8* self, fcByte2 vec1, fcByte3 vec2, fcByte2 vec3, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, s7);
+}
+
 fcByte8 fcByte8_create233(fcByte2 vec1, fcByte3 vec2, fcByte3 vec3) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, vec3.z);
 }
+
+void fcByte8_set233(fcByte8* self, fcByte2 vec1, fcByte3 vec2, fcByte3 vec3) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, vec3.z);
+}
+
 fcByte8 fcByte8_create2411(fcByte2 vec1, fcByte4 vec2, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s6, s7);
 }
+
+void fcByte8_set2411(fcByte8* self, fcByte2 vec1, fcByte4 vec2, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s6, s7);
+}
+
 fcByte8 fcByte8_create242(fcByte2 vec1, fcByte4 vec2, fcByte2 vec3) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, vec3.x, vec3.y);
 }
+
+void fcByte8_set242(fcByte8* self, fcByte2 vec1, fcByte4 vec2, fcByte2 vec3) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, vec3.x, vec3.y);
+}
+
 fcByte8 fcByte8_create311111(fcByte3 vec1, cl_byte w, cl_byte s4, cl_byte s5, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, s5, s6, s7);
 }
+
+void fcByte8_set311111(fcByte8* self, fcByte3 vec1, cl_byte w, cl_byte s4, cl_byte s5, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, s5, s6, s7);
+}
+
 fcByte8 fcByte8_create31112(fcByte3 vec1, cl_byte w, cl_byte s4, cl_byte s5, fcByte2 vec2) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcByte8_set31112(fcByte8* self, fcByte3 vec1, cl_byte w, cl_byte s4, cl_byte s5, fcByte2 vec2) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, s5, vec2.x, vec2.y);
+}
+
 fcByte8 fcByte8_create31121(fcByte3 vec1, cl_byte w, cl_byte s4, fcByte2 vec2, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcByte8_set31121(fcByte8* self, fcByte3 vec1, cl_byte w, cl_byte s4, fcByte2 vec2, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, s7);
+}
+
 fcByte8 fcByte8_create3113(fcByte3 vec1, cl_byte w, cl_byte s4, fcByte3 vec2) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcByte8_set3113(fcByte8* self, fcByte3 vec1, cl_byte w, cl_byte s4, fcByte3 vec2) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcByte8 fcByte8_create31211(fcByte3 vec1, cl_byte w, fcByte2 vec2, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcByte8_set31211(fcByte8* self, fcByte3 vec1, cl_byte w, fcByte2 vec2, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, s6, s7);
+}
+
 fcByte8 fcByte8_create3122(fcByte3 vec1, cl_byte w, fcByte2 vec2, fcByte2 vec3) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcByte8_set3122(fcByte8* self, fcByte3 vec1, cl_byte w, fcByte2 vec2, fcByte2 vec3) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcByte8 fcByte8_create3131(fcByte3 vec1, cl_byte w, fcByte3 vec2, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcByte8_set3131(fcByte8* self, fcByte3 vec1, cl_byte w, fcByte3 vec2, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcByte8 fcByte8_create314(fcByte3 vec1, cl_byte w, fcByte4 vec2) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcByte8_set314(fcByte8* self, fcByte3 vec1, cl_byte w, fcByte4 vec2) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcByte8 fcByte8_create32111(fcByte3 vec1, fcByte2 vec2, cl_byte s5, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, s6, s7);
 }
+
+void fcByte8_set32111(fcByte8* self, fcByte3 vec1, fcByte2 vec2, cl_byte s5, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, s6, s7);
+}
+
 fcByte8 fcByte8_create3212(fcByte3 vec1, fcByte2 vec2, cl_byte s5, fcByte2 vec3) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
 }
+
+void fcByte8_set3212(fcByte8* self, fcByte3 vec1, fcByte2 vec2, cl_byte s5, fcByte2 vec3) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
+}
+
 fcByte8 fcByte8_create3221(fcByte3 vec1, fcByte2 vec2, fcByte2 vec3, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
 }
+
+void fcByte8_set3221(fcByte8* self, fcByte3 vec1, fcByte2 vec2, fcByte2 vec3, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
+}
+
 fcByte8 fcByte8_create323(fcByte3 vec1, fcByte2 vec2, fcByte3 vec3) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
 }
+
+void fcByte8_set323(fcByte8* self, fcByte3 vec1, fcByte2 vec2, fcByte3 vec3) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
+}
+
 fcByte8 fcByte8_create3311(fcByte3 vec1, fcByte3 vec2, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s6, s7);
 }
+
+void fcByte8_set3311(fcByte8* self, fcByte3 vec1, fcByte3 vec2, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s6, s7);
+}
+
 fcByte8 fcByte8_create332(fcByte3 vec1, fcByte3 vec2, fcByte2 vec3) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
 }
+
+void fcByte8_set332(fcByte8* self, fcByte3 vec1, fcByte3 vec2, fcByte2 vec3) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
+}
+
 fcByte8 fcByte8_create341(fcByte3 vec1, fcByte4 vec2, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
 }
+
+void fcByte8_set341(fcByte8* self, fcByte3 vec1, fcByte4 vec2, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
+}
+
 fcByte8 fcByte8_create41111(fcByte4 vec1, cl_byte s4, cl_byte s5, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, s6, s7);
 }
+
+void fcByte8_set41111(fcByte8* self, fcByte4 vec1, cl_byte s4, cl_byte s5, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, s6, s7);
+}
+
 fcByte8 fcByte8_create4112(fcByte4 vec1, cl_byte s4, cl_byte s5, fcByte2 vec2) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcByte8_set4112(fcByte8* self, fcByte4 vec1, cl_byte s4, cl_byte s5, fcByte2 vec2) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, vec2.x, vec2.y);
+}
+
 fcByte8 fcByte8_create4121(fcByte4 vec1, cl_byte s4, fcByte2 vec2, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcByte8_set4121(fcByte8* self, fcByte4 vec1, cl_byte s4, fcByte2 vec2, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, s7);
+}
+
 fcByte8 fcByte8_create413(fcByte4 vec1, cl_byte s4, fcByte3 vec2) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcByte8_set413(fcByte8* self, fcByte4 vec1, cl_byte s4, fcByte3 vec2) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcByte8 fcByte8_create4211(fcByte4 vec1, fcByte2 vec2, cl_byte s6, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcByte8_set4211(fcByte8* self, fcByte4 vec1, fcByte2 vec2, cl_byte s6, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s6, s7);
+}
+
 fcByte8 fcByte8_create422(fcByte4 vec1, fcByte2 vec2, fcByte2 vec3) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcByte8_set422(fcByte8* self, fcByte4 vec1, fcByte2 vec2, fcByte2 vec3) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcByte8 fcByte8_create431(fcByte4 vec1, fcByte3 vec2, cl_byte s7) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcByte8_set431(fcByte8* self, fcByte4 vec1, fcByte3 vec2, cl_byte s7) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcByte8 fcByte8_create44(fcByte4 vec1, fcByte4 vec2) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcByte8_set44(fcByte8* self, fcByte4 vec1, fcByte4 vec2) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcByte8 fcByte8_create8(fcByte8 vec1) {
   return fcByte8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec1.s4, vec1.s5, vec1.s6, vec1.s7);
+}
+
+void fcByte8_set8(fcByte8* self, fcByte8 vec1) {
+  fcByte8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec1.s4, vec1.s5, vec1.s6, vec1.s7);
 }
 
 fcByte4 fcByte8_odd(fcByte8 a) {
@@ -2417,6 +3032,10 @@ cl_int fcByte8_any(fcByte8 a) {
 
 cl_int fcByte8_all(fcByte8 a) {
   return !(a.x == '\0' || a.y == '\0' || a.z == '\0' || a.w == '\0' || a.s4 == '\0' || a.s5 == '\0' || a.s6 == '\0' || a.s7 == '\0');
+}
+
+fcByte8 fcByte8_neg(fcByte8 a) {
+  return fcByte8_create11111111(-a.x, -a.y, -a.z, -a.w, -a.s4, -a.s5, -a.s6, -a.s7);
 }
 
 fcByte8 fcByte8_add(fcByte8 a, fcByte8 b) {
@@ -2588,24 +3207,31 @@ fcByte8 fcByte8_subSat(fcByte8 a, fcByte8 b) {
 // fcShort2
 //
 
-fcShort2 fcShort2_create() {
-  fcShort2 result = {.s = {0}};
-  return result;
-}
-
 fcShort2 fcShort2_create1(cl_short v) {
   return fcShort2_create11(v, v);
 }
 
+void fcShort2_set1(fcShort2* self, cl_short v) {
+  fcShort2_set11(self, v, v);
+}
+
 fcShort2 fcShort2_create11(cl_short x, cl_short y) {
   fcShort2 result;
-  result.x = x;
-  result.y = y;
+  fcShort2_set11(&result, x, y);
   return result;
+}
+
+void fcShort2_set11(fcShort2* self, cl_short x, cl_short y) {
+  self->x = x;
+  self->y = y;
 }
 
 fcShort2 fcShort2_create2(fcShort2 vec1) {
   return fcShort2_create11(vec1.x, vec1.y);
+}
+
+void fcShort2_set2(fcShort2* self, fcShort2 vec1) {
+  fcShort2_set11(self, vec1.x, vec1.y);
 }
 
 fcByte2 fcShort2_convertByte2(fcShort2 a) {
@@ -2662,6 +3288,10 @@ cl_int fcShort2_any(fcShort2 a) {
 
 cl_int fcShort2_all(fcShort2 a) {
   return !(a.x == 0 || a.y == 0);
+}
+
+fcShort2 fcShort2_neg(fcShort2 a) {
+  return fcShort2_create11(-a.x, -a.y);
 }
 
 fcShort2 fcShort2_add(fcShort2 a, fcShort2 b) {
@@ -2833,31 +3463,48 @@ fcShort2 fcShort2_subSat(fcShort2 a, fcShort2 b) {
 // fcShort3
 //
 
-fcShort3 fcShort3_create() {
-  fcShort3 result = {.s = {0}};
-  return result;
-}
-
 fcShort3 fcShort3_create1(cl_short v) {
   return fcShort3_create111(v, v, v);
 }
 
+void fcShort3_set1(fcShort3* self, cl_short v) {
+  fcShort3_set111(self, v, v, v);
+}
+
 fcShort3 fcShort3_create111(cl_short x, cl_short y, cl_short z) {
   fcShort3 result;
-  result.x = x;
-  result.y = y;
-  result.z = z;
+  fcShort3_set111(&result, x, y, z);
   return result;
+}
+
+void fcShort3_set111(fcShort3* self, cl_short x, cl_short y, cl_short z) {
+  self->x = x;
+  self->y = y;
+  self->z = z;
 }
 
 fcShort3 fcShort3_create12(cl_short x, fcShort2 vec1) {
   return fcShort3_create111(x, vec1.x, vec1.y);
 }
+
+void fcShort3_set12(fcShort3* self, cl_short x, fcShort2 vec1) {
+  fcShort3_set111(self, x, vec1.x, vec1.y);
+}
+
 fcShort3 fcShort3_create21(fcShort2 vec1, cl_short z) {
   return fcShort3_create111(vec1.x, vec1.y, z);
 }
+
+void fcShort3_set21(fcShort3* self, fcShort2 vec1, cl_short z) {
+  fcShort3_set111(self, vec1.x, vec1.y, z);
+}
+
 fcShort3 fcShort3_create3(fcShort3 vec1) {
   return fcShort3_create111(vec1.x, vec1.y, vec1.z);
+}
+
+void fcShort3_set3(fcShort3* self, fcShort3 vec1) {
+  fcShort3_set111(self, vec1.x, vec1.y, vec1.z);
 }
 
 fcByte3 fcShort3_convertByte3(fcShort3 a) {
@@ -2918,6 +3565,10 @@ cl_int fcShort3_any(fcShort3 a) {
 
 cl_int fcShort3_all(fcShort3 a) {
   return !(a.x == 0 || a.y == 0 || a.z == 0);
+}
+
+fcShort3 fcShort3_neg(fcShort3 a) {
+  return fcShort3_create111(-a.x, -a.y, -a.z);
 }
 
 fcShort3 fcShort3_add(fcShort3 a, fcShort3 b) {
@@ -3089,44 +3740,81 @@ fcShort3 fcShort3_subSat(fcShort3 a, fcShort3 b) {
 // fcShort4
 //
 
-fcShort4 fcShort4_create() {
-  fcShort4 result = {.s = {0}};
-  return result;
-}
-
 fcShort4 fcShort4_create1(cl_short v) {
   return fcShort4_create1111(v, v, v, v);
 }
 
+void fcShort4_set1(fcShort4* self, cl_short v) {
+  fcShort4_set1111(self, v, v, v, v);
+}
+
 fcShort4 fcShort4_create1111(cl_short x, cl_short y, cl_short z, cl_short w) {
   fcShort4 result;
-  result.x = x;
-  result.y = y;
-  result.z = z;
-  result.w = w;
+  fcShort4_set1111(&result, x, y, z, w);
   return result;
+}
+
+void fcShort4_set1111(fcShort4* self, cl_short x, cl_short y, cl_short z, cl_short w) {
+  self->x = x;
+  self->y = y;
+  self->z = z;
+  self->w = w;
 }
 
 fcShort4 fcShort4_create112(cl_short x, cl_short y, fcShort2 vec1) {
   return fcShort4_create1111(x, y, vec1.x, vec1.y);
 }
+
+void fcShort4_set112(fcShort4* self, cl_short x, cl_short y, fcShort2 vec1) {
+  fcShort4_set1111(self, x, y, vec1.x, vec1.y);
+}
+
 fcShort4 fcShort4_create121(cl_short x, fcShort2 vec1, cl_short w) {
   return fcShort4_create1111(x, vec1.x, vec1.y, w);
 }
+
+void fcShort4_set121(fcShort4* self, cl_short x, fcShort2 vec1, cl_short w) {
+  fcShort4_set1111(self, x, vec1.x, vec1.y, w);
+}
+
 fcShort4 fcShort4_create13(cl_short x, fcShort3 vec1) {
   return fcShort4_create1111(x, vec1.x, vec1.y, vec1.z);
 }
+
+void fcShort4_set13(fcShort4* self, cl_short x, fcShort3 vec1) {
+  fcShort4_set1111(self, x, vec1.x, vec1.y, vec1.z);
+}
+
 fcShort4 fcShort4_create211(fcShort2 vec1, cl_short z, cl_short w) {
   return fcShort4_create1111(vec1.x, vec1.y, z, w);
 }
+
+void fcShort4_set211(fcShort4* self, fcShort2 vec1, cl_short z, cl_short w) {
+  fcShort4_set1111(self, vec1.x, vec1.y, z, w);
+}
+
 fcShort4 fcShort4_create22(fcShort2 vec1, fcShort2 vec2) {
   return fcShort4_create1111(vec1.x, vec1.y, vec2.x, vec2.y);
 }
+
+void fcShort4_set22(fcShort4* self, fcShort2 vec1, fcShort2 vec2) {
+  fcShort4_set1111(self, vec1.x, vec1.y, vec2.x, vec2.y);
+}
+
 fcShort4 fcShort4_create31(fcShort3 vec1, cl_short w) {
   return fcShort4_create1111(vec1.x, vec1.y, vec1.z, w);
 }
+
+void fcShort4_set31(fcShort4* self, fcShort3 vec1, cl_short w) {
+  fcShort4_set1111(self, vec1.x, vec1.y, vec1.z, w);
+}
+
 fcShort4 fcShort4_create4(fcShort4 vec1) {
   return fcShort4_create1111(vec1.x, vec1.y, vec1.z, vec1.w);
+}
+
+void fcShort4_set4(fcShort4* self, fcShort4 vec1) {
+  fcShort4_set1111(self, vec1.x, vec1.y, vec1.z, vec1.w);
 }
 
 fcShort2 fcShort4_odd(fcShort4 a) {
@@ -3199,6 +3887,10 @@ cl_int fcShort4_any(fcShort4 a) {
 
 cl_int fcShort4_all(fcShort4 a) {
   return !(a.x == 0 || a.y == 0 || a.z == 0 || a.w == 0);
+}
+
+fcShort4 fcShort4_neg(fcShort4 a) {
+  return fcShort4_create1111(-a.x, -a.y, -a.z, -a.w);
 }
 
 fcShort4 fcShort4_add(fcShort4 a, fcShort4 b) {
@@ -3370,351 +4062,893 @@ fcShort4 fcShort4_subSat(fcShort4 a, fcShort4 b) {
 // fcShort8
 //
 
-fcShort8 fcShort8_create() {
-  fcShort8 result = {.s = {0}};
-  return result;
-}
-
 fcShort8 fcShort8_create1(cl_short v) {
   return fcShort8_create11111111(v, v, v, v, v, v, v, v);
 }
 
+void fcShort8_set1(fcShort8* self, cl_short v) {
+  fcShort8_set11111111(self, v, v, v, v, v, v, v, v);
+}
+
 fcShort8 fcShort8_create11111111(cl_short x, cl_short y, cl_short z, cl_short w, cl_short s4, cl_short s5, cl_short s6, cl_short s7) {
   fcShort8 result;
-  result.x = x;
-  result.y = y;
-  result.z = z;
-  result.w = w;
-  result.s4 = s4;
-  result.s5 = s5;
-  result.s6 = s6;
-  result.s7 = s7;
+  fcShort8_set11111111(&result, x, y, z, w, s4, s5, s6, s7);
   return result;
+}
+
+void fcShort8_set11111111(fcShort8* self, cl_short x, cl_short y, cl_short z, cl_short w, cl_short s4, cl_short s5, cl_short s6, cl_short s7) {
+  self->x = x;
+  self->y = y;
+  self->z = z;
+  self->w = w;
+  self->s4 = s4;
+  self->s5 = s5;
+  self->s6 = s6;
+  self->s7 = s7;
 }
 
 fcShort8 fcShort8_create1111112(cl_short x, cl_short y, cl_short z, cl_short w, cl_short s4, cl_short s5, fcShort2 vec1) {
   return fcShort8_create11111111(x, y, z, w, s4, s5, vec1.x, vec1.y);
 }
+
+void fcShort8_set1111112(fcShort8* self, cl_short x, cl_short y, cl_short z, cl_short w, cl_short s4, cl_short s5, fcShort2 vec1) {
+  fcShort8_set11111111(self, x, y, z, w, s4, s5, vec1.x, vec1.y);
+}
+
 fcShort8 fcShort8_create1111121(cl_short x, cl_short y, cl_short z, cl_short w, cl_short s4, fcShort2 vec1, cl_short s7) {
   return fcShort8_create11111111(x, y, z, w, s4, vec1.x, vec1.y, s7);
 }
+
+void fcShort8_set1111121(fcShort8* self, cl_short x, cl_short y, cl_short z, cl_short w, cl_short s4, fcShort2 vec1, cl_short s7) {
+  fcShort8_set11111111(self, x, y, z, w, s4, vec1.x, vec1.y, s7);
+}
+
 fcShort8 fcShort8_create111113(cl_short x, cl_short y, cl_short z, cl_short w, cl_short s4, fcShort3 vec1) {
   return fcShort8_create11111111(x, y, z, w, s4, vec1.x, vec1.y, vec1.z);
 }
+
+void fcShort8_set111113(fcShort8* self, cl_short x, cl_short y, cl_short z, cl_short w, cl_short s4, fcShort3 vec1) {
+  fcShort8_set11111111(self, x, y, z, w, s4, vec1.x, vec1.y, vec1.z);
+}
+
 fcShort8 fcShort8_create1111211(cl_short x, cl_short y, cl_short z, cl_short w, fcShort2 vec1, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(x, y, z, w, vec1.x, vec1.y, s6, s7);
 }
+
+void fcShort8_set1111211(fcShort8* self, cl_short x, cl_short y, cl_short z, cl_short w, fcShort2 vec1, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, x, y, z, w, vec1.x, vec1.y, s6, s7);
+}
+
 fcShort8 fcShort8_create111122(cl_short x, cl_short y, cl_short z, cl_short w, fcShort2 vec1, fcShort2 vec2) {
   return fcShort8_create11111111(x, y, z, w, vec1.x, vec1.y, vec2.x, vec2.y);
 }
+
+void fcShort8_set111122(fcShort8* self, cl_short x, cl_short y, cl_short z, cl_short w, fcShort2 vec1, fcShort2 vec2) {
+  fcShort8_set11111111(self, x, y, z, w, vec1.x, vec1.y, vec2.x, vec2.y);
+}
+
 fcShort8 fcShort8_create111131(cl_short x, cl_short y, cl_short z, cl_short w, fcShort3 vec1, cl_short s7) {
   return fcShort8_create11111111(x, y, z, w, vec1.x, vec1.y, vec1.z, s7);
 }
+
+void fcShort8_set111131(fcShort8* self, cl_short x, cl_short y, cl_short z, cl_short w, fcShort3 vec1, cl_short s7) {
+  fcShort8_set11111111(self, x, y, z, w, vec1.x, vec1.y, vec1.z, s7);
+}
+
 fcShort8 fcShort8_create11114(cl_short x, cl_short y, cl_short z, cl_short w, fcShort4 vec1) {
   return fcShort8_create11111111(x, y, z, w, vec1.x, vec1.y, vec1.z, vec1.w);
 }
+
+void fcShort8_set11114(fcShort8* self, cl_short x, cl_short y, cl_short z, cl_short w, fcShort4 vec1) {
+  fcShort8_set11111111(self, x, y, z, w, vec1.x, vec1.y, vec1.z, vec1.w);
+}
+
 fcShort8 fcShort8_create1112111(cl_short x, cl_short y, cl_short z, fcShort2 vec1, cl_short s5, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(x, y, z, vec1.x, vec1.y, s5, s6, s7);
 }
+
+void fcShort8_set1112111(fcShort8* self, cl_short x, cl_short y, cl_short z, fcShort2 vec1, cl_short s5, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, x, y, z, vec1.x, vec1.y, s5, s6, s7);
+}
+
 fcShort8 fcShort8_create111212(cl_short x, cl_short y, cl_short z, fcShort2 vec1, cl_short s5, fcShort2 vec2) {
   return fcShort8_create11111111(x, y, z, vec1.x, vec1.y, s5, vec2.x, vec2.y);
 }
+
+void fcShort8_set111212(fcShort8* self, cl_short x, cl_short y, cl_short z, fcShort2 vec1, cl_short s5, fcShort2 vec2) {
+  fcShort8_set11111111(self, x, y, z, vec1.x, vec1.y, s5, vec2.x, vec2.y);
+}
+
 fcShort8 fcShort8_create111221(cl_short x, cl_short y, cl_short z, fcShort2 vec1, fcShort2 vec2, cl_short s7) {
   return fcShort8_create11111111(x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, s7);
 }
+
+void fcShort8_set111221(fcShort8* self, cl_short x, cl_short y, cl_short z, fcShort2 vec1, fcShort2 vec2, cl_short s7) {
+  fcShort8_set11111111(self, x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, s7);
+}
+
 fcShort8 fcShort8_create11123(cl_short x, cl_short y, cl_short z, fcShort2 vec1, fcShort3 vec2) {
   return fcShort8_create11111111(x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z);
 }
+
+void fcShort8_set11123(fcShort8* self, cl_short x, cl_short y, cl_short z, fcShort2 vec1, fcShort3 vec2) {
+  fcShort8_set11111111(self, x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z);
+}
+
 fcShort8 fcShort8_create111311(cl_short x, cl_short y, cl_short z, fcShort3 vec1, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(x, y, z, vec1.x, vec1.y, vec1.z, s6, s7);
 }
+
+void fcShort8_set111311(fcShort8* self, cl_short x, cl_short y, cl_short z, fcShort3 vec1, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, x, y, z, vec1.x, vec1.y, vec1.z, s6, s7);
+}
+
 fcShort8 fcShort8_create11132(cl_short x, cl_short y, cl_short z, fcShort3 vec1, fcShort2 vec2) {
   return fcShort8_create11111111(x, y, z, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y);
 }
+
+void fcShort8_set11132(fcShort8* self, cl_short x, cl_short y, cl_short z, fcShort3 vec1, fcShort2 vec2) {
+  fcShort8_set11111111(self, x, y, z, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y);
+}
+
 fcShort8 fcShort8_create11141(cl_short x, cl_short y, cl_short z, fcShort4 vec1, cl_short s7) {
   return fcShort8_create11111111(x, y, z, vec1.x, vec1.y, vec1.z, vec1.w, s7);
 }
+
+void fcShort8_set11141(fcShort8* self, cl_short x, cl_short y, cl_short z, fcShort4 vec1, cl_short s7) {
+  fcShort8_set11111111(self, x, y, z, vec1.x, vec1.y, vec1.z, vec1.w, s7);
+}
+
 fcShort8 fcShort8_create1121111(cl_short x, cl_short y, fcShort2 vec1, cl_short s4, cl_short s5, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(x, y, vec1.x, vec1.y, s4, s5, s6, s7);
 }
+
+void fcShort8_set1121111(fcShort8* self, cl_short x, cl_short y, fcShort2 vec1, cl_short s4, cl_short s5, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, x, y, vec1.x, vec1.y, s4, s5, s6, s7);
+}
+
 fcShort8 fcShort8_create112112(cl_short x, cl_short y, fcShort2 vec1, cl_short s4, cl_short s5, fcShort2 vec2) {
   return fcShort8_create11111111(x, y, vec1.x, vec1.y, s4, s5, vec2.x, vec2.y);
 }
+
+void fcShort8_set112112(fcShort8* self, cl_short x, cl_short y, fcShort2 vec1, cl_short s4, cl_short s5, fcShort2 vec2) {
+  fcShort8_set11111111(self, x, y, vec1.x, vec1.y, s4, s5, vec2.x, vec2.y);
+}
+
 fcShort8 fcShort8_create112121(cl_short x, cl_short y, fcShort2 vec1, cl_short s4, fcShort2 vec2, cl_short s7) {
   return fcShort8_create11111111(x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, s7);
 }
+
+void fcShort8_set112121(fcShort8* self, cl_short x, cl_short y, fcShort2 vec1, cl_short s4, fcShort2 vec2, cl_short s7) {
+  fcShort8_set11111111(self, x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, s7);
+}
+
 fcShort8 fcShort8_create11213(cl_short x, cl_short y, fcShort2 vec1, cl_short s4, fcShort3 vec2) {
   return fcShort8_create11111111(x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcShort8_set11213(fcShort8* self, cl_short x, cl_short y, fcShort2 vec1, cl_short s4, fcShort3 vec2) {
+  fcShort8_set11111111(self, x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcShort8 fcShort8_create112211(cl_short x, cl_short y, fcShort2 vec1, fcShort2 vec2, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, s6, s7);
 }
+
+void fcShort8_set112211(fcShort8* self, cl_short x, cl_short y, fcShort2 vec1, fcShort2 vec2, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, s6, s7);
+}
+
 fcShort8 fcShort8_create11222(cl_short x, cl_short y, fcShort2 vec1, fcShort2 vec2, fcShort2 vec3) {
   return fcShort8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcShort8_set11222(fcShort8* self, cl_short x, cl_short y, fcShort2 vec1, fcShort2 vec2, fcShort2 vec3) {
+  fcShort8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcShort8 fcShort8_create11231(cl_short x, cl_short y, fcShort2 vec1, fcShort3 vec2, cl_short s7) {
   return fcShort8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcShort8_set11231(fcShort8* self, cl_short x, cl_short y, fcShort2 vec1, fcShort3 vec2, cl_short s7) {
+  fcShort8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcShort8 fcShort8_create1124(cl_short x, cl_short y, fcShort2 vec1, fcShort4 vec2) {
   return fcShort8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcShort8_set1124(fcShort8* self, cl_short x, cl_short y, fcShort2 vec1, fcShort4 vec2) {
+  fcShort8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcShort8 fcShort8_create113111(cl_short x, cl_short y, fcShort3 vec1, cl_short s5, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(x, y, vec1.x, vec1.y, vec1.z, s5, s6, s7);
 }
+
+void fcShort8_set113111(fcShort8* self, cl_short x, cl_short y, fcShort3 vec1, cl_short s5, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, s5, s6, s7);
+}
+
 fcShort8 fcShort8_create11312(cl_short x, cl_short y, fcShort3 vec1, cl_short s5, fcShort2 vec2) {
   return fcShort8_create11111111(x, y, vec1.x, vec1.y, vec1.z, s5, vec2.x, vec2.y);
 }
+
+void fcShort8_set11312(fcShort8* self, cl_short x, cl_short y, fcShort3 vec1, cl_short s5, fcShort2 vec2) {
+  fcShort8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, s5, vec2.x, vec2.y);
+}
+
 fcShort8 fcShort8_create11321(cl_short x, cl_short y, fcShort3 vec1, fcShort2 vec2, cl_short s7) {
   return fcShort8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s7);
 }
+
+void fcShort8_set11321(fcShort8* self, cl_short x, cl_short y, fcShort3 vec1, fcShort2 vec2, cl_short s7) {
+  fcShort8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s7);
+}
+
 fcShort8 fcShort8_create1133(cl_short x, cl_short y, fcShort3 vec1, fcShort3 vec2) {
   return fcShort8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z);
 }
+
+void fcShort8_set1133(fcShort8* self, cl_short x, cl_short y, fcShort3 vec1, fcShort3 vec2) {
+  fcShort8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z);
+}
+
 fcShort8 fcShort8_create11411(cl_short x, cl_short y, fcShort4 vec1, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec1.w, s6, s7);
 }
+
+void fcShort8_set11411(fcShort8* self, cl_short x, cl_short y, fcShort4 vec1, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec1.w, s6, s7);
+}
+
 fcShort8 fcShort8_create1142(cl_short x, cl_short y, fcShort4 vec1, fcShort2 vec2) {
   return fcShort8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y);
 }
+
+void fcShort8_set1142(fcShort8* self, cl_short x, cl_short y, fcShort4 vec1, fcShort2 vec2) {
+  fcShort8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y);
+}
+
 fcShort8 fcShort8_create1211111(cl_short x, fcShort2 vec1, cl_short w, cl_short s4, cl_short s5, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, w, s4, s5, s6, s7);
 }
+
+void fcShort8_set1211111(fcShort8* self, cl_short x, fcShort2 vec1, cl_short w, cl_short s4, cl_short s5, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, w, s4, s5, s6, s7);
+}
+
 fcShort8 fcShort8_create121112(cl_short x, fcShort2 vec1, cl_short w, cl_short s4, cl_short s5, fcShort2 vec2) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcShort8_set121112(fcShort8* self, cl_short x, fcShort2 vec1, cl_short w, cl_short s4, cl_short s5, fcShort2 vec2) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, w, s4, s5, vec2.x, vec2.y);
+}
+
 fcShort8 fcShort8_create121121(cl_short x, fcShort2 vec1, cl_short w, cl_short s4, fcShort2 vec2, cl_short s7) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcShort8_set121121(fcShort8* self, cl_short x, fcShort2 vec1, cl_short w, cl_short s4, fcShort2 vec2, cl_short s7) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, s7);
+}
+
 fcShort8 fcShort8_create12113(cl_short x, fcShort2 vec1, cl_short w, cl_short s4, fcShort3 vec2) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcShort8_set12113(fcShort8* self, cl_short x, fcShort2 vec1, cl_short w, cl_short s4, fcShort3 vec2) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcShort8 fcShort8_create121211(cl_short x, fcShort2 vec1, cl_short w, fcShort2 vec2, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcShort8_set121211(fcShort8* self, cl_short x, fcShort2 vec1, cl_short w, fcShort2 vec2, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, s6, s7);
+}
+
 fcShort8 fcShort8_create12122(cl_short x, fcShort2 vec1, cl_short w, fcShort2 vec2, fcShort2 vec3) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcShort8_set12122(fcShort8* self, cl_short x, fcShort2 vec1, cl_short w, fcShort2 vec2, fcShort2 vec3) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcShort8 fcShort8_create12131(cl_short x, fcShort2 vec1, cl_short w, fcShort3 vec2, cl_short s7) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcShort8_set12131(fcShort8* self, cl_short x, fcShort2 vec1, cl_short w, fcShort3 vec2, cl_short s7) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcShort8 fcShort8_create1214(cl_short x, fcShort2 vec1, cl_short w, fcShort4 vec2) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcShort8_set1214(fcShort8* self, cl_short x, fcShort2 vec1, cl_short w, fcShort4 vec2) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcShort8 fcShort8_create122111(cl_short x, fcShort2 vec1, fcShort2 vec2, cl_short s5, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, s5, s6, s7);
 }
+
+void fcShort8_set122111(fcShort8* self, cl_short x, fcShort2 vec1, fcShort2 vec2, cl_short s5, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, s5, s6, s7);
+}
+
 fcShort8 fcShort8_create12212(cl_short x, fcShort2 vec1, fcShort2 vec2, cl_short s5, fcShort2 vec3) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, s5, vec3.x, vec3.y);
 }
+
+void fcShort8_set12212(fcShort8* self, cl_short x, fcShort2 vec1, fcShort2 vec2, cl_short s5, fcShort2 vec3) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, s5, vec3.x, vec3.y);
+}
+
 fcShort8 fcShort8_create12221(cl_short x, fcShort2 vec1, fcShort2 vec2, fcShort2 vec3, cl_short s7) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s7);
 }
+
+void fcShort8_set12221(fcShort8* self, cl_short x, fcShort2 vec1, fcShort2 vec2, fcShort2 vec3, cl_short s7) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s7);
+}
+
 fcShort8 fcShort8_create1223(cl_short x, fcShort2 vec1, fcShort2 vec2, fcShort3 vec3) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
 }
+
+void fcShort8_set1223(fcShort8* self, cl_short x, fcShort2 vec1, fcShort2 vec2, fcShort3 vec3) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
+}
+
 fcShort8 fcShort8_create12311(cl_short x, fcShort2 vec1, fcShort3 vec2, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s6, s7);
 }
+
+void fcShort8_set12311(fcShort8* self, cl_short x, fcShort2 vec1, fcShort3 vec2, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s6, s7);
+}
+
 fcShort8 fcShort8_create1232(cl_short x, fcShort2 vec1, fcShort3 vec2, fcShort2 vec3) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
 }
+
+void fcShort8_set1232(fcShort8* self, cl_short x, fcShort2 vec1, fcShort3 vec2, fcShort2 vec3) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
+}
+
 fcShort8 fcShort8_create1241(cl_short x, fcShort2 vec1, fcShort4 vec2, cl_short s7) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s7);
 }
+
+void fcShort8_set1241(fcShort8* self, cl_short x, fcShort2 vec1, fcShort4 vec2, cl_short s7) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s7);
+}
+
 fcShort8 fcShort8_create131111(cl_short x, fcShort3 vec1, cl_short s4, cl_short s5, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, s5, s6, s7);
 }
+
+void fcShort8_set131111(fcShort8* self, cl_short x, fcShort3 vec1, cl_short s4, cl_short s5, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, s5, s6, s7);
+}
+
 fcShort8 fcShort8_create13112(cl_short x, fcShort3 vec1, cl_short s4, cl_short s5, fcShort2 vec2) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, s5, vec2.x, vec2.y);
 }
+
+void fcShort8_set13112(fcShort8* self, cl_short x, fcShort3 vec1, cl_short s4, cl_short s5, fcShort2 vec2) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, s5, vec2.x, vec2.y);
+}
+
 fcShort8 fcShort8_create13121(cl_short x, fcShort3 vec1, cl_short s4, fcShort2 vec2, cl_short s7) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, s7);
 }
+
+void fcShort8_set13121(fcShort8* self, cl_short x, fcShort3 vec1, cl_short s4, fcShort2 vec2, cl_short s7) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, s7);
+}
+
 fcShort8 fcShort8_create1313(cl_short x, fcShort3 vec1, cl_short s4, fcShort3 vec2) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcShort8_set1313(fcShort8* self, cl_short x, fcShort3 vec1, cl_short s4, fcShort3 vec2) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcShort8 fcShort8_create13211(cl_short x, fcShort3 vec1, fcShort2 vec2, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s6, s7);
 }
+
+void fcShort8_set13211(fcShort8* self, cl_short x, fcShort3 vec1, fcShort2 vec2, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s6, s7);
+}
+
 fcShort8 fcShort8_create1322(cl_short x, fcShort3 vec1, fcShort2 vec2, fcShort2 vec3) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcShort8_set1322(fcShort8* self, cl_short x, fcShort3 vec1, fcShort2 vec2, fcShort2 vec3) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcShort8 fcShort8_create1331(cl_short x, fcShort3 vec1, fcShort3 vec2, cl_short s7) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcShort8_set1331(fcShort8* self, cl_short x, fcShort3 vec1, fcShort3 vec2, cl_short s7) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcShort8 fcShort8_create134(cl_short x, fcShort3 vec1, fcShort4 vec2) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcShort8_set134(fcShort8* self, cl_short x, fcShort3 vec1, fcShort4 vec2) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcShort8 fcShort8_create14111(cl_short x, fcShort4 vec1, cl_short s5, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, s5, s6, s7);
 }
+
+void fcShort8_set14111(fcShort8* self, cl_short x, fcShort4 vec1, cl_short s5, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, s5, s6, s7);
+}
+
 fcShort8 fcShort8_create1412(cl_short x, fcShort4 vec1, cl_short s5, fcShort2 vec2) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, s5, vec2.x, vec2.y);
 }
+
+void fcShort8_set1412(fcShort8* self, cl_short x, fcShort4 vec1, cl_short s5, fcShort2 vec2) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, s5, vec2.x, vec2.y);
+}
+
 fcShort8 fcShort8_create1421(cl_short x, fcShort4 vec1, fcShort2 vec2, cl_short s7) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s7);
 }
+
+void fcShort8_set1421(fcShort8* self, cl_short x, fcShort4 vec1, fcShort2 vec2, cl_short s7) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s7);
+}
+
 fcShort8 fcShort8_create143(cl_short x, fcShort4 vec1, fcShort3 vec2) {
   return fcShort8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z);
 }
+
+void fcShort8_set143(fcShort8* self, cl_short x, fcShort4 vec1, fcShort3 vec2) {
+  fcShort8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z);
+}
+
 fcShort8 fcShort8_create2111111(fcShort2 vec1, cl_short z, cl_short w, cl_short s4, cl_short s5, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, z, w, s4, s5, s6, s7);
 }
+
+void fcShort8_set2111111(fcShort8* self, fcShort2 vec1, cl_short z, cl_short w, cl_short s4, cl_short s5, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, z, w, s4, s5, s6, s7);
+}
+
 fcShort8 fcShort8_create211112(fcShort2 vec1, cl_short z, cl_short w, cl_short s4, cl_short s5, fcShort2 vec2) {
   return fcShort8_create11111111(vec1.x, vec1.y, z, w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcShort8_set211112(fcShort8* self, fcShort2 vec1, cl_short z, cl_short w, cl_short s4, cl_short s5, fcShort2 vec2) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, z, w, s4, s5, vec2.x, vec2.y);
+}
+
 fcShort8 fcShort8_create211121(fcShort2 vec1, cl_short z, cl_short w, cl_short s4, fcShort2 vec2, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcShort8_set211121(fcShort8* self, fcShort2 vec1, cl_short z, cl_short w, cl_short s4, fcShort2 vec2, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, s7);
+}
+
 fcShort8 fcShort8_create21113(fcShort2 vec1, cl_short z, cl_short w, cl_short s4, fcShort3 vec2) {
   return fcShort8_create11111111(vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcShort8_set21113(fcShort8* self, fcShort2 vec1, cl_short z, cl_short w, cl_short s4, fcShort3 vec2) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcShort8 fcShort8_create211211(fcShort2 vec1, cl_short z, cl_short w, fcShort2 vec2, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcShort8_set211211(fcShort8* self, fcShort2 vec1, cl_short z, cl_short w, fcShort2 vec2, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, s6, s7);
+}
+
 fcShort8 fcShort8_create21122(fcShort2 vec1, cl_short z, cl_short w, fcShort2 vec2, fcShort2 vec3) {
   return fcShort8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcShort8_set21122(fcShort8* self, fcShort2 vec1, cl_short z, cl_short w, fcShort2 vec2, fcShort2 vec3) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcShort8 fcShort8_create21131(fcShort2 vec1, cl_short z, cl_short w, fcShort3 vec2, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcShort8_set21131(fcShort8* self, fcShort2 vec1, cl_short z, cl_short w, fcShort3 vec2, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcShort8 fcShort8_create2114(fcShort2 vec1, cl_short z, cl_short w, fcShort4 vec2) {
   return fcShort8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcShort8_set2114(fcShort8* self, fcShort2 vec1, cl_short z, cl_short w, fcShort4 vec2) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcShort8 fcShort8_create212111(fcShort2 vec1, cl_short z, fcShort2 vec2, cl_short s5, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, s5, s6, s7);
 }
+
+void fcShort8_set212111(fcShort8* self, fcShort2 vec1, cl_short z, fcShort2 vec2, cl_short s5, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, s5, s6, s7);
+}
+
 fcShort8 fcShort8_create21212(fcShort2 vec1, cl_short z, fcShort2 vec2, cl_short s5, fcShort2 vec3) {
   return fcShort8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
 }
+
+void fcShort8_set21212(fcShort8* self, fcShort2 vec1, cl_short z, fcShort2 vec2, cl_short s5, fcShort2 vec3) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
+}
+
 fcShort8 fcShort8_create21221(fcShort2 vec1, cl_short z, fcShort2 vec2, fcShort2 vec3, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
 }
+
+void fcShort8_set21221(fcShort8* self, fcShort2 vec1, cl_short z, fcShort2 vec2, fcShort2 vec3, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
+}
+
 fcShort8 fcShort8_create2123(fcShort2 vec1, cl_short z, fcShort2 vec2, fcShort3 vec3) {
   return fcShort8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
 }
+
+void fcShort8_set2123(fcShort8* self, fcShort2 vec1, cl_short z, fcShort2 vec2, fcShort3 vec3) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
+}
+
 fcShort8 fcShort8_create21311(fcShort2 vec1, cl_short z, fcShort3 vec2, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, s6, s7);
 }
+
+void fcShort8_set21311(fcShort8* self, fcShort2 vec1, cl_short z, fcShort3 vec2, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, s6, s7);
+}
+
 fcShort8 fcShort8_create2132(fcShort2 vec1, cl_short z, fcShort3 vec2, fcShort2 vec3) {
   return fcShort8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
 }
+
+void fcShort8_set2132(fcShort8* self, fcShort2 vec1, cl_short z, fcShort3 vec2, fcShort2 vec3) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
+}
+
 fcShort8 fcShort8_create2141(fcShort2 vec1, cl_short z, fcShort4 vec2, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
 }
+
+void fcShort8_set2141(fcShort8* self, fcShort2 vec1, cl_short z, fcShort4 vec2, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
+}
+
 fcShort8 fcShort8_create221111(fcShort2 vec1, fcShort2 vec2, cl_short s4, cl_short s5, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, s6, s7);
 }
+
+void fcShort8_set221111(fcShort8* self, fcShort2 vec1, fcShort2 vec2, cl_short s4, cl_short s5, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, s6, s7);
+}
+
 fcShort8 fcShort8_create22112(fcShort2 vec1, fcShort2 vec2, cl_short s4, cl_short s5, fcShort2 vec3) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, vec3.x, vec3.y);
 }
+
+void fcShort8_set22112(fcShort8* self, fcShort2 vec1, fcShort2 vec2, cl_short s4, cl_short s5, fcShort2 vec3) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, vec3.x, vec3.y);
+}
+
 fcShort8 fcShort8_create22121(fcShort2 vec1, fcShort2 vec2, cl_short s4, fcShort2 vec3, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, s7);
 }
+
+void fcShort8_set22121(fcShort8* self, fcShort2 vec1, fcShort2 vec2, cl_short s4, fcShort2 vec3, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, s7);
+}
+
 fcShort8 fcShort8_create2213(fcShort2 vec1, fcShort2 vec2, cl_short s4, fcShort3 vec3) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, vec3.z);
 }
+
+void fcShort8_set2213(fcShort8* self, fcShort2 vec1, fcShort2 vec2, cl_short s4, fcShort3 vec3) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, vec3.z);
+}
+
 fcShort8 fcShort8_create22211(fcShort2 vec1, fcShort2 vec2, fcShort2 vec3, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s6, s7);
 }
+
+void fcShort8_set22211(fcShort8* self, fcShort2 vec1, fcShort2 vec2, fcShort2 vec3, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s6, s7);
+}
+
 fcShort8 fcShort8_create2222(fcShort2 vec1, fcShort2 vec2, fcShort2 vec3, fcShort2 vec4) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec4.x, vec4.y);
 }
+
+void fcShort8_set2222(fcShort8* self, fcShort2 vec1, fcShort2 vec2, fcShort2 vec3, fcShort2 vec4) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec4.x, vec4.y);
+}
+
 fcShort8 fcShort8_create2231(fcShort2 vec1, fcShort2 vec2, fcShort3 vec3, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, s7);
 }
+
+void fcShort8_set2231(fcShort8* self, fcShort2 vec1, fcShort2 vec2, fcShort3 vec3, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, s7);
+}
+
 fcShort8 fcShort8_create224(fcShort2 vec1, fcShort2 vec2, fcShort4 vec3) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, vec3.w);
 }
+
+void fcShort8_set224(fcShort8* self, fcShort2 vec1, fcShort2 vec2, fcShort4 vec3) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, vec3.w);
+}
+
 fcShort8 fcShort8_create23111(fcShort2 vec1, fcShort3 vec2, cl_short s5, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, s6, s7);
 }
+
+void fcShort8_set23111(fcShort8* self, fcShort2 vec1, fcShort3 vec2, cl_short s5, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, s6, s7);
+}
+
 fcShort8 fcShort8_create2312(fcShort2 vec1, fcShort3 vec2, cl_short s5, fcShort2 vec3) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, vec3.x, vec3.y);
 }
+
+void fcShort8_set2312(fcShort8* self, fcShort2 vec1, fcShort3 vec2, cl_short s5, fcShort2 vec3) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, vec3.x, vec3.y);
+}
+
 fcShort8 fcShort8_create2321(fcShort2 vec1, fcShort3 vec2, fcShort2 vec3, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, s7);
 }
+
+void fcShort8_set2321(fcShort8* self, fcShort2 vec1, fcShort3 vec2, fcShort2 vec3, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, s7);
+}
+
 fcShort8 fcShort8_create233(fcShort2 vec1, fcShort3 vec2, fcShort3 vec3) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, vec3.z);
 }
+
+void fcShort8_set233(fcShort8* self, fcShort2 vec1, fcShort3 vec2, fcShort3 vec3) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, vec3.z);
+}
+
 fcShort8 fcShort8_create2411(fcShort2 vec1, fcShort4 vec2, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s6, s7);
 }
+
+void fcShort8_set2411(fcShort8* self, fcShort2 vec1, fcShort4 vec2, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s6, s7);
+}
+
 fcShort8 fcShort8_create242(fcShort2 vec1, fcShort4 vec2, fcShort2 vec3) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, vec3.x, vec3.y);
 }
+
+void fcShort8_set242(fcShort8* self, fcShort2 vec1, fcShort4 vec2, fcShort2 vec3) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, vec3.x, vec3.y);
+}
+
 fcShort8 fcShort8_create311111(fcShort3 vec1, cl_short w, cl_short s4, cl_short s5, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, s5, s6, s7);
 }
+
+void fcShort8_set311111(fcShort8* self, fcShort3 vec1, cl_short w, cl_short s4, cl_short s5, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, s5, s6, s7);
+}
+
 fcShort8 fcShort8_create31112(fcShort3 vec1, cl_short w, cl_short s4, cl_short s5, fcShort2 vec2) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcShort8_set31112(fcShort8* self, fcShort3 vec1, cl_short w, cl_short s4, cl_short s5, fcShort2 vec2) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, s5, vec2.x, vec2.y);
+}
+
 fcShort8 fcShort8_create31121(fcShort3 vec1, cl_short w, cl_short s4, fcShort2 vec2, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcShort8_set31121(fcShort8* self, fcShort3 vec1, cl_short w, cl_short s4, fcShort2 vec2, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, s7);
+}
+
 fcShort8 fcShort8_create3113(fcShort3 vec1, cl_short w, cl_short s4, fcShort3 vec2) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcShort8_set3113(fcShort8* self, fcShort3 vec1, cl_short w, cl_short s4, fcShort3 vec2) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcShort8 fcShort8_create31211(fcShort3 vec1, cl_short w, fcShort2 vec2, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcShort8_set31211(fcShort8* self, fcShort3 vec1, cl_short w, fcShort2 vec2, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, s6, s7);
+}
+
 fcShort8 fcShort8_create3122(fcShort3 vec1, cl_short w, fcShort2 vec2, fcShort2 vec3) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcShort8_set3122(fcShort8* self, fcShort3 vec1, cl_short w, fcShort2 vec2, fcShort2 vec3) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcShort8 fcShort8_create3131(fcShort3 vec1, cl_short w, fcShort3 vec2, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcShort8_set3131(fcShort8* self, fcShort3 vec1, cl_short w, fcShort3 vec2, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcShort8 fcShort8_create314(fcShort3 vec1, cl_short w, fcShort4 vec2) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcShort8_set314(fcShort8* self, fcShort3 vec1, cl_short w, fcShort4 vec2) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcShort8 fcShort8_create32111(fcShort3 vec1, fcShort2 vec2, cl_short s5, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, s6, s7);
 }
+
+void fcShort8_set32111(fcShort8* self, fcShort3 vec1, fcShort2 vec2, cl_short s5, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, s6, s7);
+}
+
 fcShort8 fcShort8_create3212(fcShort3 vec1, fcShort2 vec2, cl_short s5, fcShort2 vec3) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
 }
+
+void fcShort8_set3212(fcShort8* self, fcShort3 vec1, fcShort2 vec2, cl_short s5, fcShort2 vec3) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
+}
+
 fcShort8 fcShort8_create3221(fcShort3 vec1, fcShort2 vec2, fcShort2 vec3, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
 }
+
+void fcShort8_set3221(fcShort8* self, fcShort3 vec1, fcShort2 vec2, fcShort2 vec3, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
+}
+
 fcShort8 fcShort8_create323(fcShort3 vec1, fcShort2 vec2, fcShort3 vec3) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
 }
+
+void fcShort8_set323(fcShort8* self, fcShort3 vec1, fcShort2 vec2, fcShort3 vec3) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
+}
+
 fcShort8 fcShort8_create3311(fcShort3 vec1, fcShort3 vec2, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s6, s7);
 }
+
+void fcShort8_set3311(fcShort8* self, fcShort3 vec1, fcShort3 vec2, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s6, s7);
+}
+
 fcShort8 fcShort8_create332(fcShort3 vec1, fcShort3 vec2, fcShort2 vec3) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
 }
+
+void fcShort8_set332(fcShort8* self, fcShort3 vec1, fcShort3 vec2, fcShort2 vec3) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
+}
+
 fcShort8 fcShort8_create341(fcShort3 vec1, fcShort4 vec2, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
 }
+
+void fcShort8_set341(fcShort8* self, fcShort3 vec1, fcShort4 vec2, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
+}
+
 fcShort8 fcShort8_create41111(fcShort4 vec1, cl_short s4, cl_short s5, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, s6, s7);
 }
+
+void fcShort8_set41111(fcShort8* self, fcShort4 vec1, cl_short s4, cl_short s5, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, s6, s7);
+}
+
 fcShort8 fcShort8_create4112(fcShort4 vec1, cl_short s4, cl_short s5, fcShort2 vec2) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcShort8_set4112(fcShort8* self, fcShort4 vec1, cl_short s4, cl_short s5, fcShort2 vec2) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, vec2.x, vec2.y);
+}
+
 fcShort8 fcShort8_create4121(fcShort4 vec1, cl_short s4, fcShort2 vec2, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcShort8_set4121(fcShort8* self, fcShort4 vec1, cl_short s4, fcShort2 vec2, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, s7);
+}
+
 fcShort8 fcShort8_create413(fcShort4 vec1, cl_short s4, fcShort3 vec2) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcShort8_set413(fcShort8* self, fcShort4 vec1, cl_short s4, fcShort3 vec2) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcShort8 fcShort8_create4211(fcShort4 vec1, fcShort2 vec2, cl_short s6, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcShort8_set4211(fcShort8* self, fcShort4 vec1, fcShort2 vec2, cl_short s6, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s6, s7);
+}
+
 fcShort8 fcShort8_create422(fcShort4 vec1, fcShort2 vec2, fcShort2 vec3) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcShort8_set422(fcShort8* self, fcShort4 vec1, fcShort2 vec2, fcShort2 vec3) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcShort8 fcShort8_create431(fcShort4 vec1, fcShort3 vec2, cl_short s7) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcShort8_set431(fcShort8* self, fcShort4 vec1, fcShort3 vec2, cl_short s7) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcShort8 fcShort8_create44(fcShort4 vec1, fcShort4 vec2) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcShort8_set44(fcShort8* self, fcShort4 vec1, fcShort4 vec2) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcShort8 fcShort8_create8(fcShort8 vec1) {
   return fcShort8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec1.s4, vec1.s5, vec1.s6, vec1.s7);
+}
+
+void fcShort8_set8(fcShort8* self, fcShort8 vec1) {
+  fcShort8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec1.s4, vec1.s5, vec1.s6, vec1.s7);
 }
 
 fcShort4 fcShort8_odd(fcShort8 a) {
@@ -3791,6 +5025,10 @@ cl_int fcShort8_any(fcShort8 a) {
 
 cl_int fcShort8_all(fcShort8 a) {
   return !(a.x == 0 || a.y == 0 || a.z == 0 || a.w == 0 || a.s4 == 0 || a.s5 == 0 || a.s6 == 0 || a.s7 == 0);
+}
+
+fcShort8 fcShort8_neg(fcShort8 a) {
+  return fcShort8_create11111111(-a.x, -a.y, -a.z, -a.w, -a.s4, -a.s5, -a.s6, -a.s7);
 }
 
 fcShort8 fcShort8_add(fcShort8 a, fcShort8 b) {
@@ -3962,24 +5200,31 @@ fcShort8 fcShort8_subSat(fcShort8 a, fcShort8 b) {
 // fcInt2
 //
 
-fcInt2 fcInt2_create() {
-  fcInt2 result = {.s = {0}};
-  return result;
-}
-
 fcInt2 fcInt2_create1(cl_int v) {
   return fcInt2_create11(v, v);
 }
 
+void fcInt2_set1(fcInt2* self, cl_int v) {
+  fcInt2_set11(self, v, v);
+}
+
 fcInt2 fcInt2_create11(cl_int x, cl_int y) {
   fcInt2 result;
-  result.x = x;
-  result.y = y;
+  fcInt2_set11(&result, x, y);
   return result;
+}
+
+void fcInt2_set11(fcInt2* self, cl_int x, cl_int y) {
+  self->x = x;
+  self->y = y;
 }
 
 fcInt2 fcInt2_create2(fcInt2 vec1) {
   return fcInt2_create11(vec1.x, vec1.y);
+}
+
+void fcInt2_set2(fcInt2* self, fcInt2 vec1) {
+  fcInt2_set11(self, vec1.x, vec1.y);
 }
 
 fcByte2 fcInt2_convertByte2(fcInt2 a) {
@@ -4036,6 +5281,10 @@ cl_int fcInt2_any(fcInt2 a) {
 
 cl_int fcInt2_all(fcInt2 a) {
   return !(a.x == 0 || a.y == 0);
+}
+
+fcInt2 fcInt2_neg(fcInt2 a) {
+  return fcInt2_create11(-a.x, -a.y);
 }
 
 fcInt2 fcInt2_add(fcInt2 a, fcInt2 b) {
@@ -4215,31 +5464,48 @@ fcInt2 fcInt2_mul24(fcInt2 a, fcInt2 b) {
 // fcInt3
 //
 
-fcInt3 fcInt3_create() {
-  fcInt3 result = {.s = {0}};
-  return result;
-}
-
 fcInt3 fcInt3_create1(cl_int v) {
   return fcInt3_create111(v, v, v);
 }
 
+void fcInt3_set1(fcInt3* self, cl_int v) {
+  fcInt3_set111(self, v, v, v);
+}
+
 fcInt3 fcInt3_create111(cl_int x, cl_int y, cl_int z) {
   fcInt3 result;
-  result.x = x;
-  result.y = y;
-  result.z = z;
+  fcInt3_set111(&result, x, y, z);
   return result;
+}
+
+void fcInt3_set111(fcInt3* self, cl_int x, cl_int y, cl_int z) {
+  self->x = x;
+  self->y = y;
+  self->z = z;
 }
 
 fcInt3 fcInt3_create12(cl_int x, fcInt2 vec1) {
   return fcInt3_create111(x, vec1.x, vec1.y);
 }
+
+void fcInt3_set12(fcInt3* self, cl_int x, fcInt2 vec1) {
+  fcInt3_set111(self, x, vec1.x, vec1.y);
+}
+
 fcInt3 fcInt3_create21(fcInt2 vec1, cl_int z) {
   return fcInt3_create111(vec1.x, vec1.y, z);
 }
+
+void fcInt3_set21(fcInt3* self, fcInt2 vec1, cl_int z) {
+  fcInt3_set111(self, vec1.x, vec1.y, z);
+}
+
 fcInt3 fcInt3_create3(fcInt3 vec1) {
   return fcInt3_create111(vec1.x, vec1.y, vec1.z);
+}
+
+void fcInt3_set3(fcInt3* self, fcInt3 vec1) {
+  fcInt3_set111(self, vec1.x, vec1.y, vec1.z);
 }
 
 fcByte3 fcInt3_convertByte3(fcInt3 a) {
@@ -4300,6 +5566,10 @@ cl_int fcInt3_any(fcInt3 a) {
 
 cl_int fcInt3_all(fcInt3 a) {
   return !(a.x == 0 || a.y == 0 || a.z == 0);
+}
+
+fcInt3 fcInt3_neg(fcInt3 a) {
+  return fcInt3_create111(-a.x, -a.y, -a.z);
 }
 
 fcInt3 fcInt3_add(fcInt3 a, fcInt3 b) {
@@ -4479,44 +5749,81 @@ fcInt3 fcInt3_mul24(fcInt3 a, fcInt3 b) {
 // fcInt4
 //
 
-fcInt4 fcInt4_create() {
-  fcInt4 result = {.s = {0}};
-  return result;
-}
-
 fcInt4 fcInt4_create1(cl_int v) {
   return fcInt4_create1111(v, v, v, v);
 }
 
+void fcInt4_set1(fcInt4* self, cl_int v) {
+  fcInt4_set1111(self, v, v, v, v);
+}
+
 fcInt4 fcInt4_create1111(cl_int x, cl_int y, cl_int z, cl_int w) {
   fcInt4 result;
-  result.x = x;
-  result.y = y;
-  result.z = z;
-  result.w = w;
+  fcInt4_set1111(&result, x, y, z, w);
   return result;
+}
+
+void fcInt4_set1111(fcInt4* self, cl_int x, cl_int y, cl_int z, cl_int w) {
+  self->x = x;
+  self->y = y;
+  self->z = z;
+  self->w = w;
 }
 
 fcInt4 fcInt4_create112(cl_int x, cl_int y, fcInt2 vec1) {
   return fcInt4_create1111(x, y, vec1.x, vec1.y);
 }
+
+void fcInt4_set112(fcInt4* self, cl_int x, cl_int y, fcInt2 vec1) {
+  fcInt4_set1111(self, x, y, vec1.x, vec1.y);
+}
+
 fcInt4 fcInt4_create121(cl_int x, fcInt2 vec1, cl_int w) {
   return fcInt4_create1111(x, vec1.x, vec1.y, w);
 }
+
+void fcInt4_set121(fcInt4* self, cl_int x, fcInt2 vec1, cl_int w) {
+  fcInt4_set1111(self, x, vec1.x, vec1.y, w);
+}
+
 fcInt4 fcInt4_create13(cl_int x, fcInt3 vec1) {
   return fcInt4_create1111(x, vec1.x, vec1.y, vec1.z);
 }
+
+void fcInt4_set13(fcInt4* self, cl_int x, fcInt3 vec1) {
+  fcInt4_set1111(self, x, vec1.x, vec1.y, vec1.z);
+}
+
 fcInt4 fcInt4_create211(fcInt2 vec1, cl_int z, cl_int w) {
   return fcInt4_create1111(vec1.x, vec1.y, z, w);
 }
+
+void fcInt4_set211(fcInt4* self, fcInt2 vec1, cl_int z, cl_int w) {
+  fcInt4_set1111(self, vec1.x, vec1.y, z, w);
+}
+
 fcInt4 fcInt4_create22(fcInt2 vec1, fcInt2 vec2) {
   return fcInt4_create1111(vec1.x, vec1.y, vec2.x, vec2.y);
 }
+
+void fcInt4_set22(fcInt4* self, fcInt2 vec1, fcInt2 vec2) {
+  fcInt4_set1111(self, vec1.x, vec1.y, vec2.x, vec2.y);
+}
+
 fcInt4 fcInt4_create31(fcInt3 vec1, cl_int w) {
   return fcInt4_create1111(vec1.x, vec1.y, vec1.z, w);
 }
+
+void fcInt4_set31(fcInt4* self, fcInt3 vec1, cl_int w) {
+  fcInt4_set1111(self, vec1.x, vec1.y, vec1.z, w);
+}
+
 fcInt4 fcInt4_create4(fcInt4 vec1) {
   return fcInt4_create1111(vec1.x, vec1.y, vec1.z, vec1.w);
+}
+
+void fcInt4_set4(fcInt4* self, fcInt4 vec1) {
+  fcInt4_set1111(self, vec1.x, vec1.y, vec1.z, vec1.w);
 }
 
 fcInt2 fcInt4_odd(fcInt4 a) {
@@ -4589,6 +5896,10 @@ cl_int fcInt4_any(fcInt4 a) {
 
 cl_int fcInt4_all(fcInt4 a) {
   return !(a.x == 0 || a.y == 0 || a.z == 0 || a.w == 0);
+}
+
+fcInt4 fcInt4_neg(fcInt4 a) {
+  return fcInt4_create1111(-a.x, -a.y, -a.z, -a.w);
 }
 
 fcInt4 fcInt4_add(fcInt4 a, fcInt4 b) {
@@ -4768,351 +6079,893 @@ fcInt4 fcInt4_mul24(fcInt4 a, fcInt4 b) {
 // fcInt8
 //
 
-fcInt8 fcInt8_create() {
-  fcInt8 result = {.s = {0}};
-  return result;
-}
-
 fcInt8 fcInt8_create1(cl_int v) {
   return fcInt8_create11111111(v, v, v, v, v, v, v, v);
 }
 
+void fcInt8_set1(fcInt8* self, cl_int v) {
+  fcInt8_set11111111(self, v, v, v, v, v, v, v, v);
+}
+
 fcInt8 fcInt8_create11111111(cl_int x, cl_int y, cl_int z, cl_int w, cl_int s4, cl_int s5, cl_int s6, cl_int s7) {
   fcInt8 result;
-  result.x = x;
-  result.y = y;
-  result.z = z;
-  result.w = w;
-  result.s4 = s4;
-  result.s5 = s5;
-  result.s6 = s6;
-  result.s7 = s7;
+  fcInt8_set11111111(&result, x, y, z, w, s4, s5, s6, s7);
   return result;
+}
+
+void fcInt8_set11111111(fcInt8* self, cl_int x, cl_int y, cl_int z, cl_int w, cl_int s4, cl_int s5, cl_int s6, cl_int s7) {
+  self->x = x;
+  self->y = y;
+  self->z = z;
+  self->w = w;
+  self->s4 = s4;
+  self->s5 = s5;
+  self->s6 = s6;
+  self->s7 = s7;
 }
 
 fcInt8 fcInt8_create1111112(cl_int x, cl_int y, cl_int z, cl_int w, cl_int s4, cl_int s5, fcInt2 vec1) {
   return fcInt8_create11111111(x, y, z, w, s4, s5, vec1.x, vec1.y);
 }
+
+void fcInt8_set1111112(fcInt8* self, cl_int x, cl_int y, cl_int z, cl_int w, cl_int s4, cl_int s5, fcInt2 vec1) {
+  fcInt8_set11111111(self, x, y, z, w, s4, s5, vec1.x, vec1.y);
+}
+
 fcInt8 fcInt8_create1111121(cl_int x, cl_int y, cl_int z, cl_int w, cl_int s4, fcInt2 vec1, cl_int s7) {
   return fcInt8_create11111111(x, y, z, w, s4, vec1.x, vec1.y, s7);
 }
+
+void fcInt8_set1111121(fcInt8* self, cl_int x, cl_int y, cl_int z, cl_int w, cl_int s4, fcInt2 vec1, cl_int s7) {
+  fcInt8_set11111111(self, x, y, z, w, s4, vec1.x, vec1.y, s7);
+}
+
 fcInt8 fcInt8_create111113(cl_int x, cl_int y, cl_int z, cl_int w, cl_int s4, fcInt3 vec1) {
   return fcInt8_create11111111(x, y, z, w, s4, vec1.x, vec1.y, vec1.z);
 }
+
+void fcInt8_set111113(fcInt8* self, cl_int x, cl_int y, cl_int z, cl_int w, cl_int s4, fcInt3 vec1) {
+  fcInt8_set11111111(self, x, y, z, w, s4, vec1.x, vec1.y, vec1.z);
+}
+
 fcInt8 fcInt8_create1111211(cl_int x, cl_int y, cl_int z, cl_int w, fcInt2 vec1, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(x, y, z, w, vec1.x, vec1.y, s6, s7);
 }
+
+void fcInt8_set1111211(fcInt8* self, cl_int x, cl_int y, cl_int z, cl_int w, fcInt2 vec1, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, x, y, z, w, vec1.x, vec1.y, s6, s7);
+}
+
 fcInt8 fcInt8_create111122(cl_int x, cl_int y, cl_int z, cl_int w, fcInt2 vec1, fcInt2 vec2) {
   return fcInt8_create11111111(x, y, z, w, vec1.x, vec1.y, vec2.x, vec2.y);
 }
+
+void fcInt8_set111122(fcInt8* self, cl_int x, cl_int y, cl_int z, cl_int w, fcInt2 vec1, fcInt2 vec2) {
+  fcInt8_set11111111(self, x, y, z, w, vec1.x, vec1.y, vec2.x, vec2.y);
+}
+
 fcInt8 fcInt8_create111131(cl_int x, cl_int y, cl_int z, cl_int w, fcInt3 vec1, cl_int s7) {
   return fcInt8_create11111111(x, y, z, w, vec1.x, vec1.y, vec1.z, s7);
 }
+
+void fcInt8_set111131(fcInt8* self, cl_int x, cl_int y, cl_int z, cl_int w, fcInt3 vec1, cl_int s7) {
+  fcInt8_set11111111(self, x, y, z, w, vec1.x, vec1.y, vec1.z, s7);
+}
+
 fcInt8 fcInt8_create11114(cl_int x, cl_int y, cl_int z, cl_int w, fcInt4 vec1) {
   return fcInt8_create11111111(x, y, z, w, vec1.x, vec1.y, vec1.z, vec1.w);
 }
+
+void fcInt8_set11114(fcInt8* self, cl_int x, cl_int y, cl_int z, cl_int w, fcInt4 vec1) {
+  fcInt8_set11111111(self, x, y, z, w, vec1.x, vec1.y, vec1.z, vec1.w);
+}
+
 fcInt8 fcInt8_create1112111(cl_int x, cl_int y, cl_int z, fcInt2 vec1, cl_int s5, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(x, y, z, vec1.x, vec1.y, s5, s6, s7);
 }
+
+void fcInt8_set1112111(fcInt8* self, cl_int x, cl_int y, cl_int z, fcInt2 vec1, cl_int s5, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, x, y, z, vec1.x, vec1.y, s5, s6, s7);
+}
+
 fcInt8 fcInt8_create111212(cl_int x, cl_int y, cl_int z, fcInt2 vec1, cl_int s5, fcInt2 vec2) {
   return fcInt8_create11111111(x, y, z, vec1.x, vec1.y, s5, vec2.x, vec2.y);
 }
+
+void fcInt8_set111212(fcInt8* self, cl_int x, cl_int y, cl_int z, fcInt2 vec1, cl_int s5, fcInt2 vec2) {
+  fcInt8_set11111111(self, x, y, z, vec1.x, vec1.y, s5, vec2.x, vec2.y);
+}
+
 fcInt8 fcInt8_create111221(cl_int x, cl_int y, cl_int z, fcInt2 vec1, fcInt2 vec2, cl_int s7) {
   return fcInt8_create11111111(x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, s7);
 }
+
+void fcInt8_set111221(fcInt8* self, cl_int x, cl_int y, cl_int z, fcInt2 vec1, fcInt2 vec2, cl_int s7) {
+  fcInt8_set11111111(self, x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, s7);
+}
+
 fcInt8 fcInt8_create11123(cl_int x, cl_int y, cl_int z, fcInt2 vec1, fcInt3 vec2) {
   return fcInt8_create11111111(x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z);
 }
+
+void fcInt8_set11123(fcInt8* self, cl_int x, cl_int y, cl_int z, fcInt2 vec1, fcInt3 vec2) {
+  fcInt8_set11111111(self, x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z);
+}
+
 fcInt8 fcInt8_create111311(cl_int x, cl_int y, cl_int z, fcInt3 vec1, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(x, y, z, vec1.x, vec1.y, vec1.z, s6, s7);
 }
+
+void fcInt8_set111311(fcInt8* self, cl_int x, cl_int y, cl_int z, fcInt3 vec1, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, x, y, z, vec1.x, vec1.y, vec1.z, s6, s7);
+}
+
 fcInt8 fcInt8_create11132(cl_int x, cl_int y, cl_int z, fcInt3 vec1, fcInt2 vec2) {
   return fcInt8_create11111111(x, y, z, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y);
 }
+
+void fcInt8_set11132(fcInt8* self, cl_int x, cl_int y, cl_int z, fcInt3 vec1, fcInt2 vec2) {
+  fcInt8_set11111111(self, x, y, z, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y);
+}
+
 fcInt8 fcInt8_create11141(cl_int x, cl_int y, cl_int z, fcInt4 vec1, cl_int s7) {
   return fcInt8_create11111111(x, y, z, vec1.x, vec1.y, vec1.z, vec1.w, s7);
 }
+
+void fcInt8_set11141(fcInt8* self, cl_int x, cl_int y, cl_int z, fcInt4 vec1, cl_int s7) {
+  fcInt8_set11111111(self, x, y, z, vec1.x, vec1.y, vec1.z, vec1.w, s7);
+}
+
 fcInt8 fcInt8_create1121111(cl_int x, cl_int y, fcInt2 vec1, cl_int s4, cl_int s5, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(x, y, vec1.x, vec1.y, s4, s5, s6, s7);
 }
+
+void fcInt8_set1121111(fcInt8* self, cl_int x, cl_int y, fcInt2 vec1, cl_int s4, cl_int s5, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, x, y, vec1.x, vec1.y, s4, s5, s6, s7);
+}
+
 fcInt8 fcInt8_create112112(cl_int x, cl_int y, fcInt2 vec1, cl_int s4, cl_int s5, fcInt2 vec2) {
   return fcInt8_create11111111(x, y, vec1.x, vec1.y, s4, s5, vec2.x, vec2.y);
 }
+
+void fcInt8_set112112(fcInt8* self, cl_int x, cl_int y, fcInt2 vec1, cl_int s4, cl_int s5, fcInt2 vec2) {
+  fcInt8_set11111111(self, x, y, vec1.x, vec1.y, s4, s5, vec2.x, vec2.y);
+}
+
 fcInt8 fcInt8_create112121(cl_int x, cl_int y, fcInt2 vec1, cl_int s4, fcInt2 vec2, cl_int s7) {
   return fcInt8_create11111111(x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, s7);
 }
+
+void fcInt8_set112121(fcInt8* self, cl_int x, cl_int y, fcInt2 vec1, cl_int s4, fcInt2 vec2, cl_int s7) {
+  fcInt8_set11111111(self, x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, s7);
+}
+
 fcInt8 fcInt8_create11213(cl_int x, cl_int y, fcInt2 vec1, cl_int s4, fcInt3 vec2) {
   return fcInt8_create11111111(x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcInt8_set11213(fcInt8* self, cl_int x, cl_int y, fcInt2 vec1, cl_int s4, fcInt3 vec2) {
+  fcInt8_set11111111(self, x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcInt8 fcInt8_create112211(cl_int x, cl_int y, fcInt2 vec1, fcInt2 vec2, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, s6, s7);
 }
+
+void fcInt8_set112211(fcInt8* self, cl_int x, cl_int y, fcInt2 vec1, fcInt2 vec2, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, s6, s7);
+}
+
 fcInt8 fcInt8_create11222(cl_int x, cl_int y, fcInt2 vec1, fcInt2 vec2, fcInt2 vec3) {
   return fcInt8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcInt8_set11222(fcInt8* self, cl_int x, cl_int y, fcInt2 vec1, fcInt2 vec2, fcInt2 vec3) {
+  fcInt8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcInt8 fcInt8_create11231(cl_int x, cl_int y, fcInt2 vec1, fcInt3 vec2, cl_int s7) {
   return fcInt8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcInt8_set11231(fcInt8* self, cl_int x, cl_int y, fcInt2 vec1, fcInt3 vec2, cl_int s7) {
+  fcInt8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcInt8 fcInt8_create1124(cl_int x, cl_int y, fcInt2 vec1, fcInt4 vec2) {
   return fcInt8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcInt8_set1124(fcInt8* self, cl_int x, cl_int y, fcInt2 vec1, fcInt4 vec2) {
+  fcInt8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcInt8 fcInt8_create113111(cl_int x, cl_int y, fcInt3 vec1, cl_int s5, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(x, y, vec1.x, vec1.y, vec1.z, s5, s6, s7);
 }
+
+void fcInt8_set113111(fcInt8* self, cl_int x, cl_int y, fcInt3 vec1, cl_int s5, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, s5, s6, s7);
+}
+
 fcInt8 fcInt8_create11312(cl_int x, cl_int y, fcInt3 vec1, cl_int s5, fcInt2 vec2) {
   return fcInt8_create11111111(x, y, vec1.x, vec1.y, vec1.z, s5, vec2.x, vec2.y);
 }
+
+void fcInt8_set11312(fcInt8* self, cl_int x, cl_int y, fcInt3 vec1, cl_int s5, fcInt2 vec2) {
+  fcInt8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, s5, vec2.x, vec2.y);
+}
+
 fcInt8 fcInt8_create11321(cl_int x, cl_int y, fcInt3 vec1, fcInt2 vec2, cl_int s7) {
   return fcInt8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s7);
 }
+
+void fcInt8_set11321(fcInt8* self, cl_int x, cl_int y, fcInt3 vec1, fcInt2 vec2, cl_int s7) {
+  fcInt8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s7);
+}
+
 fcInt8 fcInt8_create1133(cl_int x, cl_int y, fcInt3 vec1, fcInt3 vec2) {
   return fcInt8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z);
 }
+
+void fcInt8_set1133(fcInt8* self, cl_int x, cl_int y, fcInt3 vec1, fcInt3 vec2) {
+  fcInt8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z);
+}
+
 fcInt8 fcInt8_create11411(cl_int x, cl_int y, fcInt4 vec1, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec1.w, s6, s7);
 }
+
+void fcInt8_set11411(fcInt8* self, cl_int x, cl_int y, fcInt4 vec1, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec1.w, s6, s7);
+}
+
 fcInt8 fcInt8_create1142(cl_int x, cl_int y, fcInt4 vec1, fcInt2 vec2) {
   return fcInt8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y);
 }
+
+void fcInt8_set1142(fcInt8* self, cl_int x, cl_int y, fcInt4 vec1, fcInt2 vec2) {
+  fcInt8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y);
+}
+
 fcInt8 fcInt8_create1211111(cl_int x, fcInt2 vec1, cl_int w, cl_int s4, cl_int s5, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, w, s4, s5, s6, s7);
 }
+
+void fcInt8_set1211111(fcInt8* self, cl_int x, fcInt2 vec1, cl_int w, cl_int s4, cl_int s5, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, w, s4, s5, s6, s7);
+}
+
 fcInt8 fcInt8_create121112(cl_int x, fcInt2 vec1, cl_int w, cl_int s4, cl_int s5, fcInt2 vec2) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcInt8_set121112(fcInt8* self, cl_int x, fcInt2 vec1, cl_int w, cl_int s4, cl_int s5, fcInt2 vec2) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, w, s4, s5, vec2.x, vec2.y);
+}
+
 fcInt8 fcInt8_create121121(cl_int x, fcInt2 vec1, cl_int w, cl_int s4, fcInt2 vec2, cl_int s7) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcInt8_set121121(fcInt8* self, cl_int x, fcInt2 vec1, cl_int w, cl_int s4, fcInt2 vec2, cl_int s7) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, s7);
+}
+
 fcInt8 fcInt8_create12113(cl_int x, fcInt2 vec1, cl_int w, cl_int s4, fcInt3 vec2) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcInt8_set12113(fcInt8* self, cl_int x, fcInt2 vec1, cl_int w, cl_int s4, fcInt3 vec2) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcInt8 fcInt8_create121211(cl_int x, fcInt2 vec1, cl_int w, fcInt2 vec2, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcInt8_set121211(fcInt8* self, cl_int x, fcInt2 vec1, cl_int w, fcInt2 vec2, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, s6, s7);
+}
+
 fcInt8 fcInt8_create12122(cl_int x, fcInt2 vec1, cl_int w, fcInt2 vec2, fcInt2 vec3) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcInt8_set12122(fcInt8* self, cl_int x, fcInt2 vec1, cl_int w, fcInt2 vec2, fcInt2 vec3) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcInt8 fcInt8_create12131(cl_int x, fcInt2 vec1, cl_int w, fcInt3 vec2, cl_int s7) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcInt8_set12131(fcInt8* self, cl_int x, fcInt2 vec1, cl_int w, fcInt3 vec2, cl_int s7) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcInt8 fcInt8_create1214(cl_int x, fcInt2 vec1, cl_int w, fcInt4 vec2) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcInt8_set1214(fcInt8* self, cl_int x, fcInt2 vec1, cl_int w, fcInt4 vec2) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcInt8 fcInt8_create122111(cl_int x, fcInt2 vec1, fcInt2 vec2, cl_int s5, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, s5, s6, s7);
 }
+
+void fcInt8_set122111(fcInt8* self, cl_int x, fcInt2 vec1, fcInt2 vec2, cl_int s5, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, s5, s6, s7);
+}
+
 fcInt8 fcInt8_create12212(cl_int x, fcInt2 vec1, fcInt2 vec2, cl_int s5, fcInt2 vec3) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, s5, vec3.x, vec3.y);
 }
+
+void fcInt8_set12212(fcInt8* self, cl_int x, fcInt2 vec1, fcInt2 vec2, cl_int s5, fcInt2 vec3) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, s5, vec3.x, vec3.y);
+}
+
 fcInt8 fcInt8_create12221(cl_int x, fcInt2 vec1, fcInt2 vec2, fcInt2 vec3, cl_int s7) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s7);
 }
+
+void fcInt8_set12221(fcInt8* self, cl_int x, fcInt2 vec1, fcInt2 vec2, fcInt2 vec3, cl_int s7) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s7);
+}
+
 fcInt8 fcInt8_create1223(cl_int x, fcInt2 vec1, fcInt2 vec2, fcInt3 vec3) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
 }
+
+void fcInt8_set1223(fcInt8* self, cl_int x, fcInt2 vec1, fcInt2 vec2, fcInt3 vec3) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
+}
+
 fcInt8 fcInt8_create12311(cl_int x, fcInt2 vec1, fcInt3 vec2, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s6, s7);
 }
+
+void fcInt8_set12311(fcInt8* self, cl_int x, fcInt2 vec1, fcInt3 vec2, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s6, s7);
+}
+
 fcInt8 fcInt8_create1232(cl_int x, fcInt2 vec1, fcInt3 vec2, fcInt2 vec3) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
 }
+
+void fcInt8_set1232(fcInt8* self, cl_int x, fcInt2 vec1, fcInt3 vec2, fcInt2 vec3) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
+}
+
 fcInt8 fcInt8_create1241(cl_int x, fcInt2 vec1, fcInt4 vec2, cl_int s7) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s7);
 }
+
+void fcInt8_set1241(fcInt8* self, cl_int x, fcInt2 vec1, fcInt4 vec2, cl_int s7) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s7);
+}
+
 fcInt8 fcInt8_create131111(cl_int x, fcInt3 vec1, cl_int s4, cl_int s5, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, s5, s6, s7);
 }
+
+void fcInt8_set131111(fcInt8* self, cl_int x, fcInt3 vec1, cl_int s4, cl_int s5, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, s5, s6, s7);
+}
+
 fcInt8 fcInt8_create13112(cl_int x, fcInt3 vec1, cl_int s4, cl_int s5, fcInt2 vec2) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, s5, vec2.x, vec2.y);
 }
+
+void fcInt8_set13112(fcInt8* self, cl_int x, fcInt3 vec1, cl_int s4, cl_int s5, fcInt2 vec2) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, s5, vec2.x, vec2.y);
+}
+
 fcInt8 fcInt8_create13121(cl_int x, fcInt3 vec1, cl_int s4, fcInt2 vec2, cl_int s7) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, s7);
 }
+
+void fcInt8_set13121(fcInt8* self, cl_int x, fcInt3 vec1, cl_int s4, fcInt2 vec2, cl_int s7) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, s7);
+}
+
 fcInt8 fcInt8_create1313(cl_int x, fcInt3 vec1, cl_int s4, fcInt3 vec2) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcInt8_set1313(fcInt8* self, cl_int x, fcInt3 vec1, cl_int s4, fcInt3 vec2) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcInt8 fcInt8_create13211(cl_int x, fcInt3 vec1, fcInt2 vec2, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s6, s7);
 }
+
+void fcInt8_set13211(fcInt8* self, cl_int x, fcInt3 vec1, fcInt2 vec2, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s6, s7);
+}
+
 fcInt8 fcInt8_create1322(cl_int x, fcInt3 vec1, fcInt2 vec2, fcInt2 vec3) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcInt8_set1322(fcInt8* self, cl_int x, fcInt3 vec1, fcInt2 vec2, fcInt2 vec3) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcInt8 fcInt8_create1331(cl_int x, fcInt3 vec1, fcInt3 vec2, cl_int s7) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcInt8_set1331(fcInt8* self, cl_int x, fcInt3 vec1, fcInt3 vec2, cl_int s7) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcInt8 fcInt8_create134(cl_int x, fcInt3 vec1, fcInt4 vec2) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcInt8_set134(fcInt8* self, cl_int x, fcInt3 vec1, fcInt4 vec2) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcInt8 fcInt8_create14111(cl_int x, fcInt4 vec1, cl_int s5, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, s5, s6, s7);
 }
+
+void fcInt8_set14111(fcInt8* self, cl_int x, fcInt4 vec1, cl_int s5, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, s5, s6, s7);
+}
+
 fcInt8 fcInt8_create1412(cl_int x, fcInt4 vec1, cl_int s5, fcInt2 vec2) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, s5, vec2.x, vec2.y);
 }
+
+void fcInt8_set1412(fcInt8* self, cl_int x, fcInt4 vec1, cl_int s5, fcInt2 vec2) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, s5, vec2.x, vec2.y);
+}
+
 fcInt8 fcInt8_create1421(cl_int x, fcInt4 vec1, fcInt2 vec2, cl_int s7) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s7);
 }
+
+void fcInt8_set1421(fcInt8* self, cl_int x, fcInt4 vec1, fcInt2 vec2, cl_int s7) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s7);
+}
+
 fcInt8 fcInt8_create143(cl_int x, fcInt4 vec1, fcInt3 vec2) {
   return fcInt8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z);
 }
+
+void fcInt8_set143(fcInt8* self, cl_int x, fcInt4 vec1, fcInt3 vec2) {
+  fcInt8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z);
+}
+
 fcInt8 fcInt8_create2111111(fcInt2 vec1, cl_int z, cl_int w, cl_int s4, cl_int s5, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, z, w, s4, s5, s6, s7);
 }
+
+void fcInt8_set2111111(fcInt8* self, fcInt2 vec1, cl_int z, cl_int w, cl_int s4, cl_int s5, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, z, w, s4, s5, s6, s7);
+}
+
 fcInt8 fcInt8_create211112(fcInt2 vec1, cl_int z, cl_int w, cl_int s4, cl_int s5, fcInt2 vec2) {
   return fcInt8_create11111111(vec1.x, vec1.y, z, w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcInt8_set211112(fcInt8* self, fcInt2 vec1, cl_int z, cl_int w, cl_int s4, cl_int s5, fcInt2 vec2) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, z, w, s4, s5, vec2.x, vec2.y);
+}
+
 fcInt8 fcInt8_create211121(fcInt2 vec1, cl_int z, cl_int w, cl_int s4, fcInt2 vec2, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcInt8_set211121(fcInt8* self, fcInt2 vec1, cl_int z, cl_int w, cl_int s4, fcInt2 vec2, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, s7);
+}
+
 fcInt8 fcInt8_create21113(fcInt2 vec1, cl_int z, cl_int w, cl_int s4, fcInt3 vec2) {
   return fcInt8_create11111111(vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcInt8_set21113(fcInt8* self, fcInt2 vec1, cl_int z, cl_int w, cl_int s4, fcInt3 vec2) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcInt8 fcInt8_create211211(fcInt2 vec1, cl_int z, cl_int w, fcInt2 vec2, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcInt8_set211211(fcInt8* self, fcInt2 vec1, cl_int z, cl_int w, fcInt2 vec2, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, s6, s7);
+}
+
 fcInt8 fcInt8_create21122(fcInt2 vec1, cl_int z, cl_int w, fcInt2 vec2, fcInt2 vec3) {
   return fcInt8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcInt8_set21122(fcInt8* self, fcInt2 vec1, cl_int z, cl_int w, fcInt2 vec2, fcInt2 vec3) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcInt8 fcInt8_create21131(fcInt2 vec1, cl_int z, cl_int w, fcInt3 vec2, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcInt8_set21131(fcInt8* self, fcInt2 vec1, cl_int z, cl_int w, fcInt3 vec2, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcInt8 fcInt8_create2114(fcInt2 vec1, cl_int z, cl_int w, fcInt4 vec2) {
   return fcInt8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcInt8_set2114(fcInt8* self, fcInt2 vec1, cl_int z, cl_int w, fcInt4 vec2) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcInt8 fcInt8_create212111(fcInt2 vec1, cl_int z, fcInt2 vec2, cl_int s5, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, s5, s6, s7);
 }
+
+void fcInt8_set212111(fcInt8* self, fcInt2 vec1, cl_int z, fcInt2 vec2, cl_int s5, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, s5, s6, s7);
+}
+
 fcInt8 fcInt8_create21212(fcInt2 vec1, cl_int z, fcInt2 vec2, cl_int s5, fcInt2 vec3) {
   return fcInt8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
 }
+
+void fcInt8_set21212(fcInt8* self, fcInt2 vec1, cl_int z, fcInt2 vec2, cl_int s5, fcInt2 vec3) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
+}
+
 fcInt8 fcInt8_create21221(fcInt2 vec1, cl_int z, fcInt2 vec2, fcInt2 vec3, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
 }
+
+void fcInt8_set21221(fcInt8* self, fcInt2 vec1, cl_int z, fcInt2 vec2, fcInt2 vec3, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
+}
+
 fcInt8 fcInt8_create2123(fcInt2 vec1, cl_int z, fcInt2 vec2, fcInt3 vec3) {
   return fcInt8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
 }
+
+void fcInt8_set2123(fcInt8* self, fcInt2 vec1, cl_int z, fcInt2 vec2, fcInt3 vec3) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
+}
+
 fcInt8 fcInt8_create21311(fcInt2 vec1, cl_int z, fcInt3 vec2, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, s6, s7);
 }
+
+void fcInt8_set21311(fcInt8* self, fcInt2 vec1, cl_int z, fcInt3 vec2, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, s6, s7);
+}
+
 fcInt8 fcInt8_create2132(fcInt2 vec1, cl_int z, fcInt3 vec2, fcInt2 vec3) {
   return fcInt8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
 }
+
+void fcInt8_set2132(fcInt8* self, fcInt2 vec1, cl_int z, fcInt3 vec2, fcInt2 vec3) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
+}
+
 fcInt8 fcInt8_create2141(fcInt2 vec1, cl_int z, fcInt4 vec2, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
 }
+
+void fcInt8_set2141(fcInt8* self, fcInt2 vec1, cl_int z, fcInt4 vec2, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
+}
+
 fcInt8 fcInt8_create221111(fcInt2 vec1, fcInt2 vec2, cl_int s4, cl_int s5, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, s6, s7);
 }
+
+void fcInt8_set221111(fcInt8* self, fcInt2 vec1, fcInt2 vec2, cl_int s4, cl_int s5, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, s6, s7);
+}
+
 fcInt8 fcInt8_create22112(fcInt2 vec1, fcInt2 vec2, cl_int s4, cl_int s5, fcInt2 vec3) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, vec3.x, vec3.y);
 }
+
+void fcInt8_set22112(fcInt8* self, fcInt2 vec1, fcInt2 vec2, cl_int s4, cl_int s5, fcInt2 vec3) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, vec3.x, vec3.y);
+}
+
 fcInt8 fcInt8_create22121(fcInt2 vec1, fcInt2 vec2, cl_int s4, fcInt2 vec3, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, s7);
 }
+
+void fcInt8_set22121(fcInt8* self, fcInt2 vec1, fcInt2 vec2, cl_int s4, fcInt2 vec3, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, s7);
+}
+
 fcInt8 fcInt8_create2213(fcInt2 vec1, fcInt2 vec2, cl_int s4, fcInt3 vec3) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, vec3.z);
 }
+
+void fcInt8_set2213(fcInt8* self, fcInt2 vec1, fcInt2 vec2, cl_int s4, fcInt3 vec3) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, vec3.z);
+}
+
 fcInt8 fcInt8_create22211(fcInt2 vec1, fcInt2 vec2, fcInt2 vec3, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s6, s7);
 }
+
+void fcInt8_set22211(fcInt8* self, fcInt2 vec1, fcInt2 vec2, fcInt2 vec3, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s6, s7);
+}
+
 fcInt8 fcInt8_create2222(fcInt2 vec1, fcInt2 vec2, fcInt2 vec3, fcInt2 vec4) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec4.x, vec4.y);
 }
+
+void fcInt8_set2222(fcInt8* self, fcInt2 vec1, fcInt2 vec2, fcInt2 vec3, fcInt2 vec4) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec4.x, vec4.y);
+}
+
 fcInt8 fcInt8_create2231(fcInt2 vec1, fcInt2 vec2, fcInt3 vec3, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, s7);
 }
+
+void fcInt8_set2231(fcInt8* self, fcInt2 vec1, fcInt2 vec2, fcInt3 vec3, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, s7);
+}
+
 fcInt8 fcInt8_create224(fcInt2 vec1, fcInt2 vec2, fcInt4 vec3) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, vec3.w);
 }
+
+void fcInt8_set224(fcInt8* self, fcInt2 vec1, fcInt2 vec2, fcInt4 vec3) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, vec3.w);
+}
+
 fcInt8 fcInt8_create23111(fcInt2 vec1, fcInt3 vec2, cl_int s5, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, s6, s7);
 }
+
+void fcInt8_set23111(fcInt8* self, fcInt2 vec1, fcInt3 vec2, cl_int s5, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, s6, s7);
+}
+
 fcInt8 fcInt8_create2312(fcInt2 vec1, fcInt3 vec2, cl_int s5, fcInt2 vec3) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, vec3.x, vec3.y);
 }
+
+void fcInt8_set2312(fcInt8* self, fcInt2 vec1, fcInt3 vec2, cl_int s5, fcInt2 vec3) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, vec3.x, vec3.y);
+}
+
 fcInt8 fcInt8_create2321(fcInt2 vec1, fcInt3 vec2, fcInt2 vec3, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, s7);
 }
+
+void fcInt8_set2321(fcInt8* self, fcInt2 vec1, fcInt3 vec2, fcInt2 vec3, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, s7);
+}
+
 fcInt8 fcInt8_create233(fcInt2 vec1, fcInt3 vec2, fcInt3 vec3) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, vec3.z);
 }
+
+void fcInt8_set233(fcInt8* self, fcInt2 vec1, fcInt3 vec2, fcInt3 vec3) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, vec3.z);
+}
+
 fcInt8 fcInt8_create2411(fcInt2 vec1, fcInt4 vec2, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s6, s7);
 }
+
+void fcInt8_set2411(fcInt8* self, fcInt2 vec1, fcInt4 vec2, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s6, s7);
+}
+
 fcInt8 fcInt8_create242(fcInt2 vec1, fcInt4 vec2, fcInt2 vec3) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, vec3.x, vec3.y);
 }
+
+void fcInt8_set242(fcInt8* self, fcInt2 vec1, fcInt4 vec2, fcInt2 vec3) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, vec3.x, vec3.y);
+}
+
 fcInt8 fcInt8_create311111(fcInt3 vec1, cl_int w, cl_int s4, cl_int s5, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, s5, s6, s7);
 }
+
+void fcInt8_set311111(fcInt8* self, fcInt3 vec1, cl_int w, cl_int s4, cl_int s5, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, s5, s6, s7);
+}
+
 fcInt8 fcInt8_create31112(fcInt3 vec1, cl_int w, cl_int s4, cl_int s5, fcInt2 vec2) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcInt8_set31112(fcInt8* self, fcInt3 vec1, cl_int w, cl_int s4, cl_int s5, fcInt2 vec2) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, s5, vec2.x, vec2.y);
+}
+
 fcInt8 fcInt8_create31121(fcInt3 vec1, cl_int w, cl_int s4, fcInt2 vec2, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcInt8_set31121(fcInt8* self, fcInt3 vec1, cl_int w, cl_int s4, fcInt2 vec2, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, s7);
+}
+
 fcInt8 fcInt8_create3113(fcInt3 vec1, cl_int w, cl_int s4, fcInt3 vec2) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcInt8_set3113(fcInt8* self, fcInt3 vec1, cl_int w, cl_int s4, fcInt3 vec2) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcInt8 fcInt8_create31211(fcInt3 vec1, cl_int w, fcInt2 vec2, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcInt8_set31211(fcInt8* self, fcInt3 vec1, cl_int w, fcInt2 vec2, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, s6, s7);
+}
+
 fcInt8 fcInt8_create3122(fcInt3 vec1, cl_int w, fcInt2 vec2, fcInt2 vec3) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcInt8_set3122(fcInt8* self, fcInt3 vec1, cl_int w, fcInt2 vec2, fcInt2 vec3) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcInt8 fcInt8_create3131(fcInt3 vec1, cl_int w, fcInt3 vec2, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcInt8_set3131(fcInt8* self, fcInt3 vec1, cl_int w, fcInt3 vec2, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcInt8 fcInt8_create314(fcInt3 vec1, cl_int w, fcInt4 vec2) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcInt8_set314(fcInt8* self, fcInt3 vec1, cl_int w, fcInt4 vec2) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcInt8 fcInt8_create32111(fcInt3 vec1, fcInt2 vec2, cl_int s5, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, s6, s7);
 }
+
+void fcInt8_set32111(fcInt8* self, fcInt3 vec1, fcInt2 vec2, cl_int s5, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, s6, s7);
+}
+
 fcInt8 fcInt8_create3212(fcInt3 vec1, fcInt2 vec2, cl_int s5, fcInt2 vec3) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
 }
+
+void fcInt8_set3212(fcInt8* self, fcInt3 vec1, fcInt2 vec2, cl_int s5, fcInt2 vec3) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
+}
+
 fcInt8 fcInt8_create3221(fcInt3 vec1, fcInt2 vec2, fcInt2 vec3, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
 }
+
+void fcInt8_set3221(fcInt8* self, fcInt3 vec1, fcInt2 vec2, fcInt2 vec3, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
+}
+
 fcInt8 fcInt8_create323(fcInt3 vec1, fcInt2 vec2, fcInt3 vec3) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
 }
+
+void fcInt8_set323(fcInt8* self, fcInt3 vec1, fcInt2 vec2, fcInt3 vec3) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
+}
+
 fcInt8 fcInt8_create3311(fcInt3 vec1, fcInt3 vec2, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s6, s7);
 }
+
+void fcInt8_set3311(fcInt8* self, fcInt3 vec1, fcInt3 vec2, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s6, s7);
+}
+
 fcInt8 fcInt8_create332(fcInt3 vec1, fcInt3 vec2, fcInt2 vec3) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
 }
+
+void fcInt8_set332(fcInt8* self, fcInt3 vec1, fcInt3 vec2, fcInt2 vec3) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
+}
+
 fcInt8 fcInt8_create341(fcInt3 vec1, fcInt4 vec2, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
 }
+
+void fcInt8_set341(fcInt8* self, fcInt3 vec1, fcInt4 vec2, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
+}
+
 fcInt8 fcInt8_create41111(fcInt4 vec1, cl_int s4, cl_int s5, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, s6, s7);
 }
+
+void fcInt8_set41111(fcInt8* self, fcInt4 vec1, cl_int s4, cl_int s5, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, s6, s7);
+}
+
 fcInt8 fcInt8_create4112(fcInt4 vec1, cl_int s4, cl_int s5, fcInt2 vec2) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcInt8_set4112(fcInt8* self, fcInt4 vec1, cl_int s4, cl_int s5, fcInt2 vec2) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, vec2.x, vec2.y);
+}
+
 fcInt8 fcInt8_create4121(fcInt4 vec1, cl_int s4, fcInt2 vec2, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcInt8_set4121(fcInt8* self, fcInt4 vec1, cl_int s4, fcInt2 vec2, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, s7);
+}
+
 fcInt8 fcInt8_create413(fcInt4 vec1, cl_int s4, fcInt3 vec2) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcInt8_set413(fcInt8* self, fcInt4 vec1, cl_int s4, fcInt3 vec2) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcInt8 fcInt8_create4211(fcInt4 vec1, fcInt2 vec2, cl_int s6, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcInt8_set4211(fcInt8* self, fcInt4 vec1, fcInt2 vec2, cl_int s6, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s6, s7);
+}
+
 fcInt8 fcInt8_create422(fcInt4 vec1, fcInt2 vec2, fcInt2 vec3) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcInt8_set422(fcInt8* self, fcInt4 vec1, fcInt2 vec2, fcInt2 vec3) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcInt8 fcInt8_create431(fcInt4 vec1, fcInt3 vec2, cl_int s7) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcInt8_set431(fcInt8* self, fcInt4 vec1, fcInt3 vec2, cl_int s7) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcInt8 fcInt8_create44(fcInt4 vec1, fcInt4 vec2) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcInt8_set44(fcInt8* self, fcInt4 vec1, fcInt4 vec2) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcInt8 fcInt8_create8(fcInt8 vec1) {
   return fcInt8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec1.s4, vec1.s5, vec1.s6, vec1.s7);
+}
+
+void fcInt8_set8(fcInt8* self, fcInt8 vec1) {
+  fcInt8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec1.s4, vec1.s5, vec1.s6, vec1.s7);
 }
 
 fcInt4 fcInt8_odd(fcInt8 a) {
@@ -5189,6 +7042,10 @@ cl_int fcInt8_any(fcInt8 a) {
 
 cl_int fcInt8_all(fcInt8 a) {
   return !(a.x == 0 || a.y == 0 || a.z == 0 || a.w == 0 || a.s4 == 0 || a.s5 == 0 || a.s6 == 0 || a.s7 == 0);
+}
+
+fcInt8 fcInt8_neg(fcInt8 a) {
+  return fcInt8_create11111111(-a.x, -a.y, -a.z, -a.w, -a.s4, -a.s5, -a.s6, -a.s7);
 }
 
 fcInt8 fcInt8_add(fcInt8 a, fcInt8 b) {
@@ -5368,24 +7225,31 @@ fcInt8 fcInt8_mul24(fcInt8 a, fcInt8 b) {
 // fcLong2
 //
 
-fcLong2 fcLong2_create() {
-  fcLong2 result = {.s = {0L}};
-  return result;
-}
-
 fcLong2 fcLong2_create1(cl_long v) {
   return fcLong2_create11(v, v);
 }
 
+void fcLong2_set1(fcLong2* self, cl_long v) {
+  fcLong2_set11(self, v, v);
+}
+
 fcLong2 fcLong2_create11(cl_long x, cl_long y) {
   fcLong2 result;
-  result.x = x;
-  result.y = y;
+  fcLong2_set11(&result, x, y);
   return result;
+}
+
+void fcLong2_set11(fcLong2* self, cl_long x, cl_long y) {
+  self->x = x;
+  self->y = y;
 }
 
 fcLong2 fcLong2_create2(fcLong2 vec1) {
   return fcLong2_create11(vec1.x, vec1.y);
+}
+
+void fcLong2_set2(fcLong2* self, fcLong2 vec1) {
+  fcLong2_set11(self, vec1.x, vec1.y);
 }
 
 fcByte2 fcLong2_convertByte2(fcLong2 a) {
@@ -5442,6 +7306,10 @@ cl_int fcLong2_any(fcLong2 a) {
 
 cl_int fcLong2_all(fcLong2 a) {
   return !(a.x == 0L || a.y == 0L);
+}
+
+fcLong2 fcLong2_neg(fcLong2 a) {
+  return fcLong2_create11(-a.x, -a.y);
 }
 
 fcLong2 fcLong2_add(fcLong2 a, fcLong2 b) {
@@ -5613,31 +7481,48 @@ fcLong2 fcLong2_subSat(fcLong2 a, fcLong2 b) {
 // fcLong3
 //
 
-fcLong3 fcLong3_create() {
-  fcLong3 result = {.s = {0L}};
-  return result;
-}
-
 fcLong3 fcLong3_create1(cl_long v) {
   return fcLong3_create111(v, v, v);
 }
 
+void fcLong3_set1(fcLong3* self, cl_long v) {
+  fcLong3_set111(self, v, v, v);
+}
+
 fcLong3 fcLong3_create111(cl_long x, cl_long y, cl_long z) {
   fcLong3 result;
-  result.x = x;
-  result.y = y;
-  result.z = z;
+  fcLong3_set111(&result, x, y, z);
   return result;
+}
+
+void fcLong3_set111(fcLong3* self, cl_long x, cl_long y, cl_long z) {
+  self->x = x;
+  self->y = y;
+  self->z = z;
 }
 
 fcLong3 fcLong3_create12(cl_long x, fcLong2 vec1) {
   return fcLong3_create111(x, vec1.x, vec1.y);
 }
+
+void fcLong3_set12(fcLong3* self, cl_long x, fcLong2 vec1) {
+  fcLong3_set111(self, x, vec1.x, vec1.y);
+}
+
 fcLong3 fcLong3_create21(fcLong2 vec1, cl_long z) {
   return fcLong3_create111(vec1.x, vec1.y, z);
 }
+
+void fcLong3_set21(fcLong3* self, fcLong2 vec1, cl_long z) {
+  fcLong3_set111(self, vec1.x, vec1.y, z);
+}
+
 fcLong3 fcLong3_create3(fcLong3 vec1) {
   return fcLong3_create111(vec1.x, vec1.y, vec1.z);
+}
+
+void fcLong3_set3(fcLong3* self, fcLong3 vec1) {
+  fcLong3_set111(self, vec1.x, vec1.y, vec1.z);
 }
 
 fcByte3 fcLong3_convertByte3(fcLong3 a) {
@@ -5698,6 +7583,10 @@ cl_int fcLong3_any(fcLong3 a) {
 
 cl_int fcLong3_all(fcLong3 a) {
   return !(a.x == 0L || a.y == 0L || a.z == 0L);
+}
+
+fcLong3 fcLong3_neg(fcLong3 a) {
+  return fcLong3_create111(-a.x, -a.y, -a.z);
 }
 
 fcLong3 fcLong3_add(fcLong3 a, fcLong3 b) {
@@ -5869,44 +7758,81 @@ fcLong3 fcLong3_subSat(fcLong3 a, fcLong3 b) {
 // fcLong4
 //
 
-fcLong4 fcLong4_create() {
-  fcLong4 result = {.s = {0L}};
-  return result;
-}
-
 fcLong4 fcLong4_create1(cl_long v) {
   return fcLong4_create1111(v, v, v, v);
 }
 
+void fcLong4_set1(fcLong4* self, cl_long v) {
+  fcLong4_set1111(self, v, v, v, v);
+}
+
 fcLong4 fcLong4_create1111(cl_long x, cl_long y, cl_long z, cl_long w) {
   fcLong4 result;
-  result.x = x;
-  result.y = y;
-  result.z = z;
-  result.w = w;
+  fcLong4_set1111(&result, x, y, z, w);
   return result;
+}
+
+void fcLong4_set1111(fcLong4* self, cl_long x, cl_long y, cl_long z, cl_long w) {
+  self->x = x;
+  self->y = y;
+  self->z = z;
+  self->w = w;
 }
 
 fcLong4 fcLong4_create112(cl_long x, cl_long y, fcLong2 vec1) {
   return fcLong4_create1111(x, y, vec1.x, vec1.y);
 }
+
+void fcLong4_set112(fcLong4* self, cl_long x, cl_long y, fcLong2 vec1) {
+  fcLong4_set1111(self, x, y, vec1.x, vec1.y);
+}
+
 fcLong4 fcLong4_create121(cl_long x, fcLong2 vec1, cl_long w) {
   return fcLong4_create1111(x, vec1.x, vec1.y, w);
 }
+
+void fcLong4_set121(fcLong4* self, cl_long x, fcLong2 vec1, cl_long w) {
+  fcLong4_set1111(self, x, vec1.x, vec1.y, w);
+}
+
 fcLong4 fcLong4_create13(cl_long x, fcLong3 vec1) {
   return fcLong4_create1111(x, vec1.x, vec1.y, vec1.z);
 }
+
+void fcLong4_set13(fcLong4* self, cl_long x, fcLong3 vec1) {
+  fcLong4_set1111(self, x, vec1.x, vec1.y, vec1.z);
+}
+
 fcLong4 fcLong4_create211(fcLong2 vec1, cl_long z, cl_long w) {
   return fcLong4_create1111(vec1.x, vec1.y, z, w);
 }
+
+void fcLong4_set211(fcLong4* self, fcLong2 vec1, cl_long z, cl_long w) {
+  fcLong4_set1111(self, vec1.x, vec1.y, z, w);
+}
+
 fcLong4 fcLong4_create22(fcLong2 vec1, fcLong2 vec2) {
   return fcLong4_create1111(vec1.x, vec1.y, vec2.x, vec2.y);
 }
+
+void fcLong4_set22(fcLong4* self, fcLong2 vec1, fcLong2 vec2) {
+  fcLong4_set1111(self, vec1.x, vec1.y, vec2.x, vec2.y);
+}
+
 fcLong4 fcLong4_create31(fcLong3 vec1, cl_long w) {
   return fcLong4_create1111(vec1.x, vec1.y, vec1.z, w);
 }
+
+void fcLong4_set31(fcLong4* self, fcLong3 vec1, cl_long w) {
+  fcLong4_set1111(self, vec1.x, vec1.y, vec1.z, w);
+}
+
 fcLong4 fcLong4_create4(fcLong4 vec1) {
   return fcLong4_create1111(vec1.x, vec1.y, vec1.z, vec1.w);
+}
+
+void fcLong4_set4(fcLong4* self, fcLong4 vec1) {
+  fcLong4_set1111(self, vec1.x, vec1.y, vec1.z, vec1.w);
 }
 
 fcLong2 fcLong4_odd(fcLong4 a) {
@@ -5979,6 +7905,10 @@ cl_int fcLong4_any(fcLong4 a) {
 
 cl_int fcLong4_all(fcLong4 a) {
   return !(a.x == 0L || a.y == 0L || a.z == 0L || a.w == 0L);
+}
+
+fcLong4 fcLong4_neg(fcLong4 a) {
+  return fcLong4_create1111(-a.x, -a.y, -a.z, -a.w);
 }
 
 fcLong4 fcLong4_add(fcLong4 a, fcLong4 b) {
@@ -6150,351 +8080,893 @@ fcLong4 fcLong4_subSat(fcLong4 a, fcLong4 b) {
 // fcLong8
 //
 
-fcLong8 fcLong8_create() {
-  fcLong8 result = {.s = {0L}};
-  return result;
-}
-
 fcLong8 fcLong8_create1(cl_long v) {
   return fcLong8_create11111111(v, v, v, v, v, v, v, v);
 }
 
+void fcLong8_set1(fcLong8* self, cl_long v) {
+  fcLong8_set11111111(self, v, v, v, v, v, v, v, v);
+}
+
 fcLong8 fcLong8_create11111111(cl_long x, cl_long y, cl_long z, cl_long w, cl_long s4, cl_long s5, cl_long s6, cl_long s7) {
   fcLong8 result;
-  result.x = x;
-  result.y = y;
-  result.z = z;
-  result.w = w;
-  result.s4 = s4;
-  result.s5 = s5;
-  result.s6 = s6;
-  result.s7 = s7;
+  fcLong8_set11111111(&result, x, y, z, w, s4, s5, s6, s7);
   return result;
+}
+
+void fcLong8_set11111111(fcLong8* self, cl_long x, cl_long y, cl_long z, cl_long w, cl_long s4, cl_long s5, cl_long s6, cl_long s7) {
+  self->x = x;
+  self->y = y;
+  self->z = z;
+  self->w = w;
+  self->s4 = s4;
+  self->s5 = s5;
+  self->s6 = s6;
+  self->s7 = s7;
 }
 
 fcLong8 fcLong8_create1111112(cl_long x, cl_long y, cl_long z, cl_long w, cl_long s4, cl_long s5, fcLong2 vec1) {
   return fcLong8_create11111111(x, y, z, w, s4, s5, vec1.x, vec1.y);
 }
+
+void fcLong8_set1111112(fcLong8* self, cl_long x, cl_long y, cl_long z, cl_long w, cl_long s4, cl_long s5, fcLong2 vec1) {
+  fcLong8_set11111111(self, x, y, z, w, s4, s5, vec1.x, vec1.y);
+}
+
 fcLong8 fcLong8_create1111121(cl_long x, cl_long y, cl_long z, cl_long w, cl_long s4, fcLong2 vec1, cl_long s7) {
   return fcLong8_create11111111(x, y, z, w, s4, vec1.x, vec1.y, s7);
 }
+
+void fcLong8_set1111121(fcLong8* self, cl_long x, cl_long y, cl_long z, cl_long w, cl_long s4, fcLong2 vec1, cl_long s7) {
+  fcLong8_set11111111(self, x, y, z, w, s4, vec1.x, vec1.y, s7);
+}
+
 fcLong8 fcLong8_create111113(cl_long x, cl_long y, cl_long z, cl_long w, cl_long s4, fcLong3 vec1) {
   return fcLong8_create11111111(x, y, z, w, s4, vec1.x, vec1.y, vec1.z);
 }
+
+void fcLong8_set111113(fcLong8* self, cl_long x, cl_long y, cl_long z, cl_long w, cl_long s4, fcLong3 vec1) {
+  fcLong8_set11111111(self, x, y, z, w, s4, vec1.x, vec1.y, vec1.z);
+}
+
 fcLong8 fcLong8_create1111211(cl_long x, cl_long y, cl_long z, cl_long w, fcLong2 vec1, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(x, y, z, w, vec1.x, vec1.y, s6, s7);
 }
+
+void fcLong8_set1111211(fcLong8* self, cl_long x, cl_long y, cl_long z, cl_long w, fcLong2 vec1, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, x, y, z, w, vec1.x, vec1.y, s6, s7);
+}
+
 fcLong8 fcLong8_create111122(cl_long x, cl_long y, cl_long z, cl_long w, fcLong2 vec1, fcLong2 vec2) {
   return fcLong8_create11111111(x, y, z, w, vec1.x, vec1.y, vec2.x, vec2.y);
 }
+
+void fcLong8_set111122(fcLong8* self, cl_long x, cl_long y, cl_long z, cl_long w, fcLong2 vec1, fcLong2 vec2) {
+  fcLong8_set11111111(self, x, y, z, w, vec1.x, vec1.y, vec2.x, vec2.y);
+}
+
 fcLong8 fcLong8_create111131(cl_long x, cl_long y, cl_long z, cl_long w, fcLong3 vec1, cl_long s7) {
   return fcLong8_create11111111(x, y, z, w, vec1.x, vec1.y, vec1.z, s7);
 }
+
+void fcLong8_set111131(fcLong8* self, cl_long x, cl_long y, cl_long z, cl_long w, fcLong3 vec1, cl_long s7) {
+  fcLong8_set11111111(self, x, y, z, w, vec1.x, vec1.y, vec1.z, s7);
+}
+
 fcLong8 fcLong8_create11114(cl_long x, cl_long y, cl_long z, cl_long w, fcLong4 vec1) {
   return fcLong8_create11111111(x, y, z, w, vec1.x, vec1.y, vec1.z, vec1.w);
 }
+
+void fcLong8_set11114(fcLong8* self, cl_long x, cl_long y, cl_long z, cl_long w, fcLong4 vec1) {
+  fcLong8_set11111111(self, x, y, z, w, vec1.x, vec1.y, vec1.z, vec1.w);
+}
+
 fcLong8 fcLong8_create1112111(cl_long x, cl_long y, cl_long z, fcLong2 vec1, cl_long s5, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(x, y, z, vec1.x, vec1.y, s5, s6, s7);
 }
+
+void fcLong8_set1112111(fcLong8* self, cl_long x, cl_long y, cl_long z, fcLong2 vec1, cl_long s5, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, x, y, z, vec1.x, vec1.y, s5, s6, s7);
+}
+
 fcLong8 fcLong8_create111212(cl_long x, cl_long y, cl_long z, fcLong2 vec1, cl_long s5, fcLong2 vec2) {
   return fcLong8_create11111111(x, y, z, vec1.x, vec1.y, s5, vec2.x, vec2.y);
 }
+
+void fcLong8_set111212(fcLong8* self, cl_long x, cl_long y, cl_long z, fcLong2 vec1, cl_long s5, fcLong2 vec2) {
+  fcLong8_set11111111(self, x, y, z, vec1.x, vec1.y, s5, vec2.x, vec2.y);
+}
+
 fcLong8 fcLong8_create111221(cl_long x, cl_long y, cl_long z, fcLong2 vec1, fcLong2 vec2, cl_long s7) {
   return fcLong8_create11111111(x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, s7);
 }
+
+void fcLong8_set111221(fcLong8* self, cl_long x, cl_long y, cl_long z, fcLong2 vec1, fcLong2 vec2, cl_long s7) {
+  fcLong8_set11111111(self, x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, s7);
+}
+
 fcLong8 fcLong8_create11123(cl_long x, cl_long y, cl_long z, fcLong2 vec1, fcLong3 vec2) {
   return fcLong8_create11111111(x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z);
 }
+
+void fcLong8_set11123(fcLong8* self, cl_long x, cl_long y, cl_long z, fcLong2 vec1, fcLong3 vec2) {
+  fcLong8_set11111111(self, x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z);
+}
+
 fcLong8 fcLong8_create111311(cl_long x, cl_long y, cl_long z, fcLong3 vec1, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(x, y, z, vec1.x, vec1.y, vec1.z, s6, s7);
 }
+
+void fcLong8_set111311(fcLong8* self, cl_long x, cl_long y, cl_long z, fcLong3 vec1, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, x, y, z, vec1.x, vec1.y, vec1.z, s6, s7);
+}
+
 fcLong8 fcLong8_create11132(cl_long x, cl_long y, cl_long z, fcLong3 vec1, fcLong2 vec2) {
   return fcLong8_create11111111(x, y, z, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y);
 }
+
+void fcLong8_set11132(fcLong8* self, cl_long x, cl_long y, cl_long z, fcLong3 vec1, fcLong2 vec2) {
+  fcLong8_set11111111(self, x, y, z, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y);
+}
+
 fcLong8 fcLong8_create11141(cl_long x, cl_long y, cl_long z, fcLong4 vec1, cl_long s7) {
   return fcLong8_create11111111(x, y, z, vec1.x, vec1.y, vec1.z, vec1.w, s7);
 }
+
+void fcLong8_set11141(fcLong8* self, cl_long x, cl_long y, cl_long z, fcLong4 vec1, cl_long s7) {
+  fcLong8_set11111111(self, x, y, z, vec1.x, vec1.y, vec1.z, vec1.w, s7);
+}
+
 fcLong8 fcLong8_create1121111(cl_long x, cl_long y, fcLong2 vec1, cl_long s4, cl_long s5, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(x, y, vec1.x, vec1.y, s4, s5, s6, s7);
 }
+
+void fcLong8_set1121111(fcLong8* self, cl_long x, cl_long y, fcLong2 vec1, cl_long s4, cl_long s5, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, x, y, vec1.x, vec1.y, s4, s5, s6, s7);
+}
+
 fcLong8 fcLong8_create112112(cl_long x, cl_long y, fcLong2 vec1, cl_long s4, cl_long s5, fcLong2 vec2) {
   return fcLong8_create11111111(x, y, vec1.x, vec1.y, s4, s5, vec2.x, vec2.y);
 }
+
+void fcLong8_set112112(fcLong8* self, cl_long x, cl_long y, fcLong2 vec1, cl_long s4, cl_long s5, fcLong2 vec2) {
+  fcLong8_set11111111(self, x, y, vec1.x, vec1.y, s4, s5, vec2.x, vec2.y);
+}
+
 fcLong8 fcLong8_create112121(cl_long x, cl_long y, fcLong2 vec1, cl_long s4, fcLong2 vec2, cl_long s7) {
   return fcLong8_create11111111(x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, s7);
 }
+
+void fcLong8_set112121(fcLong8* self, cl_long x, cl_long y, fcLong2 vec1, cl_long s4, fcLong2 vec2, cl_long s7) {
+  fcLong8_set11111111(self, x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, s7);
+}
+
 fcLong8 fcLong8_create11213(cl_long x, cl_long y, fcLong2 vec1, cl_long s4, fcLong3 vec2) {
   return fcLong8_create11111111(x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcLong8_set11213(fcLong8* self, cl_long x, cl_long y, fcLong2 vec1, cl_long s4, fcLong3 vec2) {
+  fcLong8_set11111111(self, x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcLong8 fcLong8_create112211(cl_long x, cl_long y, fcLong2 vec1, fcLong2 vec2, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, s6, s7);
 }
+
+void fcLong8_set112211(fcLong8* self, cl_long x, cl_long y, fcLong2 vec1, fcLong2 vec2, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, s6, s7);
+}
+
 fcLong8 fcLong8_create11222(cl_long x, cl_long y, fcLong2 vec1, fcLong2 vec2, fcLong2 vec3) {
   return fcLong8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcLong8_set11222(fcLong8* self, cl_long x, cl_long y, fcLong2 vec1, fcLong2 vec2, fcLong2 vec3) {
+  fcLong8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcLong8 fcLong8_create11231(cl_long x, cl_long y, fcLong2 vec1, fcLong3 vec2, cl_long s7) {
   return fcLong8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcLong8_set11231(fcLong8* self, cl_long x, cl_long y, fcLong2 vec1, fcLong3 vec2, cl_long s7) {
+  fcLong8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcLong8 fcLong8_create1124(cl_long x, cl_long y, fcLong2 vec1, fcLong4 vec2) {
   return fcLong8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcLong8_set1124(fcLong8* self, cl_long x, cl_long y, fcLong2 vec1, fcLong4 vec2) {
+  fcLong8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcLong8 fcLong8_create113111(cl_long x, cl_long y, fcLong3 vec1, cl_long s5, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(x, y, vec1.x, vec1.y, vec1.z, s5, s6, s7);
 }
+
+void fcLong8_set113111(fcLong8* self, cl_long x, cl_long y, fcLong3 vec1, cl_long s5, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, s5, s6, s7);
+}
+
 fcLong8 fcLong8_create11312(cl_long x, cl_long y, fcLong3 vec1, cl_long s5, fcLong2 vec2) {
   return fcLong8_create11111111(x, y, vec1.x, vec1.y, vec1.z, s5, vec2.x, vec2.y);
 }
+
+void fcLong8_set11312(fcLong8* self, cl_long x, cl_long y, fcLong3 vec1, cl_long s5, fcLong2 vec2) {
+  fcLong8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, s5, vec2.x, vec2.y);
+}
+
 fcLong8 fcLong8_create11321(cl_long x, cl_long y, fcLong3 vec1, fcLong2 vec2, cl_long s7) {
   return fcLong8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s7);
 }
+
+void fcLong8_set11321(fcLong8* self, cl_long x, cl_long y, fcLong3 vec1, fcLong2 vec2, cl_long s7) {
+  fcLong8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s7);
+}
+
 fcLong8 fcLong8_create1133(cl_long x, cl_long y, fcLong3 vec1, fcLong3 vec2) {
   return fcLong8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z);
 }
+
+void fcLong8_set1133(fcLong8* self, cl_long x, cl_long y, fcLong3 vec1, fcLong3 vec2) {
+  fcLong8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z);
+}
+
 fcLong8 fcLong8_create11411(cl_long x, cl_long y, fcLong4 vec1, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec1.w, s6, s7);
 }
+
+void fcLong8_set11411(fcLong8* self, cl_long x, cl_long y, fcLong4 vec1, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec1.w, s6, s7);
+}
+
 fcLong8 fcLong8_create1142(cl_long x, cl_long y, fcLong4 vec1, fcLong2 vec2) {
   return fcLong8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y);
 }
+
+void fcLong8_set1142(fcLong8* self, cl_long x, cl_long y, fcLong4 vec1, fcLong2 vec2) {
+  fcLong8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y);
+}
+
 fcLong8 fcLong8_create1211111(cl_long x, fcLong2 vec1, cl_long w, cl_long s4, cl_long s5, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, w, s4, s5, s6, s7);
 }
+
+void fcLong8_set1211111(fcLong8* self, cl_long x, fcLong2 vec1, cl_long w, cl_long s4, cl_long s5, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, w, s4, s5, s6, s7);
+}
+
 fcLong8 fcLong8_create121112(cl_long x, fcLong2 vec1, cl_long w, cl_long s4, cl_long s5, fcLong2 vec2) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcLong8_set121112(fcLong8* self, cl_long x, fcLong2 vec1, cl_long w, cl_long s4, cl_long s5, fcLong2 vec2) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, w, s4, s5, vec2.x, vec2.y);
+}
+
 fcLong8 fcLong8_create121121(cl_long x, fcLong2 vec1, cl_long w, cl_long s4, fcLong2 vec2, cl_long s7) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcLong8_set121121(fcLong8* self, cl_long x, fcLong2 vec1, cl_long w, cl_long s4, fcLong2 vec2, cl_long s7) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, s7);
+}
+
 fcLong8 fcLong8_create12113(cl_long x, fcLong2 vec1, cl_long w, cl_long s4, fcLong3 vec2) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcLong8_set12113(fcLong8* self, cl_long x, fcLong2 vec1, cl_long w, cl_long s4, fcLong3 vec2) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcLong8 fcLong8_create121211(cl_long x, fcLong2 vec1, cl_long w, fcLong2 vec2, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcLong8_set121211(fcLong8* self, cl_long x, fcLong2 vec1, cl_long w, fcLong2 vec2, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, s6, s7);
+}
+
 fcLong8 fcLong8_create12122(cl_long x, fcLong2 vec1, cl_long w, fcLong2 vec2, fcLong2 vec3) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcLong8_set12122(fcLong8* self, cl_long x, fcLong2 vec1, cl_long w, fcLong2 vec2, fcLong2 vec3) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcLong8 fcLong8_create12131(cl_long x, fcLong2 vec1, cl_long w, fcLong3 vec2, cl_long s7) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcLong8_set12131(fcLong8* self, cl_long x, fcLong2 vec1, cl_long w, fcLong3 vec2, cl_long s7) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcLong8 fcLong8_create1214(cl_long x, fcLong2 vec1, cl_long w, fcLong4 vec2) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcLong8_set1214(fcLong8* self, cl_long x, fcLong2 vec1, cl_long w, fcLong4 vec2) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcLong8 fcLong8_create122111(cl_long x, fcLong2 vec1, fcLong2 vec2, cl_long s5, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, s5, s6, s7);
 }
+
+void fcLong8_set122111(fcLong8* self, cl_long x, fcLong2 vec1, fcLong2 vec2, cl_long s5, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, s5, s6, s7);
+}
+
 fcLong8 fcLong8_create12212(cl_long x, fcLong2 vec1, fcLong2 vec2, cl_long s5, fcLong2 vec3) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, s5, vec3.x, vec3.y);
 }
+
+void fcLong8_set12212(fcLong8* self, cl_long x, fcLong2 vec1, fcLong2 vec2, cl_long s5, fcLong2 vec3) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, s5, vec3.x, vec3.y);
+}
+
 fcLong8 fcLong8_create12221(cl_long x, fcLong2 vec1, fcLong2 vec2, fcLong2 vec3, cl_long s7) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s7);
 }
+
+void fcLong8_set12221(fcLong8* self, cl_long x, fcLong2 vec1, fcLong2 vec2, fcLong2 vec3, cl_long s7) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s7);
+}
+
 fcLong8 fcLong8_create1223(cl_long x, fcLong2 vec1, fcLong2 vec2, fcLong3 vec3) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
 }
+
+void fcLong8_set1223(fcLong8* self, cl_long x, fcLong2 vec1, fcLong2 vec2, fcLong3 vec3) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
+}
+
 fcLong8 fcLong8_create12311(cl_long x, fcLong2 vec1, fcLong3 vec2, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s6, s7);
 }
+
+void fcLong8_set12311(fcLong8* self, cl_long x, fcLong2 vec1, fcLong3 vec2, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s6, s7);
+}
+
 fcLong8 fcLong8_create1232(cl_long x, fcLong2 vec1, fcLong3 vec2, fcLong2 vec3) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
 }
+
+void fcLong8_set1232(fcLong8* self, cl_long x, fcLong2 vec1, fcLong3 vec2, fcLong2 vec3) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
+}
+
 fcLong8 fcLong8_create1241(cl_long x, fcLong2 vec1, fcLong4 vec2, cl_long s7) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s7);
 }
+
+void fcLong8_set1241(fcLong8* self, cl_long x, fcLong2 vec1, fcLong4 vec2, cl_long s7) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s7);
+}
+
 fcLong8 fcLong8_create131111(cl_long x, fcLong3 vec1, cl_long s4, cl_long s5, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, s5, s6, s7);
 }
+
+void fcLong8_set131111(fcLong8* self, cl_long x, fcLong3 vec1, cl_long s4, cl_long s5, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, s5, s6, s7);
+}
+
 fcLong8 fcLong8_create13112(cl_long x, fcLong3 vec1, cl_long s4, cl_long s5, fcLong2 vec2) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, s5, vec2.x, vec2.y);
 }
+
+void fcLong8_set13112(fcLong8* self, cl_long x, fcLong3 vec1, cl_long s4, cl_long s5, fcLong2 vec2) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, s5, vec2.x, vec2.y);
+}
+
 fcLong8 fcLong8_create13121(cl_long x, fcLong3 vec1, cl_long s4, fcLong2 vec2, cl_long s7) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, s7);
 }
+
+void fcLong8_set13121(fcLong8* self, cl_long x, fcLong3 vec1, cl_long s4, fcLong2 vec2, cl_long s7) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, s7);
+}
+
 fcLong8 fcLong8_create1313(cl_long x, fcLong3 vec1, cl_long s4, fcLong3 vec2) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcLong8_set1313(fcLong8* self, cl_long x, fcLong3 vec1, cl_long s4, fcLong3 vec2) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcLong8 fcLong8_create13211(cl_long x, fcLong3 vec1, fcLong2 vec2, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s6, s7);
 }
+
+void fcLong8_set13211(fcLong8* self, cl_long x, fcLong3 vec1, fcLong2 vec2, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s6, s7);
+}
+
 fcLong8 fcLong8_create1322(cl_long x, fcLong3 vec1, fcLong2 vec2, fcLong2 vec3) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcLong8_set1322(fcLong8* self, cl_long x, fcLong3 vec1, fcLong2 vec2, fcLong2 vec3) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcLong8 fcLong8_create1331(cl_long x, fcLong3 vec1, fcLong3 vec2, cl_long s7) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcLong8_set1331(fcLong8* self, cl_long x, fcLong3 vec1, fcLong3 vec2, cl_long s7) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcLong8 fcLong8_create134(cl_long x, fcLong3 vec1, fcLong4 vec2) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcLong8_set134(fcLong8* self, cl_long x, fcLong3 vec1, fcLong4 vec2) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcLong8 fcLong8_create14111(cl_long x, fcLong4 vec1, cl_long s5, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, s5, s6, s7);
 }
+
+void fcLong8_set14111(fcLong8* self, cl_long x, fcLong4 vec1, cl_long s5, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, s5, s6, s7);
+}
+
 fcLong8 fcLong8_create1412(cl_long x, fcLong4 vec1, cl_long s5, fcLong2 vec2) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, s5, vec2.x, vec2.y);
 }
+
+void fcLong8_set1412(fcLong8* self, cl_long x, fcLong4 vec1, cl_long s5, fcLong2 vec2) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, s5, vec2.x, vec2.y);
+}
+
 fcLong8 fcLong8_create1421(cl_long x, fcLong4 vec1, fcLong2 vec2, cl_long s7) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s7);
 }
+
+void fcLong8_set1421(fcLong8* self, cl_long x, fcLong4 vec1, fcLong2 vec2, cl_long s7) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s7);
+}
+
 fcLong8 fcLong8_create143(cl_long x, fcLong4 vec1, fcLong3 vec2) {
   return fcLong8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z);
 }
+
+void fcLong8_set143(fcLong8* self, cl_long x, fcLong4 vec1, fcLong3 vec2) {
+  fcLong8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z);
+}
+
 fcLong8 fcLong8_create2111111(fcLong2 vec1, cl_long z, cl_long w, cl_long s4, cl_long s5, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, z, w, s4, s5, s6, s7);
 }
+
+void fcLong8_set2111111(fcLong8* self, fcLong2 vec1, cl_long z, cl_long w, cl_long s4, cl_long s5, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, z, w, s4, s5, s6, s7);
+}
+
 fcLong8 fcLong8_create211112(fcLong2 vec1, cl_long z, cl_long w, cl_long s4, cl_long s5, fcLong2 vec2) {
   return fcLong8_create11111111(vec1.x, vec1.y, z, w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcLong8_set211112(fcLong8* self, fcLong2 vec1, cl_long z, cl_long w, cl_long s4, cl_long s5, fcLong2 vec2) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, z, w, s4, s5, vec2.x, vec2.y);
+}
+
 fcLong8 fcLong8_create211121(fcLong2 vec1, cl_long z, cl_long w, cl_long s4, fcLong2 vec2, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcLong8_set211121(fcLong8* self, fcLong2 vec1, cl_long z, cl_long w, cl_long s4, fcLong2 vec2, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, s7);
+}
+
 fcLong8 fcLong8_create21113(fcLong2 vec1, cl_long z, cl_long w, cl_long s4, fcLong3 vec2) {
   return fcLong8_create11111111(vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcLong8_set21113(fcLong8* self, fcLong2 vec1, cl_long z, cl_long w, cl_long s4, fcLong3 vec2) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcLong8 fcLong8_create211211(fcLong2 vec1, cl_long z, cl_long w, fcLong2 vec2, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcLong8_set211211(fcLong8* self, fcLong2 vec1, cl_long z, cl_long w, fcLong2 vec2, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, s6, s7);
+}
+
 fcLong8 fcLong8_create21122(fcLong2 vec1, cl_long z, cl_long w, fcLong2 vec2, fcLong2 vec3) {
   return fcLong8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcLong8_set21122(fcLong8* self, fcLong2 vec1, cl_long z, cl_long w, fcLong2 vec2, fcLong2 vec3) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcLong8 fcLong8_create21131(fcLong2 vec1, cl_long z, cl_long w, fcLong3 vec2, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcLong8_set21131(fcLong8* self, fcLong2 vec1, cl_long z, cl_long w, fcLong3 vec2, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcLong8 fcLong8_create2114(fcLong2 vec1, cl_long z, cl_long w, fcLong4 vec2) {
   return fcLong8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcLong8_set2114(fcLong8* self, fcLong2 vec1, cl_long z, cl_long w, fcLong4 vec2) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcLong8 fcLong8_create212111(fcLong2 vec1, cl_long z, fcLong2 vec2, cl_long s5, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, s5, s6, s7);
 }
+
+void fcLong8_set212111(fcLong8* self, fcLong2 vec1, cl_long z, fcLong2 vec2, cl_long s5, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, s5, s6, s7);
+}
+
 fcLong8 fcLong8_create21212(fcLong2 vec1, cl_long z, fcLong2 vec2, cl_long s5, fcLong2 vec3) {
   return fcLong8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
 }
+
+void fcLong8_set21212(fcLong8* self, fcLong2 vec1, cl_long z, fcLong2 vec2, cl_long s5, fcLong2 vec3) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
+}
+
 fcLong8 fcLong8_create21221(fcLong2 vec1, cl_long z, fcLong2 vec2, fcLong2 vec3, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
 }
+
+void fcLong8_set21221(fcLong8* self, fcLong2 vec1, cl_long z, fcLong2 vec2, fcLong2 vec3, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
+}
+
 fcLong8 fcLong8_create2123(fcLong2 vec1, cl_long z, fcLong2 vec2, fcLong3 vec3) {
   return fcLong8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
 }
+
+void fcLong8_set2123(fcLong8* self, fcLong2 vec1, cl_long z, fcLong2 vec2, fcLong3 vec3) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
+}
+
 fcLong8 fcLong8_create21311(fcLong2 vec1, cl_long z, fcLong3 vec2, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, s6, s7);
 }
+
+void fcLong8_set21311(fcLong8* self, fcLong2 vec1, cl_long z, fcLong3 vec2, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, s6, s7);
+}
+
 fcLong8 fcLong8_create2132(fcLong2 vec1, cl_long z, fcLong3 vec2, fcLong2 vec3) {
   return fcLong8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
 }
+
+void fcLong8_set2132(fcLong8* self, fcLong2 vec1, cl_long z, fcLong3 vec2, fcLong2 vec3) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
+}
+
 fcLong8 fcLong8_create2141(fcLong2 vec1, cl_long z, fcLong4 vec2, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
 }
+
+void fcLong8_set2141(fcLong8* self, fcLong2 vec1, cl_long z, fcLong4 vec2, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
+}
+
 fcLong8 fcLong8_create221111(fcLong2 vec1, fcLong2 vec2, cl_long s4, cl_long s5, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, s6, s7);
 }
+
+void fcLong8_set221111(fcLong8* self, fcLong2 vec1, fcLong2 vec2, cl_long s4, cl_long s5, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, s6, s7);
+}
+
 fcLong8 fcLong8_create22112(fcLong2 vec1, fcLong2 vec2, cl_long s4, cl_long s5, fcLong2 vec3) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, vec3.x, vec3.y);
 }
+
+void fcLong8_set22112(fcLong8* self, fcLong2 vec1, fcLong2 vec2, cl_long s4, cl_long s5, fcLong2 vec3) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, vec3.x, vec3.y);
+}
+
 fcLong8 fcLong8_create22121(fcLong2 vec1, fcLong2 vec2, cl_long s4, fcLong2 vec3, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, s7);
 }
+
+void fcLong8_set22121(fcLong8* self, fcLong2 vec1, fcLong2 vec2, cl_long s4, fcLong2 vec3, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, s7);
+}
+
 fcLong8 fcLong8_create2213(fcLong2 vec1, fcLong2 vec2, cl_long s4, fcLong3 vec3) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, vec3.z);
 }
+
+void fcLong8_set2213(fcLong8* self, fcLong2 vec1, fcLong2 vec2, cl_long s4, fcLong3 vec3) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, vec3.z);
+}
+
 fcLong8 fcLong8_create22211(fcLong2 vec1, fcLong2 vec2, fcLong2 vec3, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s6, s7);
 }
+
+void fcLong8_set22211(fcLong8* self, fcLong2 vec1, fcLong2 vec2, fcLong2 vec3, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s6, s7);
+}
+
 fcLong8 fcLong8_create2222(fcLong2 vec1, fcLong2 vec2, fcLong2 vec3, fcLong2 vec4) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec4.x, vec4.y);
 }
+
+void fcLong8_set2222(fcLong8* self, fcLong2 vec1, fcLong2 vec2, fcLong2 vec3, fcLong2 vec4) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec4.x, vec4.y);
+}
+
 fcLong8 fcLong8_create2231(fcLong2 vec1, fcLong2 vec2, fcLong3 vec3, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, s7);
 }
+
+void fcLong8_set2231(fcLong8* self, fcLong2 vec1, fcLong2 vec2, fcLong3 vec3, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, s7);
+}
+
 fcLong8 fcLong8_create224(fcLong2 vec1, fcLong2 vec2, fcLong4 vec3) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, vec3.w);
 }
+
+void fcLong8_set224(fcLong8* self, fcLong2 vec1, fcLong2 vec2, fcLong4 vec3) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, vec3.w);
+}
+
 fcLong8 fcLong8_create23111(fcLong2 vec1, fcLong3 vec2, cl_long s5, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, s6, s7);
 }
+
+void fcLong8_set23111(fcLong8* self, fcLong2 vec1, fcLong3 vec2, cl_long s5, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, s6, s7);
+}
+
 fcLong8 fcLong8_create2312(fcLong2 vec1, fcLong3 vec2, cl_long s5, fcLong2 vec3) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, vec3.x, vec3.y);
 }
+
+void fcLong8_set2312(fcLong8* self, fcLong2 vec1, fcLong3 vec2, cl_long s5, fcLong2 vec3) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, vec3.x, vec3.y);
+}
+
 fcLong8 fcLong8_create2321(fcLong2 vec1, fcLong3 vec2, fcLong2 vec3, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, s7);
 }
+
+void fcLong8_set2321(fcLong8* self, fcLong2 vec1, fcLong3 vec2, fcLong2 vec3, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, s7);
+}
+
 fcLong8 fcLong8_create233(fcLong2 vec1, fcLong3 vec2, fcLong3 vec3) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, vec3.z);
 }
+
+void fcLong8_set233(fcLong8* self, fcLong2 vec1, fcLong3 vec2, fcLong3 vec3) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, vec3.z);
+}
+
 fcLong8 fcLong8_create2411(fcLong2 vec1, fcLong4 vec2, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s6, s7);
 }
+
+void fcLong8_set2411(fcLong8* self, fcLong2 vec1, fcLong4 vec2, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s6, s7);
+}
+
 fcLong8 fcLong8_create242(fcLong2 vec1, fcLong4 vec2, fcLong2 vec3) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, vec3.x, vec3.y);
 }
+
+void fcLong8_set242(fcLong8* self, fcLong2 vec1, fcLong4 vec2, fcLong2 vec3) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, vec3.x, vec3.y);
+}
+
 fcLong8 fcLong8_create311111(fcLong3 vec1, cl_long w, cl_long s4, cl_long s5, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, s5, s6, s7);
 }
+
+void fcLong8_set311111(fcLong8* self, fcLong3 vec1, cl_long w, cl_long s4, cl_long s5, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, s5, s6, s7);
+}
+
 fcLong8 fcLong8_create31112(fcLong3 vec1, cl_long w, cl_long s4, cl_long s5, fcLong2 vec2) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcLong8_set31112(fcLong8* self, fcLong3 vec1, cl_long w, cl_long s4, cl_long s5, fcLong2 vec2) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, s5, vec2.x, vec2.y);
+}
+
 fcLong8 fcLong8_create31121(fcLong3 vec1, cl_long w, cl_long s4, fcLong2 vec2, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcLong8_set31121(fcLong8* self, fcLong3 vec1, cl_long w, cl_long s4, fcLong2 vec2, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, s7);
+}
+
 fcLong8 fcLong8_create3113(fcLong3 vec1, cl_long w, cl_long s4, fcLong3 vec2) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcLong8_set3113(fcLong8* self, fcLong3 vec1, cl_long w, cl_long s4, fcLong3 vec2) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcLong8 fcLong8_create31211(fcLong3 vec1, cl_long w, fcLong2 vec2, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcLong8_set31211(fcLong8* self, fcLong3 vec1, cl_long w, fcLong2 vec2, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, s6, s7);
+}
+
 fcLong8 fcLong8_create3122(fcLong3 vec1, cl_long w, fcLong2 vec2, fcLong2 vec3) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcLong8_set3122(fcLong8* self, fcLong3 vec1, cl_long w, fcLong2 vec2, fcLong2 vec3) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcLong8 fcLong8_create3131(fcLong3 vec1, cl_long w, fcLong3 vec2, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcLong8_set3131(fcLong8* self, fcLong3 vec1, cl_long w, fcLong3 vec2, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcLong8 fcLong8_create314(fcLong3 vec1, cl_long w, fcLong4 vec2) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcLong8_set314(fcLong8* self, fcLong3 vec1, cl_long w, fcLong4 vec2) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcLong8 fcLong8_create32111(fcLong3 vec1, fcLong2 vec2, cl_long s5, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, s6, s7);
 }
+
+void fcLong8_set32111(fcLong8* self, fcLong3 vec1, fcLong2 vec2, cl_long s5, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, s6, s7);
+}
+
 fcLong8 fcLong8_create3212(fcLong3 vec1, fcLong2 vec2, cl_long s5, fcLong2 vec3) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
 }
+
+void fcLong8_set3212(fcLong8* self, fcLong3 vec1, fcLong2 vec2, cl_long s5, fcLong2 vec3) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
+}
+
 fcLong8 fcLong8_create3221(fcLong3 vec1, fcLong2 vec2, fcLong2 vec3, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
 }
+
+void fcLong8_set3221(fcLong8* self, fcLong3 vec1, fcLong2 vec2, fcLong2 vec3, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
+}
+
 fcLong8 fcLong8_create323(fcLong3 vec1, fcLong2 vec2, fcLong3 vec3) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
 }
+
+void fcLong8_set323(fcLong8* self, fcLong3 vec1, fcLong2 vec2, fcLong3 vec3) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
+}
+
 fcLong8 fcLong8_create3311(fcLong3 vec1, fcLong3 vec2, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s6, s7);
 }
+
+void fcLong8_set3311(fcLong8* self, fcLong3 vec1, fcLong3 vec2, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s6, s7);
+}
+
 fcLong8 fcLong8_create332(fcLong3 vec1, fcLong3 vec2, fcLong2 vec3) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
 }
+
+void fcLong8_set332(fcLong8* self, fcLong3 vec1, fcLong3 vec2, fcLong2 vec3) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
+}
+
 fcLong8 fcLong8_create341(fcLong3 vec1, fcLong4 vec2, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
 }
+
+void fcLong8_set341(fcLong8* self, fcLong3 vec1, fcLong4 vec2, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
+}
+
 fcLong8 fcLong8_create41111(fcLong4 vec1, cl_long s4, cl_long s5, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, s6, s7);
 }
+
+void fcLong8_set41111(fcLong8* self, fcLong4 vec1, cl_long s4, cl_long s5, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, s6, s7);
+}
+
 fcLong8 fcLong8_create4112(fcLong4 vec1, cl_long s4, cl_long s5, fcLong2 vec2) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcLong8_set4112(fcLong8* self, fcLong4 vec1, cl_long s4, cl_long s5, fcLong2 vec2) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, vec2.x, vec2.y);
+}
+
 fcLong8 fcLong8_create4121(fcLong4 vec1, cl_long s4, fcLong2 vec2, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcLong8_set4121(fcLong8* self, fcLong4 vec1, cl_long s4, fcLong2 vec2, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, s7);
+}
+
 fcLong8 fcLong8_create413(fcLong4 vec1, cl_long s4, fcLong3 vec2) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcLong8_set413(fcLong8* self, fcLong4 vec1, cl_long s4, fcLong3 vec2) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcLong8 fcLong8_create4211(fcLong4 vec1, fcLong2 vec2, cl_long s6, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcLong8_set4211(fcLong8* self, fcLong4 vec1, fcLong2 vec2, cl_long s6, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s6, s7);
+}
+
 fcLong8 fcLong8_create422(fcLong4 vec1, fcLong2 vec2, fcLong2 vec3) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcLong8_set422(fcLong8* self, fcLong4 vec1, fcLong2 vec2, fcLong2 vec3) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcLong8 fcLong8_create431(fcLong4 vec1, fcLong3 vec2, cl_long s7) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcLong8_set431(fcLong8* self, fcLong4 vec1, fcLong3 vec2, cl_long s7) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcLong8 fcLong8_create44(fcLong4 vec1, fcLong4 vec2) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcLong8_set44(fcLong8* self, fcLong4 vec1, fcLong4 vec2) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcLong8 fcLong8_create8(fcLong8 vec1) {
   return fcLong8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec1.s4, vec1.s5, vec1.s6, vec1.s7);
+}
+
+void fcLong8_set8(fcLong8* self, fcLong8 vec1) {
+  fcLong8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec1.s4, vec1.s5, vec1.s6, vec1.s7);
 }
 
 fcLong4 fcLong8_odd(fcLong8 a) {
@@ -6571,6 +9043,10 @@ cl_int fcLong8_any(fcLong8 a) {
 
 cl_int fcLong8_all(fcLong8 a) {
   return !(a.x == 0L || a.y == 0L || a.z == 0L || a.w == 0L || a.s4 == 0L || a.s5 == 0L || a.s6 == 0L || a.s7 == 0L);
+}
+
+fcLong8 fcLong8_neg(fcLong8 a) {
+  return fcLong8_create11111111(-a.x, -a.y, -a.z, -a.w, -a.s4, -a.s5, -a.s6, -a.s7);
 }
 
 fcLong8 fcLong8_add(fcLong8 a, fcLong8 b) {
@@ -6742,24 +9218,31 @@ fcLong8 fcLong8_subSat(fcLong8 a, fcLong8 b) {
 // fcFloat2
 //
 
-fcFloat2 fcFloat2_create() {
-  fcFloat2 result = {.s = {0.0f}};
-  return result;
-}
-
 fcFloat2 fcFloat2_create1(cl_float v) {
   return fcFloat2_create11(v, v);
 }
 
+void fcFloat2_set1(fcFloat2* self, cl_float v) {
+  fcFloat2_set11(self, v, v);
+}
+
 fcFloat2 fcFloat2_create11(cl_float x, cl_float y) {
   fcFloat2 result;
-  result.x = x;
-  result.y = y;
+  fcFloat2_set11(&result, x, y);
   return result;
+}
+
+void fcFloat2_set11(fcFloat2* self, cl_float x, cl_float y) {
+  self->x = x;
+  self->y = y;
 }
 
 fcFloat2 fcFloat2_create2(fcFloat2 vec1) {
   return fcFloat2_create11(vec1.x, vec1.y);
+}
+
+void fcFloat2_set2(fcFloat2* self, fcFloat2 vec1) {
+  fcFloat2_set11(self, vec1.x, vec1.y);
 }
 
 fcByte2 fcFloat2_convertByte2(fcFloat2 a) {
@@ -6840,6 +9323,10 @@ cl_int fcFloat2_any(fcFloat2 a) {
 
 cl_int fcFloat2_all(fcFloat2 a) {
   return !(a.x == 0.0f || a.y == 0.0f);
+}
+
+fcFloat2 fcFloat2_neg(fcFloat2 a) {
+  return fcFloat2_create11(-a.x, -a.y);
 }
 
 fcFloat2 fcFloat2_add(fcFloat2 a, fcFloat2 b) {
@@ -7176,31 +9663,48 @@ fcFloat2 fcFloat2_smoothStepk(fcFloat2 a, fcFloat2 b, cl_float c) {
 // fcFloat3
 //
 
-fcFloat3 fcFloat3_create() {
-  fcFloat3 result = {.s = {0.0f}};
-  return result;
-}
-
 fcFloat3 fcFloat3_create1(cl_float v) {
   return fcFloat3_create111(v, v, v);
 }
 
+void fcFloat3_set1(fcFloat3* self, cl_float v) {
+  fcFloat3_set111(self, v, v, v);
+}
+
 fcFloat3 fcFloat3_create111(cl_float x, cl_float y, cl_float z) {
   fcFloat3 result;
-  result.x = x;
-  result.y = y;
-  result.z = z;
+  fcFloat3_set111(&result, x, y, z);
   return result;
+}
+
+void fcFloat3_set111(fcFloat3* self, cl_float x, cl_float y, cl_float z) {
+  self->x = x;
+  self->y = y;
+  self->z = z;
 }
 
 fcFloat3 fcFloat3_create12(cl_float x, fcFloat2 vec1) {
   return fcFloat3_create111(x, vec1.x, vec1.y);
 }
+
+void fcFloat3_set12(fcFloat3* self, cl_float x, fcFloat2 vec1) {
+  fcFloat3_set111(self, x, vec1.x, vec1.y);
+}
+
 fcFloat3 fcFloat3_create21(fcFloat2 vec1, cl_float z) {
   return fcFloat3_create111(vec1.x, vec1.y, z);
 }
+
+void fcFloat3_set21(fcFloat3* self, fcFloat2 vec1, cl_float z) {
+  fcFloat3_set111(self, vec1.x, vec1.y, z);
+}
+
 fcFloat3 fcFloat3_create3(fcFloat3 vec1) {
   return fcFloat3_create111(vec1.x, vec1.y, vec1.z);
+}
+
+void fcFloat3_set3(fcFloat3* self, fcFloat3 vec1) {
+  fcFloat3_set111(self, vec1.x, vec1.y, vec1.z);
 }
 
 fcByte3 fcFloat3_convertByte3(fcFloat3 a) {
@@ -7285,6 +9789,10 @@ cl_int fcFloat3_any(fcFloat3 a) {
 
 cl_int fcFloat3_all(fcFloat3 a) {
   return !(a.x == 0.0f || a.y == 0.0f || a.z == 0.0f);
+}
+
+fcFloat3 fcFloat3_neg(fcFloat3 a) {
+  return fcFloat3_create111(-a.x, -a.y, -a.z);
 }
 
 fcFloat3 fcFloat3_add(fcFloat3 a, fcFloat3 b) {
@@ -7628,44 +10136,81 @@ fcFloat3 fcFloat3_smoothStepk(fcFloat3 a, fcFloat3 b, cl_float c) {
 // fcFloat4
 //
 
-fcFloat4 fcFloat4_create() {
-  fcFloat4 result = {.s = {0.0f}};
-  return result;
-}
-
 fcFloat4 fcFloat4_create1(cl_float v) {
   return fcFloat4_create1111(v, v, v, v);
 }
 
+void fcFloat4_set1(fcFloat4* self, cl_float v) {
+  fcFloat4_set1111(self, v, v, v, v);
+}
+
 fcFloat4 fcFloat4_create1111(cl_float x, cl_float y, cl_float z, cl_float w) {
   fcFloat4 result;
-  result.x = x;
-  result.y = y;
-  result.z = z;
-  result.w = w;
+  fcFloat4_set1111(&result, x, y, z, w);
   return result;
+}
+
+void fcFloat4_set1111(fcFloat4* self, cl_float x, cl_float y, cl_float z, cl_float w) {
+  self->x = x;
+  self->y = y;
+  self->z = z;
+  self->w = w;
 }
 
 fcFloat4 fcFloat4_create112(cl_float x, cl_float y, fcFloat2 vec1) {
   return fcFloat4_create1111(x, y, vec1.x, vec1.y);
 }
+
+void fcFloat4_set112(fcFloat4* self, cl_float x, cl_float y, fcFloat2 vec1) {
+  fcFloat4_set1111(self, x, y, vec1.x, vec1.y);
+}
+
 fcFloat4 fcFloat4_create121(cl_float x, fcFloat2 vec1, cl_float w) {
   return fcFloat4_create1111(x, vec1.x, vec1.y, w);
 }
+
+void fcFloat4_set121(fcFloat4* self, cl_float x, fcFloat2 vec1, cl_float w) {
+  fcFloat4_set1111(self, x, vec1.x, vec1.y, w);
+}
+
 fcFloat4 fcFloat4_create13(cl_float x, fcFloat3 vec1) {
   return fcFloat4_create1111(x, vec1.x, vec1.y, vec1.z);
 }
+
+void fcFloat4_set13(fcFloat4* self, cl_float x, fcFloat3 vec1) {
+  fcFloat4_set1111(self, x, vec1.x, vec1.y, vec1.z);
+}
+
 fcFloat4 fcFloat4_create211(fcFloat2 vec1, cl_float z, cl_float w) {
   return fcFloat4_create1111(vec1.x, vec1.y, z, w);
 }
+
+void fcFloat4_set211(fcFloat4* self, fcFloat2 vec1, cl_float z, cl_float w) {
+  fcFloat4_set1111(self, vec1.x, vec1.y, z, w);
+}
+
 fcFloat4 fcFloat4_create22(fcFloat2 vec1, fcFloat2 vec2) {
   return fcFloat4_create1111(vec1.x, vec1.y, vec2.x, vec2.y);
 }
+
+void fcFloat4_set22(fcFloat4* self, fcFloat2 vec1, fcFloat2 vec2) {
+  fcFloat4_set1111(self, vec1.x, vec1.y, vec2.x, vec2.y);
+}
+
 fcFloat4 fcFloat4_create31(fcFloat3 vec1, cl_float w) {
   return fcFloat4_create1111(vec1.x, vec1.y, vec1.z, w);
 }
+
+void fcFloat4_set31(fcFloat4* self, fcFloat3 vec1, cl_float w) {
+  fcFloat4_set1111(self, vec1.x, vec1.y, vec1.z, w);
+}
+
 fcFloat4 fcFloat4_create4(fcFloat4 vec1) {
   return fcFloat4_create1111(vec1.x, vec1.y, vec1.z, vec1.w);
+}
+
+void fcFloat4_set4(fcFloat4* self, fcFloat4 vec1) {
+  fcFloat4_set1111(self, vec1.x, vec1.y, vec1.z, vec1.w);
 }
 
 fcFloat2 fcFloat4_odd(fcFloat4 a) {
@@ -7762,6 +10307,10 @@ cl_int fcFloat4_any(fcFloat4 a) {
 
 cl_int fcFloat4_all(fcFloat4 a) {
   return !(a.x == 0.0f || a.y == 0.0f || a.z == 0.0f || a.w == 0.0f);
+}
+
+fcFloat4 fcFloat4_neg(fcFloat4 a) {
+  return fcFloat4_create1111(-a.x, -a.y, -a.z, -a.w);
 }
 
 fcFloat4 fcFloat4_add(fcFloat4 a, fcFloat4 b) {
@@ -8105,351 +10654,893 @@ fcFloat4 fcFloat4_smoothStepk(fcFloat4 a, fcFloat4 b, cl_float c) {
 // fcFloat8
 //
 
-fcFloat8 fcFloat8_create() {
-  fcFloat8 result = {.s = {0.0f}};
-  return result;
-}
-
 fcFloat8 fcFloat8_create1(cl_float v) {
   return fcFloat8_create11111111(v, v, v, v, v, v, v, v);
 }
 
+void fcFloat8_set1(fcFloat8* self, cl_float v) {
+  fcFloat8_set11111111(self, v, v, v, v, v, v, v, v);
+}
+
 fcFloat8 fcFloat8_create11111111(cl_float x, cl_float y, cl_float z, cl_float w, cl_float s4, cl_float s5, cl_float s6, cl_float s7) {
   fcFloat8 result;
-  result.x = x;
-  result.y = y;
-  result.z = z;
-  result.w = w;
-  result.s4 = s4;
-  result.s5 = s5;
-  result.s6 = s6;
-  result.s7 = s7;
+  fcFloat8_set11111111(&result, x, y, z, w, s4, s5, s6, s7);
   return result;
+}
+
+void fcFloat8_set11111111(fcFloat8* self, cl_float x, cl_float y, cl_float z, cl_float w, cl_float s4, cl_float s5, cl_float s6, cl_float s7) {
+  self->x = x;
+  self->y = y;
+  self->z = z;
+  self->w = w;
+  self->s4 = s4;
+  self->s5 = s5;
+  self->s6 = s6;
+  self->s7 = s7;
 }
 
 fcFloat8 fcFloat8_create1111112(cl_float x, cl_float y, cl_float z, cl_float w, cl_float s4, cl_float s5, fcFloat2 vec1) {
   return fcFloat8_create11111111(x, y, z, w, s4, s5, vec1.x, vec1.y);
 }
+
+void fcFloat8_set1111112(fcFloat8* self, cl_float x, cl_float y, cl_float z, cl_float w, cl_float s4, cl_float s5, fcFloat2 vec1) {
+  fcFloat8_set11111111(self, x, y, z, w, s4, s5, vec1.x, vec1.y);
+}
+
 fcFloat8 fcFloat8_create1111121(cl_float x, cl_float y, cl_float z, cl_float w, cl_float s4, fcFloat2 vec1, cl_float s7) {
   return fcFloat8_create11111111(x, y, z, w, s4, vec1.x, vec1.y, s7);
 }
+
+void fcFloat8_set1111121(fcFloat8* self, cl_float x, cl_float y, cl_float z, cl_float w, cl_float s4, fcFloat2 vec1, cl_float s7) {
+  fcFloat8_set11111111(self, x, y, z, w, s4, vec1.x, vec1.y, s7);
+}
+
 fcFloat8 fcFloat8_create111113(cl_float x, cl_float y, cl_float z, cl_float w, cl_float s4, fcFloat3 vec1) {
   return fcFloat8_create11111111(x, y, z, w, s4, vec1.x, vec1.y, vec1.z);
 }
+
+void fcFloat8_set111113(fcFloat8* self, cl_float x, cl_float y, cl_float z, cl_float w, cl_float s4, fcFloat3 vec1) {
+  fcFloat8_set11111111(self, x, y, z, w, s4, vec1.x, vec1.y, vec1.z);
+}
+
 fcFloat8 fcFloat8_create1111211(cl_float x, cl_float y, cl_float z, cl_float w, fcFloat2 vec1, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(x, y, z, w, vec1.x, vec1.y, s6, s7);
 }
+
+void fcFloat8_set1111211(fcFloat8* self, cl_float x, cl_float y, cl_float z, cl_float w, fcFloat2 vec1, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, x, y, z, w, vec1.x, vec1.y, s6, s7);
+}
+
 fcFloat8 fcFloat8_create111122(cl_float x, cl_float y, cl_float z, cl_float w, fcFloat2 vec1, fcFloat2 vec2) {
   return fcFloat8_create11111111(x, y, z, w, vec1.x, vec1.y, vec2.x, vec2.y);
 }
+
+void fcFloat8_set111122(fcFloat8* self, cl_float x, cl_float y, cl_float z, cl_float w, fcFloat2 vec1, fcFloat2 vec2) {
+  fcFloat8_set11111111(self, x, y, z, w, vec1.x, vec1.y, vec2.x, vec2.y);
+}
+
 fcFloat8 fcFloat8_create111131(cl_float x, cl_float y, cl_float z, cl_float w, fcFloat3 vec1, cl_float s7) {
   return fcFloat8_create11111111(x, y, z, w, vec1.x, vec1.y, vec1.z, s7);
 }
+
+void fcFloat8_set111131(fcFloat8* self, cl_float x, cl_float y, cl_float z, cl_float w, fcFloat3 vec1, cl_float s7) {
+  fcFloat8_set11111111(self, x, y, z, w, vec1.x, vec1.y, vec1.z, s7);
+}
+
 fcFloat8 fcFloat8_create11114(cl_float x, cl_float y, cl_float z, cl_float w, fcFloat4 vec1) {
   return fcFloat8_create11111111(x, y, z, w, vec1.x, vec1.y, vec1.z, vec1.w);
 }
+
+void fcFloat8_set11114(fcFloat8* self, cl_float x, cl_float y, cl_float z, cl_float w, fcFloat4 vec1) {
+  fcFloat8_set11111111(self, x, y, z, w, vec1.x, vec1.y, vec1.z, vec1.w);
+}
+
 fcFloat8 fcFloat8_create1112111(cl_float x, cl_float y, cl_float z, fcFloat2 vec1, cl_float s5, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(x, y, z, vec1.x, vec1.y, s5, s6, s7);
 }
+
+void fcFloat8_set1112111(fcFloat8* self, cl_float x, cl_float y, cl_float z, fcFloat2 vec1, cl_float s5, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, x, y, z, vec1.x, vec1.y, s5, s6, s7);
+}
+
 fcFloat8 fcFloat8_create111212(cl_float x, cl_float y, cl_float z, fcFloat2 vec1, cl_float s5, fcFloat2 vec2) {
   return fcFloat8_create11111111(x, y, z, vec1.x, vec1.y, s5, vec2.x, vec2.y);
 }
+
+void fcFloat8_set111212(fcFloat8* self, cl_float x, cl_float y, cl_float z, fcFloat2 vec1, cl_float s5, fcFloat2 vec2) {
+  fcFloat8_set11111111(self, x, y, z, vec1.x, vec1.y, s5, vec2.x, vec2.y);
+}
+
 fcFloat8 fcFloat8_create111221(cl_float x, cl_float y, cl_float z, fcFloat2 vec1, fcFloat2 vec2, cl_float s7) {
   return fcFloat8_create11111111(x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, s7);
 }
+
+void fcFloat8_set111221(fcFloat8* self, cl_float x, cl_float y, cl_float z, fcFloat2 vec1, fcFloat2 vec2, cl_float s7) {
+  fcFloat8_set11111111(self, x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, s7);
+}
+
 fcFloat8 fcFloat8_create11123(cl_float x, cl_float y, cl_float z, fcFloat2 vec1, fcFloat3 vec2) {
   return fcFloat8_create11111111(x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z);
 }
+
+void fcFloat8_set11123(fcFloat8* self, cl_float x, cl_float y, cl_float z, fcFloat2 vec1, fcFloat3 vec2) {
+  fcFloat8_set11111111(self, x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z);
+}
+
 fcFloat8 fcFloat8_create111311(cl_float x, cl_float y, cl_float z, fcFloat3 vec1, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(x, y, z, vec1.x, vec1.y, vec1.z, s6, s7);
 }
+
+void fcFloat8_set111311(fcFloat8* self, cl_float x, cl_float y, cl_float z, fcFloat3 vec1, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, x, y, z, vec1.x, vec1.y, vec1.z, s6, s7);
+}
+
 fcFloat8 fcFloat8_create11132(cl_float x, cl_float y, cl_float z, fcFloat3 vec1, fcFloat2 vec2) {
   return fcFloat8_create11111111(x, y, z, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y);
 }
+
+void fcFloat8_set11132(fcFloat8* self, cl_float x, cl_float y, cl_float z, fcFloat3 vec1, fcFloat2 vec2) {
+  fcFloat8_set11111111(self, x, y, z, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y);
+}
+
 fcFloat8 fcFloat8_create11141(cl_float x, cl_float y, cl_float z, fcFloat4 vec1, cl_float s7) {
   return fcFloat8_create11111111(x, y, z, vec1.x, vec1.y, vec1.z, vec1.w, s7);
 }
+
+void fcFloat8_set11141(fcFloat8* self, cl_float x, cl_float y, cl_float z, fcFloat4 vec1, cl_float s7) {
+  fcFloat8_set11111111(self, x, y, z, vec1.x, vec1.y, vec1.z, vec1.w, s7);
+}
+
 fcFloat8 fcFloat8_create1121111(cl_float x, cl_float y, fcFloat2 vec1, cl_float s4, cl_float s5, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(x, y, vec1.x, vec1.y, s4, s5, s6, s7);
 }
+
+void fcFloat8_set1121111(fcFloat8* self, cl_float x, cl_float y, fcFloat2 vec1, cl_float s4, cl_float s5, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, x, y, vec1.x, vec1.y, s4, s5, s6, s7);
+}
+
 fcFloat8 fcFloat8_create112112(cl_float x, cl_float y, fcFloat2 vec1, cl_float s4, cl_float s5, fcFloat2 vec2) {
   return fcFloat8_create11111111(x, y, vec1.x, vec1.y, s4, s5, vec2.x, vec2.y);
 }
+
+void fcFloat8_set112112(fcFloat8* self, cl_float x, cl_float y, fcFloat2 vec1, cl_float s4, cl_float s5, fcFloat2 vec2) {
+  fcFloat8_set11111111(self, x, y, vec1.x, vec1.y, s4, s5, vec2.x, vec2.y);
+}
+
 fcFloat8 fcFloat8_create112121(cl_float x, cl_float y, fcFloat2 vec1, cl_float s4, fcFloat2 vec2, cl_float s7) {
   return fcFloat8_create11111111(x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, s7);
 }
+
+void fcFloat8_set112121(fcFloat8* self, cl_float x, cl_float y, fcFloat2 vec1, cl_float s4, fcFloat2 vec2, cl_float s7) {
+  fcFloat8_set11111111(self, x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, s7);
+}
+
 fcFloat8 fcFloat8_create11213(cl_float x, cl_float y, fcFloat2 vec1, cl_float s4, fcFloat3 vec2) {
   return fcFloat8_create11111111(x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcFloat8_set11213(fcFloat8* self, cl_float x, cl_float y, fcFloat2 vec1, cl_float s4, fcFloat3 vec2) {
+  fcFloat8_set11111111(self, x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcFloat8 fcFloat8_create112211(cl_float x, cl_float y, fcFloat2 vec1, fcFloat2 vec2, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, s6, s7);
 }
+
+void fcFloat8_set112211(fcFloat8* self, cl_float x, cl_float y, fcFloat2 vec1, fcFloat2 vec2, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, s6, s7);
+}
+
 fcFloat8 fcFloat8_create11222(cl_float x, cl_float y, fcFloat2 vec1, fcFloat2 vec2, fcFloat2 vec3) {
   return fcFloat8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcFloat8_set11222(fcFloat8* self, cl_float x, cl_float y, fcFloat2 vec1, fcFloat2 vec2, fcFloat2 vec3) {
+  fcFloat8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcFloat8 fcFloat8_create11231(cl_float x, cl_float y, fcFloat2 vec1, fcFloat3 vec2, cl_float s7) {
   return fcFloat8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcFloat8_set11231(fcFloat8* self, cl_float x, cl_float y, fcFloat2 vec1, fcFloat3 vec2, cl_float s7) {
+  fcFloat8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcFloat8 fcFloat8_create1124(cl_float x, cl_float y, fcFloat2 vec1, fcFloat4 vec2) {
   return fcFloat8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcFloat8_set1124(fcFloat8* self, cl_float x, cl_float y, fcFloat2 vec1, fcFloat4 vec2) {
+  fcFloat8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcFloat8 fcFloat8_create113111(cl_float x, cl_float y, fcFloat3 vec1, cl_float s5, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(x, y, vec1.x, vec1.y, vec1.z, s5, s6, s7);
 }
+
+void fcFloat8_set113111(fcFloat8* self, cl_float x, cl_float y, fcFloat3 vec1, cl_float s5, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, s5, s6, s7);
+}
+
 fcFloat8 fcFloat8_create11312(cl_float x, cl_float y, fcFloat3 vec1, cl_float s5, fcFloat2 vec2) {
   return fcFloat8_create11111111(x, y, vec1.x, vec1.y, vec1.z, s5, vec2.x, vec2.y);
 }
+
+void fcFloat8_set11312(fcFloat8* self, cl_float x, cl_float y, fcFloat3 vec1, cl_float s5, fcFloat2 vec2) {
+  fcFloat8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, s5, vec2.x, vec2.y);
+}
+
 fcFloat8 fcFloat8_create11321(cl_float x, cl_float y, fcFloat3 vec1, fcFloat2 vec2, cl_float s7) {
   return fcFloat8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s7);
 }
+
+void fcFloat8_set11321(fcFloat8* self, cl_float x, cl_float y, fcFloat3 vec1, fcFloat2 vec2, cl_float s7) {
+  fcFloat8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s7);
+}
+
 fcFloat8 fcFloat8_create1133(cl_float x, cl_float y, fcFloat3 vec1, fcFloat3 vec2) {
   return fcFloat8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z);
 }
+
+void fcFloat8_set1133(fcFloat8* self, cl_float x, cl_float y, fcFloat3 vec1, fcFloat3 vec2) {
+  fcFloat8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z);
+}
+
 fcFloat8 fcFloat8_create11411(cl_float x, cl_float y, fcFloat4 vec1, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec1.w, s6, s7);
 }
+
+void fcFloat8_set11411(fcFloat8* self, cl_float x, cl_float y, fcFloat4 vec1, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec1.w, s6, s7);
+}
+
 fcFloat8 fcFloat8_create1142(cl_float x, cl_float y, fcFloat4 vec1, fcFloat2 vec2) {
   return fcFloat8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y);
 }
+
+void fcFloat8_set1142(fcFloat8* self, cl_float x, cl_float y, fcFloat4 vec1, fcFloat2 vec2) {
+  fcFloat8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y);
+}
+
 fcFloat8 fcFloat8_create1211111(cl_float x, fcFloat2 vec1, cl_float w, cl_float s4, cl_float s5, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, w, s4, s5, s6, s7);
 }
+
+void fcFloat8_set1211111(fcFloat8* self, cl_float x, fcFloat2 vec1, cl_float w, cl_float s4, cl_float s5, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, w, s4, s5, s6, s7);
+}
+
 fcFloat8 fcFloat8_create121112(cl_float x, fcFloat2 vec1, cl_float w, cl_float s4, cl_float s5, fcFloat2 vec2) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcFloat8_set121112(fcFloat8* self, cl_float x, fcFloat2 vec1, cl_float w, cl_float s4, cl_float s5, fcFloat2 vec2) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, w, s4, s5, vec2.x, vec2.y);
+}
+
 fcFloat8 fcFloat8_create121121(cl_float x, fcFloat2 vec1, cl_float w, cl_float s4, fcFloat2 vec2, cl_float s7) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcFloat8_set121121(fcFloat8* self, cl_float x, fcFloat2 vec1, cl_float w, cl_float s4, fcFloat2 vec2, cl_float s7) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, s7);
+}
+
 fcFloat8 fcFloat8_create12113(cl_float x, fcFloat2 vec1, cl_float w, cl_float s4, fcFloat3 vec2) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcFloat8_set12113(fcFloat8* self, cl_float x, fcFloat2 vec1, cl_float w, cl_float s4, fcFloat3 vec2) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcFloat8 fcFloat8_create121211(cl_float x, fcFloat2 vec1, cl_float w, fcFloat2 vec2, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcFloat8_set121211(fcFloat8* self, cl_float x, fcFloat2 vec1, cl_float w, fcFloat2 vec2, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, s6, s7);
+}
+
 fcFloat8 fcFloat8_create12122(cl_float x, fcFloat2 vec1, cl_float w, fcFloat2 vec2, fcFloat2 vec3) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcFloat8_set12122(fcFloat8* self, cl_float x, fcFloat2 vec1, cl_float w, fcFloat2 vec2, fcFloat2 vec3) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcFloat8 fcFloat8_create12131(cl_float x, fcFloat2 vec1, cl_float w, fcFloat3 vec2, cl_float s7) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcFloat8_set12131(fcFloat8* self, cl_float x, fcFloat2 vec1, cl_float w, fcFloat3 vec2, cl_float s7) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcFloat8 fcFloat8_create1214(cl_float x, fcFloat2 vec1, cl_float w, fcFloat4 vec2) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcFloat8_set1214(fcFloat8* self, cl_float x, fcFloat2 vec1, cl_float w, fcFloat4 vec2) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcFloat8 fcFloat8_create122111(cl_float x, fcFloat2 vec1, fcFloat2 vec2, cl_float s5, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, s5, s6, s7);
 }
+
+void fcFloat8_set122111(fcFloat8* self, cl_float x, fcFloat2 vec1, fcFloat2 vec2, cl_float s5, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, s5, s6, s7);
+}
+
 fcFloat8 fcFloat8_create12212(cl_float x, fcFloat2 vec1, fcFloat2 vec2, cl_float s5, fcFloat2 vec3) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, s5, vec3.x, vec3.y);
 }
+
+void fcFloat8_set12212(fcFloat8* self, cl_float x, fcFloat2 vec1, fcFloat2 vec2, cl_float s5, fcFloat2 vec3) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, s5, vec3.x, vec3.y);
+}
+
 fcFloat8 fcFloat8_create12221(cl_float x, fcFloat2 vec1, fcFloat2 vec2, fcFloat2 vec3, cl_float s7) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s7);
 }
+
+void fcFloat8_set12221(fcFloat8* self, cl_float x, fcFloat2 vec1, fcFloat2 vec2, fcFloat2 vec3, cl_float s7) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s7);
+}
+
 fcFloat8 fcFloat8_create1223(cl_float x, fcFloat2 vec1, fcFloat2 vec2, fcFloat3 vec3) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
 }
+
+void fcFloat8_set1223(fcFloat8* self, cl_float x, fcFloat2 vec1, fcFloat2 vec2, fcFloat3 vec3) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
+}
+
 fcFloat8 fcFloat8_create12311(cl_float x, fcFloat2 vec1, fcFloat3 vec2, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s6, s7);
 }
+
+void fcFloat8_set12311(fcFloat8* self, cl_float x, fcFloat2 vec1, fcFloat3 vec2, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s6, s7);
+}
+
 fcFloat8 fcFloat8_create1232(cl_float x, fcFloat2 vec1, fcFloat3 vec2, fcFloat2 vec3) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
 }
+
+void fcFloat8_set1232(fcFloat8* self, cl_float x, fcFloat2 vec1, fcFloat3 vec2, fcFloat2 vec3) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
+}
+
 fcFloat8 fcFloat8_create1241(cl_float x, fcFloat2 vec1, fcFloat4 vec2, cl_float s7) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s7);
 }
+
+void fcFloat8_set1241(fcFloat8* self, cl_float x, fcFloat2 vec1, fcFloat4 vec2, cl_float s7) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s7);
+}
+
 fcFloat8 fcFloat8_create131111(cl_float x, fcFloat3 vec1, cl_float s4, cl_float s5, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, s5, s6, s7);
 }
+
+void fcFloat8_set131111(fcFloat8* self, cl_float x, fcFloat3 vec1, cl_float s4, cl_float s5, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, s5, s6, s7);
+}
+
 fcFloat8 fcFloat8_create13112(cl_float x, fcFloat3 vec1, cl_float s4, cl_float s5, fcFloat2 vec2) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, s5, vec2.x, vec2.y);
 }
+
+void fcFloat8_set13112(fcFloat8* self, cl_float x, fcFloat3 vec1, cl_float s4, cl_float s5, fcFloat2 vec2) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, s5, vec2.x, vec2.y);
+}
+
 fcFloat8 fcFloat8_create13121(cl_float x, fcFloat3 vec1, cl_float s4, fcFloat2 vec2, cl_float s7) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, s7);
 }
+
+void fcFloat8_set13121(fcFloat8* self, cl_float x, fcFloat3 vec1, cl_float s4, fcFloat2 vec2, cl_float s7) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, s7);
+}
+
 fcFloat8 fcFloat8_create1313(cl_float x, fcFloat3 vec1, cl_float s4, fcFloat3 vec2) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcFloat8_set1313(fcFloat8* self, cl_float x, fcFloat3 vec1, cl_float s4, fcFloat3 vec2) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcFloat8 fcFloat8_create13211(cl_float x, fcFloat3 vec1, fcFloat2 vec2, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s6, s7);
 }
+
+void fcFloat8_set13211(fcFloat8* self, cl_float x, fcFloat3 vec1, fcFloat2 vec2, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s6, s7);
+}
+
 fcFloat8 fcFloat8_create1322(cl_float x, fcFloat3 vec1, fcFloat2 vec2, fcFloat2 vec3) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcFloat8_set1322(fcFloat8* self, cl_float x, fcFloat3 vec1, fcFloat2 vec2, fcFloat2 vec3) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcFloat8 fcFloat8_create1331(cl_float x, fcFloat3 vec1, fcFloat3 vec2, cl_float s7) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcFloat8_set1331(fcFloat8* self, cl_float x, fcFloat3 vec1, fcFloat3 vec2, cl_float s7) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcFloat8 fcFloat8_create134(cl_float x, fcFloat3 vec1, fcFloat4 vec2) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcFloat8_set134(fcFloat8* self, cl_float x, fcFloat3 vec1, fcFloat4 vec2) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcFloat8 fcFloat8_create14111(cl_float x, fcFloat4 vec1, cl_float s5, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, s5, s6, s7);
 }
+
+void fcFloat8_set14111(fcFloat8* self, cl_float x, fcFloat4 vec1, cl_float s5, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, s5, s6, s7);
+}
+
 fcFloat8 fcFloat8_create1412(cl_float x, fcFloat4 vec1, cl_float s5, fcFloat2 vec2) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, s5, vec2.x, vec2.y);
 }
+
+void fcFloat8_set1412(fcFloat8* self, cl_float x, fcFloat4 vec1, cl_float s5, fcFloat2 vec2) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, s5, vec2.x, vec2.y);
+}
+
 fcFloat8 fcFloat8_create1421(cl_float x, fcFloat4 vec1, fcFloat2 vec2, cl_float s7) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s7);
 }
+
+void fcFloat8_set1421(fcFloat8* self, cl_float x, fcFloat4 vec1, fcFloat2 vec2, cl_float s7) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s7);
+}
+
 fcFloat8 fcFloat8_create143(cl_float x, fcFloat4 vec1, fcFloat3 vec2) {
   return fcFloat8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z);
 }
+
+void fcFloat8_set143(fcFloat8* self, cl_float x, fcFloat4 vec1, fcFloat3 vec2) {
+  fcFloat8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z);
+}
+
 fcFloat8 fcFloat8_create2111111(fcFloat2 vec1, cl_float z, cl_float w, cl_float s4, cl_float s5, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, z, w, s4, s5, s6, s7);
 }
+
+void fcFloat8_set2111111(fcFloat8* self, fcFloat2 vec1, cl_float z, cl_float w, cl_float s4, cl_float s5, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, z, w, s4, s5, s6, s7);
+}
+
 fcFloat8 fcFloat8_create211112(fcFloat2 vec1, cl_float z, cl_float w, cl_float s4, cl_float s5, fcFloat2 vec2) {
   return fcFloat8_create11111111(vec1.x, vec1.y, z, w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcFloat8_set211112(fcFloat8* self, fcFloat2 vec1, cl_float z, cl_float w, cl_float s4, cl_float s5, fcFloat2 vec2) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, z, w, s4, s5, vec2.x, vec2.y);
+}
+
 fcFloat8 fcFloat8_create211121(fcFloat2 vec1, cl_float z, cl_float w, cl_float s4, fcFloat2 vec2, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcFloat8_set211121(fcFloat8* self, fcFloat2 vec1, cl_float z, cl_float w, cl_float s4, fcFloat2 vec2, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, s7);
+}
+
 fcFloat8 fcFloat8_create21113(fcFloat2 vec1, cl_float z, cl_float w, cl_float s4, fcFloat3 vec2) {
   return fcFloat8_create11111111(vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcFloat8_set21113(fcFloat8* self, fcFloat2 vec1, cl_float z, cl_float w, cl_float s4, fcFloat3 vec2) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcFloat8 fcFloat8_create211211(fcFloat2 vec1, cl_float z, cl_float w, fcFloat2 vec2, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcFloat8_set211211(fcFloat8* self, fcFloat2 vec1, cl_float z, cl_float w, fcFloat2 vec2, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, s6, s7);
+}
+
 fcFloat8 fcFloat8_create21122(fcFloat2 vec1, cl_float z, cl_float w, fcFloat2 vec2, fcFloat2 vec3) {
   return fcFloat8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcFloat8_set21122(fcFloat8* self, fcFloat2 vec1, cl_float z, cl_float w, fcFloat2 vec2, fcFloat2 vec3) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcFloat8 fcFloat8_create21131(fcFloat2 vec1, cl_float z, cl_float w, fcFloat3 vec2, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcFloat8_set21131(fcFloat8* self, fcFloat2 vec1, cl_float z, cl_float w, fcFloat3 vec2, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcFloat8 fcFloat8_create2114(fcFloat2 vec1, cl_float z, cl_float w, fcFloat4 vec2) {
   return fcFloat8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcFloat8_set2114(fcFloat8* self, fcFloat2 vec1, cl_float z, cl_float w, fcFloat4 vec2) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcFloat8 fcFloat8_create212111(fcFloat2 vec1, cl_float z, fcFloat2 vec2, cl_float s5, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, s5, s6, s7);
 }
+
+void fcFloat8_set212111(fcFloat8* self, fcFloat2 vec1, cl_float z, fcFloat2 vec2, cl_float s5, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, s5, s6, s7);
+}
+
 fcFloat8 fcFloat8_create21212(fcFloat2 vec1, cl_float z, fcFloat2 vec2, cl_float s5, fcFloat2 vec3) {
   return fcFloat8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
 }
+
+void fcFloat8_set21212(fcFloat8* self, fcFloat2 vec1, cl_float z, fcFloat2 vec2, cl_float s5, fcFloat2 vec3) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
+}
+
 fcFloat8 fcFloat8_create21221(fcFloat2 vec1, cl_float z, fcFloat2 vec2, fcFloat2 vec3, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
 }
+
+void fcFloat8_set21221(fcFloat8* self, fcFloat2 vec1, cl_float z, fcFloat2 vec2, fcFloat2 vec3, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
+}
+
 fcFloat8 fcFloat8_create2123(fcFloat2 vec1, cl_float z, fcFloat2 vec2, fcFloat3 vec3) {
   return fcFloat8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
 }
+
+void fcFloat8_set2123(fcFloat8* self, fcFloat2 vec1, cl_float z, fcFloat2 vec2, fcFloat3 vec3) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
+}
+
 fcFloat8 fcFloat8_create21311(fcFloat2 vec1, cl_float z, fcFloat3 vec2, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, s6, s7);
 }
+
+void fcFloat8_set21311(fcFloat8* self, fcFloat2 vec1, cl_float z, fcFloat3 vec2, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, s6, s7);
+}
+
 fcFloat8 fcFloat8_create2132(fcFloat2 vec1, cl_float z, fcFloat3 vec2, fcFloat2 vec3) {
   return fcFloat8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
 }
+
+void fcFloat8_set2132(fcFloat8* self, fcFloat2 vec1, cl_float z, fcFloat3 vec2, fcFloat2 vec3) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
+}
+
 fcFloat8 fcFloat8_create2141(fcFloat2 vec1, cl_float z, fcFloat4 vec2, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
 }
+
+void fcFloat8_set2141(fcFloat8* self, fcFloat2 vec1, cl_float z, fcFloat4 vec2, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
+}
+
 fcFloat8 fcFloat8_create221111(fcFloat2 vec1, fcFloat2 vec2, cl_float s4, cl_float s5, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, s6, s7);
 }
+
+void fcFloat8_set221111(fcFloat8* self, fcFloat2 vec1, fcFloat2 vec2, cl_float s4, cl_float s5, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, s6, s7);
+}
+
 fcFloat8 fcFloat8_create22112(fcFloat2 vec1, fcFloat2 vec2, cl_float s4, cl_float s5, fcFloat2 vec3) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, vec3.x, vec3.y);
 }
+
+void fcFloat8_set22112(fcFloat8* self, fcFloat2 vec1, fcFloat2 vec2, cl_float s4, cl_float s5, fcFloat2 vec3) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, vec3.x, vec3.y);
+}
+
 fcFloat8 fcFloat8_create22121(fcFloat2 vec1, fcFloat2 vec2, cl_float s4, fcFloat2 vec3, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, s7);
 }
+
+void fcFloat8_set22121(fcFloat8* self, fcFloat2 vec1, fcFloat2 vec2, cl_float s4, fcFloat2 vec3, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, s7);
+}
+
 fcFloat8 fcFloat8_create2213(fcFloat2 vec1, fcFloat2 vec2, cl_float s4, fcFloat3 vec3) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, vec3.z);
 }
+
+void fcFloat8_set2213(fcFloat8* self, fcFloat2 vec1, fcFloat2 vec2, cl_float s4, fcFloat3 vec3) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, vec3.z);
+}
+
 fcFloat8 fcFloat8_create22211(fcFloat2 vec1, fcFloat2 vec2, fcFloat2 vec3, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s6, s7);
 }
+
+void fcFloat8_set22211(fcFloat8* self, fcFloat2 vec1, fcFloat2 vec2, fcFloat2 vec3, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s6, s7);
+}
+
 fcFloat8 fcFloat8_create2222(fcFloat2 vec1, fcFloat2 vec2, fcFloat2 vec3, fcFloat2 vec4) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec4.x, vec4.y);
 }
+
+void fcFloat8_set2222(fcFloat8* self, fcFloat2 vec1, fcFloat2 vec2, fcFloat2 vec3, fcFloat2 vec4) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec4.x, vec4.y);
+}
+
 fcFloat8 fcFloat8_create2231(fcFloat2 vec1, fcFloat2 vec2, fcFloat3 vec3, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, s7);
 }
+
+void fcFloat8_set2231(fcFloat8* self, fcFloat2 vec1, fcFloat2 vec2, fcFloat3 vec3, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, s7);
+}
+
 fcFloat8 fcFloat8_create224(fcFloat2 vec1, fcFloat2 vec2, fcFloat4 vec3) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, vec3.w);
 }
+
+void fcFloat8_set224(fcFloat8* self, fcFloat2 vec1, fcFloat2 vec2, fcFloat4 vec3) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, vec3.w);
+}
+
 fcFloat8 fcFloat8_create23111(fcFloat2 vec1, fcFloat3 vec2, cl_float s5, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, s6, s7);
 }
+
+void fcFloat8_set23111(fcFloat8* self, fcFloat2 vec1, fcFloat3 vec2, cl_float s5, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, s6, s7);
+}
+
 fcFloat8 fcFloat8_create2312(fcFloat2 vec1, fcFloat3 vec2, cl_float s5, fcFloat2 vec3) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, vec3.x, vec3.y);
 }
+
+void fcFloat8_set2312(fcFloat8* self, fcFloat2 vec1, fcFloat3 vec2, cl_float s5, fcFloat2 vec3) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, vec3.x, vec3.y);
+}
+
 fcFloat8 fcFloat8_create2321(fcFloat2 vec1, fcFloat3 vec2, fcFloat2 vec3, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, s7);
 }
+
+void fcFloat8_set2321(fcFloat8* self, fcFloat2 vec1, fcFloat3 vec2, fcFloat2 vec3, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, s7);
+}
+
 fcFloat8 fcFloat8_create233(fcFloat2 vec1, fcFloat3 vec2, fcFloat3 vec3) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, vec3.z);
 }
+
+void fcFloat8_set233(fcFloat8* self, fcFloat2 vec1, fcFloat3 vec2, fcFloat3 vec3) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, vec3.z);
+}
+
 fcFloat8 fcFloat8_create2411(fcFloat2 vec1, fcFloat4 vec2, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s6, s7);
 }
+
+void fcFloat8_set2411(fcFloat8* self, fcFloat2 vec1, fcFloat4 vec2, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s6, s7);
+}
+
 fcFloat8 fcFloat8_create242(fcFloat2 vec1, fcFloat4 vec2, fcFloat2 vec3) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, vec3.x, vec3.y);
 }
+
+void fcFloat8_set242(fcFloat8* self, fcFloat2 vec1, fcFloat4 vec2, fcFloat2 vec3) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, vec3.x, vec3.y);
+}
+
 fcFloat8 fcFloat8_create311111(fcFloat3 vec1, cl_float w, cl_float s4, cl_float s5, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, s5, s6, s7);
 }
+
+void fcFloat8_set311111(fcFloat8* self, fcFloat3 vec1, cl_float w, cl_float s4, cl_float s5, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, s5, s6, s7);
+}
+
 fcFloat8 fcFloat8_create31112(fcFloat3 vec1, cl_float w, cl_float s4, cl_float s5, fcFloat2 vec2) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcFloat8_set31112(fcFloat8* self, fcFloat3 vec1, cl_float w, cl_float s4, cl_float s5, fcFloat2 vec2) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, s5, vec2.x, vec2.y);
+}
+
 fcFloat8 fcFloat8_create31121(fcFloat3 vec1, cl_float w, cl_float s4, fcFloat2 vec2, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcFloat8_set31121(fcFloat8* self, fcFloat3 vec1, cl_float w, cl_float s4, fcFloat2 vec2, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, s7);
+}
+
 fcFloat8 fcFloat8_create3113(fcFloat3 vec1, cl_float w, cl_float s4, fcFloat3 vec2) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcFloat8_set3113(fcFloat8* self, fcFloat3 vec1, cl_float w, cl_float s4, fcFloat3 vec2) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcFloat8 fcFloat8_create31211(fcFloat3 vec1, cl_float w, fcFloat2 vec2, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcFloat8_set31211(fcFloat8* self, fcFloat3 vec1, cl_float w, fcFloat2 vec2, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, s6, s7);
+}
+
 fcFloat8 fcFloat8_create3122(fcFloat3 vec1, cl_float w, fcFloat2 vec2, fcFloat2 vec3) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcFloat8_set3122(fcFloat8* self, fcFloat3 vec1, cl_float w, fcFloat2 vec2, fcFloat2 vec3) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcFloat8 fcFloat8_create3131(fcFloat3 vec1, cl_float w, fcFloat3 vec2, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcFloat8_set3131(fcFloat8* self, fcFloat3 vec1, cl_float w, fcFloat3 vec2, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcFloat8 fcFloat8_create314(fcFloat3 vec1, cl_float w, fcFloat4 vec2) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcFloat8_set314(fcFloat8* self, fcFloat3 vec1, cl_float w, fcFloat4 vec2) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcFloat8 fcFloat8_create32111(fcFloat3 vec1, fcFloat2 vec2, cl_float s5, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, s6, s7);
 }
+
+void fcFloat8_set32111(fcFloat8* self, fcFloat3 vec1, fcFloat2 vec2, cl_float s5, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, s6, s7);
+}
+
 fcFloat8 fcFloat8_create3212(fcFloat3 vec1, fcFloat2 vec2, cl_float s5, fcFloat2 vec3) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
 }
+
+void fcFloat8_set3212(fcFloat8* self, fcFloat3 vec1, fcFloat2 vec2, cl_float s5, fcFloat2 vec3) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
+}
+
 fcFloat8 fcFloat8_create3221(fcFloat3 vec1, fcFloat2 vec2, fcFloat2 vec3, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
 }
+
+void fcFloat8_set3221(fcFloat8* self, fcFloat3 vec1, fcFloat2 vec2, fcFloat2 vec3, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
+}
+
 fcFloat8 fcFloat8_create323(fcFloat3 vec1, fcFloat2 vec2, fcFloat3 vec3) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
 }
+
+void fcFloat8_set323(fcFloat8* self, fcFloat3 vec1, fcFloat2 vec2, fcFloat3 vec3) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
+}
+
 fcFloat8 fcFloat8_create3311(fcFloat3 vec1, fcFloat3 vec2, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s6, s7);
 }
+
+void fcFloat8_set3311(fcFloat8* self, fcFloat3 vec1, fcFloat3 vec2, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s6, s7);
+}
+
 fcFloat8 fcFloat8_create332(fcFloat3 vec1, fcFloat3 vec2, fcFloat2 vec3) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
 }
+
+void fcFloat8_set332(fcFloat8* self, fcFloat3 vec1, fcFloat3 vec2, fcFloat2 vec3) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
+}
+
 fcFloat8 fcFloat8_create341(fcFloat3 vec1, fcFloat4 vec2, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
 }
+
+void fcFloat8_set341(fcFloat8* self, fcFloat3 vec1, fcFloat4 vec2, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
+}
+
 fcFloat8 fcFloat8_create41111(fcFloat4 vec1, cl_float s4, cl_float s5, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, s6, s7);
 }
+
+void fcFloat8_set41111(fcFloat8* self, fcFloat4 vec1, cl_float s4, cl_float s5, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, s6, s7);
+}
+
 fcFloat8 fcFloat8_create4112(fcFloat4 vec1, cl_float s4, cl_float s5, fcFloat2 vec2) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcFloat8_set4112(fcFloat8* self, fcFloat4 vec1, cl_float s4, cl_float s5, fcFloat2 vec2) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, vec2.x, vec2.y);
+}
+
 fcFloat8 fcFloat8_create4121(fcFloat4 vec1, cl_float s4, fcFloat2 vec2, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcFloat8_set4121(fcFloat8* self, fcFloat4 vec1, cl_float s4, fcFloat2 vec2, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, s7);
+}
+
 fcFloat8 fcFloat8_create413(fcFloat4 vec1, cl_float s4, fcFloat3 vec2) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcFloat8_set413(fcFloat8* self, fcFloat4 vec1, cl_float s4, fcFloat3 vec2) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcFloat8 fcFloat8_create4211(fcFloat4 vec1, fcFloat2 vec2, cl_float s6, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcFloat8_set4211(fcFloat8* self, fcFloat4 vec1, fcFloat2 vec2, cl_float s6, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s6, s7);
+}
+
 fcFloat8 fcFloat8_create422(fcFloat4 vec1, fcFloat2 vec2, fcFloat2 vec3) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcFloat8_set422(fcFloat8* self, fcFloat4 vec1, fcFloat2 vec2, fcFloat2 vec3) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcFloat8 fcFloat8_create431(fcFloat4 vec1, fcFloat3 vec2, cl_float s7) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcFloat8_set431(fcFloat8* self, fcFloat4 vec1, fcFloat3 vec2, cl_float s7) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcFloat8 fcFloat8_create44(fcFloat4 vec1, fcFloat4 vec2) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcFloat8_set44(fcFloat8* self, fcFloat4 vec1, fcFloat4 vec2) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcFloat8 fcFloat8_create8(fcFloat8 vec1) {
   return fcFloat8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec1.s4, vec1.s5, vec1.s6, vec1.s7);
+}
+
+void fcFloat8_set8(fcFloat8* self, fcFloat8 vec1) {
+  fcFloat8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec1.s4, vec1.s5, vec1.s6, vec1.s7);
 }
 
 fcFloat4 fcFloat8_odd(fcFloat8 a) {
@@ -8550,6 +11641,10 @@ cl_int fcFloat8_any(fcFloat8 a) {
 
 cl_int fcFloat8_all(fcFloat8 a) {
   return !(a.x == 0.0f || a.y == 0.0f || a.z == 0.0f || a.w == 0.0f || a.s4 == 0.0f || a.s5 == 0.0f || a.s6 == 0.0f || a.s7 == 0.0f);
+}
+
+fcFloat8 fcFloat8_neg(fcFloat8 a) {
+  return fcFloat8_create11111111(-a.x, -a.y, -a.z, -a.w, -a.s4, -a.s5, -a.s6, -a.s7);
 }
 
 fcFloat8 fcFloat8_add(fcFloat8 a, fcFloat8 b) {
@@ -8886,24 +11981,31 @@ fcFloat8 fcFloat8_smoothStepk(fcFloat8 a, fcFloat8 b, cl_float c) {
 // fcDouble2
 //
 
-fcDouble2 fcDouble2_create() {
-  fcDouble2 result = {.s = {0.0}};
-  return result;
-}
-
 fcDouble2 fcDouble2_create1(cl_double v) {
   return fcDouble2_create11(v, v);
 }
 
+void fcDouble2_set1(fcDouble2* self, cl_double v) {
+  fcDouble2_set11(self, v, v);
+}
+
 fcDouble2 fcDouble2_create11(cl_double x, cl_double y) {
   fcDouble2 result;
-  result.x = x;
-  result.y = y;
+  fcDouble2_set11(&result, x, y);
   return result;
+}
+
+void fcDouble2_set11(fcDouble2* self, cl_double x, cl_double y) {
+  self->x = x;
+  self->y = y;
 }
 
 fcDouble2 fcDouble2_create2(fcDouble2 vec1) {
   return fcDouble2_create11(vec1.x, vec1.y);
+}
+
+void fcDouble2_set2(fcDouble2* self, fcDouble2 vec1) {
+  fcDouble2_set11(self, vec1.x, vec1.y);
 }
 
 fcByte2 fcDouble2_convertByte2(fcDouble2 a) {
@@ -8984,6 +12086,10 @@ cl_int fcDouble2_any(fcDouble2 a) {
 
 cl_int fcDouble2_all(fcDouble2 a) {
   return !(a.x == 0.0 || a.y == 0.0);
+}
+
+fcDouble2 fcDouble2_neg(fcDouble2 a) {
+  return fcDouble2_create11(-a.x, -a.y);
 }
 
 fcDouble2 fcDouble2_add(fcDouble2 a, fcDouble2 b) {
@@ -9320,31 +12426,48 @@ fcDouble2 fcDouble2_smoothStepk(fcDouble2 a, fcDouble2 b, cl_double c) {
 // fcDouble3
 //
 
-fcDouble3 fcDouble3_create() {
-  fcDouble3 result = {.s = {0.0}};
-  return result;
-}
-
 fcDouble3 fcDouble3_create1(cl_double v) {
   return fcDouble3_create111(v, v, v);
 }
 
+void fcDouble3_set1(fcDouble3* self, cl_double v) {
+  fcDouble3_set111(self, v, v, v);
+}
+
 fcDouble3 fcDouble3_create111(cl_double x, cl_double y, cl_double z) {
   fcDouble3 result;
-  result.x = x;
-  result.y = y;
-  result.z = z;
+  fcDouble3_set111(&result, x, y, z);
   return result;
+}
+
+void fcDouble3_set111(fcDouble3* self, cl_double x, cl_double y, cl_double z) {
+  self->x = x;
+  self->y = y;
+  self->z = z;
 }
 
 fcDouble3 fcDouble3_create12(cl_double x, fcDouble2 vec1) {
   return fcDouble3_create111(x, vec1.x, vec1.y);
 }
+
+void fcDouble3_set12(fcDouble3* self, cl_double x, fcDouble2 vec1) {
+  fcDouble3_set111(self, x, vec1.x, vec1.y);
+}
+
 fcDouble3 fcDouble3_create21(fcDouble2 vec1, cl_double z) {
   return fcDouble3_create111(vec1.x, vec1.y, z);
 }
+
+void fcDouble3_set21(fcDouble3* self, fcDouble2 vec1, cl_double z) {
+  fcDouble3_set111(self, vec1.x, vec1.y, z);
+}
+
 fcDouble3 fcDouble3_create3(fcDouble3 vec1) {
   return fcDouble3_create111(vec1.x, vec1.y, vec1.z);
+}
+
+void fcDouble3_set3(fcDouble3* self, fcDouble3 vec1) {
+  fcDouble3_set111(self, vec1.x, vec1.y, vec1.z);
 }
 
 fcByte3 fcDouble3_convertByte3(fcDouble3 a) {
@@ -9429,6 +12552,10 @@ cl_int fcDouble3_any(fcDouble3 a) {
 
 cl_int fcDouble3_all(fcDouble3 a) {
   return !(a.x == 0.0 || a.y == 0.0 || a.z == 0.0);
+}
+
+fcDouble3 fcDouble3_neg(fcDouble3 a) {
+  return fcDouble3_create111(-a.x, -a.y, -a.z);
 }
 
 fcDouble3 fcDouble3_add(fcDouble3 a, fcDouble3 b) {
@@ -9772,44 +12899,81 @@ fcDouble3 fcDouble3_smoothStepk(fcDouble3 a, fcDouble3 b, cl_double c) {
 // fcDouble4
 //
 
-fcDouble4 fcDouble4_create() {
-  fcDouble4 result = {.s = {0.0}};
-  return result;
-}
-
 fcDouble4 fcDouble4_create1(cl_double v) {
   return fcDouble4_create1111(v, v, v, v);
 }
 
+void fcDouble4_set1(fcDouble4* self, cl_double v) {
+  fcDouble4_set1111(self, v, v, v, v);
+}
+
 fcDouble4 fcDouble4_create1111(cl_double x, cl_double y, cl_double z, cl_double w) {
   fcDouble4 result;
-  result.x = x;
-  result.y = y;
-  result.z = z;
-  result.w = w;
+  fcDouble4_set1111(&result, x, y, z, w);
   return result;
+}
+
+void fcDouble4_set1111(fcDouble4* self, cl_double x, cl_double y, cl_double z, cl_double w) {
+  self->x = x;
+  self->y = y;
+  self->z = z;
+  self->w = w;
 }
 
 fcDouble4 fcDouble4_create112(cl_double x, cl_double y, fcDouble2 vec1) {
   return fcDouble4_create1111(x, y, vec1.x, vec1.y);
 }
+
+void fcDouble4_set112(fcDouble4* self, cl_double x, cl_double y, fcDouble2 vec1) {
+  fcDouble4_set1111(self, x, y, vec1.x, vec1.y);
+}
+
 fcDouble4 fcDouble4_create121(cl_double x, fcDouble2 vec1, cl_double w) {
   return fcDouble4_create1111(x, vec1.x, vec1.y, w);
 }
+
+void fcDouble4_set121(fcDouble4* self, cl_double x, fcDouble2 vec1, cl_double w) {
+  fcDouble4_set1111(self, x, vec1.x, vec1.y, w);
+}
+
 fcDouble4 fcDouble4_create13(cl_double x, fcDouble3 vec1) {
   return fcDouble4_create1111(x, vec1.x, vec1.y, vec1.z);
 }
+
+void fcDouble4_set13(fcDouble4* self, cl_double x, fcDouble3 vec1) {
+  fcDouble4_set1111(self, x, vec1.x, vec1.y, vec1.z);
+}
+
 fcDouble4 fcDouble4_create211(fcDouble2 vec1, cl_double z, cl_double w) {
   return fcDouble4_create1111(vec1.x, vec1.y, z, w);
 }
+
+void fcDouble4_set211(fcDouble4* self, fcDouble2 vec1, cl_double z, cl_double w) {
+  fcDouble4_set1111(self, vec1.x, vec1.y, z, w);
+}
+
 fcDouble4 fcDouble4_create22(fcDouble2 vec1, fcDouble2 vec2) {
   return fcDouble4_create1111(vec1.x, vec1.y, vec2.x, vec2.y);
 }
+
+void fcDouble4_set22(fcDouble4* self, fcDouble2 vec1, fcDouble2 vec2) {
+  fcDouble4_set1111(self, vec1.x, vec1.y, vec2.x, vec2.y);
+}
+
 fcDouble4 fcDouble4_create31(fcDouble3 vec1, cl_double w) {
   return fcDouble4_create1111(vec1.x, vec1.y, vec1.z, w);
 }
+
+void fcDouble4_set31(fcDouble4* self, fcDouble3 vec1, cl_double w) {
+  fcDouble4_set1111(self, vec1.x, vec1.y, vec1.z, w);
+}
+
 fcDouble4 fcDouble4_create4(fcDouble4 vec1) {
   return fcDouble4_create1111(vec1.x, vec1.y, vec1.z, vec1.w);
+}
+
+void fcDouble4_set4(fcDouble4* self, fcDouble4 vec1) {
+  fcDouble4_set1111(self, vec1.x, vec1.y, vec1.z, vec1.w);
 }
 
 fcDouble2 fcDouble4_odd(fcDouble4 a) {
@@ -9906,6 +13070,10 @@ cl_int fcDouble4_any(fcDouble4 a) {
 
 cl_int fcDouble4_all(fcDouble4 a) {
   return !(a.x == 0.0 || a.y == 0.0 || a.z == 0.0 || a.w == 0.0);
+}
+
+fcDouble4 fcDouble4_neg(fcDouble4 a) {
+  return fcDouble4_create1111(-a.x, -a.y, -a.z, -a.w);
 }
 
 fcDouble4 fcDouble4_add(fcDouble4 a, fcDouble4 b) {
@@ -10249,351 +13417,893 @@ fcDouble4 fcDouble4_smoothStepk(fcDouble4 a, fcDouble4 b, cl_double c) {
 // fcDouble8
 //
 
-fcDouble8 fcDouble8_create() {
-  fcDouble8 result = {.s = {0.0}};
-  return result;
-}
-
 fcDouble8 fcDouble8_create1(cl_double v) {
   return fcDouble8_create11111111(v, v, v, v, v, v, v, v);
 }
 
+void fcDouble8_set1(fcDouble8* self, cl_double v) {
+  fcDouble8_set11111111(self, v, v, v, v, v, v, v, v);
+}
+
 fcDouble8 fcDouble8_create11111111(cl_double x, cl_double y, cl_double z, cl_double w, cl_double s4, cl_double s5, cl_double s6, cl_double s7) {
   fcDouble8 result;
-  result.x = x;
-  result.y = y;
-  result.z = z;
-  result.w = w;
-  result.s4 = s4;
-  result.s5 = s5;
-  result.s6 = s6;
-  result.s7 = s7;
+  fcDouble8_set11111111(&result, x, y, z, w, s4, s5, s6, s7);
   return result;
+}
+
+void fcDouble8_set11111111(fcDouble8* self, cl_double x, cl_double y, cl_double z, cl_double w, cl_double s4, cl_double s5, cl_double s6, cl_double s7) {
+  self->x = x;
+  self->y = y;
+  self->z = z;
+  self->w = w;
+  self->s4 = s4;
+  self->s5 = s5;
+  self->s6 = s6;
+  self->s7 = s7;
 }
 
 fcDouble8 fcDouble8_create1111112(cl_double x, cl_double y, cl_double z, cl_double w, cl_double s4, cl_double s5, fcDouble2 vec1) {
   return fcDouble8_create11111111(x, y, z, w, s4, s5, vec1.x, vec1.y);
 }
+
+void fcDouble8_set1111112(fcDouble8* self, cl_double x, cl_double y, cl_double z, cl_double w, cl_double s4, cl_double s5, fcDouble2 vec1) {
+  fcDouble8_set11111111(self, x, y, z, w, s4, s5, vec1.x, vec1.y);
+}
+
 fcDouble8 fcDouble8_create1111121(cl_double x, cl_double y, cl_double z, cl_double w, cl_double s4, fcDouble2 vec1, cl_double s7) {
   return fcDouble8_create11111111(x, y, z, w, s4, vec1.x, vec1.y, s7);
 }
+
+void fcDouble8_set1111121(fcDouble8* self, cl_double x, cl_double y, cl_double z, cl_double w, cl_double s4, fcDouble2 vec1, cl_double s7) {
+  fcDouble8_set11111111(self, x, y, z, w, s4, vec1.x, vec1.y, s7);
+}
+
 fcDouble8 fcDouble8_create111113(cl_double x, cl_double y, cl_double z, cl_double w, cl_double s4, fcDouble3 vec1) {
   return fcDouble8_create11111111(x, y, z, w, s4, vec1.x, vec1.y, vec1.z);
 }
+
+void fcDouble8_set111113(fcDouble8* self, cl_double x, cl_double y, cl_double z, cl_double w, cl_double s4, fcDouble3 vec1) {
+  fcDouble8_set11111111(self, x, y, z, w, s4, vec1.x, vec1.y, vec1.z);
+}
+
 fcDouble8 fcDouble8_create1111211(cl_double x, cl_double y, cl_double z, cl_double w, fcDouble2 vec1, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(x, y, z, w, vec1.x, vec1.y, s6, s7);
 }
+
+void fcDouble8_set1111211(fcDouble8* self, cl_double x, cl_double y, cl_double z, cl_double w, fcDouble2 vec1, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, x, y, z, w, vec1.x, vec1.y, s6, s7);
+}
+
 fcDouble8 fcDouble8_create111122(cl_double x, cl_double y, cl_double z, cl_double w, fcDouble2 vec1, fcDouble2 vec2) {
   return fcDouble8_create11111111(x, y, z, w, vec1.x, vec1.y, vec2.x, vec2.y);
 }
+
+void fcDouble8_set111122(fcDouble8* self, cl_double x, cl_double y, cl_double z, cl_double w, fcDouble2 vec1, fcDouble2 vec2) {
+  fcDouble8_set11111111(self, x, y, z, w, vec1.x, vec1.y, vec2.x, vec2.y);
+}
+
 fcDouble8 fcDouble8_create111131(cl_double x, cl_double y, cl_double z, cl_double w, fcDouble3 vec1, cl_double s7) {
   return fcDouble8_create11111111(x, y, z, w, vec1.x, vec1.y, vec1.z, s7);
 }
+
+void fcDouble8_set111131(fcDouble8* self, cl_double x, cl_double y, cl_double z, cl_double w, fcDouble3 vec1, cl_double s7) {
+  fcDouble8_set11111111(self, x, y, z, w, vec1.x, vec1.y, vec1.z, s7);
+}
+
 fcDouble8 fcDouble8_create11114(cl_double x, cl_double y, cl_double z, cl_double w, fcDouble4 vec1) {
   return fcDouble8_create11111111(x, y, z, w, vec1.x, vec1.y, vec1.z, vec1.w);
 }
+
+void fcDouble8_set11114(fcDouble8* self, cl_double x, cl_double y, cl_double z, cl_double w, fcDouble4 vec1) {
+  fcDouble8_set11111111(self, x, y, z, w, vec1.x, vec1.y, vec1.z, vec1.w);
+}
+
 fcDouble8 fcDouble8_create1112111(cl_double x, cl_double y, cl_double z, fcDouble2 vec1, cl_double s5, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(x, y, z, vec1.x, vec1.y, s5, s6, s7);
 }
+
+void fcDouble8_set1112111(fcDouble8* self, cl_double x, cl_double y, cl_double z, fcDouble2 vec1, cl_double s5, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, x, y, z, vec1.x, vec1.y, s5, s6, s7);
+}
+
 fcDouble8 fcDouble8_create111212(cl_double x, cl_double y, cl_double z, fcDouble2 vec1, cl_double s5, fcDouble2 vec2) {
   return fcDouble8_create11111111(x, y, z, vec1.x, vec1.y, s5, vec2.x, vec2.y);
 }
+
+void fcDouble8_set111212(fcDouble8* self, cl_double x, cl_double y, cl_double z, fcDouble2 vec1, cl_double s5, fcDouble2 vec2) {
+  fcDouble8_set11111111(self, x, y, z, vec1.x, vec1.y, s5, vec2.x, vec2.y);
+}
+
 fcDouble8 fcDouble8_create111221(cl_double x, cl_double y, cl_double z, fcDouble2 vec1, fcDouble2 vec2, cl_double s7) {
   return fcDouble8_create11111111(x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, s7);
 }
+
+void fcDouble8_set111221(fcDouble8* self, cl_double x, cl_double y, cl_double z, fcDouble2 vec1, fcDouble2 vec2, cl_double s7) {
+  fcDouble8_set11111111(self, x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, s7);
+}
+
 fcDouble8 fcDouble8_create11123(cl_double x, cl_double y, cl_double z, fcDouble2 vec1, fcDouble3 vec2) {
   return fcDouble8_create11111111(x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z);
 }
+
+void fcDouble8_set11123(fcDouble8* self, cl_double x, cl_double y, cl_double z, fcDouble2 vec1, fcDouble3 vec2) {
+  fcDouble8_set11111111(self, x, y, z, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z);
+}
+
 fcDouble8 fcDouble8_create111311(cl_double x, cl_double y, cl_double z, fcDouble3 vec1, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(x, y, z, vec1.x, vec1.y, vec1.z, s6, s7);
 }
+
+void fcDouble8_set111311(fcDouble8* self, cl_double x, cl_double y, cl_double z, fcDouble3 vec1, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, x, y, z, vec1.x, vec1.y, vec1.z, s6, s7);
+}
+
 fcDouble8 fcDouble8_create11132(cl_double x, cl_double y, cl_double z, fcDouble3 vec1, fcDouble2 vec2) {
   return fcDouble8_create11111111(x, y, z, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y);
 }
+
+void fcDouble8_set11132(fcDouble8* self, cl_double x, cl_double y, cl_double z, fcDouble3 vec1, fcDouble2 vec2) {
+  fcDouble8_set11111111(self, x, y, z, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y);
+}
+
 fcDouble8 fcDouble8_create11141(cl_double x, cl_double y, cl_double z, fcDouble4 vec1, cl_double s7) {
   return fcDouble8_create11111111(x, y, z, vec1.x, vec1.y, vec1.z, vec1.w, s7);
 }
+
+void fcDouble8_set11141(fcDouble8* self, cl_double x, cl_double y, cl_double z, fcDouble4 vec1, cl_double s7) {
+  fcDouble8_set11111111(self, x, y, z, vec1.x, vec1.y, vec1.z, vec1.w, s7);
+}
+
 fcDouble8 fcDouble8_create1121111(cl_double x, cl_double y, fcDouble2 vec1, cl_double s4, cl_double s5, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(x, y, vec1.x, vec1.y, s4, s5, s6, s7);
 }
+
+void fcDouble8_set1121111(fcDouble8* self, cl_double x, cl_double y, fcDouble2 vec1, cl_double s4, cl_double s5, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, x, y, vec1.x, vec1.y, s4, s5, s6, s7);
+}
+
 fcDouble8 fcDouble8_create112112(cl_double x, cl_double y, fcDouble2 vec1, cl_double s4, cl_double s5, fcDouble2 vec2) {
   return fcDouble8_create11111111(x, y, vec1.x, vec1.y, s4, s5, vec2.x, vec2.y);
 }
+
+void fcDouble8_set112112(fcDouble8* self, cl_double x, cl_double y, fcDouble2 vec1, cl_double s4, cl_double s5, fcDouble2 vec2) {
+  fcDouble8_set11111111(self, x, y, vec1.x, vec1.y, s4, s5, vec2.x, vec2.y);
+}
+
 fcDouble8 fcDouble8_create112121(cl_double x, cl_double y, fcDouble2 vec1, cl_double s4, fcDouble2 vec2, cl_double s7) {
   return fcDouble8_create11111111(x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, s7);
 }
+
+void fcDouble8_set112121(fcDouble8* self, cl_double x, cl_double y, fcDouble2 vec1, cl_double s4, fcDouble2 vec2, cl_double s7) {
+  fcDouble8_set11111111(self, x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, s7);
+}
+
 fcDouble8 fcDouble8_create11213(cl_double x, cl_double y, fcDouble2 vec1, cl_double s4, fcDouble3 vec2) {
   return fcDouble8_create11111111(x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcDouble8_set11213(fcDouble8* self, cl_double x, cl_double y, fcDouble2 vec1, cl_double s4, fcDouble3 vec2) {
+  fcDouble8_set11111111(self, x, y, vec1.x, vec1.y, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcDouble8 fcDouble8_create112211(cl_double x, cl_double y, fcDouble2 vec1, fcDouble2 vec2, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, s6, s7);
 }
+
+void fcDouble8_set112211(fcDouble8* self, cl_double x, cl_double y, fcDouble2 vec1, fcDouble2 vec2, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, s6, s7);
+}
+
 fcDouble8 fcDouble8_create11222(cl_double x, cl_double y, fcDouble2 vec1, fcDouble2 vec2, fcDouble2 vec3) {
   return fcDouble8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcDouble8_set11222(fcDouble8* self, cl_double x, cl_double y, fcDouble2 vec1, fcDouble2 vec2, fcDouble2 vec3) {
+  fcDouble8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcDouble8 fcDouble8_create11231(cl_double x, cl_double y, fcDouble2 vec1, fcDouble3 vec2, cl_double s7) {
   return fcDouble8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcDouble8_set11231(fcDouble8* self, cl_double x, cl_double y, fcDouble2 vec1, fcDouble3 vec2, cl_double s7) {
+  fcDouble8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcDouble8 fcDouble8_create1124(cl_double x, cl_double y, fcDouble2 vec1, fcDouble4 vec2) {
   return fcDouble8_create11111111(x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcDouble8_set1124(fcDouble8* self, cl_double x, cl_double y, fcDouble2 vec1, fcDouble4 vec2) {
+  fcDouble8_set11111111(self, x, y, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcDouble8 fcDouble8_create113111(cl_double x, cl_double y, fcDouble3 vec1, cl_double s5, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(x, y, vec1.x, vec1.y, vec1.z, s5, s6, s7);
 }
+
+void fcDouble8_set113111(fcDouble8* self, cl_double x, cl_double y, fcDouble3 vec1, cl_double s5, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, s5, s6, s7);
+}
+
 fcDouble8 fcDouble8_create11312(cl_double x, cl_double y, fcDouble3 vec1, cl_double s5, fcDouble2 vec2) {
   return fcDouble8_create11111111(x, y, vec1.x, vec1.y, vec1.z, s5, vec2.x, vec2.y);
 }
+
+void fcDouble8_set11312(fcDouble8* self, cl_double x, cl_double y, fcDouble3 vec1, cl_double s5, fcDouble2 vec2) {
+  fcDouble8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, s5, vec2.x, vec2.y);
+}
+
 fcDouble8 fcDouble8_create11321(cl_double x, cl_double y, fcDouble3 vec1, fcDouble2 vec2, cl_double s7) {
   return fcDouble8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s7);
 }
+
+void fcDouble8_set11321(fcDouble8* self, cl_double x, cl_double y, fcDouble3 vec1, fcDouble2 vec2, cl_double s7) {
+  fcDouble8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s7);
+}
+
 fcDouble8 fcDouble8_create1133(cl_double x, cl_double y, fcDouble3 vec1, fcDouble3 vec2) {
   return fcDouble8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z);
 }
+
+void fcDouble8_set1133(fcDouble8* self, cl_double x, cl_double y, fcDouble3 vec1, fcDouble3 vec2) {
+  fcDouble8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z);
+}
+
 fcDouble8 fcDouble8_create11411(cl_double x, cl_double y, fcDouble4 vec1, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec1.w, s6, s7);
 }
+
+void fcDouble8_set11411(fcDouble8* self, cl_double x, cl_double y, fcDouble4 vec1, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec1.w, s6, s7);
+}
+
 fcDouble8 fcDouble8_create1142(cl_double x, cl_double y, fcDouble4 vec1, fcDouble2 vec2) {
   return fcDouble8_create11111111(x, y, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y);
 }
+
+void fcDouble8_set1142(fcDouble8* self, cl_double x, cl_double y, fcDouble4 vec1, fcDouble2 vec2) {
+  fcDouble8_set11111111(self, x, y, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y);
+}
+
 fcDouble8 fcDouble8_create1211111(cl_double x, fcDouble2 vec1, cl_double w, cl_double s4, cl_double s5, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, w, s4, s5, s6, s7);
 }
+
+void fcDouble8_set1211111(fcDouble8* self, cl_double x, fcDouble2 vec1, cl_double w, cl_double s4, cl_double s5, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, w, s4, s5, s6, s7);
+}
+
 fcDouble8 fcDouble8_create121112(cl_double x, fcDouble2 vec1, cl_double w, cl_double s4, cl_double s5, fcDouble2 vec2) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcDouble8_set121112(fcDouble8* self, cl_double x, fcDouble2 vec1, cl_double w, cl_double s4, cl_double s5, fcDouble2 vec2) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, w, s4, s5, vec2.x, vec2.y);
+}
+
 fcDouble8 fcDouble8_create121121(cl_double x, fcDouble2 vec1, cl_double w, cl_double s4, fcDouble2 vec2, cl_double s7) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcDouble8_set121121(fcDouble8* self, cl_double x, fcDouble2 vec1, cl_double w, cl_double s4, fcDouble2 vec2, cl_double s7) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, s7);
+}
+
 fcDouble8 fcDouble8_create12113(cl_double x, fcDouble2 vec1, cl_double w, cl_double s4, fcDouble3 vec2) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcDouble8_set12113(fcDouble8* self, cl_double x, fcDouble2 vec1, cl_double w, cl_double s4, fcDouble3 vec2) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcDouble8 fcDouble8_create121211(cl_double x, fcDouble2 vec1, cl_double w, fcDouble2 vec2, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcDouble8_set121211(fcDouble8* self, cl_double x, fcDouble2 vec1, cl_double w, fcDouble2 vec2, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, s6, s7);
+}
+
 fcDouble8 fcDouble8_create12122(cl_double x, fcDouble2 vec1, cl_double w, fcDouble2 vec2, fcDouble2 vec3) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcDouble8_set12122(fcDouble8* self, cl_double x, fcDouble2 vec1, cl_double w, fcDouble2 vec2, fcDouble2 vec3) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcDouble8 fcDouble8_create12131(cl_double x, fcDouble2 vec1, cl_double w, fcDouble3 vec2, cl_double s7) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcDouble8_set12131(fcDouble8* self, cl_double x, fcDouble2 vec1, cl_double w, fcDouble3 vec2, cl_double s7) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcDouble8 fcDouble8_create1214(cl_double x, fcDouble2 vec1, cl_double w, fcDouble4 vec2) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcDouble8_set1214(fcDouble8* self, cl_double x, fcDouble2 vec1, cl_double w, fcDouble4 vec2) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcDouble8 fcDouble8_create122111(cl_double x, fcDouble2 vec1, fcDouble2 vec2, cl_double s5, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, s5, s6, s7);
 }
+
+void fcDouble8_set122111(fcDouble8* self, cl_double x, fcDouble2 vec1, fcDouble2 vec2, cl_double s5, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, s5, s6, s7);
+}
+
 fcDouble8 fcDouble8_create12212(cl_double x, fcDouble2 vec1, fcDouble2 vec2, cl_double s5, fcDouble2 vec3) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, s5, vec3.x, vec3.y);
 }
+
+void fcDouble8_set12212(fcDouble8* self, cl_double x, fcDouble2 vec1, fcDouble2 vec2, cl_double s5, fcDouble2 vec3) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, s5, vec3.x, vec3.y);
+}
+
 fcDouble8 fcDouble8_create12221(cl_double x, fcDouble2 vec1, fcDouble2 vec2, fcDouble2 vec3, cl_double s7) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s7);
 }
+
+void fcDouble8_set12221(fcDouble8* self, cl_double x, fcDouble2 vec1, fcDouble2 vec2, fcDouble2 vec3, cl_double s7) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s7);
+}
+
 fcDouble8 fcDouble8_create1223(cl_double x, fcDouble2 vec1, fcDouble2 vec2, fcDouble3 vec3) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
 }
+
+void fcDouble8_set1223(fcDouble8* self, cl_double x, fcDouble2 vec1, fcDouble2 vec2, fcDouble3 vec3) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
+}
+
 fcDouble8 fcDouble8_create12311(cl_double x, fcDouble2 vec1, fcDouble3 vec2, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s6, s7);
 }
+
+void fcDouble8_set12311(fcDouble8* self, cl_double x, fcDouble2 vec1, fcDouble3 vec2, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s6, s7);
+}
+
 fcDouble8 fcDouble8_create1232(cl_double x, fcDouble2 vec1, fcDouble3 vec2, fcDouble2 vec3) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
 }
+
+void fcDouble8_set1232(fcDouble8* self, cl_double x, fcDouble2 vec1, fcDouble3 vec2, fcDouble2 vec3) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
+}
+
 fcDouble8 fcDouble8_create1241(cl_double x, fcDouble2 vec1, fcDouble4 vec2, cl_double s7) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s7);
 }
+
+void fcDouble8_set1241(fcDouble8* self, cl_double x, fcDouble2 vec1, fcDouble4 vec2, cl_double s7) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s7);
+}
+
 fcDouble8 fcDouble8_create131111(cl_double x, fcDouble3 vec1, cl_double s4, cl_double s5, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, s5, s6, s7);
 }
+
+void fcDouble8_set131111(fcDouble8* self, cl_double x, fcDouble3 vec1, cl_double s4, cl_double s5, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, s5, s6, s7);
+}
+
 fcDouble8 fcDouble8_create13112(cl_double x, fcDouble3 vec1, cl_double s4, cl_double s5, fcDouble2 vec2) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, s5, vec2.x, vec2.y);
 }
+
+void fcDouble8_set13112(fcDouble8* self, cl_double x, fcDouble3 vec1, cl_double s4, cl_double s5, fcDouble2 vec2) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, s5, vec2.x, vec2.y);
+}
+
 fcDouble8 fcDouble8_create13121(cl_double x, fcDouble3 vec1, cl_double s4, fcDouble2 vec2, cl_double s7) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, s7);
 }
+
+void fcDouble8_set13121(fcDouble8* self, cl_double x, fcDouble3 vec1, cl_double s4, fcDouble2 vec2, cl_double s7) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, s7);
+}
+
 fcDouble8 fcDouble8_create1313(cl_double x, fcDouble3 vec1, cl_double s4, fcDouble3 vec2) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcDouble8_set1313(fcDouble8* self, cl_double x, fcDouble3 vec1, cl_double s4, fcDouble3 vec2) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, vec1.z, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcDouble8 fcDouble8_create13211(cl_double x, fcDouble3 vec1, fcDouble2 vec2, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s6, s7);
 }
+
+void fcDouble8_set13211(fcDouble8* self, cl_double x, fcDouble3 vec1, fcDouble2 vec2, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s6, s7);
+}
+
 fcDouble8 fcDouble8_create1322(cl_double x, fcDouble3 vec1, fcDouble2 vec2, fcDouble2 vec3) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcDouble8_set1322(fcDouble8* self, cl_double x, fcDouble3 vec1, fcDouble2 vec2, fcDouble2 vec3) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcDouble8 fcDouble8_create1331(cl_double x, fcDouble3 vec1, fcDouble3 vec2, cl_double s7) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcDouble8_set1331(fcDouble8* self, cl_double x, fcDouble3 vec1, fcDouble3 vec2, cl_double s7) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcDouble8 fcDouble8_create134(cl_double x, fcDouble3 vec1, fcDouble4 vec2) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcDouble8_set134(fcDouble8* self, cl_double x, fcDouble3 vec1, fcDouble4 vec2) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcDouble8 fcDouble8_create14111(cl_double x, fcDouble4 vec1, cl_double s5, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, s5, s6, s7);
 }
+
+void fcDouble8_set14111(fcDouble8* self, cl_double x, fcDouble4 vec1, cl_double s5, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, s5, s6, s7);
+}
+
 fcDouble8 fcDouble8_create1412(cl_double x, fcDouble4 vec1, cl_double s5, fcDouble2 vec2) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, s5, vec2.x, vec2.y);
 }
+
+void fcDouble8_set1412(fcDouble8* self, cl_double x, fcDouble4 vec1, cl_double s5, fcDouble2 vec2) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, s5, vec2.x, vec2.y);
+}
+
 fcDouble8 fcDouble8_create1421(cl_double x, fcDouble4 vec1, fcDouble2 vec2, cl_double s7) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s7);
 }
+
+void fcDouble8_set1421(fcDouble8* self, cl_double x, fcDouble4 vec1, fcDouble2 vec2, cl_double s7) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s7);
+}
+
 fcDouble8 fcDouble8_create143(cl_double x, fcDouble4 vec1, fcDouble3 vec2) {
   return fcDouble8_create11111111(x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z);
 }
+
+void fcDouble8_set143(fcDouble8* self, cl_double x, fcDouble4 vec1, fcDouble3 vec2) {
+  fcDouble8_set11111111(self, x, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z);
+}
+
 fcDouble8 fcDouble8_create2111111(fcDouble2 vec1, cl_double z, cl_double w, cl_double s4, cl_double s5, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, z, w, s4, s5, s6, s7);
 }
+
+void fcDouble8_set2111111(fcDouble8* self, fcDouble2 vec1, cl_double z, cl_double w, cl_double s4, cl_double s5, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, z, w, s4, s5, s6, s7);
+}
+
 fcDouble8 fcDouble8_create211112(fcDouble2 vec1, cl_double z, cl_double w, cl_double s4, cl_double s5, fcDouble2 vec2) {
   return fcDouble8_create11111111(vec1.x, vec1.y, z, w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcDouble8_set211112(fcDouble8* self, fcDouble2 vec1, cl_double z, cl_double w, cl_double s4, cl_double s5, fcDouble2 vec2) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, z, w, s4, s5, vec2.x, vec2.y);
+}
+
 fcDouble8 fcDouble8_create211121(fcDouble2 vec1, cl_double z, cl_double w, cl_double s4, fcDouble2 vec2, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcDouble8_set211121(fcDouble8* self, fcDouble2 vec1, cl_double z, cl_double w, cl_double s4, fcDouble2 vec2, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, s7);
+}
+
 fcDouble8 fcDouble8_create21113(fcDouble2 vec1, cl_double z, cl_double w, cl_double s4, fcDouble3 vec2) {
   return fcDouble8_create11111111(vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcDouble8_set21113(fcDouble8* self, fcDouble2 vec1, cl_double z, cl_double w, cl_double s4, fcDouble3 vec2) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, z, w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcDouble8 fcDouble8_create211211(fcDouble2 vec1, cl_double z, cl_double w, fcDouble2 vec2, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcDouble8_set211211(fcDouble8* self, fcDouble2 vec1, cl_double z, cl_double w, fcDouble2 vec2, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, s6, s7);
+}
+
 fcDouble8 fcDouble8_create21122(fcDouble2 vec1, cl_double z, cl_double w, fcDouble2 vec2, fcDouble2 vec3) {
   return fcDouble8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcDouble8_set21122(fcDouble8* self, fcDouble2 vec1, cl_double z, cl_double w, fcDouble2 vec2, fcDouble2 vec3) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcDouble8 fcDouble8_create21131(fcDouble2 vec1, cl_double z, cl_double w, fcDouble3 vec2, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcDouble8_set21131(fcDouble8* self, fcDouble2 vec1, cl_double z, cl_double w, fcDouble3 vec2, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcDouble8 fcDouble8_create2114(fcDouble2 vec1, cl_double z, cl_double w, fcDouble4 vec2) {
   return fcDouble8_create11111111(vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcDouble8_set2114(fcDouble8* self, fcDouble2 vec1, cl_double z, cl_double w, fcDouble4 vec2) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, z, w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcDouble8 fcDouble8_create212111(fcDouble2 vec1, cl_double z, fcDouble2 vec2, cl_double s5, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, s5, s6, s7);
 }
+
+void fcDouble8_set212111(fcDouble8* self, fcDouble2 vec1, cl_double z, fcDouble2 vec2, cl_double s5, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, s5, s6, s7);
+}
+
 fcDouble8 fcDouble8_create21212(fcDouble2 vec1, cl_double z, fcDouble2 vec2, cl_double s5, fcDouble2 vec3) {
   return fcDouble8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
 }
+
+void fcDouble8_set21212(fcDouble8* self, fcDouble2 vec1, cl_double z, fcDouble2 vec2, cl_double s5, fcDouble2 vec3) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
+}
+
 fcDouble8 fcDouble8_create21221(fcDouble2 vec1, cl_double z, fcDouble2 vec2, fcDouble2 vec3, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
 }
+
+void fcDouble8_set21221(fcDouble8* self, fcDouble2 vec1, cl_double z, fcDouble2 vec2, fcDouble2 vec3, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
+}
+
 fcDouble8 fcDouble8_create2123(fcDouble2 vec1, cl_double z, fcDouble2 vec2, fcDouble3 vec3) {
   return fcDouble8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
 }
+
+void fcDouble8_set2123(fcDouble8* self, fcDouble2 vec1, cl_double z, fcDouble2 vec2, fcDouble3 vec3) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
+}
+
 fcDouble8 fcDouble8_create21311(fcDouble2 vec1, cl_double z, fcDouble3 vec2, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, s6, s7);
 }
+
+void fcDouble8_set21311(fcDouble8* self, fcDouble2 vec1, cl_double z, fcDouble3 vec2, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, s6, s7);
+}
+
 fcDouble8 fcDouble8_create2132(fcDouble2 vec1, cl_double z, fcDouble3 vec2, fcDouble2 vec3) {
   return fcDouble8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
 }
+
+void fcDouble8_set2132(fcDouble8* self, fcDouble2 vec1, cl_double z, fcDouble3 vec2, fcDouble2 vec3) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
+}
+
 fcDouble8 fcDouble8_create2141(fcDouble2 vec1, cl_double z, fcDouble4 vec2, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
 }
+
+void fcDouble8_set2141(fcDouble8* self, fcDouble2 vec1, cl_double z, fcDouble4 vec2, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
+}
+
 fcDouble8 fcDouble8_create221111(fcDouble2 vec1, fcDouble2 vec2, cl_double s4, cl_double s5, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, s6, s7);
 }
+
+void fcDouble8_set221111(fcDouble8* self, fcDouble2 vec1, fcDouble2 vec2, cl_double s4, cl_double s5, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, s6, s7);
+}
+
 fcDouble8 fcDouble8_create22112(fcDouble2 vec1, fcDouble2 vec2, cl_double s4, cl_double s5, fcDouble2 vec3) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, vec3.x, vec3.y);
 }
+
+void fcDouble8_set22112(fcDouble8* self, fcDouble2 vec1, fcDouble2 vec2, cl_double s4, cl_double s5, fcDouble2 vec3) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, s5, vec3.x, vec3.y);
+}
+
 fcDouble8 fcDouble8_create22121(fcDouble2 vec1, fcDouble2 vec2, cl_double s4, fcDouble2 vec3, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, s7);
 }
+
+void fcDouble8_set22121(fcDouble8* self, fcDouble2 vec1, fcDouble2 vec2, cl_double s4, fcDouble2 vec3, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, s7);
+}
+
 fcDouble8 fcDouble8_create2213(fcDouble2 vec1, fcDouble2 vec2, cl_double s4, fcDouble3 vec3) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, vec3.z);
 }
+
+void fcDouble8_set2213(fcDouble8* self, fcDouble2 vec1, fcDouble2 vec2, cl_double s4, fcDouble3 vec3) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, s4, vec3.x, vec3.y, vec3.z);
+}
+
 fcDouble8 fcDouble8_create22211(fcDouble2 vec1, fcDouble2 vec2, fcDouble2 vec3, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s6, s7);
 }
+
+void fcDouble8_set22211(fcDouble8* self, fcDouble2 vec1, fcDouble2 vec2, fcDouble2 vec3, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, s6, s7);
+}
+
 fcDouble8 fcDouble8_create2222(fcDouble2 vec1, fcDouble2 vec2, fcDouble2 vec3, fcDouble2 vec4) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec4.x, vec4.y);
 }
+
+void fcDouble8_set2222(fcDouble8* self, fcDouble2 vec1, fcDouble2 vec2, fcDouble2 vec3, fcDouble2 vec4) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec4.x, vec4.y);
+}
+
 fcDouble8 fcDouble8_create2231(fcDouble2 vec1, fcDouble2 vec2, fcDouble3 vec3, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, s7);
 }
+
+void fcDouble8_set2231(fcDouble8* self, fcDouble2 vec1, fcDouble2 vec2, fcDouble3 vec3, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, s7);
+}
+
 fcDouble8 fcDouble8_create224(fcDouble2 vec1, fcDouble2 vec2, fcDouble4 vec3) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, vec3.w);
 }
+
+void fcDouble8_set224(fcDouble8* self, fcDouble2 vec1, fcDouble2 vec2, fcDouble4 vec3) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z, vec3.w);
+}
+
 fcDouble8 fcDouble8_create23111(fcDouble2 vec1, fcDouble3 vec2, cl_double s5, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, s6, s7);
 }
+
+void fcDouble8_set23111(fcDouble8* self, fcDouble2 vec1, fcDouble3 vec2, cl_double s5, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, s6, s7);
+}
+
 fcDouble8 fcDouble8_create2312(fcDouble2 vec1, fcDouble3 vec2, cl_double s5, fcDouble2 vec3) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, vec3.x, vec3.y);
 }
+
+void fcDouble8_set2312(fcDouble8* self, fcDouble2 vec1, fcDouble3 vec2, cl_double s5, fcDouble2 vec3) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, s5, vec3.x, vec3.y);
+}
+
 fcDouble8 fcDouble8_create2321(fcDouble2 vec1, fcDouble3 vec2, fcDouble2 vec3, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, s7);
 }
+
+void fcDouble8_set2321(fcDouble8* self, fcDouble2 vec1, fcDouble3 vec2, fcDouble2 vec3, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, s7);
+}
+
 fcDouble8 fcDouble8_create233(fcDouble2 vec1, fcDouble3 vec2, fcDouble3 vec3) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, vec3.z);
 }
+
+void fcDouble8_set233(fcDouble8* self, fcDouble2 vec1, fcDouble3 vec2, fcDouble3 vec3) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y, vec3.z);
+}
+
 fcDouble8 fcDouble8_create2411(fcDouble2 vec1, fcDouble4 vec2, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s6, s7);
 }
+
+void fcDouble8_set2411(fcDouble8* self, fcDouble2 vec1, fcDouble4 vec2, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, s6, s7);
+}
+
 fcDouble8 fcDouble8_create242(fcDouble2 vec1, fcDouble4 vec2, fcDouble2 vec3) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, vec3.x, vec3.y);
 }
+
+void fcDouble8_set242(fcDouble8* self, fcDouble2 vec1, fcDouble4 vec2, fcDouble2 vec3) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec2.x, vec2.y, vec2.z, vec2.w, vec3.x, vec3.y);
+}
+
 fcDouble8 fcDouble8_create311111(fcDouble3 vec1, cl_double w, cl_double s4, cl_double s5, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, s5, s6, s7);
 }
+
+void fcDouble8_set311111(fcDouble8* self, fcDouble3 vec1, cl_double w, cl_double s4, cl_double s5, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, s5, s6, s7);
+}
+
 fcDouble8 fcDouble8_create31112(fcDouble3 vec1, cl_double w, cl_double s4, cl_double s5, fcDouble2 vec2) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcDouble8_set31112(fcDouble8* self, fcDouble3 vec1, cl_double w, cl_double s4, cl_double s5, fcDouble2 vec2) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, s5, vec2.x, vec2.y);
+}
+
 fcDouble8 fcDouble8_create31121(fcDouble3 vec1, cl_double w, cl_double s4, fcDouble2 vec2, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcDouble8_set31121(fcDouble8* self, fcDouble3 vec1, cl_double w, cl_double s4, fcDouble2 vec2, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, s7);
+}
+
 fcDouble8 fcDouble8_create3113(fcDouble3 vec1, cl_double w, cl_double s4, fcDouble3 vec2) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcDouble8_set3113(fcDouble8* self, fcDouble3 vec1, cl_double w, cl_double s4, fcDouble3 vec2) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcDouble8 fcDouble8_create31211(fcDouble3 vec1, cl_double w, fcDouble2 vec2, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcDouble8_set31211(fcDouble8* self, fcDouble3 vec1, cl_double w, fcDouble2 vec2, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, s6, s7);
+}
+
 fcDouble8 fcDouble8_create3122(fcDouble3 vec1, cl_double w, fcDouble2 vec2, fcDouble2 vec3) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcDouble8_set3122(fcDouble8* self, fcDouble3 vec1, cl_double w, fcDouble2 vec2, fcDouble2 vec3) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcDouble8 fcDouble8_create3131(fcDouble3 vec1, cl_double w, fcDouble3 vec2, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcDouble8_set3131(fcDouble8* self, fcDouble3 vec1, cl_double w, fcDouble3 vec2, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcDouble8 fcDouble8_create314(fcDouble3 vec1, cl_double w, fcDouble4 vec2) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcDouble8_set314(fcDouble8* self, fcDouble3 vec1, cl_double w, fcDouble4 vec2) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcDouble8 fcDouble8_create32111(fcDouble3 vec1, fcDouble2 vec2, cl_double s5, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, s6, s7);
 }
+
+void fcDouble8_set32111(fcDouble8* self, fcDouble3 vec1, fcDouble2 vec2, cl_double s5, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, s6, s7);
+}
+
 fcDouble8 fcDouble8_create3212(fcDouble3 vec1, fcDouble2 vec2, cl_double s5, fcDouble2 vec3) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
 }
+
+void fcDouble8_set3212(fcDouble8* self, fcDouble3 vec1, fcDouble2 vec2, cl_double s5, fcDouble2 vec3) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, s5, vec3.x, vec3.y);
+}
+
 fcDouble8 fcDouble8_create3221(fcDouble3 vec1, fcDouble2 vec2, fcDouble2 vec3, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
 }
+
+void fcDouble8_set3221(fcDouble8* self, fcDouble3 vec1, fcDouble2 vec2, fcDouble2 vec3, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, s7);
+}
+
 fcDouble8 fcDouble8_create323(fcDouble3 vec1, fcDouble2 vec2, fcDouble3 vec3) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
 }
+
+void fcDouble8_set323(fcDouble8* self, fcDouble3 vec1, fcDouble2 vec2, fcDouble3 vec3) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec3.x, vec3.y, vec3.z);
+}
+
 fcDouble8 fcDouble8_create3311(fcDouble3 vec1, fcDouble3 vec2, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s6, s7);
 }
+
+void fcDouble8_set3311(fcDouble8* self, fcDouble3 vec1, fcDouble3 vec2, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, s6, s7);
+}
+
 fcDouble8 fcDouble8_create332(fcDouble3 vec1, fcDouble3 vec2, fcDouble2 vec3) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
 }
+
+void fcDouble8_set332(fcDouble8* self, fcDouble3 vec1, fcDouble3 vec2, fcDouble2 vec3) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec3.x, vec3.y);
+}
+
 fcDouble8 fcDouble8_create341(fcDouble3 vec1, fcDouble4 vec2, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
 }
+
+void fcDouble8_set341(fcDouble8* self, fcDouble3 vec1, fcDouble4 vec2, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z, vec2.w, s7);
+}
+
 fcDouble8 fcDouble8_create41111(fcDouble4 vec1, cl_double s4, cl_double s5, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, s6, s7);
 }
+
+void fcDouble8_set41111(fcDouble8* self, fcDouble4 vec1, cl_double s4, cl_double s5, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, s6, s7);
+}
+
 fcDouble8 fcDouble8_create4112(fcDouble4 vec1, cl_double s4, cl_double s5, fcDouble2 vec2) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, vec2.x, vec2.y);
 }
+
+void fcDouble8_set4112(fcDouble8* self, fcDouble4 vec1, cl_double s4, cl_double s5, fcDouble2 vec2) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, s5, vec2.x, vec2.y);
+}
+
 fcDouble8 fcDouble8_create4121(fcDouble4 vec1, cl_double s4, fcDouble2 vec2, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, s7);
 }
+
+void fcDouble8_set4121(fcDouble8* self, fcDouble4 vec1, cl_double s4, fcDouble2 vec2, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, s7);
+}
+
 fcDouble8 fcDouble8_create413(fcDouble4 vec1, cl_double s4, fcDouble3 vec2) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, vec2.z);
 }
+
+void fcDouble8_set413(fcDouble8* self, fcDouble4 vec1, cl_double s4, fcDouble3 vec2) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, s4, vec2.x, vec2.y, vec2.z);
+}
+
 fcDouble8 fcDouble8_create4211(fcDouble4 vec1, fcDouble2 vec2, cl_double s6, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s6, s7);
 }
+
+void fcDouble8_set4211(fcDouble8* self, fcDouble4 vec1, fcDouble2 vec2, cl_double s6, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, s6, s7);
+}
+
 fcDouble8 fcDouble8_create422(fcDouble4 vec1, fcDouble2 vec2, fcDouble2 vec3) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec3.x, vec3.y);
 }
+
+void fcDouble8_set422(fcDouble8* self, fcDouble4 vec1, fcDouble2 vec2, fcDouble2 vec3) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec3.x, vec3.y);
+}
+
 fcDouble8 fcDouble8_create431(fcDouble4 vec1, fcDouble3 vec2, cl_double s7) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, s7);
 }
+
+void fcDouble8_set431(fcDouble8* self, fcDouble4 vec1, fcDouble3 vec2, cl_double s7) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, s7);
+}
+
 fcDouble8 fcDouble8_create44(fcDouble4 vec1, fcDouble4 vec2) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, vec2.w);
 }
+
+void fcDouble8_set44(fcDouble8* self, fcDouble4 vec1, fcDouble4 vec2) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec2.x, vec2.y, vec2.z, vec2.w);
+}
+
 fcDouble8 fcDouble8_create8(fcDouble8 vec1) {
   return fcDouble8_create11111111(vec1.x, vec1.y, vec1.z, vec1.w, vec1.s4, vec1.s5, vec1.s6, vec1.s7);
+}
+
+void fcDouble8_set8(fcDouble8* self, fcDouble8 vec1) {
+  fcDouble8_set11111111(self, vec1.x, vec1.y, vec1.z, vec1.w, vec1.s4, vec1.s5, vec1.s6, vec1.s7);
 }
 
 fcDouble4 fcDouble8_odd(fcDouble8 a) {
@@ -10694,6 +14404,10 @@ cl_int fcDouble8_any(fcDouble8 a) {
 
 cl_int fcDouble8_all(fcDouble8 a) {
   return !(a.x == 0.0 || a.y == 0.0 || a.z == 0.0 || a.w == 0.0 || a.s4 == 0.0 || a.s5 == 0.0 || a.s6 == 0.0 || a.s7 == 0.0);
+}
+
+fcDouble8 fcDouble8_neg(fcDouble8 a) {
+  return fcDouble8_create11111111(-a.x, -a.y, -a.z, -a.w, -a.s4, -a.s5, -a.s6, -a.s7);
 }
 
 fcDouble8 fcDouble8_add(fcDouble8 a, fcDouble8 b) {
