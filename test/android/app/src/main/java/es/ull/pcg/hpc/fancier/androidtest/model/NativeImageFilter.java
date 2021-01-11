@@ -13,20 +13,43 @@ public class NativeImageFilter extends ImageFilter {
     System.loadLibrary("filters-lib");
   }
 
+  public enum Version {
+    GPU, CPU
+  }
+
   @SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal"})
   private long nativeInstancePtr = 0L;
 
   private final ImageFilters mKernel;
   private final AssetManager mAssets;
+  private final Version mVersion;
 
   public NativeImageFilter(AssetManager assets, ImageFilters kernel) {
-    mAssets = assets;
     mKernel = kernel;
+    mAssets = assets;
+    mVersion = Version.GPU;
+  }
+
+  public NativeImageFilter(ImageFilters kernel) {
+    mKernel = kernel;
+    mAssets = null;
+    mVersion = Version.CPU;
   }
 
   @Override
   public void setup() {
-    setupImpl(mAssets, mKernel.ordinal());
+    switch (mVersion) {
+    case CPU:
+      setupCpu(mKernel.ordinal());
+      mInput.syncToNative();
+      mOutput.syncToNative();
+      break;
+    case GPU:
+      setupGpu(mAssets, mKernel.ordinal());
+      mInput.syncToOCL();
+      mOutput.syncToOCL();
+      break;
+    }
   }
 
   @Override
@@ -37,8 +60,14 @@ public class NativeImageFilter extends ImageFilter {
     if (output.getConfig() != Bitmap.Config.ARGB_8888)
       Log.e("NativeImageFilter", "Output Bitmap has an unsupported format.");
 
-    // Create output image and execute the filter
-    processImpl(mInput, mOutput);
+    switch (mVersion) {
+    case CPU:
+      processCpu(mInput, mOutput);
+      break;
+    case GPU:
+      processGpu(mInput, mOutput);
+      break;
+    }
 
     mOutput.updateBitmap(output);
   }
@@ -48,12 +77,16 @@ public class NativeImageFilter extends ImageFilter {
     super.release();
 
     if (nativeInstancePtr != 0L)
-      releaseImpl();
+      releaseNative();
   }
 
-  private native void setupImpl(AssetManager assetManager, int kernel);
+  private native void setupGpu(AssetManager assetManager, int kernel);
 
-  private native void processImpl(RGBAImage input, RGBAImage output);
+  private native void setupCpu(int kernel);
 
-  private native void releaseImpl();
+  private native void processGpu(RGBAImage input, RGBAImage output);
+
+  private native void processCpu(RGBAImage input, RGBAImage output);
+
+  private native void releaseNative();
 }

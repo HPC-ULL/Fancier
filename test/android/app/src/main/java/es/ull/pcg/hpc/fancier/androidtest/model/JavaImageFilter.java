@@ -20,15 +20,26 @@ import es.ull.pcg.hpc.fancier.vector.array.Byte4Array;
 
 
 public class JavaImageFilter extends ImageFilter {
+  public enum Version {
+    FANCIER_REF, FANCIER_PERF, BITMAP
+  }
+
   private final ImageFilters mKernel;
+  private final Version mVersion;
+
+  public JavaImageFilter(ImageFilters kernel, Version version) {
+    mKernel = kernel;
+    mVersion = version;
+  }
 
   public JavaImageFilter(ImageFilters kernel) {
-    mKernel = kernel;
+    this(kernel, Version.FANCIER_PERF);
   }
 
   @Override
   public void setup() {
-
+    mInput.syncToNative();
+    mOutput.syncToNative();
   }
 
   @Override
@@ -39,43 +50,131 @@ public class JavaImageFilter extends ImageFilter {
     if (output.getConfig() != Bitmap.Config.ARGB_8888)
       Log.e("NativeImageFilter", "Output Bitmap has an unsupported format.");
 
-    mInput.syncToNative();
-    mOutput.syncToNative();
-
     switch (mKernel) {
     case GRAYSCALE:
-      runGrayscale(mInput, mOutput);
+      switch (mVersion) {
+      case FANCIER_REF:
+        runGrayscaleRef(mInput, mOutput);
+        break;
+      case FANCIER_PERF:
+        runGrayscale(mInput, mOutput);
+        break;
+      case BITMAP:
+        break;
+      }
       break;
     case BLUR:
-      runBlur(mInput, mOutput);
+      switch (mVersion) {
+      case FANCIER_REF:
+        runBlurRef(mInput, mOutput);
+        break;
+      case FANCIER_PERF:
+        runBlur(mInput, mOutput);
+        break;
+      case BITMAP:
+        break;
+      }
       break;
     case CONVOLVE3:
-      runConvolve3(mInput, mOutput);
+      switch (mVersion) {
+      case FANCIER_REF:
+        runConvolve3Ref(mInput, mOutput);
+        break;
+      case FANCIER_PERF:
+        runConvolve3(mInput, mOutput);
+        break;
+      case BITMAP:
+        break;
+      }
       break;
     case CONVOLVE5:
-      runConvolve5(mInput, mOutput);
+      switch (mVersion) {
+      case FANCIER_REF:
+        runConvolve5Ref(mInput, mOutput);
+        break;
+      case FANCIER_PERF:
+        runConvolve5(mInput, mOutput);
+        break;
+      case BITMAP:
+        break;
+      }
       break;
     case BILATERAL:
-      runBilateral(mInput, mOutput);
+      switch (mVersion) {
+      case FANCIER_REF:
+        runBilateralRef(mInput, mOutput);
+        break;
+      case FANCIER_PERF:
+        runBilateral(mInput, mOutput);
+        break;
+      case BITMAP:
+        break;
+      }
       break;
     case MEDIAN:
-      runMedian(mInput, mOutput);
+      switch (mVersion) {
+      case FANCIER_REF:
+        runMedianRef(mInput, mOutput);
+        break;
+      case FANCIER_PERF:
+        runMedian(mInput, mOutput);
+        break;
+      case BITMAP:
+        break;
+      }
       break;
     case CONTRAST:
-      runContrast(mInput, mOutput);
+      switch (mVersion) {
+      case FANCIER_REF:
+        runContrastRef(mInput, mOutput);
+        break;
+      case FANCIER_PERF:
+        runContrast(mInput, mOutput);
+        break;
+      case BITMAP:
+        break;
+      }
       break;
     case FISHEYE:
-      runFisheye(mInput, mOutput);
+      switch (mVersion) {
+      case FANCIER_REF:
+        runFisheyeRef(mInput, mOutput);
+        break;
+      case FANCIER_PERF:
+        runFisheye(mInput, mOutput);
+        break;
+      case BITMAP:
+        break;
+      }
       break;
     case LEVELS:
-      runLevels(mInput, mOutput);
+      switch (mVersion) {
+      case FANCIER_REF:
+        runLevelsRef(mInput, mOutput);
+        break;
+      case FANCIER_PERF:
+        runLevels(mInput, mOutput);
+        break;
+      case BITMAP:
+        break;
+      }
       break;
     case POSTERIZE:
-      runPosterize(mInput, mOutput);
+      switch (mVersion) {
+      case FANCIER_REF:
+        runPosterizeRef(mInput, mOutput);
+        break;
+      case FANCIER_PERF:
+        runPosterize(mInput, mOutput);
+        break;
+      case BITMAP:
+        break;
+      }
       break;
     }
 
-    mOutput.updateBitmap(output);
+    if (mVersion != Version.BITMAP)
+      mOutput.updateBitmap(output);
   }
 
   // Grayscale
@@ -157,9 +256,9 @@ public class JavaImageFilter extends ImageFilter {
 
           if (x <= BLUR_RADIUS || x >= width - BLUR_RADIUS) {
             for (int r = -BLUR_RADIUS; r <= BLUR_RADIUS; ++r) {
-              int x_2 = Math.clamp(x + r, 0, width - 1);
+              int x2 = Math.clamp(x + r, 0, width - 1);
               Float4.add(blurredPixel,
-                         Float4.mul(input.get(x_2, y).convertFloat4(), gaussKernel[kernelIndex++]),
+                         Float4.mul(input.get(x2, y).convertFloat4(), gaussKernel[kernelIndex++]),
                          blurredPixel);
             }
           }
@@ -178,27 +277,27 @@ public class JavaImageFilter extends ImageFilter {
       // Vertical (buffer -> output)
       for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
-          Float4 blurred_pixel = new Float4(0.0f);
-          int kernel_index = 0;
+          Float4 blurredPixel = new Float4(0.0f);
+          int kernelIndex = 0;
 
           if (y <= BLUR_RADIUS || y >= height - BLUR_RADIUS) {
             for (int r = -BLUR_RADIUS; r <= BLUR_RADIUS; ++r) {
-              int y_2 = Math.clamp(y + r, 0, height - 1);
-              Float4.add(blurred_pixel, Float4
-                             .mul(buffer.get(x, y_2).convertFloat4(), gaussKernel[kernel_index++]),
-                         blurred_pixel);
+              int y2 = Math.clamp(y + r, 0, height - 1);
+              Float4.add(blurredPixel, Float4
+                             .mul(buffer.get(x, y2).convertFloat4(), gaussKernel[kernelIndex++]),
+                         blurredPixel);
             }
           }
           else {
             for (int r = -BLUR_RADIUS; r <= BLUR_RADIUS; ++r) {
-              Float4.add(blurred_pixel, Float4
+              Float4.add(blurredPixel, Float4
                              .mul(buffer.get(x, y + r).convertFloat4(),
-                                  gaussKernel[kernel_index++]),
-                         blurred_pixel);
+                                  gaussKernel[kernelIndex++]),
+                         blurredPixel);
             }
           }
 
-          output.set(x, y, blurred_pixel.convertByte4());
+          output.set(x, y, blurredPixel.convertByte4());
         }
       }
     }
@@ -686,21 +785,21 @@ public class JavaImageFilter extends ImageFilter {
         Byte4 out_pixel = new Byte4((byte)(0xff));
 
         for (byte i = 0; Int3.any(Byte3.isEqual(out_pixel.asByte3(), new Byte3((byte)(0xff)))) != 0; i = (byte)((i & 0xff) + 1)) {
-          if ((out_pixel.x & 0xff) == 0xff){
+          if ((out_pixel.x & 0xff) == 0xff) {
             rgb.x += val[i & 0xff].x;
 
             if (rgb.x >= median)
               out_pixel.x = i;
           }
 
-          if ((out_pixel.y & 0xff) == 0xff){
+          if ((out_pixel.y & 0xff) == 0xff) {
             rgb.y += val[i & 0xff].y;
 
             if (rgb.y >= median)
               out_pixel.y = i;
           }
 
-          if ((out_pixel.z & 0xff) == 0xff){
+          if ((out_pixel.z & 0xff) == 0xff) {
             rgb.z += val[i & 0xff].z;
 
             if (rgb.z >= median)

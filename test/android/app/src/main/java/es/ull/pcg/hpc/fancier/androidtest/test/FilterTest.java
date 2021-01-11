@@ -21,9 +21,6 @@ public class FilterTest implements RuntimeTest {
 
   public void setFilter(ImageFilter filter) {
     mFilter = filter;
-
-    if (filter != null)
-      mFilter.setup();
   }
 
   public void setInput(Bitmap input) {
@@ -40,6 +37,7 @@ public class FilterTest implements RuntimeTest {
       throw new RuntimeException("Invalid filter, input or output");
 
     mFilter.setInput(mInput);
+    mFilter.setup();
   }
 
   @Override

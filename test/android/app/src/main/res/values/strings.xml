@@ -39,6 +39,17 @@
         <item>OpenCL: Levels</item>
         <item>OpenCL: Posterize</item>
 
+        <item>Native: Greyscale</item>
+        <item>Native: Gaussian Blur</item>
+        <item>Native: Convolve 3x3</item>
+        <item>Native: Convolve 5x5</item>
+        <item>Native: Bilateral</item>
+        <item>Native: Median Blur</item>
+        <item>Native: Contrast</item>
+        <item>Native: Fisheye</item>
+        <item>Native: Levels</item>
+        <item>Native: Posterize</item>
+
         <item>Java: Greyscale</item>
         <item>Java: Gaussian Blur</item>
         <item>Java: Convolve 3x3</item>
