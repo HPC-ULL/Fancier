@@ -34,3 +34,13 @@ jar {
         }
     }
 }
+
+task sourcesJar (type: Jar, dependsOn: classes) {
+    archiveClassifier = 'sources'
+    from sourceSets.main.allSource
+    if (project.name != 'fancier-core') {
+        from(project(':fancier-core').projectDir.toString() + '/src/main/java') {
+            include '**/*.java'
+        }
+    }
+}

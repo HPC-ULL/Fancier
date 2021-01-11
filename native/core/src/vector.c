@@ -1242,23 +1242,23 @@ void fcByte2_set2(fcByte2* self, fcByte2 vec1) {
 }
 
 fcShort2 fcByte2_convertShort2(fcByte2 a) {
-  return fcShort2_create11((cl_short) a.x, (cl_short) a.y);
+  return fcShort2_create11((cl_short)(a.x & 0xff), (cl_short)(a.y & 0xff));
 }
 
 fcInt2 fcByte2_convertInt2(fcByte2 a) {
-  return fcInt2_create11((cl_int) a.x, (cl_int) a.y);
+  return fcInt2_create11((cl_int)(a.x & 0xff), (cl_int)(a.y & 0xff));
 }
 
 fcLong2 fcByte2_convertLong2(fcByte2 a) {
-  return fcLong2_create11((cl_long) a.x, (cl_long) a.y);
+  return fcLong2_create11((cl_long)(a.x & 0xff), (cl_long)(a.y & 0xff));
 }
 
 fcFloat2 fcByte2_convertFloat2(fcByte2 a) {
-  return fcFloat2_create11((cl_float) a.x, (cl_float) a.y);
+  return fcFloat2_create11((cl_float)(a.x & 0xff), (cl_float)(a.y & 0xff));
 }
 
 fcDouble2 fcByte2_convertDouble2(fcByte2 a) {
-  return fcDouble2_create11((cl_double) a.x, (cl_double) a.y);
+  return fcDouble2_create11((cl_double)(a.x & 0xff), (cl_double)(a.y & 0xff));
 }
 
 fcInt2 fcByte2_isEqual(fcByte2 a, fcByte2 b) {
@@ -1515,23 +1515,23 @@ void fcByte3_set3(fcByte3* self, fcByte3 vec1) {
 }
 
 fcShort3 fcByte3_convertShort3(fcByte3 a) {
-  return fcShort3_create111((cl_short) a.x, (cl_short) a.y, (cl_short) a.z);
+  return fcShort3_create111((cl_short)(a.x & 0xff), (cl_short)(a.y & 0xff), (cl_short)(a.z & 0xff));
 }
 
 fcInt3 fcByte3_convertInt3(fcByte3 a) {
-  return fcInt3_create111((cl_int) a.x, (cl_int) a.y, (cl_int) a.z);
+  return fcInt3_create111((cl_int)(a.x & 0xff), (cl_int)(a.y & 0xff), (cl_int)(a.z & 0xff));
 }
 
 fcLong3 fcByte3_convertLong3(fcByte3 a) {
-  return fcLong3_create111((cl_long) a.x, (cl_long) a.y, (cl_long) a.z);
+  return fcLong3_create111((cl_long)(a.x & 0xff), (cl_long)(a.y & 0xff), (cl_long)(a.z & 0xff));
 }
 
 fcFloat3 fcByte3_convertFloat3(fcByte3 a) {
-  return fcFloat3_create111((cl_float) a.x, (cl_float) a.y, (cl_float) a.z);
+  return fcFloat3_create111((cl_float)(a.x & 0xff), (cl_float)(a.y & 0xff), (cl_float)(a.z & 0xff));
 }
 
 fcDouble3 fcByte3_convertDouble3(fcByte3 a) {
-  return fcDouble3_create111((cl_double) a.x, (cl_double) a.y, (cl_double) a.z);
+  return fcDouble3_create111((cl_double)(a.x & 0xff), (cl_double)(a.y & 0xff), (cl_double)(a.z & 0xff));
 }
 
 fcByte2 fcByte3_asByte2(fcByte3 a) {
@@ -1833,23 +1833,23 @@ fcByte2 fcByte4_even(fcByte4 a) {
 }
 
 fcShort4 fcByte4_convertShort4(fcByte4 a) {
-  return fcShort4_create1111((cl_short) a.x, (cl_short) a.y, (cl_short) a.z, (cl_short) a.w);
+  return fcShort4_create1111((cl_short)(a.x & 0xff), (cl_short)(a.y & 0xff), (cl_short)(a.z & 0xff), (cl_short)(a.w & 0xff));
 }
 
 fcInt4 fcByte4_convertInt4(fcByte4 a) {
-  return fcInt4_create1111((cl_int) a.x, (cl_int) a.y, (cl_int) a.z, (cl_int) a.w);
+  return fcInt4_create1111((cl_int)(a.x & 0xff), (cl_int)(a.y & 0xff), (cl_int)(a.z & 0xff), (cl_int)(a.w & 0xff));
 }
 
 fcLong4 fcByte4_convertLong4(fcByte4 a) {
-  return fcLong4_create1111((cl_long) a.x, (cl_long) a.y, (cl_long) a.z, (cl_long) a.w);
+  return fcLong4_create1111((cl_long)(a.x & 0xff), (cl_long)(a.y & 0xff), (cl_long)(a.z & 0xff), (cl_long)(a.w & 0xff));
 }
 
 fcFloat4 fcByte4_convertFloat4(fcByte4 a) {
-  return fcFloat4_create1111((cl_float) a.x, (cl_float) a.y, (cl_float) a.z, (cl_float) a.w);
+  return fcFloat4_create1111((cl_float)(a.x & 0xff), (cl_float)(a.y & 0xff), (cl_float)(a.z & 0xff), (cl_float)(a.w & 0xff));
 }
 
 fcDouble4 fcByte4_convertDouble4(fcByte4 a) {
-  return fcDouble4_create1111((cl_double) a.x, (cl_double) a.y, (cl_double) a.z, (cl_double) a.w);
+  return fcDouble4_create1111((cl_double)(a.x & 0xff), (cl_double)(a.y & 0xff), (cl_double)(a.z & 0xff), (cl_double)(a.w & 0xff));
 }
 
 fcByte2 fcByte4_asByte2(fcByte4 a) {
@@ -2967,23 +2967,23 @@ fcByte4 fcByte8_even(fcByte8 a) {
 }
 
 fcShort8 fcByte8_convertShort8(fcByte8 a) {
-  return fcShort8_create11111111((cl_short) a.x, (cl_short) a.y, (cl_short) a.z, (cl_short) a.w, (cl_short) a.s4, (cl_short) a.s5, (cl_short) a.s6, (cl_short) a.s7);
+  return fcShort8_create11111111((cl_short)(a.x & 0xff), (cl_short)(a.y & 0xff), (cl_short)(a.z & 0xff), (cl_short)(a.w & 0xff), (cl_short)(a.s4 & 0xff), (cl_short)(a.s5 & 0xff), (cl_short)(a.s6 & 0xff), (cl_short)(a.s7 & 0xff));
 }
 
 fcInt8 fcByte8_convertInt8(fcByte8 a) {
-  return fcInt8_create11111111((cl_int) a.x, (cl_int) a.y, (cl_int) a.z, (cl_int) a.w, (cl_int) a.s4, (cl_int) a.s5, (cl_int) a.s6, (cl_int) a.s7);
+  return fcInt8_create11111111((cl_int)(a.x & 0xff), (cl_int)(a.y & 0xff), (cl_int)(a.z & 0xff), (cl_int)(a.w & 0xff), (cl_int)(a.s4 & 0xff), (cl_int)(a.s5 & 0xff), (cl_int)(a.s6 & 0xff), (cl_int)(a.s7 & 0xff));
 }
 
 fcLong8 fcByte8_convertLong8(fcByte8 a) {
-  return fcLong8_create11111111((cl_long) a.x, (cl_long) a.y, (cl_long) a.z, (cl_long) a.w, (cl_long) a.s4, (cl_long) a.s5, (cl_long) a.s6, (cl_long) a.s7);
+  return fcLong8_create11111111((cl_long)(a.x & 0xff), (cl_long)(a.y & 0xff), (cl_long)(a.z & 0xff), (cl_long)(a.w & 0xff), (cl_long)(a.s4 & 0xff), (cl_long)(a.s5 & 0xff), (cl_long)(a.s6 & 0xff), (cl_long)(a.s7 & 0xff));
 }
 
 fcFloat8 fcByte8_convertFloat8(fcByte8 a) {
-  return fcFloat8_create11111111((cl_float) a.x, (cl_float) a.y, (cl_float) a.z, (cl_float) a.w, (cl_float) a.s4, (cl_float) a.s5, (cl_float) a.s6, (cl_float) a.s7);
+  return fcFloat8_create11111111((cl_float)(a.x & 0xff), (cl_float)(a.y & 0xff), (cl_float)(a.z & 0xff), (cl_float)(a.w & 0xff), (cl_float)(a.s4 & 0xff), (cl_float)(a.s5 & 0xff), (cl_float)(a.s6 & 0xff), (cl_float)(a.s7 & 0xff));
 }
 
 fcDouble8 fcByte8_convertDouble8(fcByte8 a) {
-  return fcDouble8_create11111111((cl_double) a.x, (cl_double) a.y, (cl_double) a.z, (cl_double) a.w, (cl_double) a.s4, (cl_double) a.s5, (cl_double) a.s6, (cl_double) a.s7);
+  return fcDouble8_create11111111((cl_double)(a.x & 0xff), (cl_double)(a.y & 0xff), (cl_double)(a.z & 0xff), (cl_double)(a.w & 0xff), (cl_double)(a.s4 & 0xff), (cl_double)(a.s5 & 0xff), (cl_double)(a.s6 & 0xff), (cl_double)(a.s7 & 0xff));
 }
 
 fcByte2 fcByte8_asByte2(fcByte8 a) {
@@ -3235,23 +3235,23 @@ void fcShort2_set2(fcShort2* self, fcShort2 vec1) {
 }
 
 fcByte2 fcShort2_convertByte2(fcShort2 a) {
-  return fcByte2_create11((cl_byte) a.x, (cl_byte) a.y);
+  return fcByte2_create11((cl_byte)(a.x), (cl_byte)(a.y));
 }
 
 fcInt2 fcShort2_convertInt2(fcShort2 a) {
-  return fcInt2_create11((cl_int) a.x, (cl_int) a.y);
+  return fcInt2_create11((cl_int)(a.x), (cl_int)(a.y));
 }
 
 fcLong2 fcShort2_convertLong2(fcShort2 a) {
-  return fcLong2_create11((cl_long) a.x, (cl_long) a.y);
+  return fcLong2_create11((cl_long)(a.x), (cl_long)(a.y));
 }
 
 fcFloat2 fcShort2_convertFloat2(fcShort2 a) {
-  return fcFloat2_create11((cl_float) a.x, (cl_float) a.y);
+  return fcFloat2_create11((cl_float)(a.x), (cl_float)(a.y));
 }
 
 fcDouble2 fcShort2_convertDouble2(fcShort2 a) {
-  return fcDouble2_create11((cl_double) a.x, (cl_double) a.y);
+  return fcDouble2_create11((cl_double)(a.x), (cl_double)(a.y));
 }
 
 fcInt2 fcShort2_isEqual(fcShort2 a, fcShort2 b) {
@@ -3508,23 +3508,23 @@ void fcShort3_set3(fcShort3* self, fcShort3 vec1) {
 }
 
 fcByte3 fcShort3_convertByte3(fcShort3 a) {
-  return fcByte3_create111((cl_byte) a.x, (cl_byte) a.y, (cl_byte) a.z);
+  return fcByte3_create111((cl_byte)(a.x), (cl_byte)(a.y), (cl_byte)(a.z));
 }
 
 fcInt3 fcShort3_convertInt3(fcShort3 a) {
-  return fcInt3_create111((cl_int) a.x, (cl_int) a.y, (cl_int) a.z);
+  return fcInt3_create111((cl_int)(a.x), (cl_int)(a.y), (cl_int)(a.z));
 }
 
 fcLong3 fcShort3_convertLong3(fcShort3 a) {
-  return fcLong3_create111((cl_long) a.x, (cl_long) a.y, (cl_long) a.z);
+  return fcLong3_create111((cl_long)(a.x), (cl_long)(a.y), (cl_long)(a.z));
 }
 
 fcFloat3 fcShort3_convertFloat3(fcShort3 a) {
-  return fcFloat3_create111((cl_float) a.x, (cl_float) a.y, (cl_float) a.z);
+  return fcFloat3_create111((cl_float)(a.x), (cl_float)(a.y), (cl_float)(a.z));
 }
 
 fcDouble3 fcShort3_convertDouble3(fcShort3 a) {
-  return fcDouble3_create111((cl_double) a.x, (cl_double) a.y, (cl_double) a.z);
+  return fcDouble3_create111((cl_double)(a.x), (cl_double)(a.y), (cl_double)(a.z));
 }
 
 fcShort2 fcShort3_asShort2(fcShort3 a) {
@@ -3826,23 +3826,23 @@ fcShort2 fcShort4_even(fcShort4 a) {
 }
 
 fcByte4 fcShort4_convertByte4(fcShort4 a) {
-  return fcByte4_create1111((cl_byte) a.x, (cl_byte) a.y, (cl_byte) a.z, (cl_byte) a.w);
+  return fcByte4_create1111((cl_byte)(a.x), (cl_byte)(a.y), (cl_byte)(a.z), (cl_byte)(a.w));
 }
 
 fcInt4 fcShort4_convertInt4(fcShort4 a) {
-  return fcInt4_create1111((cl_int) a.x, (cl_int) a.y, (cl_int) a.z, (cl_int) a.w);
+  return fcInt4_create1111((cl_int)(a.x), (cl_int)(a.y), (cl_int)(a.z), (cl_int)(a.w));
 }
 
 fcLong4 fcShort4_convertLong4(fcShort4 a) {
-  return fcLong4_create1111((cl_long) a.x, (cl_long) a.y, (cl_long) a.z, (cl_long) a.w);
+  return fcLong4_create1111((cl_long)(a.x), (cl_long)(a.y), (cl_long)(a.z), (cl_long)(a.w));
 }
 
 fcFloat4 fcShort4_convertFloat4(fcShort4 a) {
-  return fcFloat4_create1111((cl_float) a.x, (cl_float) a.y, (cl_float) a.z, (cl_float) a.w);
+  return fcFloat4_create1111((cl_float)(a.x), (cl_float)(a.y), (cl_float)(a.z), (cl_float)(a.w));
 }
 
 fcDouble4 fcShort4_convertDouble4(fcShort4 a) {
-  return fcDouble4_create1111((cl_double) a.x, (cl_double) a.y, (cl_double) a.z, (cl_double) a.w);
+  return fcDouble4_create1111((cl_double)(a.x), (cl_double)(a.y), (cl_double)(a.z), (cl_double)(a.w));
 }
 
 fcShort2 fcShort4_asShort2(fcShort4 a) {
@@ -4960,23 +4960,23 @@ fcShort4 fcShort8_even(fcShort8 a) {
 }
 
 fcByte8 fcShort8_convertByte8(fcShort8 a) {
-  return fcByte8_create11111111((cl_byte) a.x, (cl_byte) a.y, (cl_byte) a.z, (cl_byte) a.w, (cl_byte) a.s4, (cl_byte) a.s5, (cl_byte) a.s6, (cl_byte) a.s7);
+  return fcByte8_create11111111((cl_byte)(a.x), (cl_byte)(a.y), (cl_byte)(a.z), (cl_byte)(a.w), (cl_byte)(a.s4), (cl_byte)(a.s5), (cl_byte)(a.s6), (cl_byte)(a.s7));
 }
 
 fcInt8 fcShort8_convertInt8(fcShort8 a) {
-  return fcInt8_create11111111((cl_int) a.x, (cl_int) a.y, (cl_int) a.z, (cl_int) a.w, (cl_int) a.s4, (cl_int) a.s5, (cl_int) a.s6, (cl_int) a.s7);
+  return fcInt8_create11111111((cl_int)(a.x), (cl_int)(a.y), (cl_int)(a.z), (cl_int)(a.w), (cl_int)(a.s4), (cl_int)(a.s5), (cl_int)(a.s6), (cl_int)(a.s7));
 }
 
 fcLong8 fcShort8_convertLong8(fcShort8 a) {
-  return fcLong8_create11111111((cl_long) a.x, (cl_long) a.y, (cl_long) a.z, (cl_long) a.w, (cl_long) a.s4, (cl_long) a.s5, (cl_long) a.s6, (cl_long) a.s7);
+  return fcLong8_create11111111((cl_long)(a.x), (cl_long)(a.y), (cl_long)(a.z), (cl_long)(a.w), (cl_long)(a.s4), (cl_long)(a.s5), (cl_long)(a.s6), (cl_long)(a.s7));
 }
 
 fcFloat8 fcShort8_convertFloat8(fcShort8 a) {
-  return fcFloat8_create11111111((cl_float) a.x, (cl_float) a.y, (cl_float) a.z, (cl_float) a.w, (cl_float) a.s4, (cl_float) a.s5, (cl_float) a.s6, (cl_float) a.s7);
+  return fcFloat8_create11111111((cl_float)(a.x), (cl_float)(a.y), (cl_float)(a.z), (cl_float)(a.w), (cl_float)(a.s4), (cl_float)(a.s5), (cl_float)(a.s6), (cl_float)(a.s7));
 }
 
 fcDouble8 fcShort8_convertDouble8(fcShort8 a) {
-  return fcDouble8_create11111111((cl_double) a.x, (cl_double) a.y, (cl_double) a.z, (cl_double) a.w, (cl_double) a.s4, (cl_double) a.s5, (cl_double) a.s6, (cl_double) a.s7);
+  return fcDouble8_create11111111((cl_double)(a.x), (cl_double)(a.y), (cl_double)(a.z), (cl_double)(a.w), (cl_double)(a.s4), (cl_double)(a.s5), (cl_double)(a.s6), (cl_double)(a.s7));
 }
 
 fcShort2 fcShort8_asShort2(fcShort8 a) {
@@ -5228,23 +5228,23 @@ void fcInt2_set2(fcInt2* self, fcInt2 vec1) {
 }
 
 fcByte2 fcInt2_convertByte2(fcInt2 a) {
-  return fcByte2_create11((cl_byte) a.x, (cl_byte) a.y);
+  return fcByte2_create11((cl_byte)(a.x), (cl_byte)(a.y));
 }
 
 fcShort2 fcInt2_convertShort2(fcInt2 a) {
-  return fcShort2_create11((cl_short) a.x, (cl_short) a.y);
+  return fcShort2_create11((cl_short)(a.x), (cl_short)(a.y));
 }
 
 fcLong2 fcInt2_convertLong2(fcInt2 a) {
-  return fcLong2_create11((cl_long) a.x, (cl_long) a.y);
+  return fcLong2_create11((cl_long)(a.x), (cl_long)(a.y));
 }
 
 fcFloat2 fcInt2_convertFloat2(fcInt2 a) {
-  return fcFloat2_create11((cl_float) a.x, (cl_float) a.y);
+  return fcFloat2_create11((cl_float)(a.x), (cl_float)(a.y));
 }
 
 fcDouble2 fcInt2_convertDouble2(fcInt2 a) {
-  return fcDouble2_create11((cl_double) a.x, (cl_double) a.y);
+  return fcDouble2_create11((cl_double)(a.x), (cl_double)(a.y));
 }
 
 fcInt2 fcInt2_isEqual(fcInt2 a, fcInt2 b) {
@@ -5509,23 +5509,23 @@ void fcInt3_set3(fcInt3* self, fcInt3 vec1) {
 }
 
 fcByte3 fcInt3_convertByte3(fcInt3 a) {
-  return fcByte3_create111((cl_byte) a.x, (cl_byte) a.y, (cl_byte) a.z);
+  return fcByte3_create111((cl_byte)(a.x), (cl_byte)(a.y), (cl_byte)(a.z));
 }
 
 fcShort3 fcInt3_convertShort3(fcInt3 a) {
-  return fcShort3_create111((cl_short) a.x, (cl_short) a.y, (cl_short) a.z);
+  return fcShort3_create111((cl_short)(a.x), (cl_short)(a.y), (cl_short)(a.z));
 }
 
 fcLong3 fcInt3_convertLong3(fcInt3 a) {
-  return fcLong3_create111((cl_long) a.x, (cl_long) a.y, (cl_long) a.z);
+  return fcLong3_create111((cl_long)(a.x), (cl_long)(a.y), (cl_long)(a.z));
 }
 
 fcFloat3 fcInt3_convertFloat3(fcInt3 a) {
-  return fcFloat3_create111((cl_float) a.x, (cl_float) a.y, (cl_float) a.z);
+  return fcFloat3_create111((cl_float)(a.x), (cl_float)(a.y), (cl_float)(a.z));
 }
 
 fcDouble3 fcInt3_convertDouble3(fcInt3 a) {
-  return fcDouble3_create111((cl_double) a.x, (cl_double) a.y, (cl_double) a.z);
+  return fcDouble3_create111((cl_double)(a.x), (cl_double)(a.y), (cl_double)(a.z));
 }
 
 fcInt2 fcInt3_asInt2(fcInt3 a) {
@@ -5835,23 +5835,23 @@ fcInt2 fcInt4_even(fcInt4 a) {
 }
 
 fcByte4 fcInt4_convertByte4(fcInt4 a) {
-  return fcByte4_create1111((cl_byte) a.x, (cl_byte) a.y, (cl_byte) a.z, (cl_byte) a.w);
+  return fcByte4_create1111((cl_byte)(a.x), (cl_byte)(a.y), (cl_byte)(a.z), (cl_byte)(a.w));
 }
 
 fcShort4 fcInt4_convertShort4(fcInt4 a) {
-  return fcShort4_create1111((cl_short) a.x, (cl_short) a.y, (cl_short) a.z, (cl_short) a.w);
+  return fcShort4_create1111((cl_short)(a.x), (cl_short)(a.y), (cl_short)(a.z), (cl_short)(a.w));
 }
 
 fcLong4 fcInt4_convertLong4(fcInt4 a) {
-  return fcLong4_create1111((cl_long) a.x, (cl_long) a.y, (cl_long) a.z, (cl_long) a.w);
+  return fcLong4_create1111((cl_long)(a.x), (cl_long)(a.y), (cl_long)(a.z), (cl_long)(a.w));
 }
 
 fcFloat4 fcInt4_convertFloat4(fcInt4 a) {
-  return fcFloat4_create1111((cl_float) a.x, (cl_float) a.y, (cl_float) a.z, (cl_float) a.w);
+  return fcFloat4_create1111((cl_float)(a.x), (cl_float)(a.y), (cl_float)(a.z), (cl_float)(a.w));
 }
 
 fcDouble4 fcInt4_convertDouble4(fcInt4 a) {
-  return fcDouble4_create1111((cl_double) a.x, (cl_double) a.y, (cl_double) a.z, (cl_double) a.w);
+  return fcDouble4_create1111((cl_double)(a.x), (cl_double)(a.y), (cl_double)(a.z), (cl_double)(a.w));
 }
 
 fcInt2 fcInt4_asInt2(fcInt4 a) {
@@ -6977,23 +6977,23 @@ fcInt4 fcInt8_even(fcInt8 a) {
 }
 
 fcByte8 fcInt8_convertByte8(fcInt8 a) {
-  return fcByte8_create11111111((cl_byte) a.x, (cl_byte) a.y, (cl_byte) a.z, (cl_byte) a.w, (cl_byte) a.s4, (cl_byte) a.s5, (cl_byte) a.s6, (cl_byte) a.s7);
+  return fcByte8_create11111111((cl_byte)(a.x), (cl_byte)(a.y), (cl_byte)(a.z), (cl_byte)(a.w), (cl_byte)(a.s4), (cl_byte)(a.s5), (cl_byte)(a.s6), (cl_byte)(a.s7));
 }
 
 fcShort8 fcInt8_convertShort8(fcInt8 a) {
-  return fcShort8_create11111111((cl_short) a.x, (cl_short) a.y, (cl_short) a.z, (cl_short) a.w, (cl_short) a.s4, (cl_short) a.s5, (cl_short) a.s6, (cl_short) a.s7);
+  return fcShort8_create11111111((cl_short)(a.x), (cl_short)(a.y), (cl_short)(a.z), (cl_short)(a.w), (cl_short)(a.s4), (cl_short)(a.s5), (cl_short)(a.s6), (cl_short)(a.s7));
 }
 
 fcLong8 fcInt8_convertLong8(fcInt8 a) {
-  return fcLong8_create11111111((cl_long) a.x, (cl_long) a.y, (cl_long) a.z, (cl_long) a.w, (cl_long) a.s4, (cl_long) a.s5, (cl_long) a.s6, (cl_long) a.s7);
+  return fcLong8_create11111111((cl_long)(a.x), (cl_long)(a.y), (cl_long)(a.z), (cl_long)(a.w), (cl_long)(a.s4), (cl_long)(a.s5), (cl_long)(a.s6), (cl_long)(a.s7));
 }
 
 fcFloat8 fcInt8_convertFloat8(fcInt8 a) {
-  return fcFloat8_create11111111((cl_float) a.x, (cl_float) a.y, (cl_float) a.z, (cl_float) a.w, (cl_float) a.s4, (cl_float) a.s5, (cl_float) a.s6, (cl_float) a.s7);
+  return fcFloat8_create11111111((cl_float)(a.x), (cl_float)(a.y), (cl_float)(a.z), (cl_float)(a.w), (cl_float)(a.s4), (cl_float)(a.s5), (cl_float)(a.s6), (cl_float)(a.s7));
 }
 
 fcDouble8 fcInt8_convertDouble8(fcInt8 a) {
-  return fcDouble8_create11111111((cl_double) a.x, (cl_double) a.y, (cl_double) a.z, (cl_double) a.w, (cl_double) a.s4, (cl_double) a.s5, (cl_double) a.s6, (cl_double) a.s7);
+  return fcDouble8_create11111111((cl_double)(a.x), (cl_double)(a.y), (cl_double)(a.z), (cl_double)(a.w), (cl_double)(a.s4), (cl_double)(a.s5), (cl_double)(a.s6), (cl_double)(a.s7));
 }
 
 fcInt2 fcInt8_asInt2(fcInt8 a) {
@@ -7253,23 +7253,23 @@ void fcLong2_set2(fcLong2* self, fcLong2 vec1) {
 }
 
 fcByte2 fcLong2_convertByte2(fcLong2 a) {
-  return fcByte2_create11((cl_byte) a.x, (cl_byte) a.y);
+  return fcByte2_create11((cl_byte)(a.x), (cl_byte)(a.y));
 }
 
 fcShort2 fcLong2_convertShort2(fcLong2 a) {
-  return fcShort2_create11((cl_short) a.x, (cl_short) a.y);
+  return fcShort2_create11((cl_short)(a.x), (cl_short)(a.y));
 }
 
 fcInt2 fcLong2_convertInt2(fcLong2 a) {
-  return fcInt2_create11((cl_int) a.x, (cl_int) a.y);
+  return fcInt2_create11((cl_int)(a.x), (cl_int)(a.y));
 }
 
 fcFloat2 fcLong2_convertFloat2(fcLong2 a) {
-  return fcFloat2_create11((cl_float) a.x, (cl_float) a.y);
+  return fcFloat2_create11((cl_float)(a.x), (cl_float)(a.y));
 }
 
 fcDouble2 fcLong2_convertDouble2(fcLong2 a) {
-  return fcDouble2_create11((cl_double) a.x, (cl_double) a.y);
+  return fcDouble2_create11((cl_double)(a.x), (cl_double)(a.y));
 }
 
 fcInt2 fcLong2_isEqual(fcLong2 a, fcLong2 b) {
@@ -7526,23 +7526,23 @@ void fcLong3_set3(fcLong3* self, fcLong3 vec1) {
 }
 
 fcByte3 fcLong3_convertByte3(fcLong3 a) {
-  return fcByte3_create111((cl_byte) a.x, (cl_byte) a.y, (cl_byte) a.z);
+  return fcByte3_create111((cl_byte)(a.x), (cl_byte)(a.y), (cl_byte)(a.z));
 }
 
 fcShort3 fcLong3_convertShort3(fcLong3 a) {
-  return fcShort3_create111((cl_short) a.x, (cl_short) a.y, (cl_short) a.z);
+  return fcShort3_create111((cl_short)(a.x), (cl_short)(a.y), (cl_short)(a.z));
 }
 
 fcInt3 fcLong3_convertInt3(fcLong3 a) {
-  return fcInt3_create111((cl_int) a.x, (cl_int) a.y, (cl_int) a.z);
+  return fcInt3_create111((cl_int)(a.x), (cl_int)(a.y), (cl_int)(a.z));
 }
 
 fcFloat3 fcLong3_convertFloat3(fcLong3 a) {
-  return fcFloat3_create111((cl_float) a.x, (cl_float) a.y, (cl_float) a.z);
+  return fcFloat3_create111((cl_float)(a.x), (cl_float)(a.y), (cl_float)(a.z));
 }
 
 fcDouble3 fcLong3_convertDouble3(fcLong3 a) {
-  return fcDouble3_create111((cl_double) a.x, (cl_double) a.y, (cl_double) a.z);
+  return fcDouble3_create111((cl_double)(a.x), (cl_double)(a.y), (cl_double)(a.z));
 }
 
 fcLong2 fcLong3_asLong2(fcLong3 a) {
@@ -7844,23 +7844,23 @@ fcLong2 fcLong4_even(fcLong4 a) {
 }
 
 fcByte4 fcLong4_convertByte4(fcLong4 a) {
-  return fcByte4_create1111((cl_byte) a.x, (cl_byte) a.y, (cl_byte) a.z, (cl_byte) a.w);
+  return fcByte4_create1111((cl_byte)(a.x), (cl_byte)(a.y), (cl_byte)(a.z), (cl_byte)(a.w));
 }
 
 fcShort4 fcLong4_convertShort4(fcLong4 a) {
-  return fcShort4_create1111((cl_short) a.x, (cl_short) a.y, (cl_short) a.z, (cl_short) a.w);
+  return fcShort4_create1111((cl_short)(a.x), (cl_short)(a.y), (cl_short)(a.z), (cl_short)(a.w));
 }
 
 fcInt4 fcLong4_convertInt4(fcLong4 a) {
-  return fcInt4_create1111((cl_int) a.x, (cl_int) a.y, (cl_int) a.z, (cl_int) a.w);
+  return fcInt4_create1111((cl_int)(a.x), (cl_int)(a.y), (cl_int)(a.z), (cl_int)(a.w));
 }
 
 fcFloat4 fcLong4_convertFloat4(fcLong4 a) {
-  return fcFloat4_create1111((cl_float) a.x, (cl_float) a.y, (cl_float) a.z, (cl_float) a.w);
+  return fcFloat4_create1111((cl_float)(a.x), (cl_float)(a.y), (cl_float)(a.z), (cl_float)(a.w));
 }
 
 fcDouble4 fcLong4_convertDouble4(fcLong4 a) {
-  return fcDouble4_create1111((cl_double) a.x, (cl_double) a.y, (cl_double) a.z, (cl_double) a.w);
+  return fcDouble4_create1111((cl_double)(a.x), (cl_double)(a.y), (cl_double)(a.z), (cl_double)(a.w));
 }
 
 fcLong2 fcLong4_asLong2(fcLong4 a) {
@@ -8978,23 +8978,23 @@ fcLong4 fcLong8_even(fcLong8 a) {
 }
 
 fcByte8 fcLong8_convertByte8(fcLong8 a) {
-  return fcByte8_create11111111((cl_byte) a.x, (cl_byte) a.y, (cl_byte) a.z, (cl_byte) a.w, (cl_byte) a.s4, (cl_byte) a.s5, (cl_byte) a.s6, (cl_byte) a.s7);
+  return fcByte8_create11111111((cl_byte)(a.x), (cl_byte)(a.y), (cl_byte)(a.z), (cl_byte)(a.w), (cl_byte)(a.s4), (cl_byte)(a.s5), (cl_byte)(a.s6), (cl_byte)(a.s7));
 }
 
 fcShort8 fcLong8_convertShort8(fcLong8 a) {
-  return fcShort8_create11111111((cl_short) a.x, (cl_short) a.y, (cl_short) a.z, (cl_short) a.w, (cl_short) a.s4, (cl_short) a.s5, (cl_short) a.s6, (cl_short) a.s7);
+  return fcShort8_create11111111((cl_short)(a.x), (cl_short)(a.y), (cl_short)(a.z), (cl_short)(a.w), (cl_short)(a.s4), (cl_short)(a.s5), (cl_short)(a.s6), (cl_short)(a.s7));
 }
 
 fcInt8 fcLong8_convertInt8(fcLong8 a) {
-  return fcInt8_create11111111((cl_int) a.x, (cl_int) a.y, (cl_int) a.z, (cl_int) a.w, (cl_int) a.s4, (cl_int) a.s5, (cl_int) a.s6, (cl_int) a.s7);
+  return fcInt8_create11111111((cl_int)(a.x), (cl_int)(a.y), (cl_int)(a.z), (cl_int)(a.w), (cl_int)(a.s4), (cl_int)(a.s5), (cl_int)(a.s6), (cl_int)(a.s7));
 }
 
 fcFloat8 fcLong8_convertFloat8(fcLong8 a) {
-  return fcFloat8_create11111111((cl_float) a.x, (cl_float) a.y, (cl_float) a.z, (cl_float) a.w, (cl_float) a.s4, (cl_float) a.s5, (cl_float) a.s6, (cl_float) a.s7);
+  return fcFloat8_create11111111((cl_float)(a.x), (cl_float)(a.y), (cl_float)(a.z), (cl_float)(a.w), (cl_float)(a.s4), (cl_float)(a.s5), (cl_float)(a.s6), (cl_float)(a.s7));
 }
 
 fcDouble8 fcLong8_convertDouble8(fcLong8 a) {
-  return fcDouble8_create11111111((cl_double) a.x, (cl_double) a.y, (cl_double) a.z, (cl_double) a.w, (cl_double) a.s4, (cl_double) a.s5, (cl_double) a.s6, (cl_double) a.s7);
+  return fcDouble8_create11111111((cl_double)(a.x), (cl_double)(a.y), (cl_double)(a.z), (cl_double)(a.w), (cl_double)(a.s4), (cl_double)(a.s5), (cl_double)(a.s6), (cl_double)(a.s7));
 }
 
 fcLong2 fcLong8_asLong2(fcLong8 a) {
@@ -9246,23 +9246,23 @@ void fcFloat2_set2(fcFloat2* self, fcFloat2 vec1) {
 }
 
 fcByte2 fcFloat2_convertByte2(fcFloat2 a) {
-  return fcByte2_create11((cl_byte) a.x, (cl_byte) a.y);
+  return fcByte2_create11((cl_byte)(a.x), (cl_byte)(a.y));
 }
 
 fcShort2 fcFloat2_convertShort2(fcFloat2 a) {
-  return fcShort2_create11((cl_short) a.x, (cl_short) a.y);
+  return fcShort2_create11((cl_short)(a.x), (cl_short)(a.y));
 }
 
 fcInt2 fcFloat2_convertInt2(fcFloat2 a) {
-  return fcInt2_create11((cl_int) a.x, (cl_int) a.y);
+  return fcInt2_create11((cl_int)(a.x), (cl_int)(a.y));
 }
 
 fcLong2 fcFloat2_convertLong2(fcFloat2 a) {
-  return fcLong2_create11((cl_long) a.x, (cl_long) a.y);
+  return fcLong2_create11((cl_long)(a.x), (cl_long)(a.y));
 }
 
 fcDouble2 fcFloat2_convertDouble2(fcFloat2 a) {
-  return fcDouble2_create11((cl_double) a.x, (cl_double) a.y);
+  return fcDouble2_create11((cl_double)(a.x), (cl_double)(a.y));
 }
 
 fcInt2 fcFloat2_isEqual(fcFloat2 a, fcFloat2 b) {
@@ -9708,23 +9708,23 @@ void fcFloat3_set3(fcFloat3* self, fcFloat3 vec1) {
 }
 
 fcByte3 fcFloat3_convertByte3(fcFloat3 a) {
-  return fcByte3_create111((cl_byte) a.x, (cl_byte) a.y, (cl_byte) a.z);
+  return fcByte3_create111((cl_byte)(a.x), (cl_byte)(a.y), (cl_byte)(a.z));
 }
 
 fcShort3 fcFloat3_convertShort3(fcFloat3 a) {
-  return fcShort3_create111((cl_short) a.x, (cl_short) a.y, (cl_short) a.z);
+  return fcShort3_create111((cl_short)(a.x), (cl_short)(a.y), (cl_short)(a.z));
 }
 
 fcInt3 fcFloat3_convertInt3(fcFloat3 a) {
-  return fcInt3_create111((cl_int) a.x, (cl_int) a.y, (cl_int) a.z);
+  return fcInt3_create111((cl_int)(a.x), (cl_int)(a.y), (cl_int)(a.z));
 }
 
 fcLong3 fcFloat3_convertLong3(fcFloat3 a) {
-  return fcLong3_create111((cl_long) a.x, (cl_long) a.y, (cl_long) a.z);
+  return fcLong3_create111((cl_long)(a.x), (cl_long)(a.y), (cl_long)(a.z));
 }
 
 fcDouble3 fcFloat3_convertDouble3(fcFloat3 a) {
-  return fcDouble3_create111((cl_double) a.x, (cl_double) a.y, (cl_double) a.z);
+  return fcDouble3_create111((cl_double)(a.x), (cl_double)(a.y), (cl_double)(a.z));
 }
 
 fcFloat2 fcFloat3_asFloat2(fcFloat3 a) {
@@ -10222,23 +10222,23 @@ fcFloat2 fcFloat4_even(fcFloat4 a) {
 }
 
 fcByte4 fcFloat4_convertByte4(fcFloat4 a) {
-  return fcByte4_create1111((cl_byte) a.x, (cl_byte) a.y, (cl_byte) a.z, (cl_byte) a.w);
+  return fcByte4_create1111((cl_byte)(a.x), (cl_byte)(a.y), (cl_byte)(a.z), (cl_byte)(a.w));
 }
 
 fcShort4 fcFloat4_convertShort4(fcFloat4 a) {
-  return fcShort4_create1111((cl_short) a.x, (cl_short) a.y, (cl_short) a.z, (cl_short) a.w);
+  return fcShort4_create1111((cl_short)(a.x), (cl_short)(a.y), (cl_short)(a.z), (cl_short)(a.w));
 }
 
 fcInt4 fcFloat4_convertInt4(fcFloat4 a) {
-  return fcInt4_create1111((cl_int) a.x, (cl_int) a.y, (cl_int) a.z, (cl_int) a.w);
+  return fcInt4_create1111((cl_int)(a.x), (cl_int)(a.y), (cl_int)(a.z), (cl_int)(a.w));
 }
 
 fcLong4 fcFloat4_convertLong4(fcFloat4 a) {
-  return fcLong4_create1111((cl_long) a.x, (cl_long) a.y, (cl_long) a.z, (cl_long) a.w);
+  return fcLong4_create1111((cl_long)(a.x), (cl_long)(a.y), (cl_long)(a.z), (cl_long)(a.w));
 }
 
 fcDouble4 fcFloat4_convertDouble4(fcFloat4 a) {
-  return fcDouble4_create1111((cl_double) a.x, (cl_double) a.y, (cl_double) a.z, (cl_double) a.w);
+  return fcDouble4_create1111((cl_double)(a.x), (cl_double)(a.y), (cl_double)(a.z), (cl_double)(a.w));
 }
 
 fcFloat2 fcFloat4_asFloat2(fcFloat4 a) {
@@ -11552,23 +11552,23 @@ fcFloat4 fcFloat8_even(fcFloat8 a) {
 }
 
 fcByte8 fcFloat8_convertByte8(fcFloat8 a) {
-  return fcByte8_create11111111((cl_byte) a.x, (cl_byte) a.y, (cl_byte) a.z, (cl_byte) a.w, (cl_byte) a.s4, (cl_byte) a.s5, (cl_byte) a.s6, (cl_byte) a.s7);
+  return fcByte8_create11111111((cl_byte)(a.x), (cl_byte)(a.y), (cl_byte)(a.z), (cl_byte)(a.w), (cl_byte)(a.s4), (cl_byte)(a.s5), (cl_byte)(a.s6), (cl_byte)(a.s7));
 }
 
 fcShort8 fcFloat8_convertShort8(fcFloat8 a) {
-  return fcShort8_create11111111((cl_short) a.x, (cl_short) a.y, (cl_short) a.z, (cl_short) a.w, (cl_short) a.s4, (cl_short) a.s5, (cl_short) a.s6, (cl_short) a.s7);
+  return fcShort8_create11111111((cl_short)(a.x), (cl_short)(a.y), (cl_short)(a.z), (cl_short)(a.w), (cl_short)(a.s4), (cl_short)(a.s5), (cl_short)(a.s6), (cl_short)(a.s7));
 }
 
 fcInt8 fcFloat8_convertInt8(fcFloat8 a) {
-  return fcInt8_create11111111((cl_int) a.x, (cl_int) a.y, (cl_int) a.z, (cl_int) a.w, (cl_int) a.s4, (cl_int) a.s5, (cl_int) a.s6, (cl_int) a.s7);
+  return fcInt8_create11111111((cl_int)(a.x), (cl_int)(a.y), (cl_int)(a.z), (cl_int)(a.w), (cl_int)(a.s4), (cl_int)(a.s5), (cl_int)(a.s6), (cl_int)(a.s7));
 }
 
 fcLong8 fcFloat8_convertLong8(fcFloat8 a) {
-  return fcLong8_create11111111((cl_long) a.x, (cl_long) a.y, (cl_long) a.z, (cl_long) a.w, (cl_long) a.s4, (cl_long) a.s5, (cl_long) a.s6, (cl_long) a.s7);
+  return fcLong8_create11111111((cl_long)(a.x), (cl_long)(a.y), (cl_long)(a.z), (cl_long)(a.w), (cl_long)(a.s4), (cl_long)(a.s5), (cl_long)(a.s6), (cl_long)(a.s7));
 }
 
 fcDouble8 fcFloat8_convertDouble8(fcFloat8 a) {
-  return fcDouble8_create11111111((cl_double) a.x, (cl_double) a.y, (cl_double) a.z, (cl_double) a.w, (cl_double) a.s4, (cl_double) a.s5, (cl_double) a.s6, (cl_double) a.s7);
+  return fcDouble8_create11111111((cl_double)(a.x), (cl_double)(a.y), (cl_double)(a.z), (cl_double)(a.w), (cl_double)(a.s4), (cl_double)(a.s5), (cl_double)(a.s6), (cl_double)(a.s7));
 }
 
 fcFloat2 fcFloat8_asFloat2(fcFloat8 a) {
@@ -12009,23 +12009,23 @@ void fcDouble2_set2(fcDouble2* self, fcDouble2 vec1) {
 }
 
 fcByte2 fcDouble2_convertByte2(fcDouble2 a) {
-  return fcByte2_create11((cl_byte) a.x, (cl_byte) a.y);
+  return fcByte2_create11((cl_byte)(a.x), (cl_byte)(a.y));
 }
 
 fcShort2 fcDouble2_convertShort2(fcDouble2 a) {
-  return fcShort2_create11((cl_short) a.x, (cl_short) a.y);
+  return fcShort2_create11((cl_short)(a.x), (cl_short)(a.y));
 }
 
 fcInt2 fcDouble2_convertInt2(fcDouble2 a) {
-  return fcInt2_create11((cl_int) a.x, (cl_int) a.y);
+  return fcInt2_create11((cl_int)(a.x), (cl_int)(a.y));
 }
 
 fcLong2 fcDouble2_convertLong2(fcDouble2 a) {
-  return fcLong2_create11((cl_long) a.x, (cl_long) a.y);
+  return fcLong2_create11((cl_long)(a.x), (cl_long)(a.y));
 }
 
 fcFloat2 fcDouble2_convertFloat2(fcDouble2 a) {
-  return fcFloat2_create11((cl_float) a.x, (cl_float) a.y);
+  return fcFloat2_create11((cl_float)(a.x), (cl_float)(a.y));
 }
 
 fcInt2 fcDouble2_isEqual(fcDouble2 a, fcDouble2 b) {
@@ -12471,23 +12471,23 @@ void fcDouble3_set3(fcDouble3* self, fcDouble3 vec1) {
 }
 
 fcByte3 fcDouble3_convertByte3(fcDouble3 a) {
-  return fcByte3_create111((cl_byte) a.x, (cl_byte) a.y, (cl_byte) a.z);
+  return fcByte3_create111((cl_byte)(a.x), (cl_byte)(a.y), (cl_byte)(a.z));
 }
 
 fcShort3 fcDouble3_convertShort3(fcDouble3 a) {
-  return fcShort3_create111((cl_short) a.x, (cl_short) a.y, (cl_short) a.z);
+  return fcShort3_create111((cl_short)(a.x), (cl_short)(a.y), (cl_short)(a.z));
 }
 
 fcInt3 fcDouble3_convertInt3(fcDouble3 a) {
-  return fcInt3_create111((cl_int) a.x, (cl_int) a.y, (cl_int) a.z);
+  return fcInt3_create111((cl_int)(a.x), (cl_int)(a.y), (cl_int)(a.z));
 }
 
 fcLong3 fcDouble3_convertLong3(fcDouble3 a) {
-  return fcLong3_create111((cl_long) a.x, (cl_long) a.y, (cl_long) a.z);
+  return fcLong3_create111((cl_long)(a.x), (cl_long)(a.y), (cl_long)(a.z));
 }
 
 fcFloat3 fcDouble3_convertFloat3(fcDouble3 a) {
-  return fcFloat3_create111((cl_float) a.x, (cl_float) a.y, (cl_float) a.z);
+  return fcFloat3_create111((cl_float)(a.x), (cl_float)(a.y), (cl_float)(a.z));
 }
 
 fcDouble2 fcDouble3_asDouble2(fcDouble3 a) {
@@ -12985,23 +12985,23 @@ fcDouble2 fcDouble4_even(fcDouble4 a) {
 }
 
 fcByte4 fcDouble4_convertByte4(fcDouble4 a) {
-  return fcByte4_create1111((cl_byte) a.x, (cl_byte) a.y, (cl_byte) a.z, (cl_byte) a.w);
+  return fcByte4_create1111((cl_byte)(a.x), (cl_byte)(a.y), (cl_byte)(a.z), (cl_byte)(a.w));
 }
 
 fcShort4 fcDouble4_convertShort4(fcDouble4 a) {
-  return fcShort4_create1111((cl_short) a.x, (cl_short) a.y, (cl_short) a.z, (cl_short) a.w);
+  return fcShort4_create1111((cl_short)(a.x), (cl_short)(a.y), (cl_short)(a.z), (cl_short)(a.w));
 }
 
 fcInt4 fcDouble4_convertInt4(fcDouble4 a) {
-  return fcInt4_create1111((cl_int) a.x, (cl_int) a.y, (cl_int) a.z, (cl_int) a.w);
+  return fcInt4_create1111((cl_int)(a.x), (cl_int)(a.y), (cl_int)(a.z), (cl_int)(a.w));
 }
 
 fcLong4 fcDouble4_convertLong4(fcDouble4 a) {
-  return fcLong4_create1111((cl_long) a.x, (cl_long) a.y, (cl_long) a.z, (cl_long) a.w);
+  return fcLong4_create1111((cl_long)(a.x), (cl_long)(a.y), (cl_long)(a.z), (cl_long)(a.w));
 }
 
 fcFloat4 fcDouble4_convertFloat4(fcDouble4 a) {
-  return fcFloat4_create1111((cl_float) a.x, (cl_float) a.y, (cl_float) a.z, (cl_float) a.w);
+  return fcFloat4_create1111((cl_float)(a.x), (cl_float)(a.y), (cl_float)(a.z), (cl_float)(a.w));
 }
 
 fcDouble2 fcDouble4_asDouble2(fcDouble4 a) {
@@ -14315,23 +14315,23 @@ fcDouble4 fcDouble8_even(fcDouble8 a) {
 }
 
 fcByte8 fcDouble8_convertByte8(fcDouble8 a) {
-  return fcByte8_create11111111((cl_byte) a.x, (cl_byte) a.y, (cl_byte) a.z, (cl_byte) a.w, (cl_byte) a.s4, (cl_byte) a.s5, (cl_byte) a.s6, (cl_byte) a.s7);
+  return fcByte8_create11111111((cl_byte)(a.x), (cl_byte)(a.y), (cl_byte)(a.z), (cl_byte)(a.w), (cl_byte)(a.s4), (cl_byte)(a.s5), (cl_byte)(a.s6), (cl_byte)(a.s7));
 }
 
 fcShort8 fcDouble8_convertShort8(fcDouble8 a) {
-  return fcShort8_create11111111((cl_short) a.x, (cl_short) a.y, (cl_short) a.z, (cl_short) a.w, (cl_short) a.s4, (cl_short) a.s5, (cl_short) a.s6, (cl_short) a.s7);
+  return fcShort8_create11111111((cl_short)(a.x), (cl_short)(a.y), (cl_short)(a.z), (cl_short)(a.w), (cl_short)(a.s4), (cl_short)(a.s5), (cl_short)(a.s6), (cl_short)(a.s7));
 }
 
 fcInt8 fcDouble8_convertInt8(fcDouble8 a) {
-  return fcInt8_create11111111((cl_int) a.x, (cl_int) a.y, (cl_int) a.z, (cl_int) a.w, (cl_int) a.s4, (cl_int) a.s5, (cl_int) a.s6, (cl_int) a.s7);
+  return fcInt8_create11111111((cl_int)(a.x), (cl_int)(a.y), (cl_int)(a.z), (cl_int)(a.w), (cl_int)(a.s4), (cl_int)(a.s5), (cl_int)(a.s6), (cl_int)(a.s7));
 }
 
 fcLong8 fcDouble8_convertLong8(fcDouble8 a) {
-  return fcLong8_create11111111((cl_long) a.x, (cl_long) a.y, (cl_long) a.z, (cl_long) a.w, (cl_long) a.s4, (cl_long) a.s5, (cl_long) a.s6, (cl_long) a.s7);
+  return fcLong8_create11111111((cl_long)(a.x), (cl_long)(a.y), (cl_long)(a.z), (cl_long)(a.w), (cl_long)(a.s4), (cl_long)(a.s5), (cl_long)(a.s6), (cl_long)(a.s7));
 }
 
 fcFloat8 fcDouble8_convertFloat8(fcDouble8 a) {
-  return fcFloat8_create11111111((cl_float) a.x, (cl_float) a.y, (cl_float) a.z, (cl_float) a.w, (cl_float) a.s4, (cl_float) a.s5, (cl_float) a.s6, (cl_float) a.s7);
+  return fcFloat8_create11111111((cl_float)(a.x), (cl_float)(a.y), (cl_float)(a.z), (cl_float)(a.w), (cl_float)(a.s4), (cl_float)(a.s5), (cl_float)(a.s6), (cl_float)(a.s7));
 }
 
 fcDouble2 fcDouble8_asDouble2(fcDouble8 a) {

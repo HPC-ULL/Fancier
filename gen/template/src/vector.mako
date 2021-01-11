@@ -204,10 +204,11 @@ fc${type|c}${vlen//2} fc${type|c}${vlen}_even(fc${type|c}${vlen} a) {
 }
 
 % endif
+<% cast_mask = ' & 0xff' if type.lower() == 'byte' else '' %>\
 % for newtype in types:
 % if newtype != type:
 fc${newtype|c}${vlen} fc${type|c}${vlen}_convert${newtype|c}${vlen}(fc${type|c}${vlen} a) {
-  return fc${newtype|c}${vlen}_create${'1' * vlen}(${', '.join([f'(cl_{newtype.lower()}) a.{field}' for field in vfields[:vlen]])});
+  return fc${newtype|c}${vlen}_create${'1' * vlen}(${', '.join([f'(cl_{newtype.lower()})(a.{field}{cast_mask})' for field in vfields[:vlen]])});
 }
 
 % endif
