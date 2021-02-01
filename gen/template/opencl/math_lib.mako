@@ -9,9 +9,18 @@
     else:
       return typed_int_fname(fname, type)
 %>\
+#ifdef cl_khr_fp64
 #pragma OPENCL EXTENSION cl_khr_fp64 : enable
+#endif // cl_khr_fp64
+
+#if defined(__EMBEDDED_PROFILE__) && defined(cles_khr_int64)
+#pragma OPENCL EXTENSION cles_khr_int64 : enable
+#endif // __EMBEDDED_PROFILE__ && cles_khr_int64
 
 % for type in floattypes:
+% if type.lower() == 'double':
+#ifdef cl_khr_fp64
+% endif
 ${type|l} ${typed_float_fname('scalb', type)}(${type|l} a, int scaleFactor) {
   return a * exp2((${type|l}) scaleFactor);
 }
@@ -22,8 +31,15 @@ ${type|l}${vlen} ${type|l}${vlen}_scalb(${type|l}${vlen} a, int${vlen} scaleFact
 }
 
 % endfor
+% if type.lower() == 'double':
+#endif // cl_khr_fp64
+% endif
+
 % endfor
 % for type in inttypes:
+% if type.lower() == 'long':
+#if !defined(__EMBEDDED_PROFILE__) || defined(cles_khr_int64)
+% endif
 ${type|l} ${typed_int_builtin_fname('clamp', type)}(${type|l} a, ${type|l} min, ${type|l} max) {
   return a < min? min : (a > max? max : a);
 }
@@ -42,4 +58,7 @@ ${type|l}${vlen} ${type|l}${vlen}_mix(${type|l}${vlen} x, ${type|l}${vlen} y, ${
 }
 
 % endfor
+% if type.lower() == 'long':
+#endif // !__EMBEDDED_PROFILE__ || cles_khr_int64
+% endif
 % endfor
