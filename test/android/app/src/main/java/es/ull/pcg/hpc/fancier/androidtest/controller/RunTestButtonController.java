@@ -11,16 +11,16 @@ import android.widget.Spinner;
 
 import es.ull.pcg.hpc.fancier.androidtest.R;
 import es.ull.pcg.hpc.fancier.androidtest.activity.MainActivity;
-import es.ull.pcg.hpc.fancier.androidtest.model.TestRunner;
+import es.ull.pcg.hpc.fancier.androidtest.model.FancierTestRunner;
 
 
 public class RunTestButtonController implements View.OnClickListener {
   private final MainActivity mMain;
-  private final TestRunner mRunner;
+  private final FancierTestRunner mRunner;
 
   public RunTestButtonController(MainActivity main) {
     this.mMain = main;
-    this.mRunner = new TestRunner(mMain);
+    this.mRunner = new FancierTestRunner(mMain);
   }
 
   @Override
@@ -33,8 +33,8 @@ public class RunTestButtonController implements View.OnClickListener {
 
     // Show/Hide images depending on the type of test
     View imagesPanel = mMain.findViewById(R.id.imagesPanel);
-    if (selectedTest < TestRunner.Tests.TEST_OCL_GRAYSCALE.ordinal() ||
-        selectedTest == TestRunner.Tests.TEST_RELEASE.ordinal()) {
+    if (selectedTest < FancierTestRunner.Tests.TEST_OCL_GRAYSCALE.ordinal() ||
+        selectedTest == FancierTestRunner.Tests.TEST_RELEASE.ordinal()) {
       imagesPanel.setVisibility(View.GONE);
     }
     else {
@@ -71,6 +71,6 @@ public class RunTestButtonController implements View.OnClickListener {
 
     // Run the test
     final String selectedName = testSpinner.getSelectedItem().toString();
-    mRunner.runTest(TestRunner.Tests.values()[selectedTest], selectedName, inBitmap, outBitmap);
+    mRunner.runTest(FancierTestRunner.Tests.values()[selectedTest], selectedName, inBitmap, outBitmap);
   }
 }

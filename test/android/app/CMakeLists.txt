@@ -57,6 +57,10 @@ add_library( filters-lib
              SHARED
              "${source-dir}/filter/native_filter.c" )
 
+add_library( rancid
+             SHARED
+             "${source-dir}/rancid/rancid.c" )
+
 target_include_directories( test-lib
                             PUBLIC
                             "${include-dir}/test" )
@@ -65,6 +69,10 @@ target_include_directories( filters-lib
                             PUBLIC
                             "${include-dir}/filter" )
 
+target_include_directories( rancid
+                            PUBLIC
+                            "${include-dir}/rancid" )
+
 target_link_libraries( test-lib
                        ${android-lib} ${log-lib} ${jnigraphics-lib}
                        fancier-lib OpenCL )
@@ -72,3 +80,7 @@ target_link_libraries( test-lib
 target_link_libraries( filters-lib
                        ${android-lib} ${log-lib} ${jnigraphics-lib}
                        fancier-lib OpenCL )
+
+target_link_libraries( rancid
+                       ${jnigraphics-lib}
+                       OpenCL )

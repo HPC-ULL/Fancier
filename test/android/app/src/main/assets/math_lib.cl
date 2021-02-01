@@ -1,4 +1,10 @@
+#ifdef cl_khr_fp64
 #pragma OPENCL EXTENSION cl_khr_fp64 : enable
+#endif // cl_khr_fp64
+
+#if defined(__EMBEDDED_PROFILE__) && defined(cles_khr_int64)
+#pragma OPENCL EXTENSION cles_khr_int64 : enable
+#endif // __EMBEDDED_PROFILE__ && cles_khr_int64
 
 float scalbf(float a, int scaleFactor) {
   return a * exp2((float) scaleFactor);
@@ -20,6 +26,8 @@ float8 float8_scalb(float8 a, int8 scaleFactor) {
   return (float8)(scalbf(a.x, scaleFactor.x), scalbf(a.y, scaleFactor.y), scalbf(a.z, scaleFactor.z), scalbf(a.w, scaleFactor.w), scalbf(a.s4, scaleFactor.s4), scalbf(a.s5, scaleFactor.s5), scalbf(a.s6, scaleFactor.s6), scalbf(a.s7, scaleFactor.s7));
 }
 
+
+#ifdef cl_khr_fp64
 double scalb(double a, int scaleFactor) {
   return a * exp2((double) scaleFactor);
 }
@@ -39,6 +47,8 @@ double4 double4_scalb(double4 a, int4 scaleFactor) {
 double8 double8_scalb(double8 a, int8 scaleFactor) {
   return (double8)(scalb(a.x, scaleFactor.x), scalb(a.y, scaleFactor.y), scalb(a.z, scaleFactor.z), scalb(a.w, scaleFactor.w), scalb(a.s4, scaleFactor.s4), scalb(a.s5, scaleFactor.s5), scalb(a.s6, scaleFactor.s6), scalb(a.s7, scaleFactor.s7));
 }
+
+#endif // cl_khr_fp64
 
 char clampc(char a, char min, char max) {
   return a < min? min : (a > max? max : a);
@@ -160,6 +170,7 @@ int8 int8_mix(int8 x, int8 y, int8 a) {
   return (int8)(mixi(x.x, y.x, a.x), mixi(x.y, y.y, a.y), mixi(x.z, y.z, a.z), mixi(x.w, y.w, a.w), mixi(x.s4, y.s4, a.s4), mixi(x.s5, y.s5, a.s5), mixi(x.s6, y.s6, a.s6), mixi(x.s7, y.s7, a.s7));
 }
 
+#if !defined(__EMBEDDED_PROFILE__) || defined(cles_khr_int64)
 long clampl(long a, long min, long max) {
   return a < min? min : (a > max? max : a);
 }
@@ -200,3 +211,4 @@ long8 long8_mix(long8 x, long8 y, long8 a) {
   return (long8)(mixl(x.x, y.x, a.x), mixl(x.y, y.y, a.y), mixl(x.z, y.z, a.z), mixl(x.w, y.w, a.w), mixl(x.s4, y.s4, a.s4), mixl(x.s5, y.s5, a.s5), mixl(x.s6, y.s6, a.s6), mixl(x.s7, y.s7, a.s7));
 }
 
+#endif // !__EMBEDDED_PROFILE__ || cles_khr_int64

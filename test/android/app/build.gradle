@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        'release-sign' {
+            storeFile file('./release-key.jks')
+            storePassword 'fancier'
+            keyPassword 'fancier'
+            keyAlias 'release-key'
+        }
+    }
     compileSdkVersion 29
 
     defaultConfig {
@@ -23,8 +31,27 @@ android {
 
     buildTypes {
         release {
+            // minifyEnable MUST be false or otherwise it won't be able to load JNI libraries
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.'release-sign'
+            debuggable false
+            jniDebuggable false
+            renderscriptDebuggable false
+        }
+        debug {
+            jniDebuggable true
+            debuggable true
+            renderscriptDebuggable true
+            renderscriptOptimLevel 0
+            minifyEnabled false
+        }
+    }
+
+    splits {
+        abi {
+            enable false
+            universalApk true
         }
     }
 
@@ -52,6 +79,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'com.jaredrummler:android-processes:1.1.1'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     testImplementation 'junit:junit:4.13'

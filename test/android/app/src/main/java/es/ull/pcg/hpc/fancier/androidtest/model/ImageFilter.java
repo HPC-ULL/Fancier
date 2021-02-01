@@ -7,9 +7,13 @@ import es.ull.pcg.hpc.fancier.image.RGBAImage;
 
 
 public abstract class ImageFilter implements AutoCloseable {
+  protected Bitmap mBmpIn;
   protected RGBAImage mInput, mOutput;
+  protected ImageFilters mKernel;
 
   public void setInput(Bitmap input) {
+    mBmpIn = input;
+
     if (mInput != null) {
       if (input.getWidth() == mInput.getWidth() && input.getHeight() == mInput.getHeight()) {
         mInput.setPixels(input);
@@ -43,6 +47,10 @@ public abstract class ImageFilter implements AutoCloseable {
       mOutput.release();
       mOutput = null;
     }
+  }
+
+  public ImageFilters getKernel() {
+    return mKernel;
   }
 
   @Override

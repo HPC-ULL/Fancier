@@ -5,7 +5,9 @@
 
 #include <string.h>
 #include <fancier/color.h>
+#include <android/bitmap.h>
 
+#include <math.h>
 
 #define MAX_KERNELS 4
 
@@ -71,32 +73,47 @@
 #define POSTERIZE_COLOR2 fcRGBAColor_BLUE
 #define POSTERIZE_COLOR3 fcRGBAColor_YELLOW
 #define POSTERIZE_COLOR4 fcRGBAColor_CYAN
+// FIXME WTF? Why is it necessary to reverse here?
+#define POSTERIZE_COLOR0_REF 0xFF0000FF
+#define POSTERIZE_COLOR1_REF 0xFF00FF00
+#define POSTERIZE_COLOR2_REF 0xFFFF0000
+#define POSTERIZE_COLOR3_REF 0xFF00FFFF
+#define POSTERIZE_COLOR4_REF 0xFFFFFF00
+
 
 typedef struct {
-  cl_program m_program;
-  cl_kernel m_kernels[MAX_KERNELS];
-  int m_kernel_id;
+  int m_filter_id;
 } NativeImageFilter;
 
+typedef struct {
+  cl_kernel m_kernels[MAX_KERNELS];
+  int m_num_kernels;
+} Filter;
+
 enum {
-  GRAYSCALE, BLUR, CONVOLVE3, CONVOLVE5, BILATERAL, MEDIAN, CONTRAST, FISHEYE, LEVELS, POSTERIZE
+  GRAYSCALE, BLUR, CONVOLVE3, CONVOLVE5, BILATERAL, MEDIAN, CONTRAST, FISHEYE, LEVELS, POSTERIZE,
+  NUM_FILTERS
 };
 
+
+static int s_init = 0;
+static cl_program s_program;
+static Filter s_filters[NUM_FILTERS];
 
 static jclass NativeImageFilter_class = NULL;
 FC_JAVA_INSTANCE_HANDLERS(NativeImageFilter);
 
 
-static int run_grayscale_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAImage* output);
-static int run_blur_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAImage* output);
-static int run_convolve3_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAImage* output);
-static int run_convolve5_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAImage* output);
-static int run_bilateral_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAImage* output);
-static int run_median_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAImage* output);
-static int run_contrast_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAImage* output);
-static int run_fisheye_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAImage* output);
-static int run_levels_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAImage* output);
-static int run_posterize_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAImage* output);
+static int run_grayscale_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output);
+static int run_blur_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output);
+static int run_convolve3_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output);
+static int run_convolve5_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output);
+static int run_bilateral_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output);
+static int run_median_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output);
+static int run_contrast_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output);
+static int run_fisheye_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output);
+static int run_levels_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output);
+static int run_posterize_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output);
 
 static void run_grayscale_cpu(fcRGBAImage* input, fcRGBAImage* output);
 static void run_blur_cpu(fcRGBAImage* input, fcRGBAImage* output);
@@ -109,96 +126,119 @@ static void run_fisheye_cpu(fcRGBAImage* input, fcRGBAImage* output);
 static void run_levels_cpu(fcRGBAImage* input, fcRGBAImage* output);
 static void run_posterize_cpu(fcRGBAImage* input, fcRGBAImage* output);
 
+static void run_grayscale_ref(AndroidBitmapInfo info, const uint32_t* input, uint32_t* output);
+static void run_blur_ref(AndroidBitmapInfo info, const uint32_t* input, uint32_t* output);
+static void run_convolve3_ref(AndroidBitmapInfo info, const uint32_t* input, uint32_t* output);
+static void run_convolve5_ref(AndroidBitmapInfo info, const uint32_t* input, uint32_t* output);
+static void run_bilateral_ref(AndroidBitmapInfo info, const uint32_t* input, uint32_t* output);
+static void run_median_ref(AndroidBitmapInfo info, const uint32_t* input, uint32_t* output);
+static void run_contrast_ref(AndroidBitmapInfo info, const uint32_t* input, uint32_t* output);
+static void run_fisheye_ref(AndroidBitmapInfo info, const uint32_t* input, uint32_t* output);
+static void run_levels_ref(AndroidBitmapInfo info, const uint32_t* input, uint32_t* output);
+static void run_posterize_ref(AndroidBitmapInfo info, const uint32_t* input, uint32_t* output);
+
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_androidtest_model_NativeImageFilter_setupGpu(JNIEnv* env, jobject obj,
-                                                                         jobject asset_manager,
-                                                                         int kernel_id) {
-  // Initialize class and create native instance
-  if (!NativeImageFilter_class)
-    FC_INIT_CLASS_REF(env, "es/ull/pcg/hpc/fancier/androidtest/model/NativeImageFilter",
-                      NativeImageFilter_class, "NativeImageFilter.setupGpu", FC_VOID_EXPR);
-
-  NativeImageFilter* self = NativeImageFilter_getJava(env, obj);
-  if (!self)
-    self = NativeImageFilter_allocJava(env, obj);
-
-  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "NativeImageFilter.setupGpu",
-                           FC_VOID_EXPR);
+Java_es_ull_pcg_hpc_fancier_androidtest_model_NativeImageFilter_compileKernels(JNIEnv* env,
+                                                                               jclass clazz,
+                                                                               jobject asset_manager) {
+  if (++s_init > 1)
+    return;
 
   // OpenCL program compilation
   cl_int err;
-  self->m_program = fcOpenCL_compileKernelAsset(env, asset_manager, "", "filters.cl", &err);
-  FC_EXCEPTION_HANDLE_BUILD(env, err, "fcOpenCL_compileKernelAsset", self->m_program, FC_VOID_EXPR);
+  s_program = fcOpenCL_compileKernelAsset(env, asset_manager, "", "filters.cl", &err);
+  FC_EXCEPTION_HANDLE_BUILD(env, err, "fcOpenCL_compileKernelAsset", s_program, FC_VOID_EXPR);
 
   // Only create the cl_kernel object for the specified kernel
-  self->m_kernel_id = kernel_id;
   const char* kernel_names[MAX_KERNELS];
   int num_kernels = 1;
 
-  switch (kernel_id) {
-  case GRAYSCALE:
-    kernel_names[0] = "grayscale";
-    break;
-  case BLUR:
-    kernel_names[0] = "blur_h";
-    kernel_names[1] = "blur_v";
-    num_kernels = 2;
-    break;
-  case CONVOLVE3:
-    kernel_names[0] = "convolve3x3";
-    break;
-  case CONVOLVE5:
-    kernel_names[0] = "convolve5x5";
-    break;
-  case BILATERAL:
-    kernel_names[0] = "bilateral";
-    break;
-  case MEDIAN:
-    kernel_names[0] = "median";
-    break;
-  case CONTRAST:
-    kernel_names[0] = "contrast";
-    break;
-  case FISHEYE:
-    kernel_names[0] = "fisheye";
-    break;
-  case LEVELS:
-    kernel_names[0] = "levels";
-    break;
-  case POSTERIZE:
-    kernel_names[0] = "posterize";
-    break;
-  default:
-    FC_LOGERROR_FMT("Kernel ID: %d not implemented", kernel_id);
-    fcException_throwNative(env, __FILE__, __LINE__, "NativeImageFilter_setupGpu", FC_EXCEPTION_OTHER);
-    num_kernels = 0;
-    break;
-  }
+  for (int kernel_id = 0; kernel_id < NUM_FILTERS; ++kernel_id) {
+    switch (kernel_id) {
+    case GRAYSCALE:
+      kernel_names[0] = "grayscale";
+      break;
+    case BLUR:
+      kernel_names[0] = "blur_h";
+      kernel_names[1] = "blur_v";
+      num_kernels = 2;
+      break;
+    case CONVOLVE3:
+      kernel_names[0] = "convolve3x3";
+      break;
+    case CONVOLVE5:
+      kernel_names[0] = "convolve5x5";
+      break;
+    case BILATERAL:
+      kernel_names[0] = "bilateral";
+      break;
+    case MEDIAN:
+      kernel_names[0] = "median";
+      break;
+    case CONTRAST:
+      kernel_names[0] = "contrast";
+      break;
+    case FISHEYE:
+      kernel_names[0] = "fisheye";
+      break;
+    case LEVELS:
+      kernel_names[0] = "levels";
+      break;
+    case POSTERIZE:
+      kernel_names[0] = "posterize";
+      break;
+    default:
+      FC_LOGERROR_FMT("Kernel ID: %d not implemented", kernel_id);
+      fcException_throwNative(env, __FILE__, __LINE__, "NativeImageFilter_compileKernels",
+                              FC_EXCEPTION_OTHER);
+      num_kernels = 0;
+      break;
+    }
 
-  for (int i = 0; i < num_kernels; ++i) {
-    self->m_kernels[i] = clCreateKernel(self->m_program, kernel_names[i], &err);
-    FC_EXCEPTION_HANDLE_ERROR(env, err, "clCreateKernel", FC_VOID_EXPR);
+    s_filters[kernel_id].m_num_kernels = num_kernels;
+    for (int i = 0; i < num_kernels; ++i) {
+      s_filters[kernel_id].m_kernels[i] = clCreateKernel(s_program, kernel_names[i], &err);
+      FC_EXCEPTION_HANDLE_ERROR(env, err, "clCreateKernel", FC_VOID_EXPR);
+    }
   }
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_androidtest_model_NativeImageFilter_setupCpu(JNIEnv* env, jobject obj,
-                                                                         int kernel_id) {
+Java_es_ull_pcg_hpc_fancier_androidtest_model_NativeImageFilter_releaseKernels(JNIEnv* env,
+                                                                               jclass clazz) {
+  if (--s_init > 0)
+    return;
+
+  for (int filter_id = 0; filter_id < NUM_FILTERS; ++filter_id) {
+    Filter filter = s_filters[filter_id];
+
+    for (int i = 0; i < filter.m_num_kernels; ++i) {
+      if (filter.m_kernels[i])
+        clReleaseKernel(filter.m_kernels[i]);
+    }
+  }
+
+  if (s_program)
+    clReleaseProgram(s_program);
+}
+
+JNIEXPORT void JNICALL
+Java_es_ull_pcg_hpc_fancier_androidtest_model_NativeImageFilter_setupNative(JNIEnv* env, jobject obj,
+                                                                         int filter_id) {
   // Initialize class and create native instance
   if (!NativeImageFilter_class)
     FC_INIT_CLASS_REF(env, "es/ull/pcg/hpc/fancier/androidtest/model/NativeImageFilter",
-                      NativeImageFilter_class, "NativeImageFilter.setupCpu", FC_VOID_EXPR);
+                      NativeImageFilter_class, "NativeImageFilter.setupNative", FC_VOID_EXPR);
 
   NativeImageFilter* self = NativeImageFilter_getJava(env, obj);
   if (!self)
     self = NativeImageFilter_allocJava(env, obj);
 
-  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "NativeImageFilter.setupCpu",
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "NativeImageFilter.setupNative",
                            FC_VOID_EXPR);
 
-  // Set the kernel ID
-  self->m_kernel_id = kernel_id;
+  self->m_filter_id = filter_id;
 }
 
 JNIEXPORT void JNICALL
@@ -227,49 +267,49 @@ Java_es_ull_pcg_hpc_fancier_androidtest_model_NativeImageFilter_processGpu(JNIEn
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcARGBImage_syncToOCL:output", FC_VOID_EXPR);
 
   // Execute kernel
-  switch (self->m_kernel_id) {
+  switch (self->m_filter_id) {
   case GRAYSCALE:
-    err = run_grayscale_gpu(self, input, output);
+    err = run_grayscale_gpu(&s_filters[self->m_filter_id], input, output);
     FC_EXCEPTION_HANDLE_ERROR(env, err, "run_grayscale_gpu", FC_VOID_EXPR);
     break;
   case BLUR:
-    err = run_blur_gpu(self, input, output);
+    err = run_blur_gpu(&s_filters[self->m_filter_id], input, output);
     FC_EXCEPTION_HANDLE_ERROR(env, err, "run_blur_gpu", FC_VOID_EXPR);
     break;
   case CONVOLVE3:
-    err = run_convolve3_gpu(self, input, output);
+    err = run_convolve3_gpu(&s_filters[self->m_filter_id], input, output);
     FC_EXCEPTION_HANDLE_ERROR(env, err, "run_convolve3_gpu", FC_VOID_EXPR);
     break;
   case CONVOLVE5:
-    err = run_convolve5_gpu(self, input, output);
+    err = run_convolve5_gpu(&s_filters[self->m_filter_id], input, output);
     FC_EXCEPTION_HANDLE_ERROR(env, err, "run_convolve5_gpu", FC_VOID_EXPR);
     break;
   case BILATERAL:
-    err = run_bilateral_gpu(self, input, output);
+    err = run_bilateral_gpu(&s_filters[self->m_filter_id], input, output);
     FC_EXCEPTION_HANDLE_ERROR(env, err, "run_bilateral_gpu", FC_VOID_EXPR);
     break;
   case MEDIAN:
-    err = run_median_gpu(self, input, output);
+    err = run_median_gpu(&s_filters[self->m_filter_id], input, output);
     FC_EXCEPTION_HANDLE_ERROR(env, err, "run_median_gpu", FC_VOID_EXPR);
     break;
   case CONTRAST:
-    err = run_contrast_gpu(self, input, output);
+    err = run_contrast_gpu(&s_filters[self->m_filter_id], input, output);
     FC_EXCEPTION_HANDLE_ERROR(env, err, "run_contrast_gpu", FC_VOID_EXPR);
     break;
   case FISHEYE:
-    err = run_fisheye_gpu(self, input, output);
+    err = run_fisheye_gpu(&s_filters[self->m_filter_id], input, output);
     FC_EXCEPTION_HANDLE_ERROR(env, err, "run_fisheye_gpu", FC_VOID_EXPR);
     break;
   case LEVELS:
-    err = run_levels_gpu(self, input, output);
+    err = run_levels_gpu(&s_filters[self->m_filter_id], input, output);
     FC_EXCEPTION_HANDLE_ERROR(env, err, "run_levels_gpu", FC_VOID_EXPR);
     break;
   case POSTERIZE:
-    err = run_posterize_gpu(self, input, output);
+    err = run_posterize_gpu(&s_filters[self->m_filter_id], input, output);
     FC_EXCEPTION_HANDLE_ERROR(env, err, "run_posterize_gpu", FC_VOID_EXPR);
     break;
   default:
-    FC_LOGERROR_FMT("Unknown kernel id: %d", self->m_kernel_id);
+    FC_LOGERROR_FMT("Unknown kernel id: %d", self->m_filter_id);
     break;
   }
 }
@@ -300,7 +340,7 @@ Java_es_ull_pcg_hpc_fancier_androidtest_model_NativeImageFilter_processCpu(JNIEn
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcARGBImage_syncToNative:output", FC_VOID_EXPR);
 
   // Execute kernel
-  switch (self->m_kernel_id) {
+  switch (self->m_filter_id) {
   case GRAYSCALE:
     run_grayscale_cpu(input, output);
     break;
@@ -332,9 +372,111 @@ Java_es_ull_pcg_hpc_fancier_androidtest_model_NativeImageFilter_processCpu(JNIEn
     run_posterize_cpu(input, output);
     break;
   default:
-    FC_LOGERROR_FMT("Unknown kernel id: %d", self->m_kernel_id);
+    FC_LOGERROR_FMT("Unknown kernel id: %d", self->m_filter_id);
     break;
   }
+}
+
+JNIEXPORT void JNICALL
+Java_es_ull_pcg_hpc_fancier_androidtest_model_NativeImageFilter_processRef(JNIEnv* env,
+                                                                           jobject obj,
+                                                                           jobject jni_input,
+                                                                           jobject jni_output) {
+  jboolean error = JNI_FALSE;
+
+  NativeImageFilter* self = NativeImageFilter_getJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "NativeImageFilter.processRef",
+                           FC_VOID_EXPR);
+
+  // Initialize image
+  AndroidBitmapInfo bmpInfo;
+  void *input = NULL, *output = NULL;
+
+  if (AndroidBitmap_getInfo(env, jni_input, &bmpInfo)) {
+    fcException_throwNative(env, __FILE__, __LINE__, "NativeImageFilter.processRef",
+                            FC_EXCEPTION_BITMAP_INFO);
+    return;
+  }
+
+  if (bmpInfo.format != ANDROID_BITMAP_FORMAT_RGBA_8888) {
+    fcException_throwNative(env, __FILE__, __LINE__, "NativeImageFilter.processRef",
+                            FC_EXCEPTION_BITMAP_UNSUPPORTED_FORMAT);
+    return;
+  }
+
+  if (AndroidBitmap_lockPixels(env, jni_input, &input)) {
+    fcException_throwNative(env, __FILE__, __LINE__, "NativeImageFilter.processRef",
+                            FC_EXCEPTION_BITMAP_LOCK_PIXELS);
+    return;
+  }
+
+  if (AndroidBitmap_lockPixels(env, jni_output, &output)) {
+    error = JNI_TRUE;
+    goto teardown;
+  }
+
+  if (!input || !output) {
+    error = JNI_TRUE;
+    goto teardown;
+  }
+
+  // Execute kernel
+  switch (self->m_filter_id) {
+  case GRAYSCALE:
+    run_grayscale_ref(bmpInfo, input, output);
+    break;
+  case BLUR:
+    run_blur_ref(bmpInfo, input, output);
+    break;
+  case CONVOLVE3:
+    run_convolve3_ref(bmpInfo, input, output);
+    break;
+  case CONVOLVE5:
+    run_convolve5_ref(bmpInfo, input, output);
+    break;
+  case BILATERAL:
+    run_bilateral_ref(bmpInfo, input, output);
+    break;
+  case MEDIAN:
+    run_median_ref(bmpInfo, input, output);
+    break;
+  case CONTRAST:
+    run_contrast_ref(bmpInfo, input, output);
+    break;
+  case FISHEYE:
+    run_fisheye_ref(bmpInfo, input, output);
+    break;
+  case LEVELS:
+    run_levels_ref(bmpInfo, input, output);
+    break;
+  case POSTERIZE:
+    run_posterize_ref(bmpInfo, input, output);
+    break;
+  default:
+    FC_LOGERROR_FMT("Unknown kernel id: %d", self->m_filter_id);
+    break;
+  }
+
+  // Free temporary native array reference
+teardown:
+  if (jni_input && input && AndroidBitmap_unlockPixels(env, jni_input)) {
+    if (jni_output && output)
+      AndroidBitmap_unlockPixels(env, jni_output);
+
+    fcException_throwNative(env, __FILE__, __LINE__, "NativeImageFilter.processRef",
+                            FC_EXCEPTION_BITMAP_UNLOCK_PIXELS);
+    return;
+  }
+
+  if (jni_output && output && AndroidBitmap_unlockPixels(env, jni_output)) {
+    fcException_throwNative(env, __FILE__, __LINE__, "NativeImageFilter.processRef",
+                            FC_EXCEPTION_BITMAP_UNLOCK_PIXELS);
+    return;
+  }
+
+  if (error)
+    fcException_throwNative(env, __FILE__, __LINE__, "NativeImageFilter.processRef",
+                            FC_EXCEPTION_OTHER);
 }
 
 JNIEXPORT void JNICALL
@@ -342,17 +484,8 @@ Java_es_ull_pcg_hpc_fancier_androidtest_model_NativeImageFilter_releaseNative(JN
                                                                               jobject obj) {
   NativeImageFilter* self = NativeImageFilter_getJava(env, obj);
 
-  if (self) {
-    for (int i = 0; i < MAX_KERNELS; ++i) {
-      if (self->m_kernels[i])
-        clReleaseKernel(self->m_kernels[i]);
-    }
-
-    if (self->m_program)
-      clReleaseProgram(self->m_program);
-
+  if (self)
     NativeImageFilter_freeJava(env, obj);
-  }
 }
 
 // Helpers
@@ -388,7 +521,7 @@ static void levels_build_sat_matrix(fcFloat3* m, float saturation) {
 // GPU kernel execution
 //
 
-static int run_grayscale_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAImage* output) {
+static int run_grayscale_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output) {
   int err;
 
   // Execute kernel
@@ -410,7 +543,7 @@ static int run_grayscale_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBA
   return FC_EXCEPTION_SUCCESS;
 }
 
-static int run_blur_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAImage* output) {
+static int run_blur_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output) {
   int err;
 
   // Create gaussian kernel mask
@@ -496,7 +629,7 @@ mask_cleanup:
   return err;
 }
 
-static int run_convolve3_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAImage* output) {
+static int run_convolve3_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output) {
   int err;
 
   // Set up 3x3 convolution mask (sharpening)
@@ -548,7 +681,7 @@ cleanup:
   return err;
 }
 
-static int run_convolve5_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAImage* output) {
+static int run_convolve5_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output) {
   int err;
 
   // Set up 5x5 convolution mask (laplacian of gaussian)
@@ -616,7 +749,7 @@ cleanup:
   return err;
 }
 
-static int run_bilateral_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAImage* output) {
+static int run_bilateral_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output) {
   int err;
 
   // Execute kernel
@@ -648,7 +781,7 @@ static int run_bilateral_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBA
   return FC_EXCEPTION_SUCCESS;
 }
 
-static int run_median_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAImage* output) {
+static int run_median_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output) {
   int err;
 
   // Execute kernel
@@ -675,7 +808,7 @@ static int run_median_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAIma
   return FC_EXCEPTION_SUCCESS;
 }
 
-static int run_contrast_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAImage* output) {
+static int run_contrast_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output) {
   int err;
 
   // Execute kernel
@@ -702,7 +835,7 @@ static int run_contrast_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAI
   return FC_EXCEPTION_SUCCESS;
 }
 
-static int run_fisheye_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAImage* output) {
+static int run_fisheye_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output) {
   int err;
 
   // Execute kernel
@@ -734,7 +867,7 @@ static int run_fisheye_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAIm
   return FC_EXCEPTION_SUCCESS;
 }
 
-static int run_levels_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAImage* output) {
+static int run_levels_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output) {
   int err;
 
   fcFloat3Array* sat_matrix = calloc(1, sizeof(fcFloat3Array));
@@ -787,7 +920,7 @@ cleanup:
   return err;
 }
 
-static int run_posterize_gpu(NativeImageFilter* self, fcRGBAImage* input, fcRGBAImage* output) {
+static int run_posterize_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output) {
   int err;
 
   // Execute kernel
@@ -1344,6 +1477,749 @@ static void run_posterize_cpu(fcRGBAImage* input, fcRGBAImage* output) {
 
         if ((pixel_intensity <= intensity.y) && (pixel_intensity >= intensity.x))
           out[index_img(output->dims, x, y)] = color;
+      }
+    }
+  }
+}
+
+// Reference helpers
+
+static inline int index_bmp(int width, int x, int y) {
+  return y * width + x;
+}
+
+// FIXME WTF? Why are fields reversed here and not in Fancier objects?
+//   Maybe .x, .y, .z are reversed?
+
+static inline uint32_t bmp_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
+  return ((r & 0xff) << 0) | ((g & 0xff) << 8) | ((b & 0xff) << 16) | ((a & 0xff) << 24);
+}
+
+static inline uint8_t bmp_red(uint32_t rgba) {
+  return (rgba >> 0) & 0xff;
+}
+
+static inline uint8_t bmp_green(uint32_t rgba) {
+  return (rgba >> 8) & 0xff;
+}
+
+static inline uint8_t bmp_blue(uint32_t rgba) {
+  return (rgba >> 16) & 0xff;
+}
+
+static inline uint8_t bmp_alpha(uint32_t rgba) {
+  return (rgba >> 24) & 0xff;
+}
+
+static uint32_t bilinear_interp_ref(const uint32_t* img, int width, int height, float x, float y) {
+  float posCoordX = fmaxf(x, 0.0f);
+  float posCoordY = fmaxf(y, 0.0f);
+
+  int x0 = truncf(posCoordX);
+  if (x0 >= width) x0 = width - 1;
+  int x1 = x0 + 1 >= width? width - 1 : x0 + 1;
+  int y0 = truncf(posCoordY);
+  if (y0 >= height) y0 = height - 1;
+  int y1 = y0 + 1 >= height? height - 1 : y0 + 1;
+
+  int p00 = img[index_bmp(width, x0, y0)];
+  int p01 = img[index_bmp(width, x0, y1)];
+  int p10 = img[index_bmp(width, x1, y0)];
+  int p11 = img[index_bmp(width, x1, y1)];
+
+  float p00A = bmp_alpha(p00);
+  float p00R = bmp_red(p00);
+  float p00G = bmp_green(p00);
+  float p00B = bmp_blue(p00);
+  float p01A = bmp_alpha(p01);
+  float p01R = bmp_red(p01);
+  float p01G = bmp_green(p01);
+  float p01B = bmp_blue(p01);
+  float p10A = bmp_alpha(p10);
+  float p10R = bmp_red(p10);
+  float p10G = bmp_green(p10);
+  float p10B = bmp_blue(p10);
+  float p11A = bmp_alpha(p11);
+  float p11R = bmp_red(p11);
+  float p11G = bmp_green(p11);
+  float p11B = bmp_blue(p11);
+
+  float slopeX0 = (float) x1 - posCoordX;
+  float slopeX1 = posCoordX - (float) x0;
+  float slopeY0 = (float) y1 - y;
+  float slopeY1 = y - (float) y0;
+
+  float pXY0A = (p00A * slopeX0 + p10A * slopeX1) * slopeY0;
+  float pXY0R = (p00R * slopeX0 + p10R * slopeX1) * slopeY0;
+  float pXY0G = (p00G * slopeX0 + p10G * slopeX1) * slopeY0;
+  float pXY0B = (p00B * slopeX0 + p10B * slopeX1) * slopeY0;
+  float pXY1A = (p01A * slopeX0 + p11A * slopeX1) * slopeY1;
+  float pXY1R = (p01R * slopeX0 + p11R * slopeX1) * slopeY1;
+  float pXY1G = (p01G * slopeX0 + p11G * slopeX1) * slopeY1;
+  float pXY1B = (p01B * slopeX0 + p11B * slopeX1) * slopeY1;
+
+  float outA = pXY0A + pXY1A;
+  float outR = pXY0R + pXY1R;
+  float outG = pXY0G + pXY1G;
+  float outB = pXY0B + pXY1B;
+
+  if (outA < 0.0f)
+    outA = 0.0f;
+  else if (outA > 255.0f)
+    outA = 255.0f;
+  if (outR < 0.0f)
+    outR = 0.0f;
+  else if (outR > 255.0f)
+    outR = 255.0f;
+  if (outG < 0.0f)
+    outG = 0.0f;
+  else if (outG > 255.0f)
+    outG = 255.0f;
+  if (outB < 0.0f)
+    outB = 0.0f;
+  else if (outB > 255.0f)
+    outB = 255.0f;
+
+  return bmp_rgba(outR, outG, outB, outA);
+}
+
+static inline void matrix3x3_vector_multiply_ref(const float* m, float vx, float vy, float vz, float* result) {
+  result[0] = m[0] * vx + m[1] * vy + m[2] * vz;
+  result[1] = m[3] * vx + m[4] * vy + m[5] * vz;
+  result[2] = m[6] * vx + m[7] * vy + m[8] * vz;
+}
+
+static void levels_build_sat_matrix_ref(float* m, float saturation) {
+  float weights_x = RED_WEIGHT * (1.0f - saturation);
+  float weights_y = GREEN_WEIGHT * (1.0f - saturation);
+  float weights_z = BLUE_WEIGHT * (1.0f - saturation);
+
+  m[0] = weights_x + saturation;
+  m[1] = weights_y;
+  m[2] = weights_z;
+  m[3] = weights_x;
+  m[4] = weights_y + saturation;
+  m[5] = weights_z;
+  m[6] = weights_x;
+  m[7] = weights_y;
+  m[8] = weights_z + saturation;
+}
+
+//
+// REF CPU kernel execution
+//
+
+static void run_grayscale_ref(AndroidBitmapInfo info, const uint32_t* input, uint32_t* output) {
+  for (int y = 0; y < info.height; ++y) {
+    for (int x = 0; x < info.width; ++x) {
+      int index = index_bmp(info.width, x, y);
+      uint32_t pixel = input[index];
+      uint8_t gray_value = bmp_red(pixel) * RED_WEIGHT + bmp_green(pixel) * GREEN_WEIGHT + bmp_blue(pixel) * BLUE_WEIGHT;
+      output[index] = bmp_rgba(gray_value, gray_value, gray_value, bmp_alpha(pixel));
+    }
+  }
+}
+
+static void run_blur_ref(AndroidBitmapInfo info, const uint32_t* input, uint32_t* output) {
+  float gauss_kernel[BLUR_RADIUS * 2 + 1];
+  blur_build_mask(gauss_kernel, BLUR_RADIUS);
+
+  // Create intermediate buffer
+  uint32_t* buffer = malloc(info.width * info.height * sizeof(uint32_t));
+
+  // Horizontal (input -> buffer)
+  for (int y = 0; y < info.height; ++y) {
+    for (int x = 0; x < info.width; ++x) {
+      float blurred_pixel_a = 0.0f;
+      float blurred_pixel_r = 0.0f;
+      float blurred_pixel_g = 0.0f;
+      float blurred_pixel_b = 0.0f;
+      int kernel_index = 0;
+
+      if (x <= BLUR_RADIUS || x >= info.width - BLUR_RADIUS) {
+        for (int r = -BLUR_RADIUS; r <= BLUR_RADIUS; ++r) {
+          int x_2 = x + r;
+          if (x_2 < 0) x_2 = 0;
+          else if (x_2 >= info.width) x_2 = info.width - 1;
+
+          uint32_t pixel = input[index_bmp(info.width, x_2, y)];
+          float kernel_value = gauss_kernel[kernel_index++];
+          blurred_pixel_a += bmp_alpha(pixel) * kernel_value;
+          blurred_pixel_r += bmp_red(pixel) * kernel_value;
+          blurred_pixel_g += bmp_green(pixel) * kernel_value;
+          blurred_pixel_b += bmp_blue(pixel) * kernel_value;
+        }
+      }
+      else {
+        for (int r = -BLUR_RADIUS; r <= BLUR_RADIUS; ++r) {
+          uint32_t pixel = input[index_bmp(info.width, x + r, y)];
+          float kernel_value = gauss_kernel[kernel_index++];
+          blurred_pixel_a += bmp_alpha(pixel) * kernel_value;
+          blurred_pixel_r += bmp_red(pixel) * kernel_value;
+          blurred_pixel_g += bmp_green(pixel) * kernel_value;
+          blurred_pixel_b += bmp_blue(pixel) * kernel_value;
+        }
+      }
+
+      buffer[index_bmp(info.width, x, y)] = bmp_rgba(blurred_pixel_r, blurred_pixel_g, blurred_pixel_b, blurred_pixel_a);
+    }
+  }
+
+  // Vertical (buffer -> output)
+  for (int y = 0; y < info.height; ++y) {
+    for (int x = 0; x < info.width; ++x) {
+      float blurred_pixel_a = 0.0f;
+      float blurred_pixel_r = 0.0f;
+      float blurred_pixel_g = 0.0f;
+      float blurred_pixel_b = 0.0f;
+      int kernel_index = 0;
+
+      if (y <= BLUR_RADIUS || y >= info.height - BLUR_RADIUS) {
+        for (int r = -BLUR_RADIUS; r <= BLUR_RADIUS; ++r) {
+          int y_2 = y + r;
+          if (y_2 < 0) y_2 = 0;
+          else if (y_2 >= info.height) y_2 = info.height - 1;
+
+          uint32_t pixel = buffer[index_bmp(info.width, x, y_2)];
+          float kernel_value = gauss_kernel[kernel_index++];
+          blurred_pixel_a += bmp_alpha(pixel) * kernel_value;
+          blurred_pixel_r += bmp_red(pixel) * kernel_value;
+          blurred_pixel_g += bmp_green(pixel) * kernel_value;
+          blurred_pixel_b += bmp_blue(pixel) * kernel_value;
+        }
+      }
+      else {
+        for (int r = -BLUR_RADIUS; r <= BLUR_RADIUS; ++r) {
+          uint32_t pixel = buffer[index_bmp(info.width, x, y + r)];
+          float kernel_value = gauss_kernel[kernel_index++];
+          blurred_pixel_a += bmp_alpha(pixel) * kernel_value;
+          blurred_pixel_r += bmp_red(pixel) * kernel_value;
+          blurred_pixel_g += bmp_green(pixel) * kernel_value;
+          blurred_pixel_b += bmp_blue(pixel) * kernel_value;
+        }
+      }
+
+      output[index_bmp(info.width, x, y)] = bmp_rgba(blurred_pixel_r, blurred_pixel_g, blurred_pixel_b, blurred_pixel_a);
+    }
+  }
+
+  free(buffer);
+}
+
+static void run_convolve3_ref(AndroidBitmapInfo info, const uint32_t* input, uint32_t* output) {
+  float mask[3 * 3];
+
+  mask[0] = CONVOLVE3_00;
+  mask[1] = CONVOLVE3_01;
+  mask[2] = CONVOLVE3_02;
+  mask[3] = CONVOLVE3_10;
+  mask[4] = CONVOLVE3_11;
+  mask[5] = CONVOLVE3_12;
+  mask[6] = CONVOLVE3_20;
+  mask[7] = CONVOLVE3_21;
+  mask[8] = CONVOLVE3_22;
+
+  for (int y = 0; y < info.height; ++y) {
+    for (int x = 0; x < info.width; ++x) {
+      int x0 = x > 1? x - 1 : 0;
+      int x1 = x + 1 >= info.width? info.width - 1 : x + 1;
+      int y0 = y > 1? y - 1 : 0;
+      int y1 = y + 1 >= info.height? info.height - 1 : y + 1;
+
+      uint32_t pixel = input[index_bmp(info.width, x, y)];
+      uint8_t pixel_a = bmp_alpha(pixel);
+      uint8_t pixel_r = bmp_red(pixel);
+      uint8_t pixel_g = bmp_green(pixel);
+      uint8_t pixel_b = bmp_blue(pixel);
+
+      float sum_r = 0.0f;
+      float sum_g = 0.0f;
+      float sum_b = 0.0f;
+
+      uint32_t otherPixel = input[index_bmp(info.width, x0, y0)];
+      sum_r += bmp_red(otherPixel) * mask[0];
+      sum_g += bmp_green(otherPixel) * mask[0];
+      sum_b += bmp_blue(otherPixel) * mask[0];
+      otherPixel = input[index_bmp(info.width, x, y0)];
+      sum_r += bmp_red(otherPixel) * mask[1];
+      sum_g += bmp_green(otherPixel) * mask[1];
+      sum_b += bmp_blue(otherPixel) * mask[1];
+      otherPixel = input[index_bmp(info.width, x1, y0)];
+      sum_r += bmp_red(otherPixel) * mask[2];
+      sum_g += bmp_green(otherPixel) * mask[2];
+      sum_b += bmp_blue(otherPixel) * mask[2];
+
+      otherPixel = input[index_bmp(info.width, x0, y)];
+      sum_r += bmp_red(otherPixel) * mask[3];
+      sum_g += bmp_green(otherPixel) * mask[3];
+      sum_b += bmp_blue(otherPixel) * mask[3];
+      sum_r += pixel_r * mask[4];
+      sum_g += pixel_g * mask[4];
+      sum_b += pixel_b * mask[4];
+      otherPixel = input[index_bmp(info.width, x1, y)];
+      sum_r += bmp_red(otherPixel) * mask[5];
+      sum_g += bmp_green(otherPixel) * mask[5];
+      sum_b += bmp_blue(otherPixel) * mask[5];
+
+      otherPixel = input[index_bmp(info.width, x0, y1)];
+      sum_r += bmp_red(otherPixel) * mask[6];
+      sum_g += bmp_green(otherPixel) * mask[6];
+      sum_b += bmp_blue(otherPixel) * mask[6];
+      otherPixel = input[index_bmp(info.width, x, y1)];
+      sum_r += bmp_red(otherPixel) * mask[7];
+      sum_g += bmp_green(otherPixel) * mask[7];
+      sum_b += bmp_blue(otherPixel) * mask[7];
+      otherPixel = input[index_bmp(info.width, x1, y1)];
+      sum_r += bmp_red(otherPixel) * mask[8];
+      sum_g += bmp_green(otherPixel) * mask[8];
+      sum_b += bmp_blue(otherPixel) * mask[8];
+
+      if (sum_r < 0.0f) sum_r = 0.0f;
+      else if (sum_r > 255.0f) sum_r = 255.0f;
+      if (sum_g < 0.0f) sum_g = 0.0f;
+      else if (sum_g > 255.0f) sum_g = 255.0f;
+      if (sum_b < 0.0f) sum_b = 0.0f;
+      else if (sum_b > 255.0f) sum_b = 255.0f;
+
+      output[index_bmp(info.width, x, y)] = bmp_rgba(sum_r, sum_g, sum_b, pixel_a);
+    }
+  }
+}
+
+static void run_convolve5_ref(AndroidBitmapInfo info, const uint32_t* input, uint32_t* output) {
+  float mask[5 * 5];
+
+  mask[0] = CONVOLVE5_00;
+  mask[1] = CONVOLVE5_01;
+  mask[2] = CONVOLVE5_02;
+  mask[3] = CONVOLVE5_03;
+  mask[4] = CONVOLVE5_04;
+  mask[5] = CONVOLVE5_10;
+  mask[6] = CONVOLVE5_11;
+  mask[7] = CONVOLVE5_12;
+  mask[8] = CONVOLVE5_13;
+  mask[9] = CONVOLVE5_14;
+  mask[10] = CONVOLVE5_20;
+  mask[11] = CONVOLVE5_21;
+  mask[12] = CONVOLVE5_22;
+  mask[13] = CONVOLVE5_23;
+  mask[14] = CONVOLVE5_24;
+  mask[15] = CONVOLVE5_30;
+  mask[16] = CONVOLVE5_31;
+  mask[17] = CONVOLVE5_32;
+  mask[18] = CONVOLVE5_33;
+  mask[19] = CONVOLVE5_34;
+  mask[20] = CONVOLVE5_40;
+  mask[21] = CONVOLVE5_41;
+  mask[22] = CONVOLVE5_42;
+  mask[23] = CONVOLVE5_43;
+  mask[24] = CONVOLVE5_44;
+
+  for (int y = 0; y < info.height; ++y) {
+    for (int x = 0; x < info.width; ++x) {
+      int x0 = x > 2? x - 2 : 0;
+      int x1 = x > 1? x - 1 : 0;
+      int x2 = x + 1 >= info.width? info.width - 1 : x + 1;
+      int x3 = x + 2 >= info.width? info.width - 1 : x + 2;
+      
+      int y0 = y > 2? y - 2 : 0;
+      int y1 = y > 1? y - 1 : 0;
+      int y2 = y + 1 >= info.height? info.height - 1 : y + 1;
+      int y3 = y + 2 >= info.height? info.height - 1 : y + 2;
+
+      uint32_t pixel = input[index_bmp(info.width, x, y)];
+      uint8_t pixel_a = bmp_alpha(pixel);
+      uint8_t pixel_r = bmp_red(pixel);
+      uint8_t pixel_g = bmp_green(pixel);
+      uint8_t pixel_b = bmp_blue(pixel);
+
+      float sum_r = 0.0f;
+      float sum_g = 0.0f;
+      float sum_b = 0.0f;
+
+      uint32_t other_pixel = input[index_bmp(info.width, x0, y0)];
+      sum_r += bmp_red(other_pixel) * mask[0];
+      sum_g += bmp_green(other_pixel) * mask[0];
+      sum_b += bmp_blue(other_pixel) * mask[0];
+      other_pixel = input[index_bmp(info.width, x1, y0)];
+      sum_r += bmp_red(other_pixel) * mask[1];
+      sum_g += bmp_green(other_pixel) * mask[1];
+      sum_b += bmp_blue(other_pixel) * mask[1];
+      other_pixel = input[index_bmp(info.width, x, y0)];
+      sum_r += bmp_red(other_pixel) * mask[2];
+      sum_g += bmp_green(other_pixel) * mask[2];
+      sum_b += bmp_blue(other_pixel) * mask[2];
+      other_pixel = input[index_bmp(info.width, x2, y0)];
+      sum_r += bmp_red(other_pixel) * mask[3];
+      sum_g += bmp_green(other_pixel) * mask[3];
+      sum_b += bmp_blue(other_pixel) * mask[3];
+      other_pixel = input[index_bmp(info.width, x3, y0)];
+      sum_r += bmp_red(other_pixel) * mask[4];
+      sum_g += bmp_green(other_pixel) * mask[4];
+      sum_b += bmp_blue(other_pixel) * mask[4];
+
+      other_pixel = input[index_bmp(info.width, x0, y1)];
+      sum_r += bmp_red(other_pixel) * mask[5];
+      sum_g += bmp_green(other_pixel) * mask[5];
+      sum_b += bmp_blue(other_pixel) * mask[5];
+      other_pixel = input[index_bmp(info.width, x1, y1)];
+      sum_r += bmp_red(other_pixel) * mask[6];
+      sum_g += bmp_green(other_pixel) * mask[6];
+      sum_b += bmp_blue(other_pixel) * mask[6];
+      other_pixel = input[index_bmp(info.width, x, y1)];
+      sum_r += bmp_red(other_pixel) * mask[7];
+      sum_g += bmp_green(other_pixel) * mask[7];
+      sum_b += bmp_blue(other_pixel) * mask[7];
+      other_pixel = input[index_bmp(info.width, x2, y1)];
+      sum_r += bmp_red(other_pixel) * mask[8];
+      sum_g += bmp_green(other_pixel) * mask[8];
+      sum_b += bmp_blue(other_pixel) * mask[8];
+      other_pixel = input[index_bmp(info.width, x3, y1)];
+      sum_r += bmp_red(other_pixel) * mask[9];
+      sum_g += bmp_green(other_pixel) * mask[9];
+      sum_b += bmp_blue(other_pixel) * mask[9];
+
+      other_pixel = input[index_bmp(info.width, x0, y)];
+      sum_r += bmp_red(other_pixel) * mask[10];
+      sum_g += bmp_green(other_pixel) * mask[10];
+      sum_b += bmp_blue(other_pixel) * mask[10];
+      other_pixel = input[index_bmp(info.width, x1, y)];
+      sum_r += bmp_red(other_pixel) * mask[11];
+      sum_g += bmp_green(other_pixel) * mask[11];
+      sum_b += bmp_blue(other_pixel) * mask[11];
+      sum_r += pixel_r * mask[12];
+      sum_g += pixel_g * mask[12];
+      sum_b += pixel_b * mask[12];
+      other_pixel = input[index_bmp(info.width, x2, y)];
+      sum_r += bmp_red(other_pixel) * mask[13];
+      sum_g += bmp_green(other_pixel) * mask[13];
+      sum_b += bmp_blue(other_pixel) * mask[13];
+      other_pixel = input[index_bmp(info.width, x3, y)];
+      sum_r += bmp_red(other_pixel) * mask[14];
+      sum_g += bmp_green(other_pixel) * mask[14];
+      sum_b += bmp_blue(other_pixel) * mask[14];
+
+      other_pixel = input[index_bmp(info.width, x0, y2)];
+      sum_r += bmp_red(other_pixel) * mask[15];
+      sum_g += bmp_green(other_pixel) * mask[15];
+      sum_b += bmp_blue(other_pixel) * mask[15];
+      other_pixel = input[index_bmp(info.width, x1, y2)];
+      sum_r += bmp_red(other_pixel) * mask[16];
+      sum_g += bmp_green(other_pixel) * mask[16];
+      sum_b += bmp_blue(other_pixel) * mask[16];
+      other_pixel = input[index_bmp(info.width, x, y2)];
+      sum_r += bmp_red(other_pixel) * mask[17];
+      sum_g += bmp_green(other_pixel) * mask[17];
+      sum_b += bmp_blue(other_pixel) * mask[17];
+      other_pixel = input[index_bmp(info.width, x2, y2)];
+      sum_r += bmp_red(other_pixel) * mask[18];
+      sum_g += bmp_green(other_pixel) * mask[18];
+      sum_b += bmp_blue(other_pixel) * mask[18];
+      other_pixel = input[index_bmp(info.width, x3, y2)];
+      sum_r += bmp_red(other_pixel) * mask[19];
+      sum_g += bmp_green(other_pixel) * mask[19];
+      sum_b += bmp_blue(other_pixel) * mask[19];
+
+      other_pixel = input[index_bmp(info.width, x0, y3)];
+      sum_r += bmp_red(other_pixel) * mask[20];
+      sum_g += bmp_green(other_pixel) * mask[20];
+      sum_b += bmp_blue(other_pixel) * mask[20];
+      other_pixel = input[index_bmp(info.width, x1, y3)];
+      sum_r += bmp_red(other_pixel) * mask[21];
+      sum_g += bmp_green(other_pixel) * mask[21];
+      sum_b += bmp_blue(other_pixel) * mask[21];
+      other_pixel = input[index_bmp(info.width, x, y3)];
+      sum_r += bmp_red(other_pixel) * mask[22];
+      sum_g += bmp_green(other_pixel) * mask[22];
+      sum_b += bmp_blue(other_pixel) * mask[22];
+      other_pixel = input[index_bmp(info.width, x2, y3)];
+      sum_r += bmp_red(other_pixel) * mask[23];
+      sum_g += bmp_green(other_pixel) * mask[23];
+      sum_b += bmp_blue(other_pixel) * mask[23];
+      other_pixel = input[index_bmp(info.width, x3, y3)];
+      sum_r += bmp_red(other_pixel) * mask[24];
+      sum_g += bmp_green(other_pixel) * mask[24];
+      sum_b += bmp_blue(other_pixel) * mask[24];
+
+      if (sum_r < 0.0f) sum_r = 0.0f;
+      else if (sum_r > 255.0f) sum_r = 255.0f;
+      if (sum_g < 0.0f) sum_g = 0.0f;
+      else if (sum_g > 255.0f) sum_g = 255.0f;
+      if (sum_b < 0.0f) sum_b = 0.0f;
+      else if (sum_b > 255.0f) sum_b = 255.0f;
+
+      output[index_bmp(info.width, x, y)] = bmp_rgba(sum_r, sum_g, sum_b, pixel_a);
+    }
+  }
+}
+
+static void run_bilateral_ref(AndroidBitmapInfo info, const uint32_t* input, uint32_t* output) {
+  for (int y = 0; y < info.height; ++y) {
+    for (int x = 0; x < info.width; ++x) {
+      uint32_t center_pixel = input[index_bmp(info.width, x, y)];
+      float center_r = (float) bmp_red(center_pixel) / 0xff;
+      float center_g = (float) bmp_green(center_pixel) / 0xff;
+      float center_b = (float) bmp_blue(center_pixel) / 0xff;
+
+      float sumR = 0.0f, sumG = 0.0f, sumB = 0.0f;
+      float totalWeight = 0.0f;
+
+      for (int rx = -BILATERAL_RADIUS; rx <= BILATERAL_RADIUS; ++rx) {
+        for (int ry = -BILATERAL_RADIUS; ry <= BILATERAL_RADIUS; ++ry) {
+          int x2 = x + rx;
+          int y2 = y + ry;
+
+          if (x2 < 0) x2 = 0;
+          else if (x2 >= info.width) x2 = info.width - 1;
+          if (y2 < 0) y2 = 0;
+          else if (y2 >= info.height) y2 = info.height - 1;
+
+          int other_pixel = input[index_bmp(info.width, x2, y2)];
+          float pixel_r = (float) bmp_red(other_pixel) / 0xff;
+          float pixel_g = (float) bmp_green(other_pixel) / 0xff;
+          float pixel_b = (float) bmp_blue(other_pixel) / 0xff;
+
+          float diff_r = center_r - pixel_r;
+          float diff_g = center_g - pixel_g;
+          float diff_b = center_b - pixel_b;
+
+          diff_r *= diff_r;
+          diff_g *= diff_g;
+          diff_b *= diff_b;
+
+          float diffMap = expf(-(diff_r + diff_g + diff_b) * BILATERAL_PRESERVATION * 100.0f);
+          float gaussianWeight = expf(-0.5f * ((rx * rx) + (ry * ry)) / (float) BILATERAL_RADIUS);
+
+          float weight = diffMap * gaussianWeight;
+          sumR += pixel_r * weight;
+          sumG += pixel_g * weight;
+          sumB += pixel_b * weight;
+          totalWeight += weight;
+        }
+      }
+
+      uint8_t outR = (sumR / totalWeight) * 0xff;
+      uint8_t outG = (sumG / totalWeight) * 0xff;
+      uint8_t outB = (sumB / totalWeight) * 0xff;
+      output[index_bmp(info.width, x, y)] = bmp_rgba(outR, outG, outB, bmp_alpha(center_pixel));
+    }
+  }
+}
+
+static void run_median_ref(AndroidBitmapInfo info, const uint32_t* input, uint32_t* output) {
+  int val[256 * 3];
+
+  for (int y = 0; y < info.height; ++y) {
+    for (int x = 0; x < info.width; ++x) {
+      for (int i = 0; i < 256 * 3; i++)
+        val[i] = 0;
+
+      for (int rx = -MEDIAN_RADIUS; rx <= MEDIAN_RADIUS; rx++) {
+        for (int ry = -MEDIAN_RADIUS; ry <= MEDIAN_RADIUS; ry++) {
+          int x_2 = x + rx;
+          int y_2 = y + ry;
+
+          if (x_2 < 0)
+            x_2 = 0;
+          else if (x_2 >= info.width)
+            x_2 = info.width - 1;
+          if (y_2 < 0)
+            y_2 = 0;
+          else if (y_2 >= info.height)
+            y_2 = info.height - 1;
+
+          uint8_t color_index = bmp_red(input[index_bmp(info.width, x_2, y_2)]);
+          ++val[color_index * 3];
+          ++val[color_index * 3 + 1];
+          ++val[color_index * 3 + 2];
+        }
+      }
+
+      int median = ((MEDIAN_RADIUS * 2 + 1) * (MEDIAN_RADIUS * 2 + 1)) / 2;
+      int r = 0, g = 0, b = 0;
+      uint8_t out_pixel_r = 0xff;
+      uint8_t out_pixel_g = 0xff;
+      uint8_t out_pixel_b = 0xff;
+
+      for (uint8_t i = 0; out_pixel_r == 0xff || out_pixel_g == 0xff || out_pixel_b == 0xff; ++i) {
+        if (out_pixel_r == 0xff) {
+          r += val[i * 3];
+
+          if (r >= median)
+            out_pixel_r = i;
+        }
+
+        if (out_pixel_g == 0xff) {
+          g += val[i * 3 + 1];
+
+          if (g >= median)
+            out_pixel_g = i;
+        }
+
+        if (out_pixel_b == 0xff) {
+          b += val[i * 3 + 2];
+
+          if (b >= median)
+            out_pixel_b = i;
+        }
+      }
+
+      output[index_bmp(info.width, x, y)] = bmp_rgba(out_pixel_r, out_pixel_g, out_pixel_b, 0xff);
+    }
+  }
+}
+
+static void run_contrast_ref(AndroidBitmapInfo info, const uint32_t* input, uint32_t* output) {
+  for (int y = 0; y < info.height; ++y) {
+    for (int x = 0; x < info.width; ++x) {
+      uint32_t pixel = input[index_bmp(info.width, x, y)];
+      float bright_m = exp2f(CONTRAST_ENHANCEMENT);
+      float offset = 127.0f * (1 - bright_m);
+
+      float pixel_out_r = offset + bmp_red(pixel) * bright_m;
+      float pixel_out_g = offset + bmp_green(pixel) * bright_m;
+      float pixel_out_b = offset + bmp_blue(pixel) * bright_m;
+
+      if (pixel_out_r < 0.0f)
+        pixel_out_r = 0.0f;
+      else if (pixel_out_r > 255.0f)
+        pixel_out_r = 255.0f;
+      if (pixel_out_g < 0.0f)
+        pixel_out_g = 0.0f;
+      else if (pixel_out_g > 255.0f)
+        pixel_out_g = 255.0f;
+      if (pixel_out_b < 0.0f)
+        pixel_out_b = 0.0f;
+      else if (pixel_out_b > 255.0f)
+        pixel_out_b = 255.0f;
+
+      output[index_bmp(info.width, x, y)] = bmp_rgba(pixel_out_r, pixel_out_g, pixel_out_b, bmp_alpha(pixel));
+    }
+  }
+}
+
+static void run_fisheye_ref(AndroidBitmapInfo info, const uint32_t* input, uint32_t* output) {
+  for (int y = 0; y < info.height; ++y) {
+    for (int x = 0; x < info.width; ++x) {
+      float invDimensionsX = 1.0f / info.width;
+      float invDimensionsY = 1.0f / info.height;
+      float axisScaleX = 1.0f;
+      float axisScaleY = 1.0f;
+      float alpha = FISHEYE_SCALE * 2.0f + 0.75f;
+
+      if (info.width > info.height)
+        axisScaleY = info.height / (float) info.width;
+      else
+        axisScaleX = info.width / (float) info.height;
+
+      float bound2 = 0.25f * (axisScaleX * axisScaleX + axisScaleY * axisScaleY);
+      float bound = sqrtf(bound2);
+      float radius = 1.15f * bound;
+      float radius2 = radius * radius;
+      float factor = bound / (M_PI_2 - atanf(alpha / bound * sqrtf(radius2 - bound2)));
+
+      float coordX = x * invDimensionsX - FISHEYE_CENTER_X;
+      float coordY = y * invDimensionsY - FISHEYE_CENTER_Y;
+      float scaledCoordX = axisScaleX * coordX;
+      float scaledCoordY = axisScaleY * coordY;
+
+      float dist2 = scaledCoordX * scaledCoordX + scaledCoordY * scaledCoordY;
+      float invDist = 1.0f / sqrtf(dist2);
+
+      float radian = M_PI_2 - (float) atanf((alpha * sqrtf(radius2 - dist2)) * invDist);
+      float scalar = radian * factor * invDist;
+      float newCoordX = info.width * (coordX * scalar + FISHEYE_CENTER_X);
+      float newCoordY = info.height * (coordY * scalar + FISHEYE_CENTER_Y);
+
+      output[index_bmp(info.width, x, y)] = bilinear_interp_ref(input, info.width, info.height, newCoordX, newCoordY);
+    }
+  }
+}
+
+static void run_levels_ref(AndroidBitmapInfo info, const uint32_t* input, uint32_t* output) {
+  float sat_matrix[3 * 3];
+  float mul[3];
+  levels_build_sat_matrix_ref(sat_matrix, LEVELS_SATURATION);
+
+  for (int y = 0; y < info.height; ++y) {
+    for (int x = 0; x < info.width; ++x) {
+      uint32_t pixel = input[index_bmp(info.width, x, y)];
+      float pixel_r = bmp_red(pixel);
+      float pixel_g = bmp_green(pixel);
+      float pixel_b = bmp_blue(pixel);
+      float pixel_a = bmp_alpha(pixel);
+
+      matrix3x3_vector_multiply_ref(sat_matrix, pixel_r, pixel_g, pixel_b, mul);
+      pixel_r = mul[0] < 0.0f ? 0.0f : fminf(mul[0], 255.0f);
+      pixel_g = mul[1] < 0.0f ? 0.0f : fminf(mul[1], 255.0f);
+      pixel_b = mul[2] < 0.0f ? 0.0f : fminf(mul[2], 255.0f);
+
+      float diff_min = LEVELS_IN_WHITE - LEVELS_IN_BLACK;
+      float diff_max = LEVELS_OUT_WHITE - LEVELS_OUT_BLACK;
+
+      pixel_r = (pixel_r - LEVELS_IN_BLACK) / diff_min;
+      pixel_g = (pixel_g - LEVELS_IN_BLACK) / diff_min;
+      pixel_b = (pixel_b - LEVELS_IN_BLACK) / diff_min;
+      pixel_a = (pixel_a - LEVELS_IN_BLACK) / diff_min;
+
+      pixel_r = pixel_r * diff_max + LEVELS_OUT_BLACK;
+      pixel_g = pixel_g * diff_max + LEVELS_OUT_BLACK;
+      pixel_b = pixel_b * diff_max + LEVELS_OUT_BLACK;
+      pixel_a = pixel_a * diff_max + LEVELS_OUT_BLACK;
+
+      if (pixel_r < 0.0f)
+        pixel_r = 0.0f;
+      else if (pixel_r > 255.0f)
+        pixel_r = 255.0f;
+      if (pixel_g < 0.0f)
+        pixel_g = 0.0f;
+      else if (pixel_g > 255.0f)
+        pixel_g = 255.0f;
+      if (pixel_b < 0.0f)
+        pixel_b = 0.0f;
+      else if (pixel_b > 255.0f)
+        pixel_b = 255.0f;
+      if (pixel_a < 0.0f)
+        pixel_a = 0.0f;
+      else if (pixel_a > 255.0f)
+        pixel_a = 255.0f;
+
+      output[index_bmp(info.width, x, y)] = bmp_rgba(pixel_r, pixel_g, pixel_b, pixel_a);
+    }
+  }
+}
+
+static void run_posterize_ref(AndroidBitmapInfo info, const uint32_t* input, uint32_t* output) {
+  const float intensities[] = {
+      POSTERIZE_INTENSITY0, POSTERIZE_INTENSITY1, POSTERIZE_INTENSITY2, POSTERIZE_INTENSITY3,
+      POSTERIZE_INTENSITY4, POSTERIZE_INTENSITY5
+  };
+
+  const uint32_t colors[] = {
+      POSTERIZE_COLOR0_REF,
+      POSTERIZE_COLOR1_REF,
+      POSTERIZE_COLOR2_REF,
+      POSTERIZE_COLOR3_REF,
+      POSTERIZE_COLOR4_REF
+  };
+
+  const int num_stages = (sizeof(intensities) / sizeof(intensities[0])) - 1;
+
+  for (int stage = 0; stage < num_stages; ++stage) {
+    float intensity_min = intensities[stage];
+    float intensity_max = intensities[stage + 1];
+    uint32_t color = colors[stage];
+
+    for (int y = 0; y < info.height; ++y) {
+      for (int x = 0; x < info.width; ++x) {
+        uint32_t pixel = input[index_bmp(info.width, x, y)];
+        float pixel_intensity_r = ((float) bmp_red(pixel) / 0xff) * RED_WEIGHT;
+        float pixel_intensity_g = ((float) bmp_green(pixel) / 0xff) * GREEN_WEIGHT;
+        float pixel_intensity_b = ((float) bmp_blue(pixel) / 0xff) * BLUE_WEIGHT;
+        float pixel_intensity = pixel_intensity_r + pixel_intensity_g + pixel_intensity_b;
+
+        if ((pixel_intensity <= intensity_max) && (pixel_intensity >= intensity_min))
+          output[index_bmp(info.width, x, y)] = color;
       }
     }
   }

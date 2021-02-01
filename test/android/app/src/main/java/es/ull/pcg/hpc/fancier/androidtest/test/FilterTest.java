@@ -11,6 +11,8 @@ import es.ull.pcg.hpc.fancier.androidtest.model.ImageFilter;
 
 
 public class FilterTest implements RuntimeTest {
+  private static final boolean EXPORT_IMAGE = false;
+
   private ImageFilter mFilter;
   private Bitmap mInput, mOutput;
 
@@ -23,12 +25,24 @@ public class FilterTest implements RuntimeTest {
     mFilter = filter;
   }
 
+  public ImageFilter getFilter() {
+    return mFilter;
+  }
+
   public void setInput(Bitmap input) {
     mInput = input;
   }
 
+  public Bitmap getInput() {
+    return mInput;
+  }
+
   public void setOutput(Bitmap output) {
     mOutput = output;
+  }
+
+  public Bitmap getOutput() {
+    return mOutput;
   }
 
   @Override
@@ -46,10 +60,12 @@ public class FilterTest implements RuntimeTest {
       return false;
 
     mFilter.process(mOutput);
-    try (FileOutputStream fos = new FileOutputStream(
-        new File("/data/data/es.ull.pcg.hpc.fancier.androidtest/cache/output.png"))) {
-      mOutput.compress(Bitmap.CompressFormat.PNG, 70, fos);
-    } catch (IOException ignored) {}
+
+    if (EXPORT_IMAGE) {
+      try (FileOutputStream fos = new FileOutputStream(new File("/data/data/es.ull.pcg.hpc.fancier.androidtest/cache/output.png"))) {
+        mOutput.compress(Bitmap.CompressFormat.PNG, 70, fos);
+      } catch (IOException ignored) {}
+    }
 
     return true;
   }

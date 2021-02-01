@@ -15,10 +15,10 @@
     <string name="test_teardown_finish">&lt;b&gt;[#%1$02d %2$s]&lt;/b&gt; Tear-down finished.</string>
     <string name="test_exception">&lt;b&gt;[#%1$02d %2$s]&lt;/b&gt; Exception occurred:&lt;br/&gt;%3$s</string>
 
-    <string name="info_tag">Fancier:INF</string>
-    <string name="success_tag">Fancier:SUC</string>
-    <string name="warning_tag">Fancier:WAR</string>
-    <string name="error_tag">Fancier:ERR</string>
+    <string name="info_tag">Fancier/INF</string>
+    <string name="success_tag">Fancier/SUC</string>
+    <string name="warning_tag">Fancier/WAR</string>
+    <string name="error_tag">Fancier/ERR</string>
 
     <string-array name="tests">
         <item>Fancier Init</item>
