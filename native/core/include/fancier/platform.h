@@ -13,9 +13,12 @@
 #define FANCIER_API                        extern "C"
 #define FC_JNI_CALL(_env, _func_name, ...) (_env)->_func_name(__VA_ARGS__)
 #else
-#define FANCIER_API
+#define FANCIER_API                        extern
 #define FC_JNI_CALL(_env, _func_name, ...) (*_env)->_func_name(_env, ##__VA_ARGS__)
 #endif
+
+#define FANCIER_STATIC static
+#define FC_PURE __attribute__((const))
 
 typedef cl_char cl_byte;
 

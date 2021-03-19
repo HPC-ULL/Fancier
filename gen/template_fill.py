@@ -56,6 +56,22 @@ def fill_params(target_size, prev_params=tuple(), current_size=0):
 def field_to_varname(field):
   return re.sub(r"\[|\]", '', field)
 
+def var_to_cpp_field(varname):
+  index = 0
+
+  if varname == 'x':
+    index = 0
+  elif varname == 'y':
+    index = 1
+  elif varname == 'z':
+    index = 2
+  elif varname == 'w':
+    index = 3
+  elif varname[0] == 's':
+    index = int(varname[1:])
+
+  return f's[{index}]'
+
 def make_delegate_constructor(param_set, type, vfields, native=False):
   params = []
   args = []
@@ -76,7 +92,11 @@ def make_delegate_constructor(param_set, type, vfields, native=False):
         other_len = 'fc' + other_len
 
       params.append(f'{other_len} vec{obj_index}')
-      args += [f'vec{obj_index}.{vfields[i]}' for i in range(param_len)]
+
+      if native:
+        args += [f'vec{obj_index}.{var_to_cpp_field(vfields[i])}' for i in range(param_len)]
+      else:
+        args += [f'vec{obj_index}.{vfields[i]}' for i in range(param_len)]
 
     arg_index += param_len
 
@@ -180,7 +200,7 @@ if __name__ == "__main__":
       'types, inttypes, floattypes, signatures, defaults, literal_suf, vfields, ' +
       'math_alltype_functions, math_int_functions, math_float_functions, param_name, ' +
       'typed_int_fname, typed_float_fname, typed_fname, vwidth, fill_params, field_to_varname, ' +
-      'make_delegate_constructor'])
+      'var_to_cpp_field, make_delegate_constructor'])
   fmt = __process_format(args.format)
 
   fmt_display = ' '.join([f'{fmt_k}={fmt_v}' for fmt_k, fmt_v in fmt.items()])

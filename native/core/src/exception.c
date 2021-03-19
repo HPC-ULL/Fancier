@@ -41,7 +41,7 @@ static const char* const NATIVE_EXCEPTION_TEXT[] = {
     "Other error encountered"};
 
 
-#define EXCEPTION_STRING_SIZE 32 * 1024  // 32K chars maximum message size
+#define EXCEPTION_STRING_SIZE 32 * 1024  // 32KB maximum message size
 static char EXCEPTION_STRING_BUFFER[EXCEPTION_STRING_SIZE];
 
 #define FORWARD_EXCEPTION_IF(_env, _pred, _ret)       \
