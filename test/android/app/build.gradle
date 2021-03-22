@@ -20,7 +20,7 @@ android {
 
         externalNativeBuild {
             cmake {
-                arguments '-DANDROID_STL=c++_shared'
+                arguments '-DANDROID_STL=c++_shared', '-DANDROID_ARM_MODE=arm'
                 cFlags '-Wall', '-Wno-int-to-pointer-cast', '-Wno-dangling-else'
                 cppFlags '-fno-exceptions', '-fno-rtti', '-std=c++11'
             }

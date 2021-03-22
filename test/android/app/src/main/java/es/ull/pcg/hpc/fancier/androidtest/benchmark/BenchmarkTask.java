@@ -233,7 +233,7 @@ public class BenchmarkTask implements Runnable {
     }
 
     configs.configs.add(new BenchmarkConfiguration(runner, implementation));
-    configs.maxParams = Math.min(configs.maxParams, allowedParameters(selectedBenchmark, filterInfo));
+    configs.maxParams = Math.min(configs.maxParams, allowedParameters(selectedBenchmark));
   }
 
   @Override
@@ -282,13 +282,15 @@ public class BenchmarkTask implements Runnable {
     }
   }
 
-  private int allowedParameters(Benchmarks selectedBenchmark, FilterInfo filterInfo) {
+  private int allowedParameters(Benchmarks selectedBenchmark) {
     // Reference Java versions are way too slow; only test smallest image size
-    if (filterInfo.javaVersion == JavaImageFilter.Version.REFERENCE)
+    if (selectedBenchmark.filterInfo.javaVersion == JavaImageFilter.Version.REFERENCE)
       return 1;
 
     // Bilateral and Median filters run slowly on CPU and cause problems on GPU
-    switch (filterInfo.kernel) {
+    switch (selectedBenchmark.filterInfo.kernel) {
+    case FISHEYE:
+      return mDevice == Devices.XU3? 4 : mNumParameters;
     case BILATERAL:
       return 4;
     case MEDIAN:

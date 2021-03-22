@@ -51,7 +51,8 @@ add_library( test-lib
              "${source-dir}/test/array_test.c"
              "${source-dir}/test/math_test.c"
              "${source-dir}/test/vector_test.c"
-             "${source-dir}/test/vector_array_test.c" )
+             "${source-dir}/test/vector_array_test.c"
+             "${source-dir}/test/quick_test.c" )
 
 add_library( filters-lib
              SHARED

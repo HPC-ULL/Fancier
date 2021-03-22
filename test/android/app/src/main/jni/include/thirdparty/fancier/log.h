@@ -56,20 +56,25 @@ FANCIER_API void __fcinternal_log(fcLogLevels log_level, const char* log_tag, co
 #define FC_LOGVERBOSE_FMT(_fmt, ...) \
   __fcinternal_log_fmt(FC_LOG_VERBOSE, FC_LOG_TAG, _fmt, __VA_ARGS__)
 
-//__fcinternal_log_fmtke formatted string and parameters with priority \c DEBUG.
-#define FC_LOGDEBUG_FMT(_fmt, ...) __fcinternal_log_fmt(FC_LOG_DEBUG, FC_LOG_TAG, _fmt, __VA_ARGS__)
+// Logs a printf-like formatted string and parameters with priority \c DEBUG.
+#define FC_LOGDEBUG_FMT(_fmt, ...) \
+  __fcinternal_log_fmt(FC_LOG_DEBUG, FC_LOG_TAG, _fmt, __VA_ARGS__)
 
-//__fcinternal_log_fmtke formatted string and parameters with priority \c INFO.
-#define FC_LOGINFO_FMT(_fmt, ...) __fcinternal_log_fmt(FC_LOG_INFO, FC_LOG_TAG, _fmt, __VA_ARGS__)
+// Logs a printf-like formatted string and parameters with priority \c INFO.
+#define FC_LOGINFO_FMT(_fmt, ...) \
+  __fcinternal_log_fmt(FC_LOG_INFO, FC_LOG_TAG, _fmt, __VA_ARGS__)
 
-//__fcinternal_log_fmtke formatted string and parameters with priority \c WARN.
-#define FC_LOGWARN_FMT(_fmt, ...) __fcinternal_log_fmt(FC_LOG_WARN, FC_LOG_TAG, _fmt, __VA_ARGS__)
+// Logs a printf-like formatted string and parameters with priority \c WARN.
+#define FC_LOGWARN_FMT(_fmt, ...) \
+  __fcinternal_log_fmt(FC_LOG_WARN, FC_LOG_TAG, _fmt, __VA_ARGS__)
 
-//__fcinternal_log_fmtke formatted string and parameters with priority \c ERROR.
-#define FC_LOGERROR_FMT(_fmt, ...) __fcinternal_log_fmt(FC_LOG_ERROR, FC_LOG_TAG, _fmt, __VA_ARGS__)
+// Logs a printf-like formatted string and parameters with priority \c ERROR.
+#define FC_LOGERROR_FMT(_fmt, ...) \
+  __fcinternal_log_fmt(FC_LOG_ERROR, FC_LOG_TAG, _fmt, __VA_ARGS__)
 
-//__fcinternal_log_fmtke formatted string and parameters with priority \c FATAL.
-#define FC_LOGFATAL_FMT(_fmt, ...) __fcinternal_log_fmt(FC_LOG_FATAL, FC_LOG_TAG, _fmt, __VA_ARGS__)
+// Logs a printf-like formatted string and parameters with priority \c FATAL.
+#define FC_LOGFATAL_FMT(_fmt, ...) \
+  __fcinternal_log_fmt(FC_LOG_FATAL, FC_LOG_TAG, _fmt, __VA_ARGS__)
 
 /// Logs a string \a _str with priority \c VERBOSE.
 #define FC_LOGVERBOSE(_str) __fcinternal_log(FC_LOG_VERBOSE, FC_LOG_TAG, _str)

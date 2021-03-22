@@ -18,7 +18,7 @@ public class Devices {
                               .fanModeDefaultValue("1").fanModeManualValue("0")
                               .fanSpeedPath("/sys/devices/odroid_fan.14/pwm_duty")
                               .fanSpeedMinValue(0).fanSpeedMaxValue(255)
-                              .baseTemperature(50000).maxTemperature(70000)
+                              .baseTemperature(55000).maxTemperature(70000)
 
                               .cpuDefaultGovernor("interactive")
 

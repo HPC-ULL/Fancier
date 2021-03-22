@@ -188,8 +188,9 @@ public class JavaImageFilter extends ImageFilter {
       break;
     }
 
-    if (mVersion != Version.BITMAP)
-      mOutput.updateBitmap(output);
+    // TODO Remove to see results
+    //if (mVersion != Version.BITMAP)
+    //  mOutput.updateBitmap(output);
   }
 
   // Grayscale
@@ -222,12 +223,12 @@ public class JavaImageFilter extends ImageFilter {
 
     for (int y = 0; y < height; ++y) {
       for (int x = 0; x < width; ++x) {
-        input.getBuffer(iBuffer, x, y, pixelIn);
+        Byte4Array.getBuffer(iBuffer, y * width + x, pixelIn);
         pixelIn.asByte3(pixelInB3);
         pixelInB3.convertFloat3(pixelInF3);
         byte grayValue = (byte) Float3.dot(pixelInF3, GS_WEIGHTS);
         pixelOut.set(grayValue, grayValue, grayValue, pixelIn.w);
-        output.setBuffer(oBuffer, x, y, pixelOut);
+        Byte4Array.setBuffer(oBuffer, y * width + x, pixelOut);
       }
     }
   }
@@ -896,7 +897,7 @@ public class JavaImageFilter extends ImageFilter {
     }
   }
 
-  private static void runConvolve5Bmp(Bitmap input, Bitmap output) { // TODO Test
+  private static void runConvolve5Bmp(Bitmap input, Bitmap output) {
     final int width = input.getWidth();
     final int height = input.getHeight();
 

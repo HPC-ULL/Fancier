@@ -64,14 +64,17 @@ public class NativeImageFilter extends ImageFilter {
       break;
     case GPU:
       processGpu(mInput, mOutput);
+      // Force to wait for the execution to finish, only needed if updateBitmap is not called
+      mOutput.syncToNative();
       break;
     case REF:
       processRef(mBmpIn, output);
       break;
     }
 
-    if (mVersion != Version.REF)
-      mOutput.updateBitmap(output);
+    // TODO Remove to see results
+    //if (mVersion != Version.REF)
+    //  mOutput.updateBitmap(output);
   }
 
   @Override

@@ -970,8 +970,8 @@ static int run_posterize_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* outp
 
 // Native helpers
 
-static inline int index_img(fcInt2 dims, int x, int y) {
-  return y * dims.x + x;
+static inline int index_img(int width, int x, int y) {
+  return y * width + x;
 }
 
 static fcByte4 bilinear_interp(const fcByte4* img, fcInt2 dims, fcFloat2 coord) {
@@ -982,10 +982,10 @@ static fcByte4 bilinear_interp(const fcByte4* img, fcInt2 dims, fcFloat2 coord) 
   uint y0 = fcMath_min((uint) fcMath_trunc(pos_coord.y), dims.y - 1);
   uint y1 = fcMath_min(y0 + 1, dims.y - 1);
 
-  fcFloat4 p00 = fcByte4_convertFloat4(img[index_img(dims, x0, y0)]);
-  fcFloat4 p01 = fcByte4_convertFloat4(img[index_img(dims, x0, y1)]);
-  fcFloat4 p10 = fcByte4_convertFloat4(img[index_img(dims, x1, y0)]);
-  fcFloat4 p11 = fcByte4_convertFloat4(img[index_img(dims, x1, y1)]);
+  fcFloat4 p00 = fcByte4_convertFloat4(img[index_img(dims.x, x0, y0)]);
+  fcFloat4 p01 = fcByte4_convertFloat4(img[index_img(dims.x, x0, y1)]);
+  fcFloat4 p10 = fcByte4_convertFloat4(img[index_img(dims.x, x1, y0)]);
+  fcFloat4 p11 = fcByte4_convertFloat4(img[index_img(dims.x, x1, y1)]);
 
   float slopex0 = (float) x1 - pos_coord.x;
   float slopex1 = pos_coord.x - (float) x0;
@@ -1006,14 +1006,16 @@ static inline fcFloat3 matrix3x3_vector_multiply(const fcFloat3* m, fcFloat3 v) 
 //
 
 static void run_grayscale_cpu(fcRGBAImage* input, fcRGBAImage* output) {
+  const int width = input->dims.x;
+  const int height = input->dims.y;
   const fcFloat3 weights = fcFloat3_create111(RED_WEIGHT, GREEN_WEIGHT, BLUE_WEIGHT);
 
   const fcByte4* in = input->pixels->c;
   fcByte4* out = output->pixels->c;
 
-  for (int y = 0; y < input->dims.y; ++y) {
-    for (int x = 0; x < input->dims.x; ++x) {
-      int index = index_img(input->dims, x, y);
+  for (int y = 0; y < height; ++y) {
+    for (int x = 0; x < width; ++x) {
+      int index = index_img(width, x, y);
       fcByte4 pixel_in = in[index];
       cl_byte gray_value = fcFloat3_dot(fcByte3_convertFloat3(fcByte4_asByte3(pixel_in)), weights);
       out[index] = fcByte4_create1111(gray_value, gray_value, gray_value, pixel_in.w);
@@ -1051,19 +1053,19 @@ static void run_blur_cpu(fcRGBAImage* input, fcRGBAImage* output) {
         for (int r = -BLUR_RADIUS; r <= BLUR_RADIUS; ++r) {
           int x_2 = fcMath_clamp(x + r, 0, width - 1);
           blurred_pixel = fcFloat4_add(blurred_pixel, fcFloat4_mulkf(
-              fcByte4_convertFloat4(in[index_img(input->dims, x_2, y)]),
+              fcByte4_convertFloat4(in[index_img(width, x_2, y)]),
               gauss_kernel[kernel_index++]));
         }
       }
       else {
         for (int r = -BLUR_RADIUS; r <= BLUR_RADIUS; ++r) {
           blurred_pixel = fcFloat4_add(blurred_pixel, fcFloat4_mulkf(
-              fcByte4_convertFloat4(in[index_img(input->dims, x + r, y)]),
+              fcByte4_convertFloat4(in[index_img(width, x + r, y)]),
               gauss_kernel[kernel_index++]));
         }
       }
 
-      buf[index_img(buffer->dims, x, y)] = fcFloat4_convertByte4(blurred_pixel);
+      buf[index_img(width, x, y)] = fcFloat4_convertByte4(blurred_pixel);
     }
   }
 
@@ -1077,19 +1079,19 @@ static void run_blur_cpu(fcRGBAImage* input, fcRGBAImage* output) {
         for (int r = -BLUR_RADIUS; r <= BLUR_RADIUS; ++r) {
           int y_2 = fcMath_clamp(y + r, 0, height - 1);
           blurred_pixel = fcFloat4_add(blurred_pixel, fcFloat4_mulkf(
-              fcByte4_convertFloat4(buf[index_img(buffer->dims, x, y_2)]),
+              fcByte4_convertFloat4(buf[index_img(width, x, y_2)]),
               gauss_kernel[kernel_index++]));
         }
       }
       else {
         for (int r = -BLUR_RADIUS; r <= BLUR_RADIUS; ++r) {
           blurred_pixel = fcFloat4_add(blurred_pixel, fcFloat4_mulkf(
-              fcByte4_convertFloat4(buf[index_img(buffer->dims, x, y + r)]),
+              fcByte4_convertFloat4(buf[index_img(width, x, y + r)]),
               gauss_kernel[kernel_index++]));
         }
       }
 
-      out[index_img(output->dims, x, y)] = fcFloat4_convertByte4(blurred_pixel);
+      out[index_img(width, x, y)] = fcFloat4_convertByte4(blurred_pixel);
     }
   }
 
@@ -1110,41 +1112,43 @@ static void run_convolve3_cpu(fcRGBAImage* input, fcRGBAImage* output) {
   mask[7] = CONVOLVE3_21;
   mask[8] = CONVOLVE3_22;
 
+  const int width = input->dims.x;
+  const int height = input->dims.y;
   const fcByte4* in = input->pixels->c;
   fcByte4* out = output->pixels->c;
 
-  for (int y = 0; y < input->dims.y; ++y) {
-    for (int x = 0; x < input->dims.x; ++x) {
+  for (int y = 0; y < height; ++y) {
+    for (int x = 0; x < width; ++x) {
       int x0 = fcMath_max((int) x - 1, 0);
-      int x1 = fcMath_min(x + 1, input->dims.x - 1);
+      int x1 = fcMath_min(x + 1, width - 1);
       int y0 = fcMath_max((int) y - 1, 0);
-      int y1 = fcMath_min(y + 1, input->dims.y - 1);
+      int y1 = fcMath_min(y + 1, height - 1);
 
-      fcByte4 pixel = in[index_img(input->dims, x, y)];
+      fcByte4 pixel = in[index_img(width, x, y)];
       fcFloat3 sum = fcFloat3_create1(0.0f);
 
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x0, y0)])), mask[0]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x0, y0)])), mask[0]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x, y0)])), mask[1]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x, y0)])), mask[1]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x1, y0)])), mask[2]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x1, y0)])), mask[2]));
 
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x0, y)])), mask[3]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x0, y)])), mask[3]));
       sum =
           fcFloat3_add(sum, fcFloat3_mulkf(fcByte3_convertFloat3(fcByte4_asByte3(pixel)), mask[4]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x1, y)])), mask[5]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x1, y)])), mask[5]));
 
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x0, y1)])), mask[6]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x0, y1)])), mask[6]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x, y1)])), mask[7]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x, y1)])), mask[7]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x1, y1)])), mask[8]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x1, y1)])), mask[8]));
 
-      out[index_img(output->dims, x, y)] =
+      out[index_img(width, x, y)] =
           fcByte4_create31(fcFloat3_convertByte3(fcFloat3_clampk(sum, 0.0f, 255.0f)), pixel.w);
     }
   }
@@ -1179,92 +1183,96 @@ static void run_convolve5_cpu(fcRGBAImage* input, fcRGBAImage* output) {
   mask[23] = CONVOLVE5_43;
   mask[24] = CONVOLVE5_44;
 
+  const int width = input->dims.x;
+  const int height = input->dims.y;
   const fcByte4* in = input->pixels->c;
   fcByte4* out = output->pixels->c;
 
-  for (int y = 0; y < input->dims.y; ++y) {
-    for (int x = 0; x < input->dims.x; ++x) {
+  for (int y = 0; y < height; ++y) {
+    for (int x = 0; x < width; ++x) {
       int x0 = fcMath_max((int) x - 2, 0);
       int x1 = fcMath_max((int) x - 1, 0);
-      int x2 = fcMath_min(x + 1, input->dims.x - 1);
-      int x3 = fcMath_min(x + 2, input->dims.x - 1);
+      int x2 = fcMath_min(x + 1, width - 1);
+      int x3 = fcMath_min(x + 2, width - 1);
 
       int y0 = fcMath_max((int) y - 2, 0);
       int y1 = fcMath_max((int) y - 1, 0);
-      int y2 = fcMath_min(y + 1, input->dims.y - 1);
-      int y3 = fcMath_min(y + 2, input->dims.y - 1);
+      int y2 = fcMath_min(y + 1, height - 1);
+      int y3 = fcMath_min(y + 2, height - 1);
 
-      fcByte4 pixel = in[index_img(input->dims, x, y)];
+      fcByte4 pixel = in[index_img(width, x, y)];
       fcFloat3 sum = fcFloat3_create1(0.0f);
 
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x0, y0)])), mask[0]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x0, y0)])), mask[0]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x1, y0)])), mask[1]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x1, y0)])), mask[1]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x, y0)])), mask[2]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x, y0)])), mask[2]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x2, y0)])), mask[3]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x2, y0)])), mask[3]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x3, y0)])), mask[4]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x3, y0)])), mask[4]));
 
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x0, y1)])), mask[5]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x0, y1)])), mask[5]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x1, y1)])), mask[6]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x1, y1)])), mask[6]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x, y1)])), mask[7]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x, y1)])), mask[7]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x2, y1)])), mask[8]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x2, y1)])), mask[8]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x3, y1)])), mask[9]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x3, y1)])), mask[9]));
 
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x0, y)])), mask[10]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x0, y)])), mask[10]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x1, y)])), mask[11]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x1, y)])), mask[11]));
       sum = fcFloat3_add(sum,
                          fcFloat3_mulkf(fcByte3_convertFloat3(fcByte4_asByte3(pixel)), mask[12]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x2, y)])), mask[13]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x2, y)])), mask[13]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x3, y)])), mask[14]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x3, y)])), mask[14]));
 
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x0, y2)])), mask[15]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x0, y2)])), mask[15]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x1, y2)])), mask[16]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x1, y2)])), mask[16]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x, y2)])), mask[17]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x, y2)])), mask[17]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x2, y2)])), mask[18]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x2, y2)])), mask[18]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x3, y2)])), mask[19]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x3, y2)])), mask[19]));
 
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x0, y3)])), mask[20]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x0, y3)])), mask[20]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x1, y3)])), mask[21]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x1, y3)])), mask[21]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x, y3)])), mask[22]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x, y3)])), mask[22]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x2, y3)])), mask[23]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x2, y3)])), mask[23]));
       sum = fcFloat3_add(sum, fcFloat3_mulkf(
-          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x3, y3)])), mask[24]));
+          fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x3, y3)])), mask[24]));
 
-      out[index_img(output->dims, x, y)] =
+      out[index_img(width, x, y)] =
           fcByte4_create31(fcFloat3_convertByte3(fcFloat3_clampk(sum, 0.0f, 255.0f)), pixel.w);
     }
   }
 }
 
 static void run_bilateral_cpu(fcRGBAImage* input, fcRGBAImage* output) {
+  const int width = input->dims.x;
+  const int height = input->dims.y;
   const fcByte4* in = input->pixels->c;
   fcByte4* out = output->pixels->c;
 
-  for (int y = 0; y < input->dims.y; ++y) {
-    for (int x = 0; x < input->dims.x; ++x) {
-      fcByte4 centerPixel = in[index_img(input->dims, x, y)];
+  for (int y = 0; y < height; ++y) {
+    for (int x = 0; x < width; ++x) {
+      fcByte4 centerPixel = in[index_img(width, x, y)];
       fcFloat3 center = fcFloat3_divkf(fcByte3_convertFloat3(fcByte4_asByte3(centerPixel)), 0xff);
 
       fcFloat3 sum = fcFloat3_create1(0.0f);
@@ -1272,17 +1280,17 @@ static void run_bilateral_cpu(fcRGBAImage* input, fcRGBAImage* output) {
 
       for (int rx = -BILATERAL_RADIUS; rx <= BILATERAL_RADIUS; ++rx) {
         for (int ry = -BILATERAL_RADIUS; ry <= BILATERAL_RADIUS; ++ry) {
-          int x2 = fcMath_clamp((int) x + rx, 0, (int) input->dims.x - 1);
-          int y2 = fcMath_clamp((int) y + ry, 0, (int) input->dims.y - 1);
+          int x2 = fcMath_clamp((int) x + rx, 0, (int) width - 1);
+          int y2 = fcMath_clamp((int) y + ry, 0, (int) height - 1);
 
           fcFloat3 pixel = fcFloat3_divkf(
-              fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(input->dims, x2, y2)])), 0xff);
+              fcByte3_convertFloat3(fcByte4_asByte3(in[index_img(width, x2, y2)])), 0xff);
           fcFloat3 diff = fcFloat3_sub(center, pixel);
           diff = fcFloat3_mulf(diff, diff);
 
-          float diffMap = fcMath_exp(-(diff.x + diff.y + diff.z) * BILATERAL_PRESERVATION * 100.0f);
+          float diffMap = fcMath_expf(-(diff.x + diff.y + diff.z) * BILATERAL_PRESERVATION * 100.0f);
           float gaussianWeight =
-              fcMath_exp(-0.5f * ((rx * rx) + (ry * ry)) / (float) BILATERAL_RADIUS);
+              fcMath_expf(-0.5f * ((rx * rx) + (ry * ry)) / (float) BILATERAL_RADIUS);
 
           float weight = diffMap * gaussianWeight;
           sum = fcFloat3_add(sum, fcFloat3_mulkf(pixel, weight));
@@ -1290,7 +1298,7 @@ static void run_bilateral_cpu(fcRGBAImage* input, fcRGBAImage* output) {
         }
       }
 
-      out[index_img(output->dims, x, y)] = fcByte4_create31(
+      out[index_img(width, x, y)] = fcByte4_create31(
           fcFloat3_convertByte3(fcFloat3_mulkf(fcFloat3_divkf(sum, totalWeight), 0xff)),
           centerPixel.w);
     }
@@ -1317,7 +1325,7 @@ static void run_median_cpu(fcRGBAImage* input, fcRGBAImage* output) {
           int x2 = fcMath_clamp(x + rx, 0, width - 1);
           int y2 = fcMath_clamp(y + ry, 0, height - 1);
 
-          cl_byte pixel = in[index_img(input->dims, x2, y2)].x;
+          cl_byte pixel = in[index_img(width, x2, y2)].x;
           val[pixel & 0xff] = fcInt3_add(val[pixel & 0xff], fcInt3_create1(1));
         }
       }
@@ -1351,25 +1359,26 @@ static void run_median_cpu(fcRGBAImage* input, fcRGBAImage* output) {
         }
       }
 
-      out[index_img(output->dims, x, y)] = out_pixel;
+      out[index_img(width, x, y)] = out_pixel;
     }
   }
 }
 
 static void run_contrast_cpu(fcRGBAImage* input, fcRGBAImage* output) {
+  const int width = input->dims.x;
+  const int height = input->dims.y;
   const fcByte4* in = input->pixels->c;
   fcByte4* out = output->pixels->c;
 
-  for (int y = 0; y < input->dims.y; ++y) {
-    for (int x = 0; x < input->dims.x; ++x) {
-      fcByte4 pixelIn = in[index_img(input->dims, x, y)];
-      float brightM = fcMath_exp2(CONTRAST_ENHANCEMENT);
-
+  for (int y = 0; y < height; ++y) {
+    for (int x = 0; x < width; ++x) {
+      fcByte4 pixelIn = in[index_img(width, x, y)];
+      float brightM = fcMath_exp2f(CONTRAST_ENHANCEMENT);
       fcFloat3 pixelOut =
           fcFloat3_add(fcFloat3_mulkf(fcByte3_convertFloat3(fcByte4_asByte3(pixelIn)), brightM),
                        fcFloat3_create1(127.0f * (1 - brightM)));
       pixelOut = fcFloat3_clampk(pixelOut, 0.0f, 255.0f);
-      out[index_img(output->dims, x, y)] =
+      out[index_img(width, x, y)] =
           fcByte4_create31(fcFloat3_convertByte3(pixelOut), pixelIn.w);
     }
   }
@@ -1396,36 +1405,38 @@ static void run_fisheye_cpu(fcRGBAImage* input, fcRGBAImage* output) {
         axisScale.x = width / (float) height;
 
       float bound2 = 0.25f * (axisScale.x * axisScale.x + axisScale.y * axisScale.y);
-      float bound = fcMath_sqrt(bound2);
+      float bound = fcMath_sqrtf(bound2);
       float radius = 1.15f * bound;
       float radius2 = radius * radius;
-      float factor = bound / (CL_M_PI_2_F - fcMath_atan(alpha / bound * fcMath_sqrt(radius2 - bound2)));
+      float factor = bound / (CL_M_PI_2_F - fcMath_atanf(alpha / bound * fcMath_sqrtf(radius2 - bound2)));
 
       fcFloat2 coord = fcFloat2_mad(fcFloat2_create11(x, y), invDimensions, fcFloat2_neg(FISHEYE_CENTER));
       fcFloat2 scaledCoord = fcFloat2_mulf(axisScale, coord);
 
       float dist2 = scaledCoord.x * scaledCoord.x + scaledCoord.y * scaledCoord.y;
-      float invDist = fcMath_rsqrt(dist2);
+      float invDist = fcMath_rsqrtf(dist2);
 
-      float radian = CL_M_PI_2_F - fcMath_atan((alpha * fcMath_sqrt(radius2 - dist2)) * invDist);
+      float radian = CL_M_PI_2_F - fcMath_atanf((alpha * fcMath_sqrtf(radius2 - dist2)) * invDist);
       float scalar = radian * factor * invDist;
       fcFloat2 newCoord = fcFloat2_mulf(fcFloat2_create11(width, height), fcFloat2_mad(coord, fcFloat2_create1(scalar), FISHEYE_CENTER));
 
-      out[index_img(output->dims, x, y)] = bilinear_interp(in, input->dims, newCoord);
+      out[index_img(width, x, y)] = bilinear_interp(in, input->dims, newCoord);
     }
   }
 }
 
 static void run_levels_cpu(fcRGBAImage* input, fcRGBAImage* output) {
+  const int width = input->dims.x;
+  const int height = input->dims.y;
   const fcByte4* in = input->pixels->c;
   fcByte4* out = output->pixels->c;
 
   fcFloat3 satMatrix[3];
   levels_build_sat_matrix(satMatrix, LEVELS_SATURATION);
 
-  for (int y = 0; y < input->dims.y; ++y) {
-    for (int x = 0; x < input->dims.x; ++x) {
-      fcFloat4 pixel = fcByte4_convertFloat4(in[index_img(input->dims, x, y)]);
+  for (int y = 0; y < height; ++y) {
+    for (int x = 0; x < width; ++x) {
+      fcFloat4 pixel = fcByte4_convertFloat4(in[index_img(width, x, y)]);
       fcFloat3 mul = matrix3x3_vector_multiply(satMatrix, fcFloat4_asFloat3(pixel));
       fcFloat4_set31(&pixel, mul, pixel.w);
       pixel = fcFloat4_clampk(pixel, 0.0f, 255.0f);
@@ -1434,7 +1445,7 @@ static void run_levels_cpu(fcRGBAImage* input, fcRGBAImage* output) {
 
       pixel = fcFloat4_clampk(pixel, 0.0f, 255.0f);
       fcByte4 pixelOut = fcFloat4_convertByte4(pixel);
-      out[index_img(output->dims, x, y)] = pixelOut;
+      out[index_img(width, x, y)] = pixelOut;
     }
   }
 }
@@ -1472,11 +1483,11 @@ static void run_posterize_cpu(fcRGBAImage* input, fcRGBAImage* output) {
 
     for (int y = 0; y < height; ++y) {
       for (int x = 0; x < width; ++x) {
-        fcByte4 pixel = in[index_img(input->dims, x, y)];
+        fcByte4 pixel = in[index_img(width, x, y)];
         float pixel_intensity = fcFloat3_dot(fcFloat3_divkf(fcByte3_convertFloat3(fcByte4_asByte3(pixel)), 0xff), weights);
 
         if ((pixel_intensity <= intensity.y) && (pixel_intensity >= intensity.x))
-          out[index_img(output->dims, x, y)] = color;
+          out[index_img(width, x, y)] = color;
       }
     }
   }
