@@ -71,8 +71,8 @@ jobject fc${type|c}${vlen}_wrap(JNIEnv* env, fc${type|c}${vlen} vec) {
   return FC_JNI_CALL(env, NewObject, fc${type|c}${vlen}_class, fc${type|c}${vlen}_constructor, ${', '.join([f'vec.{field}' for field in vfields[:vlen]])});
 }
 
-fc${type|c}${vlen} fc${type|c}${vlen}_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fc${type|c}${vlen} fc${type|c}${vlen}_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fc${type|c}${vlen} result = {.s = {${defaults[type]}}};

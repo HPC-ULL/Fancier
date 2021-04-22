@@ -13,68 +13,68 @@
 #define fcMath_max(x, y) ((x) > (y) ? (x) : (y))  // OpenCL max() | fmax()
 #define fcMath_min(x, y) ((x) < (y) ? (x) : (y))  // OpenCL min() | fmin()
 
-FANCIER_API cl_double fcMath_acos(cl_double a) FC_PURE;
-FANCIER_API cl_float fcMath_acosf(cl_float a) FC_PURE;
-FANCIER_API cl_double fcMath_asin(cl_double a) FC_PURE;
-FANCIER_API cl_float fcMath_asinf(cl_float a) FC_PURE;
-FANCIER_API cl_double fcMath_atan(cl_double a) FC_PURE;
-FANCIER_API cl_float fcMath_atanf(cl_float a) FC_PURE;
-FANCIER_API cl_double fcMath_atan2(cl_double y, cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_atan2f(cl_float y, cl_float x) FC_PURE;
-FANCIER_API cl_double fcMath_cbrt(cl_double a) FC_PURE;
-FANCIER_API cl_float fcMath_cbrtf(cl_float a) FC_PURE;
-FANCIER_API cl_double fcMath_ceil(cl_double a) FC_PURE;
-FANCIER_API cl_float fcMath_ceilf(cl_float a) FC_PURE;
-FANCIER_API cl_double fcMath_copySign(cl_double magnitude, cl_double sign) FC_PURE;  // OpenCL copysign()
-FANCIER_API cl_float fcMath_copySignf(cl_float magnitude, cl_float sign) FC_PURE;
-FANCIER_API cl_double fcMath_cos(cl_double a) FC_PURE;
-FANCIER_API cl_float fcMath_cosf(cl_float a) FC_PURE;
-FANCIER_API cl_double fcMath_cosh(cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_coshf(cl_float x) FC_PURE;
-FANCIER_API cl_double fcMath_exp(cl_double a) FC_PURE;
-FANCIER_API cl_float fcMath_expf(cl_float a) FC_PURE;
-FANCIER_API cl_double fcMath_expm1(cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_expm1f(cl_float x) FC_PURE;
-FANCIER_API cl_double fcMath_floor(cl_double a) FC_PURE;
-FANCIER_API cl_float fcMath_floorf(cl_float a) FC_PURE;
-FANCIER_API cl_int fcMath_getExponent(cl_double d) FC_PURE;  // OpenCL ilogb()
-FANCIER_API cl_int fcMath_getExponentf(cl_float f) FC_PURE;
-FANCIER_API cl_double fcMath_hypot(cl_double x, cl_double y) FC_PURE;
-FANCIER_API cl_float fcMath_hypotf(cl_float x, cl_float y) FC_PURE;
-FANCIER_API cl_double fcMath_remainder(cl_double f1, cl_double f2) FC_PURE;
-FANCIER_API cl_float fcMath_remainderf(cl_float f1, cl_float f2) FC_PURE;
-FANCIER_API cl_double fcMath_log(cl_double a) FC_PURE;
-FANCIER_API cl_float fcMath_logf(cl_float a) FC_PURE;
-FANCIER_API cl_double fcMath_log10(cl_double a) FC_PURE;
-FANCIER_API cl_float fcMath_log10f(cl_float a) FC_PURE;
-FANCIER_API cl_double fcMath_log1p(cl_double a) FC_PURE;
-FANCIER_API cl_float fcMath_log1pf(cl_float a) FC_PURE;
-FANCIER_API cl_double fcMath_nextAfter(cl_double start, cl_double direction) FC_PURE;  // OpenCL nextafter()
-FANCIER_API cl_float fcMath_nextAfterf(cl_float start, cl_float direction) FC_PURE;
-FANCIER_API cl_double fcMath_pow(cl_double a, cl_double b) FC_PURE;
-FANCIER_API cl_float fcMath_powf(cl_float a, cl_float b) FC_PURE;
-FANCIER_API cl_double fcMath_rint(cl_double a) FC_PURE;
-FANCIER_API cl_float fcMath_rintf(cl_float a) FC_PURE;
-FANCIER_API cl_double fcMath_round(cl_double a) FC_PURE;
-FANCIER_API cl_float fcMath_roundf(cl_float a) FC_PURE;
-FANCIER_API cl_double fcMath_scalb(cl_double a, cl_int scaleFactor) FC_PURE;  // OpenCL ldexp()
-FANCIER_API cl_float fcMath_scalbf(cl_float a, cl_int scaleFactor) FC_PURE;
-FANCIER_API cl_double fcMath_signum(cl_double d) FC_PURE;  // OpenCL sign()
-FANCIER_API cl_float fcMath_signumf(cl_float f) FC_PURE;
-FANCIER_API cl_double fcMath_sin(cl_double a) FC_PURE;
-FANCIER_API cl_float fcMath_sinf(cl_float a) FC_PURE;
-FANCIER_API cl_double fcMath_sinh(cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_sinhf(cl_float x) FC_PURE;
-FANCIER_API cl_double fcMath_sqrt(cl_double a) FC_PURE;
-FANCIER_API cl_float fcMath_sqrtf(cl_float a) FC_PURE;
-FANCIER_API cl_double fcMath_tan(cl_double a) FC_PURE;
-FANCIER_API cl_float fcMath_tanf(cl_float a) FC_PURE;
-FANCIER_API cl_double fcMath_tanh(cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_tanhf(cl_float x) FC_PURE;
-FANCIER_API cl_double fcMath_toDegrees(cl_double angrad) FC_PURE;  // OpenCL degrees()
-FANCIER_API cl_float fcMath_toDegreesf(cl_float angrad) FC_PURE;
-FANCIER_API cl_double fcMath_toRadians(cl_double angdeg) FC_PURE;  // OpenCL radians()
-FANCIER_API cl_float fcMath_toRadiansf(cl_float angdeg) FC_PURE;
+FANCIER_API fcDouble fcMath_acos(fcDouble a) FC_PURE;
+FANCIER_API fcFloat fcMath_acosf(fcFloat a) FC_PURE;
+FANCIER_API fcDouble fcMath_asin(fcDouble a) FC_PURE;
+FANCIER_API fcFloat fcMath_asinf(fcFloat a) FC_PURE;
+FANCIER_API fcDouble fcMath_atan(fcDouble a) FC_PURE;
+FANCIER_API fcFloat fcMath_atanf(fcFloat a) FC_PURE;
+FANCIER_API fcDouble fcMath_atan2(fcDouble y, fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_atan2f(fcFloat y, fcFloat x) FC_PURE;
+FANCIER_API fcDouble fcMath_cbrt(fcDouble a) FC_PURE;
+FANCIER_API fcFloat fcMath_cbrtf(fcFloat a) FC_PURE;
+FANCIER_API fcDouble fcMath_ceil(fcDouble a) FC_PURE;
+FANCIER_API fcFloat fcMath_ceilf(fcFloat a) FC_PURE;
+FANCIER_API fcDouble fcMath_copySign(fcDouble magnitude, fcDouble sign) FC_PURE;  // OpenCL copysign()
+FANCIER_API fcFloat fcMath_copySignf(fcFloat magnitude, fcFloat sign) FC_PURE;
+FANCIER_API fcDouble fcMath_cos(fcDouble a) FC_PURE;
+FANCIER_API fcFloat fcMath_cosf(fcFloat a) FC_PURE;
+FANCIER_API fcDouble fcMath_cosh(fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_coshf(fcFloat x) FC_PURE;
+FANCIER_API fcDouble fcMath_exp(fcDouble a) FC_PURE;
+FANCIER_API fcFloat fcMath_expf(fcFloat a) FC_PURE;
+FANCIER_API fcDouble fcMath_expm1(fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_expm1f(fcFloat x) FC_PURE;
+FANCIER_API fcDouble fcMath_floor(fcDouble a) FC_PURE;
+FANCIER_API fcFloat fcMath_floorf(fcFloat a) FC_PURE;
+FANCIER_API fcInt fcMath_getExponent(fcDouble d) FC_PURE;  // OpenCL ilogb()
+FANCIER_API fcInt fcMath_getExponentf(fcFloat f) FC_PURE;
+FANCIER_API fcDouble fcMath_hypot(fcDouble x, fcDouble y) FC_PURE;
+FANCIER_API fcFloat fcMath_hypotf(fcFloat x, fcFloat y) FC_PURE;
+FANCIER_API fcDouble fcMath_remainder(fcDouble f1, fcDouble f2) FC_PURE;
+FANCIER_API fcFloat fcMath_remainderf(fcFloat f1, fcFloat f2) FC_PURE;
+FANCIER_API fcDouble fcMath_log(fcDouble a) FC_PURE;
+FANCIER_API fcFloat fcMath_logf(fcFloat a) FC_PURE;
+FANCIER_API fcDouble fcMath_log10(fcDouble a) FC_PURE;
+FANCIER_API fcFloat fcMath_log10f(fcFloat a) FC_PURE;
+FANCIER_API fcDouble fcMath_log1p(fcDouble a) FC_PURE;
+FANCIER_API fcFloat fcMath_log1pf(fcFloat a) FC_PURE;
+FANCIER_API fcDouble fcMath_nextAfter(fcDouble start, fcDouble direction) FC_PURE;  // OpenCL nextafter()
+FANCIER_API fcFloat fcMath_nextAfterf(fcFloat start, fcFloat direction) FC_PURE;
+FANCIER_API fcDouble fcMath_pow(fcDouble a, fcDouble b) FC_PURE;
+FANCIER_API fcFloat fcMath_powf(fcFloat a, fcFloat b) FC_PURE;
+FANCIER_API fcDouble fcMath_rint(fcDouble a) FC_PURE;
+FANCIER_API fcFloat fcMath_rintf(fcFloat a) FC_PURE;
+FANCIER_API fcDouble fcMath_round(fcDouble a) FC_PURE;
+FANCIER_API fcFloat fcMath_roundf(fcFloat a) FC_PURE;
+FANCIER_API fcDouble fcMath_scalb(fcDouble a, fcInt scaleFactor) FC_PURE;  // OpenCL ldexp()
+FANCIER_API fcFloat fcMath_scalbf(fcFloat a, fcInt scaleFactor) FC_PURE;
+FANCIER_API fcDouble fcMath_signum(fcDouble d) FC_PURE;  // OpenCL sign()
+FANCIER_API fcFloat fcMath_signumf(fcFloat f) FC_PURE;
+FANCIER_API fcDouble fcMath_sin(fcDouble a) FC_PURE;
+FANCIER_API fcFloat fcMath_sinf(fcFloat a) FC_PURE;
+FANCIER_API fcDouble fcMath_sinh(fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_sinhf(fcFloat x) FC_PURE;
+FANCIER_API fcDouble fcMath_sqrt(fcDouble a) FC_PURE;
+FANCIER_API fcFloat fcMath_sqrtf(fcFloat a) FC_PURE;
+FANCIER_API fcDouble fcMath_tan(fcDouble a) FC_PURE;
+FANCIER_API fcFloat fcMath_tanf(fcFloat a) FC_PURE;
+FANCIER_API fcDouble fcMath_tanh(fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_tanhf(fcFloat x) FC_PURE;
+FANCIER_API fcDouble fcMath_toDegrees(fcDouble angrad) FC_PURE;  // OpenCL degrees()
+FANCIER_API fcFloat fcMath_toDegreesf(fcFloat angrad) FC_PURE;
+FANCIER_API fcDouble fcMath_toRadians(fcDouble angdeg) FC_PURE;  // OpenCL radians()
+FANCIER_API fcFloat fcMath_toRadiansf(fcFloat angdeg) FC_PURE;
 
 /**
  * @}
@@ -91,122 +91,122 @@ FANCIER_API cl_float fcMath_toRadiansf(cl_float angdeg) FC_PURE;
 #define fcMath_mix(x, y, a)       ((x) + ((y) - (x)) * (a))
 
 // OpenCL smoothstep
-FANCIER_API cl_double fcMath_smoothStep(cl_double edge0, cl_double edge1, cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_smoothStepf(cl_float edge0, cl_float edge1, cl_float x) FC_PURE;
-FANCIER_API cl_double fcMath_step(cl_double edge, cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_stepf(cl_float edge, cl_float x) FC_PURE;
+FANCIER_API fcDouble fcMath_smoothStep(fcDouble edge0, fcDouble edge1, fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_smoothStepf(fcFloat edge0, fcFloat edge1, fcFloat x) FC_PURE;
+FANCIER_API fcDouble fcMath_step(fcDouble edge, fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_stepf(fcFloat edge, fcFloat x) FC_PURE;
 
 // Integer functions
 
 #define fcMath_absDiff(x, y) (fcMath_abs((x) - (y)))  // OpenCL abs_diff()
 
-FANCIER_API cl_int fcMath_addSat(cl_int x, cl_int y) FC_PURE;  // OpenCL add_sat()
-FANCIER_API cl_byte fcMath_addSatc(cl_byte x, cl_byte y) FC_PURE;
-FANCIER_API cl_short fcMath_addSats(cl_short x, cl_short y) FC_PURE;
-FANCIER_API cl_long fcMath_addSatl(cl_long x, cl_long y) FC_PURE;
-FANCIER_API cl_int fcMath_clz(cl_int x) FC_PURE;
-FANCIER_API cl_byte fcMath_clzc(cl_byte x) FC_PURE;
-FANCIER_API cl_short fcMath_clzs(cl_short x) FC_PURE;
-FANCIER_API cl_long fcMath_clzl(cl_long x) FC_PURE;
-FANCIER_API cl_int fcMath_hadd(cl_int x, cl_int y) FC_PURE;
-FANCIER_API cl_byte fcMath_haddc(cl_byte x, cl_byte y) FC_PURE;
-FANCIER_API cl_short fcMath_hadds(cl_short x, cl_short y) FC_PURE;
-FANCIER_API cl_long fcMath_haddl(cl_long x, cl_long y) FC_PURE;
-FANCIER_API cl_int fcMath_mad24(cl_int x, cl_int y, cl_int z) FC_PURE;
-FANCIER_API cl_int fcMath_madHi(cl_int a, cl_int b, cl_int c) FC_PURE;  // OpenCL mad_hi()
-FANCIER_API cl_byte fcMath_madHic(cl_byte a, cl_byte b, cl_byte c) FC_PURE;
-FANCIER_API cl_short fcMath_madHis(cl_short a, cl_short b, cl_short c) FC_PURE;
-FANCIER_API cl_long fcMath_madHil(cl_long a, cl_long b, cl_long c) FC_PURE;
-FANCIER_API cl_int fcMath_madSat(cl_int a, cl_int b, cl_int c) FC_PURE;  // OpenCL mad_sat()
-FANCIER_API cl_byte fcMath_madSatc(cl_byte a, cl_byte b, cl_byte c) FC_PURE;
-FANCIER_API cl_short fcMath_madSats(cl_short a, cl_short b, cl_short c) FC_PURE;
-FANCIER_API cl_long fcMath_madSatl(cl_long a, cl_long b, cl_long c) FC_PURE;
-FANCIER_API cl_int fcMath_mul24(cl_int x, cl_int y) FC_PURE;
-FANCIER_API cl_int fcMath_mulHi(cl_int x, cl_int y) FC_PURE;
-FANCIER_API cl_byte fcMath_mulHic(cl_byte x, cl_byte y) FC_PURE;  // OpenCL mul_hi()
-FANCIER_API cl_short fcMath_mulHis(cl_short x, cl_short y) FC_PURE;
-FANCIER_API cl_long fcMath_mulHil(cl_long x, cl_long y) FC_PURE;
-FANCIER_API cl_int fcMath_rhadd(cl_int x, cl_int y) FC_PURE;
-FANCIER_API cl_byte fcMath_rhaddc(cl_byte x, cl_byte y) FC_PURE;
-FANCIER_API cl_short fcMath_rhadds(cl_short x, cl_short y) FC_PURE;
-FANCIER_API cl_long fcMath_rhaddl(cl_long x, cl_long y) FC_PURE;
-FANCIER_API cl_int fcMath_rotate(cl_int v, cl_int i) FC_PURE;
-FANCIER_API cl_byte fcMath_rotatec(cl_byte v, cl_byte i) FC_PURE;
-FANCIER_API cl_short fcMath_rotates(cl_short v, cl_short i) FC_PURE;
-FANCIER_API cl_long fcMath_rotatel(cl_long v, cl_long i) FC_PURE;
-FANCIER_API cl_int fcMath_subSat(cl_int x, cl_int y) FC_PURE;  // OpenCL sub_sat()
-FANCIER_API cl_byte fcMath_subSatc(cl_byte x, cl_byte y) FC_PURE;
-FANCIER_API cl_short fcMath_subSats(cl_short x, cl_short y) FC_PURE;
-FANCIER_API cl_long fcMath_subSatl(cl_long x, cl_long y) FC_PURE;
+FANCIER_API fcInt fcMath_addSat(fcInt x, fcInt y) FC_PURE;  // OpenCL add_sat()
+FANCIER_API fcByte fcMath_addSatc(fcByte x, fcByte y) FC_PURE;
+FANCIER_API fcShort fcMath_addSats(fcShort x, fcShort y) FC_PURE;
+FANCIER_API fcLong fcMath_addSatl(fcLong x, fcLong y) FC_PURE;
+FANCIER_API fcInt fcMath_clz(fcInt x) FC_PURE;
+FANCIER_API fcByte fcMath_clzc(fcByte x) FC_PURE;
+FANCIER_API fcShort fcMath_clzs(fcShort x) FC_PURE;
+FANCIER_API fcLong fcMath_clzl(fcLong x) FC_PURE;
+FANCIER_API fcInt fcMath_hadd(fcInt x, fcInt y) FC_PURE;
+FANCIER_API fcByte fcMath_haddc(fcByte x, fcByte y) FC_PURE;
+FANCIER_API fcShort fcMath_hadds(fcShort x, fcShort y) FC_PURE;
+FANCIER_API fcLong fcMath_haddl(fcLong x, fcLong y) FC_PURE;
+FANCIER_API fcInt fcMath_mad24(fcInt x, fcInt y, fcInt z) FC_PURE;
+FANCIER_API fcInt fcMath_madHi(fcInt a, fcInt b, fcInt c) FC_PURE;  // OpenCL mad_hi()
+FANCIER_API fcByte fcMath_madHic(fcByte a, fcByte b, fcByte c) FC_PURE;
+FANCIER_API fcShort fcMath_madHis(fcShort a, fcShort b, fcShort c) FC_PURE;
+FANCIER_API fcLong fcMath_madHil(fcLong a, fcLong b, fcLong c) FC_PURE;
+FANCIER_API fcInt fcMath_madSat(fcInt a, fcInt b, fcInt c) FC_PURE;  // OpenCL mad_sat()
+FANCIER_API fcByte fcMath_madSatc(fcByte a, fcByte b, fcByte c) FC_PURE;
+FANCIER_API fcShort fcMath_madSats(fcShort a, fcShort b, fcShort c) FC_PURE;
+FANCIER_API fcLong fcMath_madSatl(fcLong a, fcLong b, fcLong c) FC_PURE;
+FANCIER_API fcInt fcMath_mul24(fcInt x, fcInt y) FC_PURE;
+FANCIER_API fcInt fcMath_mulHi(fcInt x, fcInt y) FC_PURE;
+FANCIER_API fcByte fcMath_mulHic(fcByte x, fcByte y) FC_PURE;  // OpenCL mul_hi()
+FANCIER_API fcShort fcMath_mulHis(fcShort x, fcShort y) FC_PURE;
+FANCIER_API fcLong fcMath_mulHil(fcLong x, fcLong y) FC_PURE;
+FANCIER_API fcInt fcMath_rhadd(fcInt x, fcInt y) FC_PURE;
+FANCIER_API fcByte fcMath_rhaddc(fcByte x, fcByte y) FC_PURE;
+FANCIER_API fcShort fcMath_rhadds(fcShort x, fcShort y) FC_PURE;
+FANCIER_API fcLong fcMath_rhaddl(fcLong x, fcLong y) FC_PURE;
+FANCIER_API fcInt fcMath_rotate(fcInt v, fcInt i) FC_PURE;
+FANCIER_API fcByte fcMath_rotatec(fcByte v, fcByte i) FC_PURE;
+FANCIER_API fcShort fcMath_rotates(fcShort v, fcShort i) FC_PURE;
+FANCIER_API fcLong fcMath_rotatel(fcLong v, fcLong i) FC_PURE;
+FANCIER_API fcInt fcMath_subSat(fcInt x, fcInt y) FC_PURE;  // OpenCL sub_sat()
+FANCIER_API fcByte fcMath_subSatc(fcByte x, fcByte y) FC_PURE;
+FANCIER_API fcShort fcMath_subSats(fcShort x, fcShort y) FC_PURE;
+FANCIER_API fcLong fcMath_subSatl(fcLong x, fcLong y) FC_PURE;
 
 // Math functions
 
 #define fcMath_maxMag(x, y) (fcMath_abs(x) > fcMath_abs(y) ? x : y)  // OpenCL maxmag()
 #define fcMath_minMag(x, y) (fcMath_abs(x) < fcMath_abs(y) ? x : y)  // OpenCL minmag()
 
-FANCIER_API cl_double fcMath_acosh(cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_acoshf(cl_float x) FC_PURE;
-FANCIER_API cl_double fcMath_asinh(cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_asinhf(cl_float x) FC_PURE;
-FANCIER_API cl_double fcMath_atanh(cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_atanhf(cl_float x) FC_PURE;
-FANCIER_API cl_double fcMath_erf(cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_erff(cl_float x) FC_PURE;
-FANCIER_API cl_double fcMath_erfc(cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_erfcf(cl_float x) FC_PURE;
-FANCIER_API cl_double fcMath_exp2(cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_exp2f(cl_float x) FC_PURE;
-FANCIER_API cl_double fcMath_exp10(cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_exp10f(cl_float x) FC_PURE;
-FANCIER_API cl_double fcMath_fdim(cl_double x, cl_double y) FC_PURE;
-FANCIER_API cl_float fcMath_fdimf(cl_float x, cl_float y) FC_PURE;
-FANCIER_API cl_double fcMath_fma(cl_double a, cl_double b, cl_double c) FC_PURE;
-FANCIER_API cl_float fcMath_fmaf(cl_float a, cl_float b, cl_float c) FC_PURE;
-FANCIER_API cl_double fcMath_fmod(cl_double x, cl_double y) FC_PURE;
-FANCIER_API cl_float fcMath_fmodf(cl_float x, cl_float y) FC_PURE;
-FANCIER_API cl_double fcMath_fract(cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_fractf(cl_float x) FC_PURE;
-FANCIER_API cl_double fcMath_frexp(cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_frexpf(cl_float x) FC_PURE;
-FANCIER_API cl_double fcMath_ldexp(cl_double x, cl_int n) FC_PURE;
-FANCIER_API cl_float fcMath_ldexpf(cl_float x, cl_int n) FC_PURE;
-FANCIER_API cl_double fcMath_lgamma(cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_lgammaf(cl_float x) FC_PURE;
-FANCIER_API cl_double fcMath_log2(cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_log2f(cl_float x) FC_PURE;
-FANCIER_API cl_double fcMath_logb(cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_logbf(cl_float x) FC_PURE;
-FANCIER_API cl_double fcMath_mad(cl_double a, cl_double b, cl_double c) FC_PURE;
-FANCIER_API cl_float fcMath_madf(cl_float a, cl_float b, cl_float c) FC_PURE;
-FANCIER_API cl_double fcMath_pown(cl_double x, cl_int y) FC_PURE;
-FANCIER_API cl_float fcMath_pownf(cl_float x, cl_int y) FC_PURE;
-FANCIER_API cl_double fcMath_powr(cl_double x, cl_double y) FC_PURE;
-FANCIER_API cl_float fcMath_powrf(cl_float x, cl_float y) FC_PURE;
-FANCIER_API cl_double fcMath_rootn(cl_double x, cl_int y) FC_PURE;
-FANCIER_API cl_float fcMath_rootnf(cl_float x, cl_int y) FC_PURE;
-FANCIER_API cl_double fcMath_rsqrt(cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_rsqrtf(cl_float x) FC_PURE;
-FANCIER_API cl_double fcMath_tgamma(cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_tgammaf(cl_float x) FC_PURE;
-FANCIER_API cl_double fcMath_trunc(cl_double x) FC_PURE;
-FANCIER_API cl_float fcMath_truncf(cl_float x) FC_PURE;
+FANCIER_API fcDouble fcMath_acosh(fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_acoshf(fcFloat x) FC_PURE;
+FANCIER_API fcDouble fcMath_asinh(fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_asinhf(fcFloat x) FC_PURE;
+FANCIER_API fcDouble fcMath_atanh(fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_atanhf(fcFloat x) FC_PURE;
+FANCIER_API fcDouble fcMath_erf(fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_erff(fcFloat x) FC_PURE;
+FANCIER_API fcDouble fcMath_erfc(fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_erfcf(fcFloat x) FC_PURE;
+FANCIER_API fcDouble fcMath_exp2(fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_exp2f(fcFloat x) FC_PURE;
+FANCIER_API fcDouble fcMath_exp10(fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_exp10f(fcFloat x) FC_PURE;
+FANCIER_API fcDouble fcMath_fdim(fcDouble x, fcDouble y) FC_PURE;
+FANCIER_API fcFloat fcMath_fdimf(fcFloat x, fcFloat y) FC_PURE;
+FANCIER_API fcDouble fcMath_fma(fcDouble a, fcDouble b, fcDouble c) FC_PURE;
+FANCIER_API fcFloat fcMath_fmaf(fcFloat a, fcFloat b, fcFloat c) FC_PURE;
+FANCIER_API fcDouble fcMath_fmod(fcDouble x, fcDouble y) FC_PURE;
+FANCIER_API fcFloat fcMath_fmodf(fcFloat x, fcFloat y) FC_PURE;
+FANCIER_API fcDouble fcMath_fract(fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_fractf(fcFloat x) FC_PURE;
+FANCIER_API fcDouble fcMath_frexp(fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_frexpf(fcFloat x) FC_PURE;
+FANCIER_API fcDouble fcMath_ldexp(fcDouble x, fcInt n) FC_PURE;
+FANCIER_API fcFloat fcMath_ldexpf(fcFloat x, fcInt n) FC_PURE;
+FANCIER_API fcDouble fcMath_lgamma(fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_lgammaf(fcFloat x) FC_PURE;
+FANCIER_API fcDouble fcMath_log2(fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_log2f(fcFloat x) FC_PURE;
+FANCIER_API fcDouble fcMath_logb(fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_logbf(fcFloat x) FC_PURE;
+FANCIER_API fcDouble fcMath_mad(fcDouble a, fcDouble b, fcDouble c) FC_PURE;
+FANCIER_API fcFloat fcMath_madf(fcFloat a, fcFloat b, fcFloat c) FC_PURE;
+FANCIER_API fcDouble fcMath_pown(fcDouble x, fcInt y) FC_PURE;
+FANCIER_API fcFloat fcMath_pownf(fcFloat x, fcInt y) FC_PURE;
+FANCIER_API fcDouble fcMath_powr(fcDouble x, fcDouble y) FC_PURE;
+FANCIER_API fcFloat fcMath_powrf(fcFloat x, fcFloat y) FC_PURE;
+FANCIER_API fcDouble fcMath_rootn(fcDouble x, fcInt y) FC_PURE;
+FANCIER_API fcFloat fcMath_rootnf(fcFloat x, fcInt y) FC_PURE;
+FANCIER_API fcDouble fcMath_rsqrt(fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_rsqrtf(fcFloat x) FC_PURE;
+FANCIER_API fcDouble fcMath_tgamma(fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_tgammaf(fcFloat x) FC_PURE;
+FANCIER_API fcDouble fcMath_trunc(fcDouble x) FC_PURE;
+FANCIER_API fcFloat fcMath_truncf(fcFloat x) FC_PURE;
 
 // Relational functions
 
 #define fcMath_select(a, b, c) ((c) ? (b) : (a))
 
-FANCIER_API cl_int fcMath_isFinite(cl_double x) FC_PURE;  // OpenCL isfinite()
-FANCIER_API cl_int fcMath_isFinitef(cl_float x) FC_PURE;
-FANCIER_API cl_int fcMath_isInf(cl_double x) FC_PURE;  // OpenCL isinf()
-FANCIER_API cl_int fcMath_isInff(cl_float x) FC_PURE;
-FANCIER_API cl_int fcMath_isNaN(cl_double x) FC_PURE;  // OpenCL isnan()
-FANCIER_API cl_int fcMath_isNaNf(cl_float x) FC_PURE;
-FANCIER_API cl_int fcMath_isNormal(cl_double x) FC_PURE;  // OpenCL isnormal()
-FANCIER_API cl_int fcMath_isNormalf(cl_float x) FC_PURE;
-FANCIER_API cl_int fcMath_isOrdered(cl_double x, cl_double y) FC_PURE;  // OpenCL isordered()
-FANCIER_API cl_int fcMath_isOrderedf(cl_float x, cl_float y) FC_PURE;
-FANCIER_API cl_int fcMath_isUnordered(cl_double x, cl_double y) FC_PURE;  // OpenCL isunordered()
-FANCIER_API cl_int fcMath_isUnorderedf(cl_float x, cl_float y) FC_PURE;
+FANCIER_API fcInt fcMath_isFinite(fcDouble x) FC_PURE;  // OpenCL isfinite()
+FANCIER_API fcInt fcMath_isFinitef(fcFloat x) FC_PURE;
+FANCIER_API fcInt fcMath_isInf(fcDouble x) FC_PURE;  // OpenCL isinf()
+FANCIER_API fcInt fcMath_isInff(fcFloat x) FC_PURE;
+FANCIER_API fcInt fcMath_isNaN(fcDouble x) FC_PURE;  // OpenCL isnan()
+FANCIER_API fcInt fcMath_isNaNf(fcFloat x) FC_PURE;
+FANCIER_API fcInt fcMath_isNormal(fcDouble x) FC_PURE;  // OpenCL isnormal()
+FANCIER_API fcInt fcMath_isNormalf(fcFloat x) FC_PURE;
+FANCIER_API fcInt fcMath_isOrdered(fcDouble x, fcDouble y) FC_PURE;  // OpenCL isordered()
+FANCIER_API fcInt fcMath_isOrderedf(fcFloat x, fcFloat y) FC_PURE;
+FANCIER_API fcInt fcMath_isUnordered(fcDouble x, fcDouble y) FC_PURE;  // OpenCL isunordered()
+FANCIER_API fcInt fcMath_isUnorderedf(fcFloat x, fcFloat y) FC_PURE;
 
 /**
  * @}

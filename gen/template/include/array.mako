@@ -29,13 +29,13 @@ typedef struct {
   ///
   /// Multiple pointers to the same object can be created, and a reference counter must be
   /// created in order to only free the contents when there are no more references to it.
-  int ref_count;
+  fcInt ref_count;
 
   /// Number of elements in the array.
-  size_t len;
+  fcInt len;
 
   /// Pointer to native elements. Only valid when `location = FC_ARRAY_LOCATION_NATIVE`.
-  j${type|l}* c;
+  fc${type|c}* c;
 
   /// OpenCL buffer to array elements. Only valid when `location = FC_ARRAY_LOCATION_OPENCL`.
   cl_mem ocl;
@@ -53,25 +53,25 @@ FANCIER_API void fcArray_releaseJNI(JNIEnv* env);
 
 % for type in types:
 FANCIER_API fc${type|c}Array* fc${type|c}Array_getJava(JNIEnv* env, jobject obj);
-FANCIER_API int fc${type|c}Array_createRef(fc${type|c}Array* array);
-FANCIER_API int fc${type|c}Array_releaseRef(fc${type|c}Array* array);
+FANCIER_API fcError fc${type|c}Array_createRef(fc${type|c}Array* array);
+FANCIER_API fcError fc${type|c}Array_releaseRef(fc${type|c}Array* array);
 
-FANCIER_API int fc${type|c}Array_init(fc${type|c}Array* self);
-FANCIER_API int fc${type|c}Array_initSize(fc${type|c}Array* self, int n);
-FANCIER_API int fc${type|c}Array_initArray(fc${type|c}Array* self, jsize len, const j${type|l}* v);
-FANCIER_API int fc${type|c}Array_initCopy(fc${type|c}Array* self, const fc${type|c}Array* array);
-FANCIER_API int fc${type|c}Array_release(fc${type|c}Array* self);
+FANCIER_API fcError fc${type|c}Array_init(fc${type|c}Array* self);
+FANCIER_API fcError fc${type|c}Array_initSize(fc${type|c}Array* self, fcInt n);
+FANCIER_API fcError fc${type|c}Array_initArray(fc${type|c}Array* self, fcInt len, const fc${type|c}* v);
+FANCIER_API fcError fc${type|c}Array_initCopy(fc${type|c}Array* self, const fc${type|c}Array* array);
+FANCIER_API fcError fc${type|c}Array_release(fc${type|c}Array* self);
 
-FANCIER_API j${type|l} fc${type|c}Array_get(fc${type|c}Array* self, int i, int* err);
-FANCIER_API int fc${type|c}Array_set(fc${type|c}Array* self, int i, j${type|l} x);
+FANCIER_API fc${type|c} fc${type|c}Array_get(fc${type|c}Array* self, fcInt i, fcError* err);
+FANCIER_API fcError fc${type|c}Array_set(fc${type|c}Array* self, fcInt i, fc${type|c} x);
 
-FANCIER_API int fc${type|c}Array_setArray(fc${type|c}Array* self, jsize len, const j${type|l}* v);
-FANCIER_API int fc${type|c}Array_setCopy(fc${type|c}Array* self, const fc${type|c}Array* array);
-FANCIER_API int fc${type|c}Array_setBuffer(fc${type|c}Array* self, jlong len, const void* v);
+FANCIER_API fcError fc${type|c}Array_setArray(fc${type|c}Array* self, fcInt len, const fc${type|c}* v);
+FANCIER_API fcError fc${type|c}Array_setCopy(fc${type|c}Array* self, const fc${type|c}Array* array);
+FANCIER_API fcError fc${type|c}Array_setBuffer(fc${type|c}Array* self, fcLong len, const void* v);
 
-FANCIER_API int fc${type|c}Array_syncToNative(fc${type|c}Array* self);
-FANCIER_API int fc${type|c}Array_syncToOCL(fc${type|c}Array* self);
-FANCIER_API jboolean fc${type|c}Array_valid(const fc${type|c}Array* self);
+FANCIER_API fcError fc${type|c}Array_syncToNative(fc${type|c}Array* self);
+FANCIER_API fcError fc${type|c}Array_syncToOCL(fc${type|c}Array* self);
+FANCIER_API fcBool fc${type|c}Array_valid(const fc${type|c}Array* self);
 
 % endfor
 #endif  // _FANCIER_ARRAY_H_

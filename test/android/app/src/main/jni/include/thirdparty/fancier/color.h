@@ -5,18 +5,18 @@
 #include <fancier/vector.h>
 
 
-extern const int fcRGBAColor_Red;
-extern const int fcRGBAColor_Green;
-extern const int fcRGBAColor_Blue;
-extern const int fcRGBAColor_Yellow;
-extern const int fcRGBAColor_Magenta;
-extern const int fcRGBAColor_Cyan;
-extern const int fcRGBAColor_White;
-extern const int fcRGBAColor_LtGray;
-extern const int fcRGBAColor_Gray;
-extern const int fcRGBAColor_DkGray;
-extern const int fcRGBAColor_Black;
-extern const int fcRGBAColor_Transparent;
+extern const fcInt fcRGBAColor_Red;
+extern const fcInt fcRGBAColor_Green;
+extern const fcInt fcRGBAColor_Blue;
+extern const fcInt fcRGBAColor_Yellow;
+extern const fcInt fcRGBAColor_Magenta;
+extern const fcInt fcRGBAColor_Cyan;
+extern const fcInt fcRGBAColor_White;
+extern const fcInt fcRGBAColor_LtGray;
+extern const fcInt fcRGBAColor_Gray;
+extern const fcInt fcRGBAColor_DkGray;
+extern const fcInt fcRGBAColor_Black;
+extern const fcInt fcRGBAColor_Transparent;
 
 extern const fcByte4 fcRGBAColor_RED;
 extern const fcByte4 fcRGBAColor_GREEN;
@@ -32,29 +32,29 @@ extern const fcByte4 fcRGBAColor_BLACK;
 extern const fcByte4 fcRGBAColor_TRANSPARENT;
 
 
-FANCIER_STATIC cl_int fcRGBAColor_toRgba(fcByte4 color) {
+FANCIER_STATIC fcInt fcRGBAColor_toRgba(fcByte4 color) {
   return ((color.s[0] & 0xff) << 24) | ((color.s[1] & 0xff) << 16) | ((color.s[2] & 0xff) << 8) |
          ((color.s[3] & 0xff) << 0);
 }
 
-FANCIER_STATIC fcByte4 fcRGBAColor_fromRgba(cl_int rgba) {
-  return fcByte4_create1111((cl_byte)((rgba >> 24) & 0xff), (cl_byte)((rgba >> 16) & 0xff),
-                            (cl_byte)((rgba >> 8) & 0xff), (cl_byte)((rgba >> 0) & 0xff));
+FANCIER_STATIC fcByte4 fcRGBAColor_fromRgba(fcInt rgba) {
+  return fcByte4_create1111((fcByte)((rgba >> 24) & 0xff), (fcByte)((rgba >> 16) & 0xff),
+                            (fcByte)((rgba >> 8) & 0xff), (fcByte)((rgba >> 0) & 0xff));
 }
 
-FANCIER_STATIC cl_byte fcRGBAColor_alpha(fcByte4 color) {
+FANCIER_STATIC fcByte fcRGBAColor_alpha(fcByte4 color) {
   return color.s[0];
 }
 
-FANCIER_STATIC cl_byte fcRGBAColor_red(fcByte4 color) {
+FANCIER_STATIC fcByte fcRGBAColor_red(fcByte4 color) {
   return color.s[1];
 }
 
-FANCIER_STATIC cl_byte fcRGBAColor_green(fcByte4 color) {
+FANCIER_STATIC fcByte fcRGBAColor_green(fcByte4 color) {
   return color.s[2];
 }
 
-FANCIER_STATIC cl_byte fcRGBAColor_blue(fcByte4 color) {
+FANCIER_STATIC fcByte fcRGBAColor_blue(fcByte4 color) {
   return color.s[3];
 }
 

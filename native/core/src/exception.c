@@ -58,7 +58,7 @@ static void formatExceptionString(const char* file, int line, const char* functi
            function, message);
 }
 
-static const char* formatOpenCLError(int clerror) {
+static const char* formatOpenCLError(fcError clerror) {
   switch (clerror) {
   case CL_DEVICE_NOT_FOUND:
     return "CL_DEVICE_NOT_FOUND";
@@ -163,7 +163,7 @@ static const char* formatOpenCLError(int clerror) {
   }
 }
 
-int fcException_initJNI(JNIEnv* env) {
+jint fcException_initJNI(JNIEnv* env) {
   // Do not use the FC_INIT_CLASS_REF macro to initialize NativeException references because being
   // initialized is a pre-requisite of the macro
   jclass cls = FC_JNI_CALL(env, FindClass, "es/ull/pcg/hpc/fancier/NativeException");
@@ -221,7 +221,7 @@ void fcException_throwWrappedNative(JNIEnv* env, const char* file, int line, con
 }
 
 void fcException_throwNative(JNIEnv* env, const char* file, int line, const char* function,
-                             int error) {
+                             fcError error) {
   assert(error > FC_EXCEPTION_SUCCESS && error <= FC_EXCEPTION_OTHER);
   FC_JNI_CALL(env, ExceptionClear);
 
@@ -234,7 +234,7 @@ void fcException_throwNative(JNIEnv* env, const char* file, int line, const char
 }
 
 void fcException_throwOpenCL(JNIEnv* env, const char* file, int line, const char* function,
-                             int clerror) {
+                             fcError clerror) {
   assert(clerror < FC_EXCEPTION_SUCCESS && clerror != CL_BUILD_PROGRAM_FAILURE);
   FC_JNI_CALL(env, ExceptionClear);
 
@@ -261,13 +261,13 @@ void fcException_throwOpenCLBuild(JNIEnv* env, const char* file, int line, const
   FC_JNI_CALL(env, Throw, exception_obj);
 }
 
-void fcException_logNative(const char* file, int line, const char* function, int error) {
+void fcException_logNative(const char* file, int line, const char* function, fcError error) {
   assert(error > FC_EXCEPTION_SUCCESS && error <= FC_EXCEPTION_OTHER);
   formatExceptionString(file, line, function, NATIVE_EXCEPTION_TEXT[error]);
   FC_LOGERROR(EXCEPTION_STRING_BUFFER);
 }
 
-void fcException_logOpenCL(const char* file, int line, const char* function, int clerror) {
+void fcException_logOpenCL(const char* file, int line, const char* function, fcError clerror) {
   assert(clerror < FC_EXCEPTION_SUCCESS && clerror >= CL_INVALID_PROPERTY);
 
   formatExceptionString(file, line, function, formatOpenCLError(clerror));

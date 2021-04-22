@@ -573,7 +573,7 @@ static int run_blur_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output) {
     goto cleanup;
 
   // Launch horizontal / vertical kernels
-  cl_int radius = BLUR_RADIUS;
+  fcInt radius = BLUR_RADIUS;
   size_t sz[] = {input->dims.x, input->dims.y};
 
   // Execute horizontal kernel
@@ -585,7 +585,7 @@ static int run_blur_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output) {
   if (err)
     goto cleanup;
 
-  err = clSetKernelArg(self->m_kernels[0], 2, sizeof(cl_int), &radius);
+  err = clSetKernelArg(self->m_kernels[0], 2, sizeof(fcInt), &radius);
   if (err)
     goto cleanup;
 
@@ -607,7 +607,7 @@ static int run_blur_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output) {
   if (err)
     goto cleanup;
 
-  err = clSetKernelArg(self->m_kernels[1], 2, sizeof(cl_int), &radius);
+  err = clSetKernelArg(self->m_kernels[1], 2, sizeof(fcInt), &radius);
   if (err)
     goto cleanup;
 
@@ -753,19 +753,19 @@ static int run_bilateral_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* outp
   int err;
 
   // Execute kernel
-  cl_int radius = BILATERAL_RADIUS;
-  cl_float preservation = BILATERAL_PRESERVATION;
+  fcInt radius = BILATERAL_RADIUS;
+  fcFloat preservation = BILATERAL_PRESERVATION;
   size_t sz[] = {input->dims.x, input->dims.y};
 
   err = clSetKernelArg(self->m_kernels[0], 0, sizeof(cl_mem), &input->pixels->ocl);
   if (err)
     return err;
 
-  err = clSetKernelArg(self->m_kernels[0], 1, sizeof(cl_int), &radius);
+  err = clSetKernelArg(self->m_kernels[0], 1, sizeof(fcInt), &radius);
   if (err)
     return err;
 
-  err = clSetKernelArg(self->m_kernels[0], 2, sizeof(cl_float), &preservation);
+  err = clSetKernelArg(self->m_kernels[0], 2, sizeof(fcFloat), &preservation);
   if (err)
     return err;
 
@@ -785,14 +785,14 @@ static int run_median_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output)
   int err;
 
   // Execute kernel
-  cl_int radius = MEDIAN_RADIUS;
+  fcInt radius = MEDIAN_RADIUS;
   size_t sz[] = {input->dims.x, input->dims.y};
 
   err = clSetKernelArg(self->m_kernels[0], 0, sizeof(cl_mem), &input->pixels->ocl);
   if (err)
     return err;
 
-  err = clSetKernelArg(self->m_kernels[0], 1, sizeof(cl_int), &radius);
+  err = clSetKernelArg(self->m_kernels[0], 1, sizeof(fcInt), &radius);
   if (err)
     return err;
 
@@ -812,14 +812,14 @@ static int run_contrast_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* outpu
   int err;
 
   // Execute kernel
-  cl_float enhancement = CONTRAST_ENHANCEMENT;
+  fcFloat enhancement = CONTRAST_ENHANCEMENT;
   size_t sz[] = {input->dims.x, input->dims.y};
 
   err = clSetKernelArg(self->m_kernels[0], 0, sizeof(cl_mem), &input->pixels->ocl);
   if (err)
     return err;
 
-  err = clSetKernelArg(self->m_kernels[0], 1, sizeof(cl_float), &enhancement);
+  err = clSetKernelArg(self->m_kernels[0], 1, sizeof(fcFloat), &enhancement);
   if (err)
     return err;
 
@@ -840,7 +840,7 @@ static int run_fisheye_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output
 
   // Execute kernel
   fcFloat2 center = fcFloat2_create11(FISHEYE_CENTER_X, FISHEYE_CENTER_Y);
-  cl_float scale = FISHEYE_SCALE;
+  fcFloat scale = FISHEYE_SCALE;
   size_t sz[] = {input->dims.x, input->dims.y};
 
   err = clSetKernelArg(self->m_kernels[0], 0, sizeof(cl_mem), &input->pixels->ocl);
@@ -851,7 +851,7 @@ static int run_fisheye_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output
   if (err)
     return err;
 
-  err = clSetKernelArg(self->m_kernels[0], 2, sizeof(cl_float), &scale);
+  err = clSetKernelArg(self->m_kernels[0], 2, sizeof(fcFloat), &scale);
   if (err)
     return err;
 
@@ -975,25 +975,24 @@ static inline int index_img(int width, int x, int y) {
 }
 
 static fcByte4 bilinear_interp(const fcByte4* img, fcInt2 dims, fcFloat2 coord) {
+  fcInt2 dims_minus1 = fcInt2_add(dims, fcInt2_create1(-1));
   fcFloat2 pos_coord = fcFloat2_max(coord, fcFloat2_create1(0.0f));
 
-  uint x0 = fcMath_min((uint) fcMath_trunc(pos_coord.x), dims.x - 1);
-  uint x1 = fcMath_min(x0 + 1, dims.x - 1);
-  uint y0 = fcMath_min((uint) fcMath_trunc(pos_coord.y), dims.y - 1);
-  uint y1 = fcMath_min(y0 + 1, dims.y - 1);
+  fcInt2 xy0 = fcInt2_min(fcFloat2_convertInt2(fcFloat2_trunc(pos_coord)), dims_minus1);
+  fcInt2 xy1 = fcInt2_min(fcInt2_add(xy0, fcInt2_create1(1)), dims_minus1);
 
-  fcFloat4 p00 = fcByte4_convertFloat4(img[index_img(dims.x, x0, y0)]);
-  fcFloat4 p01 = fcByte4_convertFloat4(img[index_img(dims.x, x0, y1)]);
-  fcFloat4 p10 = fcByte4_convertFloat4(img[index_img(dims.x, x1, y0)]);
-  fcFloat4 p11 = fcByte4_convertFloat4(img[index_img(dims.x, x1, y1)]);
+  fcFloat4 p00 = fcByte4_convertFloat4(img[index_img(dims.x, xy0.x, xy0.y)]);
+  fcFloat4 p01 = fcByte4_convertFloat4(img[index_img(dims.x, xy0.x, xy1.y)]);
+  fcFloat4 p10 = fcByte4_convertFloat4(img[index_img(dims.x, xy1.x, xy0.y)]);
+  fcFloat4 p11 = fcByte4_convertFloat4(img[index_img(dims.x, xy1.x, xy1.y)]);
 
-  float slopex0 = (float) x1 - pos_coord.x;
-  float slopex1 = pos_coord.x - (float) x0;
+  float slopex0 = (float) xy1.x - pos_coord.x;
+  float slopex1 = pos_coord.x - (float) xy0.x;
 
   fcFloat4 pxy0 = fcFloat4_add(fcFloat4_mulkf(p00, slopex0), fcFloat4_mulkf(p10, slopex1));
   fcFloat4 pxy1 = fcFloat4_add(fcFloat4_mulkf(p01, slopex0), fcFloat4_mulkf(p11, slopex1));
 
-  fcFloat4 out = fcFloat4_add(fcFloat4_mulkf(pxy0, ((float) y1 - coord.y)), fcFloat4_mulkf(pxy1, (coord.y - (float) y0)));
+  fcFloat4 out = fcFloat4_add(fcFloat4_mulkf(pxy0, ((float) xy1.y - coord.y)), fcFloat4_mulkf(pxy1, (coord.y - (float) xy0.y)));
   return fcFloat4_convertByte4(fcFloat4_clampk(out, 0.0f, 255.0f));
 }
 
@@ -1017,7 +1016,7 @@ static void run_grayscale_cpu(fcRGBAImage* input, fcRGBAImage* output) {
     for (int x = 0; x < width; ++x) {
       int index = index_img(width, x, y);
       fcByte4 pixel_in = in[index];
-      cl_byte gray_value = fcFloat3_dot(fcByte3_convertFloat3(fcByte4_asByte3(pixel_in)), weights);
+      fcByte gray_value = fcFloat3_dot(fcByte3_convertFloat3(fcByte4_asByte3(pixel_in)), weights);
       out[index] = fcByte4_create1111(gray_value, gray_value, gray_value, pixel_in.w);
     }
   }
@@ -1325,7 +1324,7 @@ static void run_median_cpu(fcRGBAImage* input, fcRGBAImage* output) {
           int x2 = fcMath_clamp(x + rx, 0, width - 1);
           int y2 = fcMath_clamp(y + ry, 0, height - 1);
 
-          cl_byte pixel = in[index_img(width, x2, y2)].x;
+          fcByte pixel = in[index_img(width, x2, y2)].x;
           val[pixel & 0xff] = fcInt3_add(val[pixel & 0xff], fcInt3_create1(1));
         }
       }
@@ -1334,7 +1333,7 @@ static void run_median_cpu(fcRGBAImage* input, fcRGBAImage* output) {
       fcInt3 rgb = fcInt3_create1(0);
       fcByte4 out_pixel = fcByte4_create1(0xff);
 
-      for (cl_byte i = 0;
+      for (fcByte i = 0;
            fcInt3_any(fcByte3_isEqual(fcByte4_asByte3(out_pixel), fcByte3_create1(0xff))) != 0;
            i = (i & 0xff) + 1) {
         if ((out_pixel.x & 0xff) == 0xff) {
@@ -1404,7 +1403,7 @@ static void run_fisheye_cpu(fcRGBAImage* input, fcRGBAImage* output) {
       else
         axisScale.x = width / (float) height;
 
-      float bound2 = 0.25f * (axisScale.x * axisScale.x + axisScale.y * axisScale.y);
+      float bound2 = 0.25f * fcFloat2_dot(axisScale, axisScale);
       float bound = fcMath_sqrtf(bound2);
       float radius = 1.15f * bound;
       float radius2 = radius * radius;
@@ -1413,7 +1412,7 @@ static void run_fisheye_cpu(fcRGBAImage* input, fcRGBAImage* output) {
       fcFloat2 coord = fcFloat2_mad(fcFloat2_create11(x, y), invDimensions, fcFloat2_neg(FISHEYE_CENTER));
       fcFloat2 scaledCoord = fcFloat2_mulf(axisScale, coord);
 
-      float dist2 = scaledCoord.x * scaledCoord.x + scaledCoord.y * scaledCoord.y;
+      float dist2 = fcFloat2_dot(scaledCoord, scaledCoord);
       float invDist = fcMath_rsqrtf(dist2);
 
       float radian = CL_M_PI_2_F - fcMath_atanf((alpha * fcMath_sqrtf(radius2 - dist2)) * invDist);

@@ -139,6 +139,7 @@ JNIEXPORT jfloat JNICALL
 Java_es_ull_pcg_hpc_fancier_androidtest_benchmark_DeviceUtils_ddrWarmUpNative(JNIEnv* env,
                                                                               jclass clazz) {
   // TODO Native memory-bound code running on little cores?
+  return 0.0f;
 }
 
 JNIEXPORT void JNICALL

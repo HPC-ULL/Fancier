@@ -129,7 +129,7 @@ public class ${type|c}${vlen} {
   ## Conversion
 <% cast_mask = ' & 0xff' if type.lower() == 'byte' else '' %>\
   % for newtype in types:
-  % if newtype != type.lower():
+  % if newtype.lower() != type.lower():
   public ${newtype|c}${vlen} convert${newtype|c}${vlen}() {
     return new ${newtype|c}${vlen}(${', '.join([f'({newtype.lower()})({field}{cast_mask})' for field in vfields[:vlen]])});
   }

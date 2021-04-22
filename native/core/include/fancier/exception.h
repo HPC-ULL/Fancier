@@ -69,7 +69,7 @@ typedef enum {
 // clang-format on
 
 
-FANCIER_API int fcException_initJNI(JNIEnv* env);
+FANCIER_API jint fcException_initJNI(JNIEnv* env);
 FANCIER_API void fcException_releaseJNI(JNIEnv* env);
 
 FANCIER_API jstring fcException_createString(JNIEnv* env, const char* file, int line,
@@ -77,14 +77,15 @@ FANCIER_API jstring fcException_createString(JNIEnv* env, const char* file, int 
 FANCIER_API void fcException_throwWrappedNative(JNIEnv* env, const char* file, int line,
                                                 const char* function, jthrowable cause);
 FANCIER_API void fcException_throwNative(JNIEnv* env, const char* file, int line,
-                                         const char* function, int error);
+                                         const char* function, fcError error);
 FANCIER_API void fcException_throwOpenCL(JNIEnv* env, const char* file, int line,
-                                         const char* function, int clerror);
+                                         const char* function, fcError clerror);
 FANCIER_API void fcException_throwOpenCLBuild(JNIEnv* env, const char* file, int line,
                                               const char* function, cl_program program);
-FANCIER_API void fcException_logNative(const char* file, int line, const char* function, int error);
+FANCIER_API void fcException_logNative(const char* file, int line, const char* function,
+                                       fcError error);
 FANCIER_API void fcException_logOpenCL(const char* file, int line, const char* function,
-                                       int clerror);
+                                       fcError clerror);
 
 
 #define FC_EXCEPTION_HANDLE_PENDING(_env, _pred, _func, _ret)             \

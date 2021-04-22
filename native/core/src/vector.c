@@ -240,8 +240,8 @@ jobject fcByte2_wrap(JNIEnv* env, fcByte2 vec) {
   return FC_JNI_CALL(env, NewObject, fcByte2_class, fcByte2_constructor, vec.x, vec.y);
 }
 
-fcByte2 fcByte2_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcByte2 fcByte2_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcByte2 result = {.s = {'\0'}};
@@ -269,8 +269,8 @@ jobject fcByte3_wrap(JNIEnv* env, fcByte3 vec) {
   return FC_JNI_CALL(env, NewObject, fcByte3_class, fcByte3_constructor, vec.x, vec.y, vec.z);
 }
 
-fcByte3 fcByte3_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcByte3 fcByte3_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcByte3 result = {.s = {'\0'}};
@@ -303,8 +303,8 @@ jobject fcByte4_wrap(JNIEnv* env, fcByte4 vec) {
   return FC_JNI_CALL(env, NewObject, fcByte4_class, fcByte4_constructor, vec.x, vec.y, vec.z, vec.w);
 }
 
-fcByte4 fcByte4_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcByte4 fcByte4_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcByte4 result = {.s = {'\0'}};
@@ -342,8 +342,8 @@ jobject fcByte8_wrap(JNIEnv* env, fcByte8 vec) {
   return FC_JNI_CALL(env, NewObject, fcByte8_class, fcByte8_constructor, vec.x, vec.y, vec.z, vec.w, vec.s4, vec.s5, vec.s6, vec.s7);
 }
 
-fcByte8 fcByte8_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcByte8 fcByte8_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcByte8 result = {.s = {'\0'}};
@@ -402,8 +402,8 @@ jobject fcShort2_wrap(JNIEnv* env, fcShort2 vec) {
   return FC_JNI_CALL(env, NewObject, fcShort2_class, fcShort2_constructor, vec.x, vec.y);
 }
 
-fcShort2 fcShort2_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcShort2 fcShort2_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcShort2 result = {.s = {0}};
@@ -431,8 +431,8 @@ jobject fcShort3_wrap(JNIEnv* env, fcShort3 vec) {
   return FC_JNI_CALL(env, NewObject, fcShort3_class, fcShort3_constructor, vec.x, vec.y, vec.z);
 }
 
-fcShort3 fcShort3_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcShort3 fcShort3_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcShort3 result = {.s = {0}};
@@ -465,8 +465,8 @@ jobject fcShort4_wrap(JNIEnv* env, fcShort4 vec) {
   return FC_JNI_CALL(env, NewObject, fcShort4_class, fcShort4_constructor, vec.x, vec.y, vec.z, vec.w);
 }
 
-fcShort4 fcShort4_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcShort4 fcShort4_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcShort4 result = {.s = {0}};
@@ -504,8 +504,8 @@ jobject fcShort8_wrap(JNIEnv* env, fcShort8 vec) {
   return FC_JNI_CALL(env, NewObject, fcShort8_class, fcShort8_constructor, vec.x, vec.y, vec.z, vec.w, vec.s4, vec.s5, vec.s6, vec.s7);
 }
 
-fcShort8 fcShort8_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcShort8 fcShort8_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcShort8 result = {.s = {0}};
@@ -564,8 +564,8 @@ jobject fcInt2_wrap(JNIEnv* env, fcInt2 vec) {
   return FC_JNI_CALL(env, NewObject, fcInt2_class, fcInt2_constructor, vec.x, vec.y);
 }
 
-fcInt2 fcInt2_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcInt2 fcInt2_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcInt2 result = {.s = {0}};
@@ -593,8 +593,8 @@ jobject fcInt3_wrap(JNIEnv* env, fcInt3 vec) {
   return FC_JNI_CALL(env, NewObject, fcInt3_class, fcInt3_constructor, vec.x, vec.y, vec.z);
 }
 
-fcInt3 fcInt3_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcInt3 fcInt3_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcInt3 result = {.s = {0}};
@@ -627,8 +627,8 @@ jobject fcInt4_wrap(JNIEnv* env, fcInt4 vec) {
   return FC_JNI_CALL(env, NewObject, fcInt4_class, fcInt4_constructor, vec.x, vec.y, vec.z, vec.w);
 }
 
-fcInt4 fcInt4_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcInt4 fcInt4_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcInt4 result = {.s = {0}};
@@ -666,8 +666,8 @@ jobject fcInt8_wrap(JNIEnv* env, fcInt8 vec) {
   return FC_JNI_CALL(env, NewObject, fcInt8_class, fcInt8_constructor, vec.x, vec.y, vec.z, vec.w, vec.s4, vec.s5, vec.s6, vec.s7);
 }
 
-fcInt8 fcInt8_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcInt8 fcInt8_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcInt8 result = {.s = {0}};
@@ -726,8 +726,8 @@ jobject fcLong2_wrap(JNIEnv* env, fcLong2 vec) {
   return FC_JNI_CALL(env, NewObject, fcLong2_class, fcLong2_constructor, vec.x, vec.y);
 }
 
-fcLong2 fcLong2_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcLong2 fcLong2_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcLong2 result = {.s = {0L}};
@@ -755,8 +755,8 @@ jobject fcLong3_wrap(JNIEnv* env, fcLong3 vec) {
   return FC_JNI_CALL(env, NewObject, fcLong3_class, fcLong3_constructor, vec.x, vec.y, vec.z);
 }
 
-fcLong3 fcLong3_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcLong3 fcLong3_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcLong3 result = {.s = {0L}};
@@ -789,8 +789,8 @@ jobject fcLong4_wrap(JNIEnv* env, fcLong4 vec) {
   return FC_JNI_CALL(env, NewObject, fcLong4_class, fcLong4_constructor, vec.x, vec.y, vec.z, vec.w);
 }
 
-fcLong4 fcLong4_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcLong4 fcLong4_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcLong4 result = {.s = {0L}};
@@ -828,8 +828,8 @@ jobject fcLong8_wrap(JNIEnv* env, fcLong8 vec) {
   return FC_JNI_CALL(env, NewObject, fcLong8_class, fcLong8_constructor, vec.x, vec.y, vec.z, vec.w, vec.s4, vec.s5, vec.s6, vec.s7);
 }
 
-fcLong8 fcLong8_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcLong8 fcLong8_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcLong8 result = {.s = {0L}};
@@ -888,8 +888,8 @@ jobject fcFloat2_wrap(JNIEnv* env, fcFloat2 vec) {
   return FC_JNI_CALL(env, NewObject, fcFloat2_class, fcFloat2_constructor, vec.x, vec.y);
 }
 
-fcFloat2 fcFloat2_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcFloat2 fcFloat2_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcFloat2 result = {.s = {0.0f}};
@@ -917,8 +917,8 @@ jobject fcFloat3_wrap(JNIEnv* env, fcFloat3 vec) {
   return FC_JNI_CALL(env, NewObject, fcFloat3_class, fcFloat3_constructor, vec.x, vec.y, vec.z);
 }
 
-fcFloat3 fcFloat3_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcFloat3 fcFloat3_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcFloat3 result = {.s = {0.0f}};
@@ -951,8 +951,8 @@ jobject fcFloat4_wrap(JNIEnv* env, fcFloat4 vec) {
   return FC_JNI_CALL(env, NewObject, fcFloat4_class, fcFloat4_constructor, vec.x, vec.y, vec.z, vec.w);
 }
 
-fcFloat4 fcFloat4_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcFloat4 fcFloat4_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcFloat4 result = {.s = {0.0f}};
@@ -990,8 +990,8 @@ jobject fcFloat8_wrap(JNIEnv* env, fcFloat8 vec) {
   return FC_JNI_CALL(env, NewObject, fcFloat8_class, fcFloat8_constructor, vec.x, vec.y, vec.z, vec.w, vec.s4, vec.s5, vec.s6, vec.s7);
 }
 
-fcFloat8 fcFloat8_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcFloat8 fcFloat8_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcFloat8 result = {.s = {0.0f}};
@@ -1050,8 +1050,8 @@ jobject fcDouble2_wrap(JNIEnv* env, fcDouble2 vec) {
   return FC_JNI_CALL(env, NewObject, fcDouble2_class, fcDouble2_constructor, vec.x, vec.y);
 }
 
-fcDouble2 fcDouble2_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcDouble2 fcDouble2_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcDouble2 result = {.s = {0.0}};
@@ -1079,8 +1079,8 @@ jobject fcDouble3_wrap(JNIEnv* env, fcDouble3 vec) {
   return FC_JNI_CALL(env, NewObject, fcDouble3_class, fcDouble3_constructor, vec.x, vec.y, vec.z);
 }
 
-fcDouble3 fcDouble3_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcDouble3 fcDouble3_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcDouble3 result = {.s = {0.0}};
@@ -1113,8 +1113,8 @@ jobject fcDouble4_wrap(JNIEnv* env, fcDouble4 vec) {
   return FC_JNI_CALL(env, NewObject, fcDouble4_class, fcDouble4_constructor, vec.x, vec.y, vec.z, vec.w);
 }
 
-fcDouble4 fcDouble4_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcDouble4 fcDouble4_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcDouble4 result = {.s = {0.0}};
@@ -1152,8 +1152,8 @@ jobject fcDouble8_wrap(JNIEnv* env, fcDouble8 vec) {
   return FC_JNI_CALL(env, NewObject, fcDouble8_class, fcDouble8_constructor, vec.x, vec.y, vec.z, vec.w, vec.s4, vec.s5, vec.s6, vec.s7);
 }
 
-fcDouble8 fcDouble8_unwrap(JNIEnv* env, jobject vec, int* err) {
-  int __tmp_err;
+fcDouble8 fcDouble8_unwrap(JNIEnv* env, jobject vec, fcError* err) {
+  fcError __tmp_err;
   if (!err) err = &__tmp_err;
 
   fcDouble8 result = {.s = {0.0}};

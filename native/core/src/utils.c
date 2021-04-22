@@ -134,8 +134,8 @@ int fcUtils_readFile(const char* dirName, const char* fileName, size_t* length, 
 
 #ifdef __ANDROID__
 
-int fcUtils_readAsset(JNIEnv* env, jobject asset_manager, const char* dir_name,
-                      const char* file_name, size_t* length, char** out) {
+fcError fcUtils_readAsset(JNIEnv* env, jobject asset_manager, const char* dir_name,
+                          const char* file_name, size_t* length, char** out) {
   if (asset_manager == NULL || length == NULL || out == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 

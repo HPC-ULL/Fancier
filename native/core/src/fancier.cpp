@@ -26,7 +26,7 @@ typedef jint (*SetupFunc)(JNIEnv* env);
 const char* FC_CACHE_BASE_PATH = NULL;
 std::string FC_CACHE_BASE_PATH_STR;
 
-static int initCount = 0;
+static fcInt initCount = 0;
 
 
 //
@@ -37,8 +37,8 @@ static jint runSetupFunction(SetupFunc setup, JNIEnv* env) {
   return (!setup) ? FC_EXCEPTION_INVALID_STATE : setup(env);
 }
 
-static int runSharedSetupFunction(void* libHandle, const char* funcName, JNIEnv* env) {
-  int retValue = 0;
+static jint runSharedSetupFunction(void* libHandle, const char* funcName, JNIEnv* env) {
+  jint retValue = 0;
 
   if (libHandle) {
     retValue = runSetupFunction((SetupFunc) dlsym(libHandle, funcName), env);

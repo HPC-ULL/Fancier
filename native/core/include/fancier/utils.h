@@ -114,8 +114,8 @@ FANCIER_API int fcUtils_readFile(const char* dirName, const char* fileName, size
 
 #ifdef __ANDROID__
 
-FANCIER_API int fcUtils_readAsset(JNIEnv* env, jobject asset_manager, const char* dir_name,
-                                  const char* file_name, size_t* length, char** out);
+FANCIER_API fcError fcUtils_readAsset(JNIEnv* env, jobject asset_manager, const char* dir_name,
+                                      const char* file_name, size_t* length, char** out);
 
 #endif // __ANDROID__
 

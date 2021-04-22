@@ -137,128 +137,128 @@ Java_es_ull_pcg_hpc_fancier_Math_${fname}__${signatures[type]}I(JNIEnv* env, jcl
 // Java Math
 
 % for type in floattypes:
-cl_${type} fcMath_${typed_fname('acos', type)}(cl_${type} a) {
+fc${type|c} fcMath_${typed_fname('acos', type)}(fc${type|c} a) {
   return ${typed_fname('acos', type)}(a);
 }
 
-cl_${type} fcMath_${typed_fname('asin', type)}(cl_${type} a) {
+fc${type|c} fcMath_${typed_fname('asin', type)}(fc${type|c} a) {
   return ${typed_fname('asin', type)}(a);
 }
 
-cl_${type} fcMath_${typed_fname('atan', type)}(cl_${type} a) {
+fc${type|c} fcMath_${typed_fname('atan', type)}(fc${type|c} a) {
   return ${typed_fname('atan', type)}(a);
 }
 
-cl_${type} fcMath_${typed_fname('atan2', type)}(cl_${type} y, cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('atan2', type)}(fc${type|c} y, fc${type|c} x) {
   return ${typed_fname('atan2', type)}(y, x);
 }
 
-cl_${type} fcMath_${typed_fname('cbrt', type)}(cl_${type} a) {
+fc${type|c} fcMath_${typed_fname('cbrt', type)}(fc${type|c} a) {
   return ${typed_fname('cbrt', type)}(a);
 }
 
-cl_${type} fcMath_${typed_fname('ceil', type)}(cl_${type} a) {
+fc${type|c} fcMath_${typed_fname('ceil', type)}(fc${type|c} a) {
   return ${typed_fname('ceil', type)}(a);
 }
 
-cl_${type} fcMath_${typed_fname('copySign', type)}(cl_${type} magnitude, cl_${type} sign) {
+fc${type|c} fcMath_${typed_fname('copySign', type)}(fc${type|c} magnitude, fc${type|c} sign) {
   return ${typed_fname('copysign', type)}(magnitude, sign);
 }
 
-cl_${type} fcMath_${typed_fname('cos', type)}(cl_${type} a) {
+fc${type|c} fcMath_${typed_fname('cos', type)}(fc${type|c} a) {
   return ${typed_fname('cos', type)}(a);
 }
 
-cl_${type} fcMath_${typed_fname('cosh', type)}(cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('cosh', type)}(fc${type|c} x) {
   return ${typed_fname('cosh', type)}(x);
 }
 
-cl_${type} fcMath_${typed_fname('exp', type)}(cl_${type} a) {
+fc${type|c} fcMath_${typed_fname('exp', type)}(fc${type|c} a) {
   return ${typed_fname('exp', type)}(a);
 }
 
-cl_${type} fcMath_${typed_fname('expm1', type)}(cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('expm1', type)}(fc${type|c} x) {
   return ${typed_fname('expm1', type)}(x);
 }
 
-cl_${type} fcMath_${typed_fname('floor', type)}(cl_${type} a) {
+fc${type|c} fcMath_${typed_fname('floor', type)}(fc${type|c} a) {
   return ${typed_fname('floor', type)}(a);
 }
 
-cl_int fcMath_${typed_fname('getExponent', type)}(cl_${type} d) {
+fcInt fcMath_${typed_fname('getExponent', type)}(fc${type|c} d) {
   return ${typed_fname('ilogb', type)}(d);
 }
 
-cl_${type} fcMath_${typed_fname('hypot', type)}(cl_${type} x, cl_${type} y) {
+fc${type|c} fcMath_${typed_fname('hypot', type)}(fc${type|c} x, fc${type|c} y) {
   return ${typed_fname('hypot', type)}(x, y);
 }
 
-cl_${type} fcMath_${typed_fname('remainder', type)}(cl_${type} f1, cl_${type} f2) {
+fc${type|c} fcMath_${typed_fname('remainder', type)}(fc${type|c} f1, fc${type|c} f2) {
   return ${typed_fname('remainder', type)}(f1, f2);
 }
 
-cl_${type} fcMath_${typed_fname('log', type)}(cl_${type} a) {
+fc${type|c} fcMath_${typed_fname('log', type)}(fc${type|c} a) {
   return ${typed_fname('log', type)}(a);
 }
 
-cl_${type} fcMath_${typed_fname('log10', type)}(cl_${type} a) {
+fc${type|c} fcMath_${typed_fname('log10', type)}(fc${type|c} a) {
   return ${typed_fname('log10', type)}(a);
 }
 
-cl_${type} fcMath_${typed_fname('log1p', type)}(cl_${type} a) {
+fc${type|c} fcMath_${typed_fname('log1p', type)}(fc${type|c} a) {
   return ${typed_fname('log1p', type)}(a);
 }
 
-cl_${type} fcMath_${typed_fname('nextAfter', type)}(cl_${type} start, cl_${type} direction) {
+fc${type|c} fcMath_${typed_fname('nextAfter', type)}(fc${type|c} start, fc${type|c} direction) {
   return ${typed_fname('nextafter', type)}(start, direction);
 }
 
-cl_${type} fcMath_${typed_fname('pow', type)}(cl_${type} a, cl_${type} b) {
+fc${type|c} fcMath_${typed_fname('pow', type)}(fc${type|c} a, fc${type|c} b) {
   return ${typed_fname('pow', type)}(a, b);
 }
 
-cl_${type} fcMath_${typed_fname('rint', type)}(cl_${type} a) {
+fc${type|c} fcMath_${typed_fname('rint', type)}(fc${type|c} a) {
   return ${typed_fname('rint', type)}(a);
 }
 
-cl_${type} fcMath_${typed_fname('round', type)}(cl_${type} a) {
+fc${type|c} fcMath_${typed_fname('round', type)}(fc${type|c} a) {
   return ${typed_fname('round', type)}(a);
 }
 
-cl_${type} fcMath_${typed_fname('scalb', type)}(cl_${type} a, cl_int scaleFactor) {
+fc${type|c} fcMath_${typed_fname('scalb', type)}(fc${type|c} a, fcInt scaleFactor) {
   return ${typed_fname('ldexp', type)}(a, scaleFactor);
 }
 
-cl_${type} fcMath_${typed_fname('signum', type)}(cl_${type} d) {
+fc${type|c} fcMath_${typed_fname('signum', type)}(fc${type|c} d) {
   return d == ${defaults[type]} ? 0.0${literal_suf[type]} : (d < ${defaults[type]} ? -1.0${literal_suf[type]} : 1.0${literal_suf[type]});
 }
 
-cl_${type} fcMath_${typed_fname('sin', type)}(cl_${type} a) {
+fc${type|c} fcMath_${typed_fname('sin', type)}(fc${type|c} a) {
   return ${typed_fname('sin', type)}(a);
 }
 
-cl_${type} fcMath_${typed_fname('sinh', type)}(cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('sinh', type)}(fc${type|c} x) {
   return ${typed_fname('sinh', type)}(x);
 }
 
-cl_${type} fcMath_${typed_fname('sqrt', type)}(cl_${type} a) {
+fc${type|c} fcMath_${typed_fname('sqrt', type)}(fc${type|c} a) {
   return ${typed_fname('sqrt', type)}(a);
 }
 
-cl_${type} fcMath_${typed_fname('tan', type)}(cl_${type} a) {
+fc${type|c} fcMath_${typed_fname('tan', type)}(fc${type|c} a) {
   return ${typed_fname('tan', type)}(a);
 }
 
-cl_${type} fcMath_${typed_fname('tanh', type)}(cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('tanh', type)}(fc${type|c} x) {
   return ${typed_fname('tanh', type)}(x);
 }
 
-<% suffix = '_F' if type == 'float' else ''%>\
-cl_${type} fcMath_${typed_fname('toDegrees', type)}(cl_${type} angrad) {
+<% suffix = '_F' if type.lower() == 'float' else ''%>\
+fc${type|c} fcMath_${typed_fname('toDegrees', type)}(fc${type|c} angrad) {
   return angrad * (180 / CL_M_PI${suffix});
 }
 
-cl_${type} fcMath_${typed_fname('toRadians', type)}(cl_${type} angdeg) {
+fc${type|c} fcMath_${typed_fname('toRadians', type)}(fc${type|c} angdeg) {
   return angdeg * (CL_M_PI${suffix} / 180);
 }
 
@@ -267,12 +267,12 @@ cl_${type} fcMath_${typed_fname('toRadians', type)}(cl_${type} angdeg) {
 // OpenCL Common
 
 % for type in floattypes:
-cl_${type} fcMath_${typed_fname('smoothStep', type)}(cl_${type} edge0, cl_${type} edge1, cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('smoothStep', type)}(fc${type|c} edge0, fc${type|c} edge1, fc${type|c} x) {
   // TODO Implement function
   return ${defaults[type]};
 }
 
-cl_${type} fcMath_${typed_fname('step', type)}(cl_${type} edge, cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('step', type)}(fc${type|c} edge, fc${type|c} x) {
   // TODO Implement function
   return ${defaults[type]};
 }
@@ -282,58 +282,58 @@ cl_${type} fcMath_${typed_fname('step', type)}(cl_${type} edge, cl_${type} x) {
 // OpenCL Integer
 
 % for type in inttypes:
-cl_${type} fcMath_${typed_fname('addSat', type)}(cl_${type} x, cl_${type} y) {
+fc${type|c} fcMath_${typed_fname('addSat', type)}(fc${type|c} x, fc${type|c} y) {
   // TODO Implement function
   return ${defaults[type]};
 }
 
-cl_${type} fcMath_${typed_fname('clz', type)}(cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('clz', type)}(fc${type|c} x) {
   // TODO Implement function
   return ${defaults[type]};
 }
 
-cl_${type} fcMath_${typed_fname('hadd', type)}(cl_${type} x, cl_${type} y) {
+fc${type|c} fcMath_${typed_fname('hadd', type)}(fc${type|c} x, fc${type|c} y) {
   // TODO Implement function
   return ${defaults[type]};
 }
 
-cl_${type} fcMath_${typed_fname('madHi', type)}(cl_${type} a, cl_${type} b, cl_${type} c) {
+fc${type|c} fcMath_${typed_fname('madHi', type)}(fc${type|c} a, fc${type|c} b, fc${type|c} c) {
   // TODO Implement function
   return ${defaults[type]};
 }
 
-cl_${type} fcMath_${typed_fname('madSat', type)}(cl_${type} a, cl_${type} b, cl_${type} c) {
+fc${type|c} fcMath_${typed_fname('madSat', type)}(fc${type|c} a, fc${type|c} b, fc${type|c} c) {
   // TODO Implement function
   return ${defaults[type]};
 }
 
-cl_${type} fcMath_${typed_fname('mulHi', type)}(cl_${type} x, cl_${type} y) {
+fc${type|c} fcMath_${typed_fname('mulHi', type)}(fc${type|c} x, fc${type|c} y) {
   // TODO Implement function
   return ${defaults[type]};
 }
 
-cl_${type} fcMath_${typed_fname('rhadd', type)}(cl_${type} x, cl_${type} y) {
+fc${type|c} fcMath_${typed_fname('rhadd', type)}(fc${type|c} x, fc${type|c} y) {
   // TODO Implement function
   return ${defaults[type]};
 }
 
-cl_${type} fcMath_${typed_fname('rotate', type)}(cl_${type} v, cl_${type} i) {
+fc${type|c} fcMath_${typed_fname('rotate', type)}(fc${type|c} v, fc${type|c} i) {
   // TODO Implement function
   return ${defaults[type]};
 }
 
-cl_${type} fcMath_${typed_fname('subSat', type)}(cl_${type} x, cl_${type} y) {
+fc${type|c} fcMath_${typed_fname('subSat', type)}(fc${type|c} x, fc${type|c} y) {
   // TODO Implement function
   return ${defaults[type]};
 }
 
 % endfor
-cl_int fcMath_mad24(cl_int x, cl_int y, cl_int z) {
+fcInt fcMath_mad24(fcInt x, fcInt y, fcInt z) {
   // TODO Implement function
   return 0;
 }
 
-cl_int fcMath_mul24(cl_int x, cl_int y) {
+fcInt fcMath_mul24(fcInt x, fcInt y) {
   // TODO Implement function
   return 0;
 }
@@ -342,97 +342,97 @@ cl_int fcMath_mul24(cl_int x, cl_int y) {
 // OpenCL Math
 
 % for type in floattypes:
-cl_${type} fcMath_${typed_fname('acosh', type)}(cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('acosh', type)}(fc${type|c} x) {
   return ${typed_fname('acosh', type)}(x);
 }
 
-cl_${type} fcMath_${typed_fname('asinh', type)}(cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('asinh', type)}(fc${type|c} x) {
   return ${typed_fname('asinh', type)}(x);
 }
 
-cl_${type} fcMath_${typed_fname('atanh', type)}(cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('atanh', type)}(fc${type|c} x) {
   return ${typed_fname('atanh', type)}(x);
 }
 
-cl_${type} fcMath_${typed_fname('erf', type)}(cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('erf', type)}(fc${type|c} x) {
   return ${typed_fname('erf', type)}(x);
 }
 
-cl_${type} fcMath_${typed_fname('erfc', type)}(cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('erfc', type)}(fc${type|c} x) {
   return ${typed_fname('erfc', type)}(x);
 }
 
-cl_${type} fcMath_${typed_fname('exp2', type)}(cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('exp2', type)}(fc${type|c} x) {
   return ${typed_fname('exp2', type)}(x);
 }
 
-cl_${type} fcMath_${typed_fname('exp10', type)}(cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('exp10', type)}(fc${type|c} x) {
   return ${typed_fname('pow', type)}(10, x);
 }
 
-cl_${type} fcMath_${typed_fname('fdim', type)}(cl_${type} x, cl_${type} y) {
+fc${type|c} fcMath_${typed_fname('fdim', type)}(fc${type|c} x, fc${type|c} y) {
   return ${typed_fname('fdim', type)}(x, y);
 }
 
-cl_${type} fcMath_${typed_fname('fma', type)}(cl_${type} a, cl_${type} b, cl_${type} c) {
+fc${type|c} fcMath_${typed_fname('fma', type)}(fc${type|c} a, fc${type|c} b, fc${type|c} c) {
   return ${typed_fname('fma', type)}(a, b, c);
 }
 
-cl_${type} fcMath_${typed_fname('fmod', type)}(cl_${type} x, cl_${type} y) {
+fc${type|c} fcMath_${typed_fname('fmod', type)}(fc${type|c} x, fc${type|c} y) {
   return ${typed_fname('fmod', type)}(x, y);
 }
 
-cl_${type} fcMath_${typed_fname('fract', type)}(cl_${type} x) {
-<% literal = 'CL_FLT_MAX' if type == 'float' else 'CL_DBL_MAX' %>\
+fc${type|c} fcMath_${typed_fname('fract', type)}(fc${type|c} x) {
+<% literal = 'CL_FLT_MAX' if type.lower() == 'float' else 'CL_DBL_MAX' %>\
   return fcMath_min(x - ${typed_fname('floor', type)}(x), ${literal});
 }
 
-cl_${type} fcMath_${typed_fname('frexp', type)}(cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('frexp', type)}(fc${type|c} x) {
   return ${typed_fname('frexp', type)}(x, NULL);
 }
 
-cl_${type} fcMath_${typed_fname('ldexp', type)}(cl_${type} x, cl_int n) {
+fc${type|c} fcMath_${typed_fname('ldexp', type)}(fc${type|c} x, fcInt n) {
   return ${typed_fname('ldexp', type)}(x, n);
 }
 
-cl_${type} fcMath_${typed_fname('lgamma', type)}(cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('lgamma', type)}(fc${type|c} x) {
   return ${typed_fname('lgamma', type)}(x);
 }
 
-cl_${type} fcMath_${typed_fname('log2', type)}(cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('log2', type)}(fc${type|c} x) {
   return ${typed_fname('log2', type)}(x);
 }
 
-cl_${type} fcMath_${typed_fname('logb', type)}(cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('logb', type)}(fc${type|c} x) {
   return ${typed_fname('logb', type)}(x);
 }
 
-cl_${type} fcMath_${typed_fname('mad', type)}(cl_${type} a, cl_${type} b, cl_${type} c) {
+fc${type|c} fcMath_${typed_fname('mad', type)}(fc${type|c} a, fc${type|c} b, fc${type|c} c) {
   return ${typed_fname('fma', type)}(a, b, c);
 }
 
-cl_${type} fcMath_${typed_fname('pown', type)}(cl_${type} x, cl_int y) {
+fc${type|c} fcMath_${typed_fname('pown', type)}(fc${type|c} x, fcInt y) {
   return ${typed_fname('pow', type)}(x, y);
 }
 
-cl_${type} fcMath_${typed_fname('powr', type)}(cl_${type} x, cl_${type} y) {
+fc${type|c} fcMath_${typed_fname('powr', type)}(fc${type|c} x, fc${type|c} y) {
   assert(isgreaterequal(x, 0.0${literal_suf[type]}));
   return ${typed_fname('pow', type)}(x, y);
 }
 
-cl_${type} fcMath_${typed_fname('rootn', type)}(cl_${type} x, cl_int y) {
-  return ${typed_fname('pow', type)}(x, 1 / (cl_${type}) y);
+fc${type|c} fcMath_${typed_fname('rootn', type)}(fc${type|c} x, fcInt y) {
+  return ${typed_fname('pow', type)}(x, 1 / (fc${type|c}) y);
 }
 
-cl_${type} fcMath_${typed_fname('rsqrt', type)}(cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('rsqrt', type)}(fc${type|c} x) {
   return fcMath_${typed_fname('pow', type)}(x, -0.5);
 }
 
-cl_${type} fcMath_${typed_fname('tgamma', type)}(cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('tgamma', type)}(fc${type|c} x) {
   return ${typed_fname('tgamma', type)}(x);
 }
 
-cl_${type} fcMath_${typed_fname('trunc', type)}(cl_${type} x) {
+fc${type|c} fcMath_${typed_fname('trunc', type)}(fc${type|c} x) {
   return ${typed_fname('trunc', type)}(x);
 }
 
@@ -441,27 +441,27 @@ cl_${type} fcMath_${typed_fname('trunc', type)}(cl_${type} x) {
 // OpenCL Relational
 
 % for type in floattypes:
-cl_int fcMath_${typed_fname('isFinite', type)}(cl_${type} x) {
+fcInt fcMath_${typed_fname('isFinite', type)}(fc${type|c} x) {
   return isfinite(x);
 }
 
-cl_int fcMath_${typed_fname('isInf', type)}(cl_${type} x) {
+fcInt fcMath_${typed_fname('isInf', type)}(fc${type|c} x) {
   return isinf(x);
 }
 
-cl_int fcMath_${typed_fname('isNaN', type)}(cl_${type} x) {
+fcInt fcMath_${typed_fname('isNaN', type)}(fc${type|c} x) {
   return isnan(x);
 }
 
-cl_int fcMath_${typed_fname('isNormal', type)}(cl_${type} x) {
+fcInt fcMath_${typed_fname('isNormal', type)}(fc${type|c} x) {
   return isnormal(x);
 }
 
-cl_int fcMath_${typed_fname('isOrdered', type)}(cl_${type} x, cl_${type} y) {
+fcInt fcMath_${typed_fname('isOrdered', type)}(fc${type|c} x, fc${type|c} y) {
   return !isunordered(x, y);
 }
 
-cl_int fcMath_${typed_fname('isUnordered', type)}(cl_${type} x, cl_${type} y) {
+fcInt fcMath_${typed_fname('isUnordered', type)}(fc${type|c} x, fc${type|c} y) {
   return isunordered(x, y);
 }
 

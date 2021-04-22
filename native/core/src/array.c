@@ -174,7 +174,7 @@ Java_es_ull_pcg_hpc_fancier_array_ByteArray_get__I(JNIEnv* env, jobject obj, jin
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByteArray_getJava", '\0');
 
   jint err;
-  jbyte __tmp_ret = fcByteArray_get(self, i, &err);
+  fcByte __tmp_ret = fcByteArray_get(self, i, &err);
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByteArray_get", '\0');
 
   return __tmp_ret;
@@ -214,7 +214,7 @@ Java_es_ull_pcg_hpc_fancier_array_ByteArray_getArray(JNIEnv* env, jobject obj) {
   FC_EXCEPTION_HANDLE_PENDING(env, !__tmp_ret, "fcByteArray_getArray", NULL);
 
   FC_JNI_CALL(env, SetByteArrayRegion, __tmp_ret, 0, self->len, self->c);
-  FC_EXCEPTION_HANDLE_PENDING(env, JNI_FALSE, "fcByteArray_getArray", __tmp_ret);
+  FC_EXCEPTION_HANDLE_PENDING(env, FC_FALSE, "fcByteArray_getArray", __tmp_ret);
 
   return __tmp_ret;
 }
@@ -263,7 +263,7 @@ Java_es_ull_pcg_hpc_fancier_array_ByteArray_getBufferImpl(JNIEnv* env, jobject o
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByteArray_syncToNative", NULL);
 
   // Create and return direct byte buffer pointing to the native data
-  return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(cl_byte));
+  return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcByte));
 }
 
 JNIEXPORT void JNICALL
@@ -304,7 +304,7 @@ Java_es_ull_pcg_hpc_fancier_array_ByteArray_syncToOCL(JNIEnv* env, jobject obj) 
 // Native Interface Implementation
 //
 
-int fcByteArray_createRef(fcByteArray* array) {
+fcError fcByteArray_createRef(fcByteArray* array) {
   if (array == NULL || array->location == FC_ARRAY_LOCATION_NONE)
     return FC_EXCEPTION_BAD_PARAMETER;
 
@@ -312,7 +312,7 @@ int fcByteArray_createRef(fcByteArray* array) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcByteArray_releaseRef(fcByteArray* array) {
+fcError fcByteArray_releaseRef(fcByteArray* array) {
   if (array == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
@@ -323,7 +323,7 @@ int fcByteArray_releaseRef(fcByteArray* array) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcByteArray_init(fcByteArray* self) {
+fcError fcByteArray_init(fcByteArray* self) {
   if (self->location != FC_ARRAY_LOCATION_NONE)
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -331,8 +331,8 @@ int fcByteArray_init(fcByteArray* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcByteArray_initSize(fcByteArray* self, int n) {
-  int err;
+fcError fcByteArray_initSize(fcByteArray* self, fcInt n) {
+  fcError err;
 
   // Check parameters
   if (n <= 0)
@@ -345,7 +345,7 @@ int fcByteArray_initSize(fcByteArray* self, int n) {
   self->len = n;
 
   // Allocate array
-  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(cl_byte), NULL, &err);
+  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(fcByte), NULL, &err);
   if (err) return err;
 
   // Update location
@@ -353,8 +353,8 @@ int fcByteArray_initSize(fcByteArray* self, int n) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcByteArray_initArray(fcByteArray* self, int len, const jbyte* v) {
-  int err;
+fcError fcByteArray_initArray(fcByteArray* self, fcInt len, const fcByte* v) {
+  fcError err;
 
   // Check parameters
   if (len <= 0)
@@ -370,7 +370,7 @@ int fcByteArray_initArray(fcByteArray* self, int len, const jbyte* v) {
   self->len = len;
 
   // Allocate array
-  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(cl_byte), NULL, &err);
+  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(fcByte), NULL, &err);
   if (err) return err;
 
   // Initialize array
@@ -387,8 +387,8 @@ int fcByteArray_initArray(fcByteArray* self, int len, const jbyte* v) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcByteArray_initCopy(fcByteArray* self, const fcByteArray* array) {
-  int err;
+fcError fcByteArray_initCopy(fcByteArray* self, const fcByteArray* array) {
+  fcError err;
 
   // Check parameters
   if (array == NULL || !fcByteArray_valid(array))
@@ -401,7 +401,7 @@ int fcByteArray_initCopy(fcByteArray* self, const fcByteArray* array) {
   self->len = array->len;
 
   // Allocate array
-  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(cl_byte), NULL, &err);
+  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(fcByte), NULL, &err);
   if (err) return err;
 
   // Copy array data
@@ -416,12 +416,12 @@ int fcByteArray_initCopy(fcByteArray* self, const fcByteArray* array) {
   return err;
 }
 
-int fcByteArray_release(fcByteArray* self) {
+fcError fcByteArray_release(fcByteArray* self) {
   --self->ref_count;
 
   // If it has already been released, only decrease the reference count
   if (self->location != FC_ARRAY_LOCATION_NONE) {
-    int err = 0;
+    fcError err = 0;
 
     if (self->c != NULL) {
       if (self->location != FC_ARRAY_LOCATION_OPENCL) {
@@ -460,11 +460,11 @@ int fcByteArray_release(fcByteArray* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-jbyte fcByteArray_get(fcByteArray* self, int i, int* err) {
-  int __tmp_err;
+fcByte fcByteArray_get(fcByteArray* self, fcInt i, fcError* err) {
+  fcError __tmp_err;
   if (err == NULL) err = &__tmp_err;
 
-  jbyte __tmp_ret = '\0';
+  fcByte __tmp_ret = '\0';
   if (!fcByteArray_valid(self)) {
     *err = FC_EXCEPTION_INVALID_STATE;
     return __tmp_ret;
@@ -482,24 +482,25 @@ jbyte fcByteArray_get(fcByteArray* self, int i, int* err) {
   return self->c[i];
 }
 
-int fcByteArray_set(fcByteArray* self, int i, jbyte x) {
+fcError fcByteArray_set(fcByteArray* self, fcInt i, fcByte x) {
   if (!fcByteArray_valid(self)) return FC_EXCEPTION_INVALID_STATE;
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  int err = fcByteArray_syncToNative(self);
-  if (err) return err;
+  fcError err = fcByteArray_syncToNative(self);
+  if (err)
+    return err;
 
   self->c[i] = x;
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcByteArray_setArray(fcByteArray* self, jsize len, const jbyte* v) {
+fcError fcByteArray_setArray(fcByteArray* self, fcInt len, const fcByte* v) {
   // No alignment issues, so we can just call setBuffer
-  return fcByteArray_setBuffer(self, len * sizeof(jbyte), v);
+  return fcByteArray_setBuffer(self, len * sizeof(fcByte), v);
 }
 
-int fcByteArray_setCopy(fcByteArray* self, const fcByteArray* array) {
+fcError fcByteArray_setCopy(fcByteArray* self, const fcByteArray* array) {
   if (!fcByteArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -508,8 +509,8 @@ int fcByteArray_setCopy(fcByteArray* self, const fcByteArray* array) {
     return FC_EXCEPTION_BAD_PARAMETER;
 
   // Copy array data
-  int err;
-  size_t size = self->len * sizeof(cl_byte);
+  fcError err;
+  fcLong size = self->len * sizeof(fcByte);
 
   if (self->location == FC_ARRAY_LOCATION_OPENCL) {
     if (array->location == FC_ARRAY_LOCATION_OPENCL)
@@ -526,19 +527,19 @@ int fcByteArray_setCopy(fcByteArray* self, const fcByteArray* array) {
   return err;
 }
 
-int fcByteArray_setBuffer(fcByteArray* self, jlong len, const void* v) {
+fcError fcByteArray_setBuffer(fcByteArray* self, fcLong len, const void* v) {
   if (!fcByteArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
   // Check parameters
-  if (len <= 0 || len % sizeof(jbyte) != 0 || len / sizeof(jbyte) != self->len)
+  if (len <= 0 || len % sizeof(fcByte) != 0 || len / sizeof(fcByte) != self->len)
     return FC_EXCEPTION_ARRAY_BAD_LENGTH;
 
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
   // Copy buffer
-  int err;
+  fcError err;
   if (self->location == FC_ARRAY_LOCATION_OPENCL) {
     err = clEnqueueWriteBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, 0, len, v, 0, NULL, NULL);
     if (err) return err;
@@ -551,14 +552,14 @@ int fcByteArray_setBuffer(fcByteArray* self, jlong len, const void* v) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcByteArray_syncToNative(fcByteArray* self) {
+fcError fcByteArray_syncToNative(fcByteArray* self) {
   if (!fcByteArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
-  int err = FC_EXCEPTION_SUCCESS;
+  fcError err = FC_EXCEPTION_SUCCESS;
 
   if (self->location == FC_ARRAY_LOCATION_OPENCL)
-    self->c = clEnqueueMapBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, CL_MAP_READ | CL_MAP_WRITE, 0, self->len * sizeof(cl_byte), 0, NULL, NULL, &err);
+    self->c = clEnqueueMapBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, CL_MAP_READ | CL_MAP_WRITE, 0, self->len * sizeof(fcByte), 0, NULL, NULL, &err);
 
   if (!err)
     self->location = FC_ARRAY_LOCATION_NATIVE;
@@ -566,11 +567,11 @@ int fcByteArray_syncToNative(fcByteArray* self) {
   return err;
 }
 
-int fcByteArray_syncToOCL(fcByteArray* self) {
+fcError fcByteArray_syncToOCL(fcByteArray* self) {
   if (!fcByteArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
-  int err = FC_EXCEPTION_SUCCESS;
+  fcError err = FC_EXCEPTION_SUCCESS;
 
   if (self->location == FC_ARRAY_LOCATION_NATIVE)
     err = clEnqueueUnmapMemObject(fcOpenCL_rt.queue, self->ocl, self->c, 0, NULL, NULL);
@@ -581,7 +582,7 @@ int fcByteArray_syncToOCL(fcByteArray* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-jboolean fcByteArray_valid(const fcByteArray* self) {
+fcBool fcByteArray_valid(const fcByteArray* self) {
   return self->len > 0 &&
     ((self->location == FC_ARRAY_LOCATION_NATIVE && self->c != NULL) ||
      (self->location == FC_ARRAY_LOCATION_OPENCL && self->ocl != NULL));
@@ -687,7 +688,7 @@ Java_es_ull_pcg_hpc_fancier_array_ShortArray_get__I(JNIEnv* env, jobject obj, ji
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShortArray_getJava", 0);
 
   jint err;
-  jshort __tmp_ret = fcShortArray_get(self, i, &err);
+  fcShort __tmp_ret = fcShortArray_get(self, i, &err);
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShortArray_get", 0);
 
   return __tmp_ret;
@@ -727,7 +728,7 @@ Java_es_ull_pcg_hpc_fancier_array_ShortArray_getArray(JNIEnv* env, jobject obj) 
   FC_EXCEPTION_HANDLE_PENDING(env, !__tmp_ret, "fcShortArray_getArray", NULL);
 
   FC_JNI_CALL(env, SetShortArrayRegion, __tmp_ret, 0, self->len, self->c);
-  FC_EXCEPTION_HANDLE_PENDING(env, JNI_FALSE, "fcShortArray_getArray", __tmp_ret);
+  FC_EXCEPTION_HANDLE_PENDING(env, FC_FALSE, "fcShortArray_getArray", __tmp_ret);
 
   return __tmp_ret;
 }
@@ -776,7 +777,7 @@ Java_es_ull_pcg_hpc_fancier_array_ShortArray_getBufferImpl(JNIEnv* env, jobject 
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShortArray_syncToNative", NULL);
 
   // Create and return direct byte buffer pointing to the native data
-  return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(cl_short));
+  return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcShort));
 }
 
 JNIEXPORT void JNICALL
@@ -817,7 +818,7 @@ Java_es_ull_pcg_hpc_fancier_array_ShortArray_syncToOCL(JNIEnv* env, jobject obj)
 // Native Interface Implementation
 //
 
-int fcShortArray_createRef(fcShortArray* array) {
+fcError fcShortArray_createRef(fcShortArray* array) {
   if (array == NULL || array->location == FC_ARRAY_LOCATION_NONE)
     return FC_EXCEPTION_BAD_PARAMETER;
 
@@ -825,7 +826,7 @@ int fcShortArray_createRef(fcShortArray* array) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcShortArray_releaseRef(fcShortArray* array) {
+fcError fcShortArray_releaseRef(fcShortArray* array) {
   if (array == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
@@ -836,7 +837,7 @@ int fcShortArray_releaseRef(fcShortArray* array) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcShortArray_init(fcShortArray* self) {
+fcError fcShortArray_init(fcShortArray* self) {
   if (self->location != FC_ARRAY_LOCATION_NONE)
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -844,8 +845,8 @@ int fcShortArray_init(fcShortArray* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcShortArray_initSize(fcShortArray* self, int n) {
-  int err;
+fcError fcShortArray_initSize(fcShortArray* self, fcInt n) {
+  fcError err;
 
   // Check parameters
   if (n <= 0)
@@ -858,7 +859,7 @@ int fcShortArray_initSize(fcShortArray* self, int n) {
   self->len = n;
 
   // Allocate array
-  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(cl_short), NULL, &err);
+  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(fcShort), NULL, &err);
   if (err) return err;
 
   // Update location
@@ -866,8 +867,8 @@ int fcShortArray_initSize(fcShortArray* self, int n) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcShortArray_initArray(fcShortArray* self, int len, const jshort* v) {
-  int err;
+fcError fcShortArray_initArray(fcShortArray* self, fcInt len, const fcShort* v) {
+  fcError err;
 
   // Check parameters
   if (len <= 0)
@@ -883,7 +884,7 @@ int fcShortArray_initArray(fcShortArray* self, int len, const jshort* v) {
   self->len = len;
 
   // Allocate array
-  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(cl_short), NULL, &err);
+  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(fcShort), NULL, &err);
   if (err) return err;
 
   // Initialize array
@@ -900,8 +901,8 @@ int fcShortArray_initArray(fcShortArray* self, int len, const jshort* v) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcShortArray_initCopy(fcShortArray* self, const fcShortArray* array) {
-  int err;
+fcError fcShortArray_initCopy(fcShortArray* self, const fcShortArray* array) {
+  fcError err;
 
   // Check parameters
   if (array == NULL || !fcShortArray_valid(array))
@@ -914,7 +915,7 @@ int fcShortArray_initCopy(fcShortArray* self, const fcShortArray* array) {
   self->len = array->len;
 
   // Allocate array
-  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(cl_short), NULL, &err);
+  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(fcShort), NULL, &err);
   if (err) return err;
 
   // Copy array data
@@ -929,12 +930,12 @@ int fcShortArray_initCopy(fcShortArray* self, const fcShortArray* array) {
   return err;
 }
 
-int fcShortArray_release(fcShortArray* self) {
+fcError fcShortArray_release(fcShortArray* self) {
   --self->ref_count;
 
   // If it has already been released, only decrease the reference count
   if (self->location != FC_ARRAY_LOCATION_NONE) {
-    int err = 0;
+    fcError err = 0;
 
     if (self->c != NULL) {
       if (self->location != FC_ARRAY_LOCATION_OPENCL) {
@@ -973,11 +974,11 @@ int fcShortArray_release(fcShortArray* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-jshort fcShortArray_get(fcShortArray* self, int i, int* err) {
-  int __tmp_err;
+fcShort fcShortArray_get(fcShortArray* self, fcInt i, fcError* err) {
+  fcError __tmp_err;
   if (err == NULL) err = &__tmp_err;
 
-  jshort __tmp_ret = 0;
+  fcShort __tmp_ret = 0;
   if (!fcShortArray_valid(self)) {
     *err = FC_EXCEPTION_INVALID_STATE;
     return __tmp_ret;
@@ -995,24 +996,25 @@ jshort fcShortArray_get(fcShortArray* self, int i, int* err) {
   return self->c[i];
 }
 
-int fcShortArray_set(fcShortArray* self, int i, jshort x) {
+fcError fcShortArray_set(fcShortArray* self, fcInt i, fcShort x) {
   if (!fcShortArray_valid(self)) return FC_EXCEPTION_INVALID_STATE;
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  int err = fcShortArray_syncToNative(self);
-  if (err) return err;
+  fcError err = fcShortArray_syncToNative(self);
+  if (err)
+    return err;
 
   self->c[i] = x;
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcShortArray_setArray(fcShortArray* self, jsize len, const jshort* v) {
+fcError fcShortArray_setArray(fcShortArray* self, fcInt len, const fcShort* v) {
   // No alignment issues, so we can just call setBuffer
-  return fcShortArray_setBuffer(self, len * sizeof(jshort), v);
+  return fcShortArray_setBuffer(self, len * sizeof(fcShort), v);
 }
 
-int fcShortArray_setCopy(fcShortArray* self, const fcShortArray* array) {
+fcError fcShortArray_setCopy(fcShortArray* self, const fcShortArray* array) {
   if (!fcShortArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -1021,8 +1023,8 @@ int fcShortArray_setCopy(fcShortArray* self, const fcShortArray* array) {
     return FC_EXCEPTION_BAD_PARAMETER;
 
   // Copy array data
-  int err;
-  size_t size = self->len * sizeof(cl_short);
+  fcError err;
+  fcLong size = self->len * sizeof(fcShort);
 
   if (self->location == FC_ARRAY_LOCATION_OPENCL) {
     if (array->location == FC_ARRAY_LOCATION_OPENCL)
@@ -1039,19 +1041,19 @@ int fcShortArray_setCopy(fcShortArray* self, const fcShortArray* array) {
   return err;
 }
 
-int fcShortArray_setBuffer(fcShortArray* self, jlong len, const void* v) {
+fcError fcShortArray_setBuffer(fcShortArray* self, fcLong len, const void* v) {
   if (!fcShortArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
   // Check parameters
-  if (len <= 0 || len % sizeof(jshort) != 0 || len / sizeof(jshort) != self->len)
+  if (len <= 0 || len % sizeof(fcShort) != 0 || len / sizeof(fcShort) != self->len)
     return FC_EXCEPTION_ARRAY_BAD_LENGTH;
 
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
   // Copy buffer
-  int err;
+  fcError err;
   if (self->location == FC_ARRAY_LOCATION_OPENCL) {
     err = clEnqueueWriteBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, 0, len, v, 0, NULL, NULL);
     if (err) return err;
@@ -1064,14 +1066,14 @@ int fcShortArray_setBuffer(fcShortArray* self, jlong len, const void* v) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcShortArray_syncToNative(fcShortArray* self) {
+fcError fcShortArray_syncToNative(fcShortArray* self) {
   if (!fcShortArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
-  int err = FC_EXCEPTION_SUCCESS;
+  fcError err = FC_EXCEPTION_SUCCESS;
 
   if (self->location == FC_ARRAY_LOCATION_OPENCL)
-    self->c = clEnqueueMapBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, CL_MAP_READ | CL_MAP_WRITE, 0, self->len * sizeof(cl_short), 0, NULL, NULL, &err);
+    self->c = clEnqueueMapBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, CL_MAP_READ | CL_MAP_WRITE, 0, self->len * sizeof(fcShort), 0, NULL, NULL, &err);
 
   if (!err)
     self->location = FC_ARRAY_LOCATION_NATIVE;
@@ -1079,11 +1081,11 @@ int fcShortArray_syncToNative(fcShortArray* self) {
   return err;
 }
 
-int fcShortArray_syncToOCL(fcShortArray* self) {
+fcError fcShortArray_syncToOCL(fcShortArray* self) {
   if (!fcShortArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
-  int err = FC_EXCEPTION_SUCCESS;
+  fcError err = FC_EXCEPTION_SUCCESS;
 
   if (self->location == FC_ARRAY_LOCATION_NATIVE)
     err = clEnqueueUnmapMemObject(fcOpenCL_rt.queue, self->ocl, self->c, 0, NULL, NULL);
@@ -1094,7 +1096,7 @@ int fcShortArray_syncToOCL(fcShortArray* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-jboolean fcShortArray_valid(const fcShortArray* self) {
+fcBool fcShortArray_valid(const fcShortArray* self) {
   return self->len > 0 &&
     ((self->location == FC_ARRAY_LOCATION_NATIVE && self->c != NULL) ||
      (self->location == FC_ARRAY_LOCATION_OPENCL && self->ocl != NULL));
@@ -1200,7 +1202,7 @@ Java_es_ull_pcg_hpc_fancier_array_IntArray_get__I(JNIEnv* env, jobject obj, jint
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcIntArray_getJava", 0);
 
   jint err;
-  jint __tmp_ret = fcIntArray_get(self, i, &err);
+  fcInt __tmp_ret = fcIntArray_get(self, i, &err);
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcIntArray_get", 0);
 
   return __tmp_ret;
@@ -1240,7 +1242,7 @@ Java_es_ull_pcg_hpc_fancier_array_IntArray_getArray(JNIEnv* env, jobject obj) {
   FC_EXCEPTION_HANDLE_PENDING(env, !__tmp_ret, "fcIntArray_getArray", NULL);
 
   FC_JNI_CALL(env, SetIntArrayRegion, __tmp_ret, 0, self->len, self->c);
-  FC_EXCEPTION_HANDLE_PENDING(env, JNI_FALSE, "fcIntArray_getArray", __tmp_ret);
+  FC_EXCEPTION_HANDLE_PENDING(env, FC_FALSE, "fcIntArray_getArray", __tmp_ret);
 
   return __tmp_ret;
 }
@@ -1289,7 +1291,7 @@ Java_es_ull_pcg_hpc_fancier_array_IntArray_getBufferImpl(JNIEnv* env, jobject ob
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcIntArray_syncToNative", NULL);
 
   // Create and return direct byte buffer pointing to the native data
-  return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(cl_int));
+  return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcInt));
 }
 
 JNIEXPORT void JNICALL
@@ -1330,7 +1332,7 @@ Java_es_ull_pcg_hpc_fancier_array_IntArray_syncToOCL(JNIEnv* env, jobject obj) {
 // Native Interface Implementation
 //
 
-int fcIntArray_createRef(fcIntArray* array) {
+fcError fcIntArray_createRef(fcIntArray* array) {
   if (array == NULL || array->location == FC_ARRAY_LOCATION_NONE)
     return FC_EXCEPTION_BAD_PARAMETER;
 
@@ -1338,7 +1340,7 @@ int fcIntArray_createRef(fcIntArray* array) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcIntArray_releaseRef(fcIntArray* array) {
+fcError fcIntArray_releaseRef(fcIntArray* array) {
   if (array == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
@@ -1349,7 +1351,7 @@ int fcIntArray_releaseRef(fcIntArray* array) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcIntArray_init(fcIntArray* self) {
+fcError fcIntArray_init(fcIntArray* self) {
   if (self->location != FC_ARRAY_LOCATION_NONE)
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -1357,8 +1359,8 @@ int fcIntArray_init(fcIntArray* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcIntArray_initSize(fcIntArray* self, int n) {
-  int err;
+fcError fcIntArray_initSize(fcIntArray* self, fcInt n) {
+  fcError err;
 
   // Check parameters
   if (n <= 0)
@@ -1371,7 +1373,7 @@ int fcIntArray_initSize(fcIntArray* self, int n) {
   self->len = n;
 
   // Allocate array
-  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(cl_int), NULL, &err);
+  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(fcInt), NULL, &err);
   if (err) return err;
 
   // Update location
@@ -1379,8 +1381,8 @@ int fcIntArray_initSize(fcIntArray* self, int n) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcIntArray_initArray(fcIntArray* self, int len, const jint* v) {
-  int err;
+fcError fcIntArray_initArray(fcIntArray* self, fcInt len, const fcInt* v) {
+  fcError err;
 
   // Check parameters
   if (len <= 0)
@@ -1396,7 +1398,7 @@ int fcIntArray_initArray(fcIntArray* self, int len, const jint* v) {
   self->len = len;
 
   // Allocate array
-  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(cl_int), NULL, &err);
+  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(fcInt), NULL, &err);
   if (err) return err;
 
   // Initialize array
@@ -1413,8 +1415,8 @@ int fcIntArray_initArray(fcIntArray* self, int len, const jint* v) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcIntArray_initCopy(fcIntArray* self, const fcIntArray* array) {
-  int err;
+fcError fcIntArray_initCopy(fcIntArray* self, const fcIntArray* array) {
+  fcError err;
 
   // Check parameters
   if (array == NULL || !fcIntArray_valid(array))
@@ -1427,7 +1429,7 @@ int fcIntArray_initCopy(fcIntArray* self, const fcIntArray* array) {
   self->len = array->len;
 
   // Allocate array
-  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(cl_int), NULL, &err);
+  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(fcInt), NULL, &err);
   if (err) return err;
 
   // Copy array data
@@ -1442,12 +1444,12 @@ int fcIntArray_initCopy(fcIntArray* self, const fcIntArray* array) {
   return err;
 }
 
-int fcIntArray_release(fcIntArray* self) {
+fcError fcIntArray_release(fcIntArray* self) {
   --self->ref_count;
 
   // If it has already been released, only decrease the reference count
   if (self->location != FC_ARRAY_LOCATION_NONE) {
-    int err = 0;
+    fcError err = 0;
 
     if (self->c != NULL) {
       if (self->location != FC_ARRAY_LOCATION_OPENCL) {
@@ -1486,11 +1488,11 @@ int fcIntArray_release(fcIntArray* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-jint fcIntArray_get(fcIntArray* self, int i, int* err) {
-  int __tmp_err;
+fcInt fcIntArray_get(fcIntArray* self, fcInt i, fcError* err) {
+  fcError __tmp_err;
   if (err == NULL) err = &__tmp_err;
 
-  jint __tmp_ret = 0;
+  fcInt __tmp_ret = 0;
   if (!fcIntArray_valid(self)) {
     *err = FC_EXCEPTION_INVALID_STATE;
     return __tmp_ret;
@@ -1508,24 +1510,25 @@ jint fcIntArray_get(fcIntArray* self, int i, int* err) {
   return self->c[i];
 }
 
-int fcIntArray_set(fcIntArray* self, int i, jint x) {
+fcError fcIntArray_set(fcIntArray* self, fcInt i, fcInt x) {
   if (!fcIntArray_valid(self)) return FC_EXCEPTION_INVALID_STATE;
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  int err = fcIntArray_syncToNative(self);
-  if (err) return err;
+  fcError err = fcIntArray_syncToNative(self);
+  if (err)
+    return err;
 
   self->c[i] = x;
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcIntArray_setArray(fcIntArray* self, jsize len, const jint* v) {
+fcError fcIntArray_setArray(fcIntArray* self, fcInt len, const fcInt* v) {
   // No alignment issues, so we can just call setBuffer
-  return fcIntArray_setBuffer(self, len * sizeof(jint), v);
+  return fcIntArray_setBuffer(self, len * sizeof(fcInt), v);
 }
 
-int fcIntArray_setCopy(fcIntArray* self, const fcIntArray* array) {
+fcError fcIntArray_setCopy(fcIntArray* self, const fcIntArray* array) {
   if (!fcIntArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -1534,8 +1537,8 @@ int fcIntArray_setCopy(fcIntArray* self, const fcIntArray* array) {
     return FC_EXCEPTION_BAD_PARAMETER;
 
   // Copy array data
-  int err;
-  size_t size = self->len * sizeof(cl_int);
+  fcError err;
+  fcLong size = self->len * sizeof(fcInt);
 
   if (self->location == FC_ARRAY_LOCATION_OPENCL) {
     if (array->location == FC_ARRAY_LOCATION_OPENCL)
@@ -1552,19 +1555,19 @@ int fcIntArray_setCopy(fcIntArray* self, const fcIntArray* array) {
   return err;
 }
 
-int fcIntArray_setBuffer(fcIntArray* self, jlong len, const void* v) {
+fcError fcIntArray_setBuffer(fcIntArray* self, fcLong len, const void* v) {
   if (!fcIntArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
   // Check parameters
-  if (len <= 0 || len % sizeof(jint) != 0 || len / sizeof(jint) != self->len)
+  if (len <= 0 || len % sizeof(fcInt) != 0 || len / sizeof(fcInt) != self->len)
     return FC_EXCEPTION_ARRAY_BAD_LENGTH;
 
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
   // Copy buffer
-  int err;
+  fcError err;
   if (self->location == FC_ARRAY_LOCATION_OPENCL) {
     err = clEnqueueWriteBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, 0, len, v, 0, NULL, NULL);
     if (err) return err;
@@ -1577,14 +1580,14 @@ int fcIntArray_setBuffer(fcIntArray* self, jlong len, const void* v) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcIntArray_syncToNative(fcIntArray* self) {
+fcError fcIntArray_syncToNative(fcIntArray* self) {
   if (!fcIntArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
-  int err = FC_EXCEPTION_SUCCESS;
+  fcError err = FC_EXCEPTION_SUCCESS;
 
   if (self->location == FC_ARRAY_LOCATION_OPENCL)
-    self->c = clEnqueueMapBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, CL_MAP_READ | CL_MAP_WRITE, 0, self->len * sizeof(cl_int), 0, NULL, NULL, &err);
+    self->c = clEnqueueMapBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, CL_MAP_READ | CL_MAP_WRITE, 0, self->len * sizeof(fcInt), 0, NULL, NULL, &err);
 
   if (!err)
     self->location = FC_ARRAY_LOCATION_NATIVE;
@@ -1592,11 +1595,11 @@ int fcIntArray_syncToNative(fcIntArray* self) {
   return err;
 }
 
-int fcIntArray_syncToOCL(fcIntArray* self) {
+fcError fcIntArray_syncToOCL(fcIntArray* self) {
   if (!fcIntArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
-  int err = FC_EXCEPTION_SUCCESS;
+  fcError err = FC_EXCEPTION_SUCCESS;
 
   if (self->location == FC_ARRAY_LOCATION_NATIVE)
     err = clEnqueueUnmapMemObject(fcOpenCL_rt.queue, self->ocl, self->c, 0, NULL, NULL);
@@ -1607,7 +1610,7 @@ int fcIntArray_syncToOCL(fcIntArray* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-jboolean fcIntArray_valid(const fcIntArray* self) {
+fcBool fcIntArray_valid(const fcIntArray* self) {
   return self->len > 0 &&
     ((self->location == FC_ARRAY_LOCATION_NATIVE && self->c != NULL) ||
      (self->location == FC_ARRAY_LOCATION_OPENCL && self->ocl != NULL));
@@ -1713,7 +1716,7 @@ Java_es_ull_pcg_hpc_fancier_array_LongArray_get__I(JNIEnv* env, jobject obj, jin
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLongArray_getJava", 0L);
 
   jint err;
-  jlong __tmp_ret = fcLongArray_get(self, i, &err);
+  fcLong __tmp_ret = fcLongArray_get(self, i, &err);
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLongArray_get", 0L);
 
   return __tmp_ret;
@@ -1753,7 +1756,7 @@ Java_es_ull_pcg_hpc_fancier_array_LongArray_getArray(JNIEnv* env, jobject obj) {
   FC_EXCEPTION_HANDLE_PENDING(env, !__tmp_ret, "fcLongArray_getArray", NULL);
 
   FC_JNI_CALL(env, SetLongArrayRegion, __tmp_ret, 0, self->len, self->c);
-  FC_EXCEPTION_HANDLE_PENDING(env, JNI_FALSE, "fcLongArray_getArray", __tmp_ret);
+  FC_EXCEPTION_HANDLE_PENDING(env, FC_FALSE, "fcLongArray_getArray", __tmp_ret);
 
   return __tmp_ret;
 }
@@ -1802,7 +1805,7 @@ Java_es_ull_pcg_hpc_fancier_array_LongArray_getBufferImpl(JNIEnv* env, jobject o
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLongArray_syncToNative", NULL);
 
   // Create and return direct byte buffer pointing to the native data
-  return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(cl_long));
+  return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcLong));
 }
 
 JNIEXPORT void JNICALL
@@ -1843,7 +1846,7 @@ Java_es_ull_pcg_hpc_fancier_array_LongArray_syncToOCL(JNIEnv* env, jobject obj) 
 // Native Interface Implementation
 //
 
-int fcLongArray_createRef(fcLongArray* array) {
+fcError fcLongArray_createRef(fcLongArray* array) {
   if (array == NULL || array->location == FC_ARRAY_LOCATION_NONE)
     return FC_EXCEPTION_BAD_PARAMETER;
 
@@ -1851,7 +1854,7 @@ int fcLongArray_createRef(fcLongArray* array) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcLongArray_releaseRef(fcLongArray* array) {
+fcError fcLongArray_releaseRef(fcLongArray* array) {
   if (array == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
@@ -1862,7 +1865,7 @@ int fcLongArray_releaseRef(fcLongArray* array) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcLongArray_init(fcLongArray* self) {
+fcError fcLongArray_init(fcLongArray* self) {
   if (self->location != FC_ARRAY_LOCATION_NONE)
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -1870,8 +1873,8 @@ int fcLongArray_init(fcLongArray* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcLongArray_initSize(fcLongArray* self, int n) {
-  int err;
+fcError fcLongArray_initSize(fcLongArray* self, fcInt n) {
+  fcError err;
 
   // Check parameters
   if (n <= 0)
@@ -1884,7 +1887,7 @@ int fcLongArray_initSize(fcLongArray* self, int n) {
   self->len = n;
 
   // Allocate array
-  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(cl_long), NULL, &err);
+  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(fcLong), NULL, &err);
   if (err) return err;
 
   // Update location
@@ -1892,8 +1895,8 @@ int fcLongArray_initSize(fcLongArray* self, int n) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcLongArray_initArray(fcLongArray* self, int len, const jlong* v) {
-  int err;
+fcError fcLongArray_initArray(fcLongArray* self, fcInt len, const fcLong* v) {
+  fcError err;
 
   // Check parameters
   if (len <= 0)
@@ -1909,7 +1912,7 @@ int fcLongArray_initArray(fcLongArray* self, int len, const jlong* v) {
   self->len = len;
 
   // Allocate array
-  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(cl_long), NULL, &err);
+  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(fcLong), NULL, &err);
   if (err) return err;
 
   // Initialize array
@@ -1926,8 +1929,8 @@ int fcLongArray_initArray(fcLongArray* self, int len, const jlong* v) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcLongArray_initCopy(fcLongArray* self, const fcLongArray* array) {
-  int err;
+fcError fcLongArray_initCopy(fcLongArray* self, const fcLongArray* array) {
+  fcError err;
 
   // Check parameters
   if (array == NULL || !fcLongArray_valid(array))
@@ -1940,7 +1943,7 @@ int fcLongArray_initCopy(fcLongArray* self, const fcLongArray* array) {
   self->len = array->len;
 
   // Allocate array
-  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(cl_long), NULL, &err);
+  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(fcLong), NULL, &err);
   if (err) return err;
 
   // Copy array data
@@ -1955,12 +1958,12 @@ int fcLongArray_initCopy(fcLongArray* self, const fcLongArray* array) {
   return err;
 }
 
-int fcLongArray_release(fcLongArray* self) {
+fcError fcLongArray_release(fcLongArray* self) {
   --self->ref_count;
 
   // If it has already been released, only decrease the reference count
   if (self->location != FC_ARRAY_LOCATION_NONE) {
-    int err = 0;
+    fcError err = 0;
 
     if (self->c != NULL) {
       if (self->location != FC_ARRAY_LOCATION_OPENCL) {
@@ -1999,11 +2002,11 @@ int fcLongArray_release(fcLongArray* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-jlong fcLongArray_get(fcLongArray* self, int i, int* err) {
-  int __tmp_err;
+fcLong fcLongArray_get(fcLongArray* self, fcInt i, fcError* err) {
+  fcError __tmp_err;
   if (err == NULL) err = &__tmp_err;
 
-  jlong __tmp_ret = 0L;
+  fcLong __tmp_ret = 0L;
   if (!fcLongArray_valid(self)) {
     *err = FC_EXCEPTION_INVALID_STATE;
     return __tmp_ret;
@@ -2021,24 +2024,25 @@ jlong fcLongArray_get(fcLongArray* self, int i, int* err) {
   return self->c[i];
 }
 
-int fcLongArray_set(fcLongArray* self, int i, jlong x) {
+fcError fcLongArray_set(fcLongArray* self, fcInt i, fcLong x) {
   if (!fcLongArray_valid(self)) return FC_EXCEPTION_INVALID_STATE;
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  int err = fcLongArray_syncToNative(self);
-  if (err) return err;
+  fcError err = fcLongArray_syncToNative(self);
+  if (err)
+    return err;
 
   self->c[i] = x;
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcLongArray_setArray(fcLongArray* self, jsize len, const jlong* v) {
+fcError fcLongArray_setArray(fcLongArray* self, fcInt len, const fcLong* v) {
   // No alignment issues, so we can just call setBuffer
-  return fcLongArray_setBuffer(self, len * sizeof(jlong), v);
+  return fcLongArray_setBuffer(self, len * sizeof(fcLong), v);
 }
 
-int fcLongArray_setCopy(fcLongArray* self, const fcLongArray* array) {
+fcError fcLongArray_setCopy(fcLongArray* self, const fcLongArray* array) {
   if (!fcLongArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -2047,8 +2051,8 @@ int fcLongArray_setCopy(fcLongArray* self, const fcLongArray* array) {
     return FC_EXCEPTION_BAD_PARAMETER;
 
   // Copy array data
-  int err;
-  size_t size = self->len * sizeof(cl_long);
+  fcError err;
+  fcLong size = self->len * sizeof(fcLong);
 
   if (self->location == FC_ARRAY_LOCATION_OPENCL) {
     if (array->location == FC_ARRAY_LOCATION_OPENCL)
@@ -2065,19 +2069,19 @@ int fcLongArray_setCopy(fcLongArray* self, const fcLongArray* array) {
   return err;
 }
 
-int fcLongArray_setBuffer(fcLongArray* self, jlong len, const void* v) {
+fcError fcLongArray_setBuffer(fcLongArray* self, fcLong len, const void* v) {
   if (!fcLongArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
   // Check parameters
-  if (len <= 0 || len % sizeof(jlong) != 0 || len / sizeof(jlong) != self->len)
+  if (len <= 0 || len % sizeof(fcLong) != 0 || len / sizeof(fcLong) != self->len)
     return FC_EXCEPTION_ARRAY_BAD_LENGTH;
 
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
   // Copy buffer
-  int err;
+  fcError err;
   if (self->location == FC_ARRAY_LOCATION_OPENCL) {
     err = clEnqueueWriteBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, 0, len, v, 0, NULL, NULL);
     if (err) return err;
@@ -2090,14 +2094,14 @@ int fcLongArray_setBuffer(fcLongArray* self, jlong len, const void* v) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcLongArray_syncToNative(fcLongArray* self) {
+fcError fcLongArray_syncToNative(fcLongArray* self) {
   if (!fcLongArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
-  int err = FC_EXCEPTION_SUCCESS;
+  fcError err = FC_EXCEPTION_SUCCESS;
 
   if (self->location == FC_ARRAY_LOCATION_OPENCL)
-    self->c = clEnqueueMapBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, CL_MAP_READ | CL_MAP_WRITE, 0, self->len * sizeof(cl_long), 0, NULL, NULL, &err);
+    self->c = clEnqueueMapBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, CL_MAP_READ | CL_MAP_WRITE, 0, self->len * sizeof(fcLong), 0, NULL, NULL, &err);
 
   if (!err)
     self->location = FC_ARRAY_LOCATION_NATIVE;
@@ -2105,11 +2109,11 @@ int fcLongArray_syncToNative(fcLongArray* self) {
   return err;
 }
 
-int fcLongArray_syncToOCL(fcLongArray* self) {
+fcError fcLongArray_syncToOCL(fcLongArray* self) {
   if (!fcLongArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
-  int err = FC_EXCEPTION_SUCCESS;
+  fcError err = FC_EXCEPTION_SUCCESS;
 
   if (self->location == FC_ARRAY_LOCATION_NATIVE)
     err = clEnqueueUnmapMemObject(fcOpenCL_rt.queue, self->ocl, self->c, 0, NULL, NULL);
@@ -2120,7 +2124,7 @@ int fcLongArray_syncToOCL(fcLongArray* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-jboolean fcLongArray_valid(const fcLongArray* self) {
+fcBool fcLongArray_valid(const fcLongArray* self) {
   return self->len > 0 &&
     ((self->location == FC_ARRAY_LOCATION_NATIVE && self->c != NULL) ||
      (self->location == FC_ARRAY_LOCATION_OPENCL && self->ocl != NULL));
@@ -2226,7 +2230,7 @@ Java_es_ull_pcg_hpc_fancier_array_FloatArray_get__I(JNIEnv* env, jobject obj, ji
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloatArray_getJava", 0.0f);
 
   jint err;
-  jfloat __tmp_ret = fcFloatArray_get(self, i, &err);
+  fcFloat __tmp_ret = fcFloatArray_get(self, i, &err);
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloatArray_get", 0.0f);
 
   return __tmp_ret;
@@ -2266,7 +2270,7 @@ Java_es_ull_pcg_hpc_fancier_array_FloatArray_getArray(JNIEnv* env, jobject obj) 
   FC_EXCEPTION_HANDLE_PENDING(env, !__tmp_ret, "fcFloatArray_getArray", NULL);
 
   FC_JNI_CALL(env, SetFloatArrayRegion, __tmp_ret, 0, self->len, self->c);
-  FC_EXCEPTION_HANDLE_PENDING(env, JNI_FALSE, "fcFloatArray_getArray", __tmp_ret);
+  FC_EXCEPTION_HANDLE_PENDING(env, FC_FALSE, "fcFloatArray_getArray", __tmp_ret);
 
   return __tmp_ret;
 }
@@ -2315,7 +2319,7 @@ Java_es_ull_pcg_hpc_fancier_array_FloatArray_getBufferImpl(JNIEnv* env, jobject 
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloatArray_syncToNative", NULL);
 
   // Create and return direct byte buffer pointing to the native data
-  return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(cl_float));
+  return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcFloat));
 }
 
 JNIEXPORT void JNICALL
@@ -2356,7 +2360,7 @@ Java_es_ull_pcg_hpc_fancier_array_FloatArray_syncToOCL(JNIEnv* env, jobject obj)
 // Native Interface Implementation
 //
 
-int fcFloatArray_createRef(fcFloatArray* array) {
+fcError fcFloatArray_createRef(fcFloatArray* array) {
   if (array == NULL || array->location == FC_ARRAY_LOCATION_NONE)
     return FC_EXCEPTION_BAD_PARAMETER;
 
@@ -2364,7 +2368,7 @@ int fcFloatArray_createRef(fcFloatArray* array) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcFloatArray_releaseRef(fcFloatArray* array) {
+fcError fcFloatArray_releaseRef(fcFloatArray* array) {
   if (array == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
@@ -2375,7 +2379,7 @@ int fcFloatArray_releaseRef(fcFloatArray* array) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcFloatArray_init(fcFloatArray* self) {
+fcError fcFloatArray_init(fcFloatArray* self) {
   if (self->location != FC_ARRAY_LOCATION_NONE)
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -2383,8 +2387,8 @@ int fcFloatArray_init(fcFloatArray* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcFloatArray_initSize(fcFloatArray* self, int n) {
-  int err;
+fcError fcFloatArray_initSize(fcFloatArray* self, fcInt n) {
+  fcError err;
 
   // Check parameters
   if (n <= 0)
@@ -2397,7 +2401,7 @@ int fcFloatArray_initSize(fcFloatArray* self, int n) {
   self->len = n;
 
   // Allocate array
-  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(cl_float), NULL, &err);
+  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(fcFloat), NULL, &err);
   if (err) return err;
 
   // Update location
@@ -2405,8 +2409,8 @@ int fcFloatArray_initSize(fcFloatArray* self, int n) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcFloatArray_initArray(fcFloatArray* self, int len, const jfloat* v) {
-  int err;
+fcError fcFloatArray_initArray(fcFloatArray* self, fcInt len, const fcFloat* v) {
+  fcError err;
 
   // Check parameters
   if (len <= 0)
@@ -2422,7 +2426,7 @@ int fcFloatArray_initArray(fcFloatArray* self, int len, const jfloat* v) {
   self->len = len;
 
   // Allocate array
-  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(cl_float), NULL, &err);
+  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(fcFloat), NULL, &err);
   if (err) return err;
 
   // Initialize array
@@ -2439,8 +2443,8 @@ int fcFloatArray_initArray(fcFloatArray* self, int len, const jfloat* v) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcFloatArray_initCopy(fcFloatArray* self, const fcFloatArray* array) {
-  int err;
+fcError fcFloatArray_initCopy(fcFloatArray* self, const fcFloatArray* array) {
+  fcError err;
 
   // Check parameters
   if (array == NULL || !fcFloatArray_valid(array))
@@ -2453,7 +2457,7 @@ int fcFloatArray_initCopy(fcFloatArray* self, const fcFloatArray* array) {
   self->len = array->len;
 
   // Allocate array
-  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(cl_float), NULL, &err);
+  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(fcFloat), NULL, &err);
   if (err) return err;
 
   // Copy array data
@@ -2468,12 +2472,12 @@ int fcFloatArray_initCopy(fcFloatArray* self, const fcFloatArray* array) {
   return err;
 }
 
-int fcFloatArray_release(fcFloatArray* self) {
+fcError fcFloatArray_release(fcFloatArray* self) {
   --self->ref_count;
 
   // If it has already been released, only decrease the reference count
   if (self->location != FC_ARRAY_LOCATION_NONE) {
-    int err = 0;
+    fcError err = 0;
 
     if (self->c != NULL) {
       if (self->location != FC_ARRAY_LOCATION_OPENCL) {
@@ -2512,11 +2516,11 @@ int fcFloatArray_release(fcFloatArray* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-jfloat fcFloatArray_get(fcFloatArray* self, int i, int* err) {
-  int __tmp_err;
+fcFloat fcFloatArray_get(fcFloatArray* self, fcInt i, fcError* err) {
+  fcError __tmp_err;
   if (err == NULL) err = &__tmp_err;
 
-  jfloat __tmp_ret = 0.0f;
+  fcFloat __tmp_ret = 0.0f;
   if (!fcFloatArray_valid(self)) {
     *err = FC_EXCEPTION_INVALID_STATE;
     return __tmp_ret;
@@ -2534,24 +2538,25 @@ jfloat fcFloatArray_get(fcFloatArray* self, int i, int* err) {
   return self->c[i];
 }
 
-int fcFloatArray_set(fcFloatArray* self, int i, jfloat x) {
+fcError fcFloatArray_set(fcFloatArray* self, fcInt i, fcFloat x) {
   if (!fcFloatArray_valid(self)) return FC_EXCEPTION_INVALID_STATE;
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  int err = fcFloatArray_syncToNative(self);
-  if (err) return err;
+  fcError err = fcFloatArray_syncToNative(self);
+  if (err)
+    return err;
 
   self->c[i] = x;
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcFloatArray_setArray(fcFloatArray* self, jsize len, const jfloat* v) {
+fcError fcFloatArray_setArray(fcFloatArray* self, fcInt len, const fcFloat* v) {
   // No alignment issues, so we can just call setBuffer
-  return fcFloatArray_setBuffer(self, len * sizeof(jfloat), v);
+  return fcFloatArray_setBuffer(self, len * sizeof(fcFloat), v);
 }
 
-int fcFloatArray_setCopy(fcFloatArray* self, const fcFloatArray* array) {
+fcError fcFloatArray_setCopy(fcFloatArray* self, const fcFloatArray* array) {
   if (!fcFloatArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -2560,8 +2565,8 @@ int fcFloatArray_setCopy(fcFloatArray* self, const fcFloatArray* array) {
     return FC_EXCEPTION_BAD_PARAMETER;
 
   // Copy array data
-  int err;
-  size_t size = self->len * sizeof(cl_float);
+  fcError err;
+  fcLong size = self->len * sizeof(fcFloat);
 
   if (self->location == FC_ARRAY_LOCATION_OPENCL) {
     if (array->location == FC_ARRAY_LOCATION_OPENCL)
@@ -2578,19 +2583,19 @@ int fcFloatArray_setCopy(fcFloatArray* self, const fcFloatArray* array) {
   return err;
 }
 
-int fcFloatArray_setBuffer(fcFloatArray* self, jlong len, const void* v) {
+fcError fcFloatArray_setBuffer(fcFloatArray* self, fcLong len, const void* v) {
   if (!fcFloatArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
   // Check parameters
-  if (len <= 0 || len % sizeof(jfloat) != 0 || len / sizeof(jfloat) != self->len)
+  if (len <= 0 || len % sizeof(fcFloat) != 0 || len / sizeof(fcFloat) != self->len)
     return FC_EXCEPTION_ARRAY_BAD_LENGTH;
 
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
   // Copy buffer
-  int err;
+  fcError err;
   if (self->location == FC_ARRAY_LOCATION_OPENCL) {
     err = clEnqueueWriteBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, 0, len, v, 0, NULL, NULL);
     if (err) return err;
@@ -2603,14 +2608,14 @@ int fcFloatArray_setBuffer(fcFloatArray* self, jlong len, const void* v) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcFloatArray_syncToNative(fcFloatArray* self) {
+fcError fcFloatArray_syncToNative(fcFloatArray* self) {
   if (!fcFloatArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
-  int err = FC_EXCEPTION_SUCCESS;
+  fcError err = FC_EXCEPTION_SUCCESS;
 
   if (self->location == FC_ARRAY_LOCATION_OPENCL)
-    self->c = clEnqueueMapBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, CL_MAP_READ | CL_MAP_WRITE, 0, self->len * sizeof(cl_float), 0, NULL, NULL, &err);
+    self->c = clEnqueueMapBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, CL_MAP_READ | CL_MAP_WRITE, 0, self->len * sizeof(fcFloat), 0, NULL, NULL, &err);
 
   if (!err)
     self->location = FC_ARRAY_LOCATION_NATIVE;
@@ -2618,11 +2623,11 @@ int fcFloatArray_syncToNative(fcFloatArray* self) {
   return err;
 }
 
-int fcFloatArray_syncToOCL(fcFloatArray* self) {
+fcError fcFloatArray_syncToOCL(fcFloatArray* self) {
   if (!fcFloatArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
-  int err = FC_EXCEPTION_SUCCESS;
+  fcError err = FC_EXCEPTION_SUCCESS;
 
   if (self->location == FC_ARRAY_LOCATION_NATIVE)
     err = clEnqueueUnmapMemObject(fcOpenCL_rt.queue, self->ocl, self->c, 0, NULL, NULL);
@@ -2633,7 +2638,7 @@ int fcFloatArray_syncToOCL(fcFloatArray* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-jboolean fcFloatArray_valid(const fcFloatArray* self) {
+fcBool fcFloatArray_valid(const fcFloatArray* self) {
   return self->len > 0 &&
     ((self->location == FC_ARRAY_LOCATION_NATIVE && self->c != NULL) ||
      (self->location == FC_ARRAY_LOCATION_OPENCL && self->ocl != NULL));
@@ -2739,7 +2744,7 @@ Java_es_ull_pcg_hpc_fancier_array_DoubleArray_get__I(JNIEnv* env, jobject obj, j
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDoubleArray_getJava", 0.0);
 
   jint err;
-  jdouble __tmp_ret = fcDoubleArray_get(self, i, &err);
+  fcDouble __tmp_ret = fcDoubleArray_get(self, i, &err);
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDoubleArray_get", 0.0);
 
   return __tmp_ret;
@@ -2779,7 +2784,7 @@ Java_es_ull_pcg_hpc_fancier_array_DoubleArray_getArray(JNIEnv* env, jobject obj)
   FC_EXCEPTION_HANDLE_PENDING(env, !__tmp_ret, "fcDoubleArray_getArray", NULL);
 
   FC_JNI_CALL(env, SetDoubleArrayRegion, __tmp_ret, 0, self->len, self->c);
-  FC_EXCEPTION_HANDLE_PENDING(env, JNI_FALSE, "fcDoubleArray_getArray", __tmp_ret);
+  FC_EXCEPTION_HANDLE_PENDING(env, FC_FALSE, "fcDoubleArray_getArray", __tmp_ret);
 
   return __tmp_ret;
 }
@@ -2828,7 +2833,7 @@ Java_es_ull_pcg_hpc_fancier_array_DoubleArray_getBufferImpl(JNIEnv* env, jobject
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDoubleArray_syncToNative", NULL);
 
   // Create and return direct byte buffer pointing to the native data
-  return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(cl_double));
+  return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcDouble));
 }
 
 JNIEXPORT void JNICALL
@@ -2869,7 +2874,7 @@ Java_es_ull_pcg_hpc_fancier_array_DoubleArray_syncToOCL(JNIEnv* env, jobject obj
 // Native Interface Implementation
 //
 
-int fcDoubleArray_createRef(fcDoubleArray* array) {
+fcError fcDoubleArray_createRef(fcDoubleArray* array) {
   if (array == NULL || array->location == FC_ARRAY_LOCATION_NONE)
     return FC_EXCEPTION_BAD_PARAMETER;
 
@@ -2877,7 +2882,7 @@ int fcDoubleArray_createRef(fcDoubleArray* array) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcDoubleArray_releaseRef(fcDoubleArray* array) {
+fcError fcDoubleArray_releaseRef(fcDoubleArray* array) {
   if (array == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
@@ -2888,7 +2893,7 @@ int fcDoubleArray_releaseRef(fcDoubleArray* array) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcDoubleArray_init(fcDoubleArray* self) {
+fcError fcDoubleArray_init(fcDoubleArray* self) {
   if (self->location != FC_ARRAY_LOCATION_NONE)
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -2896,8 +2901,8 @@ int fcDoubleArray_init(fcDoubleArray* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcDoubleArray_initSize(fcDoubleArray* self, int n) {
-  int err;
+fcError fcDoubleArray_initSize(fcDoubleArray* self, fcInt n) {
+  fcError err;
 
   // Check parameters
   if (n <= 0)
@@ -2910,7 +2915,7 @@ int fcDoubleArray_initSize(fcDoubleArray* self, int n) {
   self->len = n;
 
   // Allocate array
-  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(cl_double), NULL, &err);
+  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(fcDouble), NULL, &err);
   if (err) return err;
 
   // Update location
@@ -2918,8 +2923,8 @@ int fcDoubleArray_initSize(fcDoubleArray* self, int n) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcDoubleArray_initArray(fcDoubleArray* self, int len, const jdouble* v) {
-  int err;
+fcError fcDoubleArray_initArray(fcDoubleArray* self, fcInt len, const fcDouble* v) {
+  fcError err;
 
   // Check parameters
   if (len <= 0)
@@ -2935,7 +2940,7 @@ int fcDoubleArray_initArray(fcDoubleArray* self, int len, const jdouble* v) {
   self->len = len;
 
   // Allocate array
-  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(cl_double), NULL, &err);
+  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(fcDouble), NULL, &err);
   if (err) return err;
 
   // Initialize array
@@ -2952,8 +2957,8 @@ int fcDoubleArray_initArray(fcDoubleArray* self, int len, const jdouble* v) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcDoubleArray_initCopy(fcDoubleArray* self, const fcDoubleArray* array) {
-  int err;
+fcError fcDoubleArray_initCopy(fcDoubleArray* self, const fcDoubleArray* array) {
+  fcError err;
 
   // Check parameters
   if (array == NULL || !fcDoubleArray_valid(array))
@@ -2966,7 +2971,7 @@ int fcDoubleArray_initCopy(fcDoubleArray* self, const fcDoubleArray* array) {
   self->len = array->len;
 
   // Allocate array
-  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(cl_double), NULL, &err);
+  self->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->len * sizeof(fcDouble), NULL, &err);
   if (err) return err;
 
   // Copy array data
@@ -2981,12 +2986,12 @@ int fcDoubleArray_initCopy(fcDoubleArray* self, const fcDoubleArray* array) {
   return err;
 }
 
-int fcDoubleArray_release(fcDoubleArray* self) {
+fcError fcDoubleArray_release(fcDoubleArray* self) {
   --self->ref_count;
 
   // If it has already been released, only decrease the reference count
   if (self->location != FC_ARRAY_LOCATION_NONE) {
-    int err = 0;
+    fcError err = 0;
 
     if (self->c != NULL) {
       if (self->location != FC_ARRAY_LOCATION_OPENCL) {
@@ -3025,11 +3030,11 @@ int fcDoubleArray_release(fcDoubleArray* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-jdouble fcDoubleArray_get(fcDoubleArray* self, int i, int* err) {
-  int __tmp_err;
+fcDouble fcDoubleArray_get(fcDoubleArray* self, fcInt i, fcError* err) {
+  fcError __tmp_err;
   if (err == NULL) err = &__tmp_err;
 
-  jdouble __tmp_ret = 0.0;
+  fcDouble __tmp_ret = 0.0;
   if (!fcDoubleArray_valid(self)) {
     *err = FC_EXCEPTION_INVALID_STATE;
     return __tmp_ret;
@@ -3047,24 +3052,25 @@ jdouble fcDoubleArray_get(fcDoubleArray* self, int i, int* err) {
   return self->c[i];
 }
 
-int fcDoubleArray_set(fcDoubleArray* self, int i, jdouble x) {
+fcError fcDoubleArray_set(fcDoubleArray* self, fcInt i, fcDouble x) {
   if (!fcDoubleArray_valid(self)) return FC_EXCEPTION_INVALID_STATE;
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  int err = fcDoubleArray_syncToNative(self);
-  if (err) return err;
+  fcError err = fcDoubleArray_syncToNative(self);
+  if (err)
+    return err;
 
   self->c[i] = x;
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcDoubleArray_setArray(fcDoubleArray* self, jsize len, const jdouble* v) {
+fcError fcDoubleArray_setArray(fcDoubleArray* self, fcInt len, const fcDouble* v) {
   // No alignment issues, so we can just call setBuffer
-  return fcDoubleArray_setBuffer(self, len * sizeof(jdouble), v);
+  return fcDoubleArray_setBuffer(self, len * sizeof(fcDouble), v);
 }
 
-int fcDoubleArray_setCopy(fcDoubleArray* self, const fcDoubleArray* array) {
+fcError fcDoubleArray_setCopy(fcDoubleArray* self, const fcDoubleArray* array) {
   if (!fcDoubleArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -3073,8 +3079,8 @@ int fcDoubleArray_setCopy(fcDoubleArray* self, const fcDoubleArray* array) {
     return FC_EXCEPTION_BAD_PARAMETER;
 
   // Copy array data
-  int err;
-  size_t size = self->len * sizeof(cl_double);
+  fcError err;
+  fcLong size = self->len * sizeof(fcDouble);
 
   if (self->location == FC_ARRAY_LOCATION_OPENCL) {
     if (array->location == FC_ARRAY_LOCATION_OPENCL)
@@ -3091,19 +3097,19 @@ int fcDoubleArray_setCopy(fcDoubleArray* self, const fcDoubleArray* array) {
   return err;
 }
 
-int fcDoubleArray_setBuffer(fcDoubleArray* self, jlong len, const void* v) {
+fcError fcDoubleArray_setBuffer(fcDoubleArray* self, fcLong len, const void* v) {
   if (!fcDoubleArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
   // Check parameters
-  if (len <= 0 || len % sizeof(jdouble) != 0 || len / sizeof(jdouble) != self->len)
+  if (len <= 0 || len % sizeof(fcDouble) != 0 || len / sizeof(fcDouble) != self->len)
     return FC_EXCEPTION_ARRAY_BAD_LENGTH;
 
   if (v == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
   // Copy buffer
-  int err;
+  fcError err;
   if (self->location == FC_ARRAY_LOCATION_OPENCL) {
     err = clEnqueueWriteBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, 0, len, v, 0, NULL, NULL);
     if (err) return err;
@@ -3116,14 +3122,14 @@ int fcDoubleArray_setBuffer(fcDoubleArray* self, jlong len, const void* v) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcDoubleArray_syncToNative(fcDoubleArray* self) {
+fcError fcDoubleArray_syncToNative(fcDoubleArray* self) {
   if (!fcDoubleArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
-  int err = FC_EXCEPTION_SUCCESS;
+  fcError err = FC_EXCEPTION_SUCCESS;
 
   if (self->location == FC_ARRAY_LOCATION_OPENCL)
-    self->c = clEnqueueMapBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, CL_MAP_READ | CL_MAP_WRITE, 0, self->len * sizeof(cl_double), 0, NULL, NULL, &err);
+    self->c = clEnqueueMapBuffer(fcOpenCL_rt.queue, self->ocl, CL_TRUE, CL_MAP_READ | CL_MAP_WRITE, 0, self->len * sizeof(fcDouble), 0, NULL, NULL, &err);
 
   if (!err)
     self->location = FC_ARRAY_LOCATION_NATIVE;
@@ -3131,11 +3137,11 @@ int fcDoubleArray_syncToNative(fcDoubleArray* self) {
   return err;
 }
 
-int fcDoubleArray_syncToOCL(fcDoubleArray* self) {
+fcError fcDoubleArray_syncToOCL(fcDoubleArray* self) {
   if (!fcDoubleArray_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
-  int err = FC_EXCEPTION_SUCCESS;
+  fcError err = FC_EXCEPTION_SUCCESS;
 
   if (self->location == FC_ARRAY_LOCATION_NATIVE)
     err = clEnqueueUnmapMemObject(fcOpenCL_rt.queue, self->ocl, self->c, 0, NULL, NULL);
@@ -3146,7 +3152,7 @@ int fcDoubleArray_syncToOCL(fcDoubleArray* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-jboolean fcDoubleArray_valid(const fcDoubleArray* self) {
+fcBool fcDoubleArray_valid(const fcDoubleArray* self) {
   return self->len > 0 &&
     ((self->location == FC_ARRAY_LOCATION_NATIVE && self->c != NULL) ||
      (self->location == FC_ARRAY_LOCATION_OPENCL && self->ocl != NULL));

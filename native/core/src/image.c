@@ -267,7 +267,7 @@ JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_syncToOCL(JNI
 
 #ifdef __ANDROID__
 
-static int readBitmap(JNIEnv* env, jobject bmp, AndroidBitmapInfo* info, void** pixels) {
+static fcError readBitmap(JNIEnv* env, jobject bmp, AndroidBitmapInfo* info, void** pixels) {
   if (AndroidBitmap_getInfo(env, bmp, info))
     return FC_EXCEPTION_BITMAP_INFO;
 
@@ -277,7 +277,7 @@ static int readBitmap(JNIEnv* env, jobject bmp, AndroidBitmapInfo* info, void** 
   return FC_EXCEPTION_SUCCESS;
 }
 
-static int freeBitmap(JNIEnv* env, jobject bmp) {
+static fcError freeBitmap(JNIEnv* env, jobject bmp) {
   if (AndroidBitmap_unlockPixels(env, bmp))
     return FC_EXCEPTION_BITMAP_UNLOCK_PIXELS;
 
@@ -377,7 +377,7 @@ Java_es_ull_pcg_hpc_fancier_image_RGBAImage_updateBitmap__Landroid_graphics_Bitm
 // Native Interface Implementation
 //
 
-int fcRGBAImage_createRef(fcRGBAImage* img) {
+fcError fcRGBAImage_createRef(fcRGBAImage* img) {
   if (img == NULL || img->pixels == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
@@ -385,7 +385,7 @@ int fcRGBAImage_createRef(fcRGBAImage* img) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcRGBAImage_releaseRef(fcRGBAImage* img) {
+fcError fcRGBAImage_releaseRef(fcRGBAImage* img) {
   if (img == NULL)
     return FC_EXCEPTION_BAD_PARAMETER;
 
@@ -396,7 +396,7 @@ int fcRGBAImage_releaseRef(fcRGBAImage* img) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcRGBAImage_init(fcRGBAImage* self) {
+fcError fcRGBAImage_init(fcRGBAImage* self) {
   if (self->pixels != NULL)
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -404,12 +404,12 @@ int fcRGBAImage_init(fcRGBAImage* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcRGBAImage_initDims(fcRGBAImage* self, fcInt2 dims) {
+fcError fcRGBAImage_initDims(fcRGBAImage* self, fcInt2 dims) {
   return fcRGBAImage_initSize(self, dims.x, dims.y);
 }
 
-int fcRGBAImage_initSize(fcRGBAImage* self, int width, int height) {
-  int err;
+fcError fcRGBAImage_initSize(fcRGBAImage* self, fcInt width, fcInt height) {
+  fcError err;
 
   // Check parameters
   if (width <= 0 || height <= 0)
@@ -435,8 +435,8 @@ int fcRGBAImage_initSize(fcRGBAImage* self, int width, int height) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcRGBAImage_initPixels(fcRGBAImage* self, int width, int height, const jint* pixels) {
-  int err;
+fcError fcRGBAImage_initPixels(fcRGBAImage* self, fcInt width, fcInt height, const fcInt* pixels) {
+  fcError err;
 
   // Check parameters
   if (pixels == NULL)
@@ -456,7 +456,7 @@ int fcRGBAImage_initPixels(fcRGBAImage* self, int width, int height, const jint*
   // Allocate array
   self->pixels = calloc(1, sizeof(fcByte4Array));
   err =
-      fcByte4Array_initArray(self->pixels, self->dims.x * self->dims.y * 4, (const jbyte*) pixels);
+      fcByte4Array_initArray(self->pixels, self->dims.x * self->dims.y * 4, (const fcByte*) pixels);
   if (err) {
     fcByte4Array_release(self->pixels);
     self->pixels = NULL;
@@ -466,8 +466,8 @@ int fcRGBAImage_initPixels(fcRGBAImage* self, int width, int height, const jint*
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcRGBAImage_initCopy(fcRGBAImage* self, const fcRGBAImage* other) {
-  int err;
+fcError fcRGBAImage_initCopy(fcRGBAImage* self, const fcRGBAImage* other) {
+  fcError err;
 
   // Check parameters
   if (other == NULL || other->pixels == NULL || !fcByte4Array_valid(other->pixels))
@@ -492,10 +492,10 @@ int fcRGBAImage_initCopy(fcRGBAImage* self, const fcRGBAImage* other) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-int fcRGBAImage_release(fcRGBAImage* self) {
+fcError fcRGBAImage_release(fcRGBAImage* self) {
   --self->ref_count;
   if (self->pixels != NULL) {
-    int err = fcByte4Array_release(self->pixels);
+    fcError err = fcByte4Array_release(self->pixels);
     if (err) {
       ++self->ref_count;  // Release did not succeed, so restore the ref count
       return err;
@@ -512,12 +512,12 @@ int fcRGBAImage_release(fcRGBAImage* self) {
   return FC_EXCEPTION_SUCCESS;
 }
 
-fcByte4 fcRGBAImage_getCoords(fcRGBAImage* self, fcInt2 coords, int* err) {
+fcByte4 fcRGBAImage_getCoords(fcRGBAImage* self, fcInt2 coords, fcError* err) {
   return fcRGBAImage_get(self, coords.x, coords.y, err);
 }
 
-fcByte4 fcRGBAImage_get(fcRGBAImage* self, int x, int y, int* err) {
-  int __tmp_err;
+fcByte4 fcRGBAImage_get(fcRGBAImage* self, fcInt x, fcInt y, fcError* err) {
+  fcError __tmp_err;
   if (err == NULL)
     err = &__tmp_err;
 
@@ -535,11 +535,11 @@ fcByte4 fcRGBAImage_get(fcRGBAImage* self, int x, int y, int* err) {
   return fcByte4Array_get(self->pixels, y * self->dims.x + x, err);
 }
 
-int fcRGBAImage_setCoords(fcRGBAImage* self, fcInt2 coords, fcByte4 rgba) {
+fcError fcRGBAImage_setCoords(fcRGBAImage* self, fcInt2 coords, fcByte4 rgba) {
   return fcRGBAImage_set(self, coords.x, coords.y, rgba);
 }
 
-int fcRGBAImage_set(fcRGBAImage* self, int x, int y, fcByte4 rgba) {
+fcError fcRGBAImage_set(fcRGBAImage* self, fcInt x, fcInt y, fcByte4 rgba) {
   if (!fcRGBAImage_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -549,7 +549,7 @@ int fcRGBAImage_set(fcRGBAImage* self, int x, int y, fcByte4 rgba) {
   return fcByte4Array_set(self->pixels, y * self->dims.x + x, rgba);
 }
 
-int fcRGBAImage_setPixels(fcRGBAImage* self, int width, int height, const jint* pixels) {
+fcError fcRGBAImage_setPixels(fcRGBAImage* self, fcInt width, fcInt height, const fcInt* pixels) {
   if (!fcRGBAImage_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -562,10 +562,10 @@ int fcRGBAImage_setPixels(fcRGBAImage* self, int width, int height, const jint* 
 
   // Set data
   return fcByte4Array_setArray(self->pixels, self->dims.x * self->dims.y * 4,
-                               (const jbyte*) pixels);
+                               (const fcByte*) pixels);
 }
 
-int fcRGBAImage_setPixelsCopy(fcRGBAImage* self, const fcRGBAImage* image) {
+fcError fcRGBAImage_setPixelsCopy(fcRGBAImage* self, const fcRGBAImage* image) {
   if (!fcRGBAImage_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -580,36 +580,36 @@ int fcRGBAImage_setPixelsCopy(fcRGBAImage* self, const fcRGBAImage* image) {
   return fcByte4Array_setCopy(self->pixels, image->pixels);
 }
 
-int fcRGBAImage_syncToNative(fcRGBAImage* self) {
+fcError fcRGBAImage_syncToNative(fcRGBAImage* self) {
   if (!fcRGBAImage_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
   return fcByte4Array_syncToNative(self->pixels);
 }
 
-int fcRGBAImage_syncToOCL(fcRGBAImage* self) {
+fcError fcRGBAImage_syncToOCL(fcRGBAImage* self) {
   if (!fcRGBAImage_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
   return fcByte4Array_syncToOCL(self->pixels);
 }
 
-jboolean fcRGBAImage_valid(const fcRGBAImage* self) {
+fcBool fcRGBAImage_valid(const fcRGBAImage* self) {
   return self->dims.x > 0 && self->dims.y > 0 && self->pixels != NULL &&
          fcByte4Array_valid(self->pixels);
 }
 
 #ifdef __ANDROID__
 
-int fcRGBAImage_initBitmap(fcRGBAImage* self, AndroidBitmapInfo info, const void* pixels) {
+fcError fcRGBAImage_initBitmap(fcRGBAImage* self, AndroidBitmapInfo info, const void* pixels) {
   // Check parameters
   if (info.format != ANDROID_BITMAP_FORMAT_RGBA_8888)
     return FC_EXCEPTION_BITMAP_UNSUPPORTED_FORMAT;
 
-  return fcRGBAImage_initPixels(self, info.width, info.height, (const jint*) pixels);
+  return fcRGBAImage_initPixels(self, info.width, info.height, (const fcInt*) pixels);
 }
 
-int fcRGBAImage_setPixelsBitmap(fcRGBAImage* self, AndroidBitmapInfo info, const void* pixels) {
+fcError fcRGBAImage_setPixelsBitmap(fcRGBAImage* self, AndroidBitmapInfo info, const void* pixels) {
   if (!fcRGBAImage_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -617,10 +617,10 @@ int fcRGBAImage_setPixelsBitmap(fcRGBAImage* self, AndroidBitmapInfo info, const
   if (info.format != ANDROID_BITMAP_FORMAT_RGBA_8888)
     return FC_EXCEPTION_BITMAP_UNSUPPORTED_FORMAT;
 
-  return fcRGBAImage_setPixels(self, info.width, info.height, (const jint*) pixels);
+  return fcRGBAImage_setPixels(self, info.width, info.height, (const fcInt*) pixels);
 }
 
-int fcRGBAImage_updateBitmap(fcRGBAImage* self, AndroidBitmapInfo info, void* pixels) {
+fcError fcRGBAImage_updateBitmap(fcRGBAImage* self, AndroidBitmapInfo info, void* pixels) {
   if (!fcRGBAImage_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -634,11 +634,11 @@ int fcRGBAImage_updateBitmap(fcRGBAImage* self, AndroidBitmapInfo info, void* pi
   if (info.width != self->dims.x || info.height != self->dims.y)
     return FC_EXCEPTION_BITMAP_BAD_DIMENSIONS;
 
-  int err = fcByte4Array_syncToNative(self->pixels);
+  fcError err = fcByte4Array_syncToNative(self->pixels);
   if (err)
     return err;
 
-  return memcpy(pixels, self->pixels->c, self->pixels->len * sizeof(cl_byte4)) ?
+  return memcpy(pixels, self->pixels->c, self->pixels->len * sizeof(fcByte4)) ?
              FC_EXCEPTION_SUCCESS :
              FC_EXCEPTION_FAILED_COPY;
 }

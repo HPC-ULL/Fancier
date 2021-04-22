@@ -81,7 +81,7 @@ def make_delegate_constructor(param_set, type, vfields, native=False):
     if param_len == 1:
       param_name = field_to_varname(vfields[arg_index])
       if native:
-        params.append(f'cl_{type.lower()} {param_name}')
+        params.append(f'fc{type.capitalize()} {param_name}')
       else:
         params.append(f'{type.lower()} {param_name}')
       args.append(param_name)

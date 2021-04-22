@@ -9,7 +9,7 @@ DOC_DIR=docs
 
 CC?=gcc
 CXX?=g++
-CPPFLAGS=-O2 -g -Wall -Wno-dangling-else -I$(INCLUDE_DIR) -I${JAVA_HOME}/include -I${JAVA_HOME}/include/linux -fPIC
+CPPFLAGS=-O2 -g -Wall -Wno-dangling-else -Wno-unused-function -I$(INCLUDE_DIR) -I${JAVA_HOME}/include -I${JAVA_HOME}/include/linux -fPIC
 CXXFLAGS=-fno-rtti -fno-exceptions -std=c++11
 LDFLAGS=-L$(BUILD_DIR) -lOpenCL -ldl -lm
 PLUGIN_LDLFLAGS=$(LDFLAGS) -lfancier

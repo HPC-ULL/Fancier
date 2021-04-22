@@ -833,273 +833,273 @@ Java_es_ull_pcg_hpc_fancier_Math_rootn__DI(JNIEnv* env, jclass cls, jdouble x, j
 
 // Java Math
 
-cl_float fcMath_acosf(cl_float a) {
+fcFloat fcMath_acosf(fcFloat a) {
   return acosf(a);
 }
 
-cl_float fcMath_asinf(cl_float a) {
+fcFloat fcMath_asinf(fcFloat a) {
   return asinf(a);
 }
 
-cl_float fcMath_atanf(cl_float a) {
+fcFloat fcMath_atanf(fcFloat a) {
   return atanf(a);
 }
 
-cl_float fcMath_atan2f(cl_float y, cl_float x) {
+fcFloat fcMath_atan2f(fcFloat y, fcFloat x) {
   return atan2f(y, x);
 }
 
-cl_float fcMath_cbrtf(cl_float a) {
+fcFloat fcMath_cbrtf(fcFloat a) {
   return cbrtf(a);
 }
 
-cl_float fcMath_ceilf(cl_float a) {
+fcFloat fcMath_ceilf(fcFloat a) {
   return ceilf(a);
 }
 
-cl_float fcMath_copySignf(cl_float magnitude, cl_float sign) {
+fcFloat fcMath_copySignf(fcFloat magnitude, fcFloat sign) {
   return copysignf(magnitude, sign);
 }
 
-cl_float fcMath_cosf(cl_float a) {
+fcFloat fcMath_cosf(fcFloat a) {
   return cosf(a);
 }
 
-cl_float fcMath_coshf(cl_float x) {
+fcFloat fcMath_coshf(fcFloat x) {
   return coshf(x);
 }
 
-cl_float fcMath_expf(cl_float a) {
+fcFloat fcMath_expf(fcFloat a) {
   return expf(a);
 }
 
-cl_float fcMath_expm1f(cl_float x) {
+fcFloat fcMath_expm1f(fcFloat x) {
   return expm1f(x);
 }
 
-cl_float fcMath_floorf(cl_float a) {
+fcFloat fcMath_floorf(fcFloat a) {
   return floorf(a);
 }
 
-cl_int fcMath_getExponentf(cl_float d) {
+fcInt fcMath_getExponentf(fcFloat d) {
   return ilogbf(d);
 }
 
-cl_float fcMath_hypotf(cl_float x, cl_float y) {
+fcFloat fcMath_hypotf(fcFloat x, fcFloat y) {
   return hypotf(x, y);
 }
 
-cl_float fcMath_remainderf(cl_float f1, cl_float f2) {
+fcFloat fcMath_remainderf(fcFloat f1, fcFloat f2) {
   return remainderf(f1, f2);
 }
 
-cl_float fcMath_logf(cl_float a) {
+fcFloat fcMath_logf(fcFloat a) {
   return logf(a);
 }
 
-cl_float fcMath_log10f(cl_float a) {
+fcFloat fcMath_log10f(fcFloat a) {
   return log10f(a);
 }
 
-cl_float fcMath_log1pf(cl_float a) {
+fcFloat fcMath_log1pf(fcFloat a) {
   return log1pf(a);
 }
 
-cl_float fcMath_nextAfterf(cl_float start, cl_float direction) {
+fcFloat fcMath_nextAfterf(fcFloat start, fcFloat direction) {
   return nextafterf(start, direction);
 }
 
-cl_float fcMath_powf(cl_float a, cl_float b) {
+fcFloat fcMath_powf(fcFloat a, fcFloat b) {
   return powf(a, b);
 }
 
-cl_float fcMath_rintf(cl_float a) {
+fcFloat fcMath_rintf(fcFloat a) {
   return rintf(a);
 }
 
-cl_float fcMath_roundf(cl_float a) {
+fcFloat fcMath_roundf(fcFloat a) {
   return roundf(a);
 }
 
-cl_float fcMath_scalbf(cl_float a, cl_int scaleFactor) {
+fcFloat fcMath_scalbf(fcFloat a, fcInt scaleFactor) {
   return ldexpf(a, scaleFactor);
 }
 
-cl_float fcMath_signumf(cl_float d) {
+fcFloat fcMath_signumf(fcFloat d) {
   return d == 0.0f ? 0.0f : (d < 0.0f ? -1.0f : 1.0f);
 }
 
-cl_float fcMath_sinf(cl_float a) {
+fcFloat fcMath_sinf(fcFloat a) {
   return sinf(a);
 }
 
-cl_float fcMath_sinhf(cl_float x) {
+fcFloat fcMath_sinhf(fcFloat x) {
   return sinhf(x);
 }
 
-cl_float fcMath_sqrtf(cl_float a) {
+fcFloat fcMath_sqrtf(fcFloat a) {
   return sqrtf(a);
 }
 
-cl_float fcMath_tanf(cl_float a) {
+fcFloat fcMath_tanf(fcFloat a) {
   return tanf(a);
 }
 
-cl_float fcMath_tanhf(cl_float x) {
+fcFloat fcMath_tanhf(fcFloat x) {
   return tanhf(x);
 }
 
-cl_float fcMath_toDegreesf(cl_float angrad) {
+fcFloat fcMath_toDegreesf(fcFloat angrad) {
   return angrad * (180 / CL_M_PI_F);
 }
 
-cl_float fcMath_toRadiansf(cl_float angdeg) {
+fcFloat fcMath_toRadiansf(fcFloat angdeg) {
   return angdeg * (CL_M_PI_F / 180);
 }
 
-cl_double fcMath_acos(cl_double a) {
+fcDouble fcMath_acos(fcDouble a) {
   return acos(a);
 }
 
-cl_double fcMath_asin(cl_double a) {
+fcDouble fcMath_asin(fcDouble a) {
   return asin(a);
 }
 
-cl_double fcMath_atan(cl_double a) {
+fcDouble fcMath_atan(fcDouble a) {
   return atan(a);
 }
 
-cl_double fcMath_atan2(cl_double y, cl_double x) {
+fcDouble fcMath_atan2(fcDouble y, fcDouble x) {
   return atan2(y, x);
 }
 
-cl_double fcMath_cbrt(cl_double a) {
+fcDouble fcMath_cbrt(fcDouble a) {
   return cbrt(a);
 }
 
-cl_double fcMath_ceil(cl_double a) {
+fcDouble fcMath_ceil(fcDouble a) {
   return ceil(a);
 }
 
-cl_double fcMath_copySign(cl_double magnitude, cl_double sign) {
+fcDouble fcMath_copySign(fcDouble magnitude, fcDouble sign) {
   return copysign(magnitude, sign);
 }
 
-cl_double fcMath_cos(cl_double a) {
+fcDouble fcMath_cos(fcDouble a) {
   return cos(a);
 }
 
-cl_double fcMath_cosh(cl_double x) {
+fcDouble fcMath_cosh(fcDouble x) {
   return cosh(x);
 }
 
-cl_double fcMath_exp(cl_double a) {
+fcDouble fcMath_exp(fcDouble a) {
   return exp(a);
 }
 
-cl_double fcMath_expm1(cl_double x) {
+fcDouble fcMath_expm1(fcDouble x) {
   return expm1(x);
 }
 
-cl_double fcMath_floor(cl_double a) {
+fcDouble fcMath_floor(fcDouble a) {
   return floor(a);
 }
 
-cl_int fcMath_getExponent(cl_double d) {
+fcInt fcMath_getExponent(fcDouble d) {
   return ilogb(d);
 }
 
-cl_double fcMath_hypot(cl_double x, cl_double y) {
+fcDouble fcMath_hypot(fcDouble x, fcDouble y) {
   return hypot(x, y);
 }
 
-cl_double fcMath_remainder(cl_double f1, cl_double f2) {
+fcDouble fcMath_remainder(fcDouble f1, fcDouble f2) {
   return remainder(f1, f2);
 }
 
-cl_double fcMath_log(cl_double a) {
+fcDouble fcMath_log(fcDouble a) {
   return log(a);
 }
 
-cl_double fcMath_log10(cl_double a) {
+fcDouble fcMath_log10(fcDouble a) {
   return log10(a);
 }
 
-cl_double fcMath_log1p(cl_double a) {
+fcDouble fcMath_log1p(fcDouble a) {
   return log1p(a);
 }
 
-cl_double fcMath_nextAfter(cl_double start, cl_double direction) {
+fcDouble fcMath_nextAfter(fcDouble start, fcDouble direction) {
   return nextafter(start, direction);
 }
 
-cl_double fcMath_pow(cl_double a, cl_double b) {
+fcDouble fcMath_pow(fcDouble a, fcDouble b) {
   return pow(a, b);
 }
 
-cl_double fcMath_rint(cl_double a) {
+fcDouble fcMath_rint(fcDouble a) {
   return rint(a);
 }
 
-cl_double fcMath_round(cl_double a) {
+fcDouble fcMath_round(fcDouble a) {
   return round(a);
 }
 
-cl_double fcMath_scalb(cl_double a, cl_int scaleFactor) {
+fcDouble fcMath_scalb(fcDouble a, fcInt scaleFactor) {
   return ldexp(a, scaleFactor);
 }
 
-cl_double fcMath_signum(cl_double d) {
+fcDouble fcMath_signum(fcDouble d) {
   return d == 0.0 ? 0.0 : (d < 0.0 ? -1.0 : 1.0);
 }
 
-cl_double fcMath_sin(cl_double a) {
+fcDouble fcMath_sin(fcDouble a) {
   return sin(a);
 }
 
-cl_double fcMath_sinh(cl_double x) {
+fcDouble fcMath_sinh(fcDouble x) {
   return sinh(x);
 }
 
-cl_double fcMath_sqrt(cl_double a) {
+fcDouble fcMath_sqrt(fcDouble a) {
   return sqrt(a);
 }
 
-cl_double fcMath_tan(cl_double a) {
+fcDouble fcMath_tan(fcDouble a) {
   return tan(a);
 }
 
-cl_double fcMath_tanh(cl_double x) {
+fcDouble fcMath_tanh(fcDouble x) {
   return tanh(x);
 }
 
-cl_double fcMath_toDegrees(cl_double angrad) {
+fcDouble fcMath_toDegrees(fcDouble angrad) {
   return angrad * (180 / CL_M_PI);
 }
 
-cl_double fcMath_toRadians(cl_double angdeg) {
+fcDouble fcMath_toRadians(fcDouble angdeg) {
   return angdeg * (CL_M_PI / 180);
 }
 
 
 // OpenCL Common
 
-cl_float fcMath_smoothStepf(cl_float edge0, cl_float edge1, cl_float x) {
+fcFloat fcMath_smoothStepf(fcFloat edge0, fcFloat edge1, fcFloat x) {
   // TODO Implement function
   return 0.0f;
 }
 
-cl_float fcMath_stepf(cl_float edge, cl_float x) {
+fcFloat fcMath_stepf(fcFloat edge, fcFloat x) {
   // TODO Implement function
   return 0.0f;
 }
 
-cl_double fcMath_smoothStep(cl_double edge0, cl_double edge1, cl_double x) {
+fcDouble fcMath_smoothStep(fcDouble edge0, fcDouble edge1, fcDouble x) {
   // TODO Implement function
   return 0.0;
 }
 
-cl_double fcMath_step(cl_double edge, cl_double x) {
+fcDouble fcMath_step(fcDouble edge, fcDouble x) {
   // TODO Implement function
   return 0.0;
 }
@@ -1107,192 +1107,192 @@ cl_double fcMath_step(cl_double edge, cl_double x) {
 
 // OpenCL Integer
 
-cl_byte fcMath_addSatc(cl_byte x, cl_byte y) {
+fcByte fcMath_addSatc(fcByte x, fcByte y) {
   // TODO Implement function
   return '\0';
 }
 
-cl_byte fcMath_clzc(cl_byte x) {
+fcByte fcMath_clzc(fcByte x) {
   // TODO Implement function
   return '\0';
 }
 
-cl_byte fcMath_haddc(cl_byte x, cl_byte y) {
+fcByte fcMath_haddc(fcByte x, fcByte y) {
   // TODO Implement function
   return '\0';
 }
 
-cl_byte fcMath_madHic(cl_byte a, cl_byte b, cl_byte c) {
+fcByte fcMath_madHic(fcByte a, fcByte b, fcByte c) {
   // TODO Implement function
   return '\0';
 }
 
-cl_byte fcMath_madSatc(cl_byte a, cl_byte b, cl_byte c) {
+fcByte fcMath_madSatc(fcByte a, fcByte b, fcByte c) {
   // TODO Implement function
   return '\0';
 }
 
-cl_byte fcMath_mulHic(cl_byte x, cl_byte y) {
+fcByte fcMath_mulHic(fcByte x, fcByte y) {
   // TODO Implement function
   return '\0';
 }
 
-cl_byte fcMath_rhaddc(cl_byte x, cl_byte y) {
+fcByte fcMath_rhaddc(fcByte x, fcByte y) {
   // TODO Implement function
   return '\0';
 }
 
-cl_byte fcMath_rotatec(cl_byte v, cl_byte i) {
+fcByte fcMath_rotatec(fcByte v, fcByte i) {
   // TODO Implement function
   return '\0';
 }
 
-cl_byte fcMath_subSatc(cl_byte x, cl_byte y) {
+fcByte fcMath_subSatc(fcByte x, fcByte y) {
   // TODO Implement function
   return '\0';
 }
 
-cl_short fcMath_addSats(cl_short x, cl_short y) {
+fcShort fcMath_addSats(fcShort x, fcShort y) {
   // TODO Implement function
   return 0;
 }
 
-cl_short fcMath_clzs(cl_short x) {
+fcShort fcMath_clzs(fcShort x) {
   // TODO Implement function
   return 0;
 }
 
-cl_short fcMath_hadds(cl_short x, cl_short y) {
+fcShort fcMath_hadds(fcShort x, fcShort y) {
   // TODO Implement function
   return 0;
 }
 
-cl_short fcMath_madHis(cl_short a, cl_short b, cl_short c) {
+fcShort fcMath_madHis(fcShort a, fcShort b, fcShort c) {
   // TODO Implement function
   return 0;
 }
 
-cl_short fcMath_madSats(cl_short a, cl_short b, cl_short c) {
+fcShort fcMath_madSats(fcShort a, fcShort b, fcShort c) {
   // TODO Implement function
   return 0;
 }
 
-cl_short fcMath_mulHis(cl_short x, cl_short y) {
+fcShort fcMath_mulHis(fcShort x, fcShort y) {
   // TODO Implement function
   return 0;
 }
 
-cl_short fcMath_rhadds(cl_short x, cl_short y) {
+fcShort fcMath_rhadds(fcShort x, fcShort y) {
   // TODO Implement function
   return 0;
 }
 
-cl_short fcMath_rotates(cl_short v, cl_short i) {
+fcShort fcMath_rotates(fcShort v, fcShort i) {
   // TODO Implement function
   return 0;
 }
 
-cl_short fcMath_subSats(cl_short x, cl_short y) {
+fcShort fcMath_subSats(fcShort x, fcShort y) {
   // TODO Implement function
   return 0;
 }
 
-cl_int fcMath_addSat(cl_int x, cl_int y) {
+fcInt fcMath_addSat(fcInt x, fcInt y) {
   // TODO Implement function
   return 0;
 }
 
-cl_int fcMath_clz(cl_int x) {
+fcInt fcMath_clz(fcInt x) {
   // TODO Implement function
   return 0;
 }
 
-cl_int fcMath_hadd(cl_int x, cl_int y) {
+fcInt fcMath_hadd(fcInt x, fcInt y) {
   // TODO Implement function
   return 0;
 }
 
-cl_int fcMath_madHi(cl_int a, cl_int b, cl_int c) {
+fcInt fcMath_madHi(fcInt a, fcInt b, fcInt c) {
   // TODO Implement function
   return 0;
 }
 
-cl_int fcMath_madSat(cl_int a, cl_int b, cl_int c) {
+fcInt fcMath_madSat(fcInt a, fcInt b, fcInt c) {
   // TODO Implement function
   return 0;
 }
 
-cl_int fcMath_mulHi(cl_int x, cl_int y) {
+fcInt fcMath_mulHi(fcInt x, fcInt y) {
   // TODO Implement function
   return 0;
 }
 
-cl_int fcMath_rhadd(cl_int x, cl_int y) {
+fcInt fcMath_rhadd(fcInt x, fcInt y) {
   // TODO Implement function
   return 0;
 }
 
-cl_int fcMath_rotate(cl_int v, cl_int i) {
+fcInt fcMath_rotate(fcInt v, fcInt i) {
   // TODO Implement function
   return 0;
 }
 
-cl_int fcMath_subSat(cl_int x, cl_int y) {
+fcInt fcMath_subSat(fcInt x, fcInt y) {
   // TODO Implement function
   return 0;
 }
 
-cl_long fcMath_addSatl(cl_long x, cl_long y) {
+fcLong fcMath_addSatl(fcLong x, fcLong y) {
   // TODO Implement function
   return 0L;
 }
 
-cl_long fcMath_clzl(cl_long x) {
+fcLong fcMath_clzl(fcLong x) {
   // TODO Implement function
   return 0L;
 }
 
-cl_long fcMath_haddl(cl_long x, cl_long y) {
+fcLong fcMath_haddl(fcLong x, fcLong y) {
   // TODO Implement function
   return 0L;
 }
 
-cl_long fcMath_madHil(cl_long a, cl_long b, cl_long c) {
+fcLong fcMath_madHil(fcLong a, fcLong b, fcLong c) {
   // TODO Implement function
   return 0L;
 }
 
-cl_long fcMath_madSatl(cl_long a, cl_long b, cl_long c) {
+fcLong fcMath_madSatl(fcLong a, fcLong b, fcLong c) {
   // TODO Implement function
   return 0L;
 }
 
-cl_long fcMath_mulHil(cl_long x, cl_long y) {
+fcLong fcMath_mulHil(fcLong x, fcLong y) {
   // TODO Implement function
   return 0L;
 }
 
-cl_long fcMath_rhaddl(cl_long x, cl_long y) {
+fcLong fcMath_rhaddl(fcLong x, fcLong y) {
   // TODO Implement function
   return 0L;
 }
 
-cl_long fcMath_rotatel(cl_long v, cl_long i) {
+fcLong fcMath_rotatel(fcLong v, fcLong i) {
   // TODO Implement function
   return 0L;
 }
 
-cl_long fcMath_subSatl(cl_long x, cl_long y) {
+fcLong fcMath_subSatl(fcLong x, fcLong y) {
   // TODO Implement function
   return 0L;
 }
 
-cl_int fcMath_mad24(cl_int x, cl_int y, cl_int z) {
+fcInt fcMath_mad24(fcInt x, fcInt y, fcInt z) {
   // TODO Implement function
   return 0;
 }
 
-cl_int fcMath_mul24(cl_int x, cl_int y) {
+fcInt fcMath_mul24(fcInt x, fcInt y) {
   // TODO Implement function
   return 0;
 }
@@ -1300,240 +1300,240 @@ cl_int fcMath_mul24(cl_int x, cl_int y) {
 
 // OpenCL Math
 
-cl_float fcMath_acoshf(cl_float x) {
+fcFloat fcMath_acoshf(fcFloat x) {
   return acoshf(x);
 }
 
-cl_float fcMath_asinhf(cl_float x) {
+fcFloat fcMath_asinhf(fcFloat x) {
   return asinhf(x);
 }
 
-cl_float fcMath_atanhf(cl_float x) {
+fcFloat fcMath_atanhf(fcFloat x) {
   return atanhf(x);
 }
 
-cl_float fcMath_erff(cl_float x) {
+fcFloat fcMath_erff(fcFloat x) {
   return erff(x);
 }
 
-cl_float fcMath_erfcf(cl_float x) {
+fcFloat fcMath_erfcf(fcFloat x) {
   return erfcf(x);
 }
 
-cl_float fcMath_exp2f(cl_float x) {
+fcFloat fcMath_exp2f(fcFloat x) {
   return exp2f(x);
 }
 
-cl_float fcMath_exp10f(cl_float x) {
+fcFloat fcMath_exp10f(fcFloat x) {
   return powf(10, x);
 }
 
-cl_float fcMath_fdimf(cl_float x, cl_float y) {
+fcFloat fcMath_fdimf(fcFloat x, fcFloat y) {
   return fdimf(x, y);
 }
 
-cl_float fcMath_fmaf(cl_float a, cl_float b, cl_float c) {
+fcFloat fcMath_fmaf(fcFloat a, fcFloat b, fcFloat c) {
   return fmaf(a, b, c);
 }
 
-cl_float fcMath_fmodf(cl_float x, cl_float y) {
+fcFloat fcMath_fmodf(fcFloat x, fcFloat y) {
   return fmodf(x, y);
 }
 
-cl_float fcMath_fractf(cl_float x) {
+fcFloat fcMath_fractf(fcFloat x) {
   return fcMath_min(x - floorf(x), CL_FLT_MAX);
 }
 
-cl_float fcMath_frexpf(cl_float x) {
+fcFloat fcMath_frexpf(fcFloat x) {
   return frexpf(x, NULL);
 }
 
-cl_float fcMath_ldexpf(cl_float x, cl_int n) {
+fcFloat fcMath_ldexpf(fcFloat x, fcInt n) {
   return ldexpf(x, n);
 }
 
-cl_float fcMath_lgammaf(cl_float x) {
+fcFloat fcMath_lgammaf(fcFloat x) {
   return lgammaf(x);
 }
 
-cl_float fcMath_log2f(cl_float x) {
+fcFloat fcMath_log2f(fcFloat x) {
   return log2f(x);
 }
 
-cl_float fcMath_logbf(cl_float x) {
+fcFloat fcMath_logbf(fcFloat x) {
   return logbf(x);
 }
 
-cl_float fcMath_madf(cl_float a, cl_float b, cl_float c) {
+fcFloat fcMath_madf(fcFloat a, fcFloat b, fcFloat c) {
   return fmaf(a, b, c);
 }
 
-cl_float fcMath_pownf(cl_float x, cl_int y) {
+fcFloat fcMath_pownf(fcFloat x, fcInt y) {
   return powf(x, y);
 }
 
-cl_float fcMath_powrf(cl_float x, cl_float y) {
+fcFloat fcMath_powrf(fcFloat x, fcFloat y) {
   assert(isgreaterequal(x, 0.0f));
   return powf(x, y);
 }
 
-cl_float fcMath_rootnf(cl_float x, cl_int y) {
-  return powf(x, 1 / (cl_float) y);
+fcFloat fcMath_rootnf(fcFloat x, fcInt y) {
+  return powf(x, 1 / (fcFloat) y);
 }
 
-cl_float fcMath_rsqrtf(cl_float x) {
+fcFloat fcMath_rsqrtf(fcFloat x) {
   return fcMath_powf(x, -0.5);
 }
 
-cl_float fcMath_tgammaf(cl_float x) {
+fcFloat fcMath_tgammaf(fcFloat x) {
   return tgammaf(x);
 }
 
-cl_float fcMath_truncf(cl_float x) {
+fcFloat fcMath_truncf(fcFloat x) {
   return truncf(x);
 }
 
-cl_double fcMath_acosh(cl_double x) {
+fcDouble fcMath_acosh(fcDouble x) {
   return acosh(x);
 }
 
-cl_double fcMath_asinh(cl_double x) {
+fcDouble fcMath_asinh(fcDouble x) {
   return asinh(x);
 }
 
-cl_double fcMath_atanh(cl_double x) {
+fcDouble fcMath_atanh(fcDouble x) {
   return atanh(x);
 }
 
-cl_double fcMath_erf(cl_double x) {
+fcDouble fcMath_erf(fcDouble x) {
   return erf(x);
 }
 
-cl_double fcMath_erfc(cl_double x) {
+fcDouble fcMath_erfc(fcDouble x) {
   return erfc(x);
 }
 
-cl_double fcMath_exp2(cl_double x) {
+fcDouble fcMath_exp2(fcDouble x) {
   return exp2(x);
 }
 
-cl_double fcMath_exp10(cl_double x) {
+fcDouble fcMath_exp10(fcDouble x) {
   return pow(10, x);
 }
 
-cl_double fcMath_fdim(cl_double x, cl_double y) {
+fcDouble fcMath_fdim(fcDouble x, fcDouble y) {
   return fdim(x, y);
 }
 
-cl_double fcMath_fma(cl_double a, cl_double b, cl_double c) {
+fcDouble fcMath_fma(fcDouble a, fcDouble b, fcDouble c) {
   return fma(a, b, c);
 }
 
-cl_double fcMath_fmod(cl_double x, cl_double y) {
+fcDouble fcMath_fmod(fcDouble x, fcDouble y) {
   return fmod(x, y);
 }
 
-cl_double fcMath_fract(cl_double x) {
+fcDouble fcMath_fract(fcDouble x) {
   return fcMath_min(x - floor(x), CL_DBL_MAX);
 }
 
-cl_double fcMath_frexp(cl_double x) {
+fcDouble fcMath_frexp(fcDouble x) {
   return frexp(x, NULL);
 }
 
-cl_double fcMath_ldexp(cl_double x, cl_int n) {
+fcDouble fcMath_ldexp(fcDouble x, fcInt n) {
   return ldexp(x, n);
 }
 
-cl_double fcMath_lgamma(cl_double x) {
+fcDouble fcMath_lgamma(fcDouble x) {
   return lgamma(x);
 }
 
-cl_double fcMath_log2(cl_double x) {
+fcDouble fcMath_log2(fcDouble x) {
   return log2(x);
 }
 
-cl_double fcMath_logb(cl_double x) {
+fcDouble fcMath_logb(fcDouble x) {
   return logb(x);
 }
 
-cl_double fcMath_mad(cl_double a, cl_double b, cl_double c) {
+fcDouble fcMath_mad(fcDouble a, fcDouble b, fcDouble c) {
   return fma(a, b, c);
 }
 
-cl_double fcMath_pown(cl_double x, cl_int y) {
+fcDouble fcMath_pown(fcDouble x, fcInt y) {
   return pow(x, y);
 }
 
-cl_double fcMath_powr(cl_double x, cl_double y) {
+fcDouble fcMath_powr(fcDouble x, fcDouble y) {
   assert(isgreaterequal(x, 0.0));
   return pow(x, y);
 }
 
-cl_double fcMath_rootn(cl_double x, cl_int y) {
-  return pow(x, 1 / (cl_double) y);
+fcDouble fcMath_rootn(fcDouble x, fcInt y) {
+  return pow(x, 1 / (fcDouble) y);
 }
 
-cl_double fcMath_rsqrt(cl_double x) {
+fcDouble fcMath_rsqrt(fcDouble x) {
   return fcMath_pow(x, -0.5);
 }
 
-cl_double fcMath_tgamma(cl_double x) {
+fcDouble fcMath_tgamma(fcDouble x) {
   return tgamma(x);
 }
 
-cl_double fcMath_trunc(cl_double x) {
+fcDouble fcMath_trunc(fcDouble x) {
   return trunc(x);
 }
 
 
 // OpenCL Relational
 
-cl_int fcMath_isFinitef(cl_float x) {
+fcInt fcMath_isFinitef(fcFloat x) {
   return isfinite(x);
 }
 
-cl_int fcMath_isInff(cl_float x) {
+fcInt fcMath_isInff(fcFloat x) {
   return isinf(x);
 }
 
-cl_int fcMath_isNaNf(cl_float x) {
+fcInt fcMath_isNaNf(fcFloat x) {
   return isnan(x);
 }
 
-cl_int fcMath_isNormalf(cl_float x) {
+fcInt fcMath_isNormalf(fcFloat x) {
   return isnormal(x);
 }
 
-cl_int fcMath_isOrderedf(cl_float x, cl_float y) {
+fcInt fcMath_isOrderedf(fcFloat x, fcFloat y) {
   return !isunordered(x, y);
 }
 
-cl_int fcMath_isUnorderedf(cl_float x, cl_float y) {
+fcInt fcMath_isUnorderedf(fcFloat x, fcFloat y) {
   return isunordered(x, y);
 }
 
-cl_int fcMath_isFinite(cl_double x) {
+fcInt fcMath_isFinite(fcDouble x) {
   return isfinite(x);
 }
 
-cl_int fcMath_isInf(cl_double x) {
+fcInt fcMath_isInf(fcDouble x) {
   return isinf(x);
 }
 
-cl_int fcMath_isNaN(cl_double x) {
+fcInt fcMath_isNaN(fcDouble x) {
   return isnan(x);
 }
 
-cl_int fcMath_isNormal(cl_double x) {
+fcInt fcMath_isNormal(fcDouble x) {
   return isnormal(x);
 }
 
-cl_int fcMath_isOrdered(cl_double x, cl_double y) {
+fcInt fcMath_isOrdered(fcDouble x, fcDouble y) {
   return !isunordered(x, y);
 }
 
-cl_int fcMath_isUnordered(cl_double x, cl_double y) {
+fcInt fcMath_isUnordered(fcDouble x, fcDouble y) {
   return isunordered(x, y);
 }
 

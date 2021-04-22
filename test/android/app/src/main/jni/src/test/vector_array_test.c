@@ -10,7 +10,7 @@ static const char* kernel_src = "void kernel sums(__global char* v) {\n"
                                 "}";
 
 static const int n = 10;
-static const cl_byte x[] = {10, 10, 10, 10, 20, 20, 20, 20, 30, 30, 30, 30, 40, 50, 60, 70};
+static const fcByte x[] = {10, 10, 10, 10, 20, 20, 20, 20, 30, 30, 30, 30, 40, 50, 60, 70};
 
 static int process(fcByte4Array* array) {
   cl_int err;
@@ -74,9 +74,9 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_VectorArrayTest_nativeRun(JNIEnv* e
   err = fcFloat3Array_syncToNative(f0);
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat3Array_syncToNative:f0", JNI_FALSE);
 
-  const int f0_stride = sizeof(cl_float3) / sizeof(cl_float);
+  const int f0_stride = sizeof(fcFloat3) / sizeof(fcFloat);
   float f0_[f0->len * f0_stride];
-  memcpy(f0_, f0->c, f0->len * sizeof(cl_float3));
+  memcpy(f0_, f0->c, f0->len * sizeof(fcFloat3));
 
   for (int i = 0; i < n; ++i) {
     fcFloat3 elem = f0->c[i];
@@ -132,7 +132,7 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_VectorArrayTest_nativeRun(JNIEnv* e
       return JNI_FALSE;
   }
 
-  cl_byte b0_[b0->len * 4];
+  fcByte b0_[b0->len * 4];
   for (int i = 0; i < b0->len; ++i) {
     fcByte4 elem = b0->c[i];
     int baseIdx = i * 4;
@@ -174,7 +174,7 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_VectorArrayTest_nativeRun(JNIEnv* e
       return JNI_FALSE;
   }
 
-  b1->c[0] = fcByte4_create112((cl_byte) (b1->c[0].x + 10), b1->c[0].y, b1->c[0].hi);
+  b1->c[0] = fcByte4_create112((fcByte) (b1->c[0].x + 10), b1->c[0].y, b1->c[0].hi);
   fcInt4 b0b1_eq = fcByte4_isEqual(b0->c[0], b1->c[0]);
 
   if (b0b1_eq.x != 0 || !fcInt3_all(fcInt3_create111(b0b1_eq.y, b0b1_eq.z, b0b1_eq.w)))
