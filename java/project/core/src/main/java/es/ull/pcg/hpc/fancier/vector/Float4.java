@@ -85,6 +85,10 @@ public class Float4 {
     set(vec1.x, vec1.y, vec1.z, vec1.w);
   }
 
+  public Float4 value() {
+    return new Float4(this);
+  }
+
   public Float2 lo() {
     return new Float2(x, y);
   }

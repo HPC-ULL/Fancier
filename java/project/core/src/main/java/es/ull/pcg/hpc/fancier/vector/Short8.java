@@ -898,6 +898,10 @@ public class Short8 {
     set(vec1.x, vec1.y, vec1.z, vec1.w, vec1.s[0], vec1.s[1], vec1.s[2], vec1.s[3]);
   }
 
+  public Short8 value() {
+    return new Short8(this);
+  }
+
   public Short4 lo() {
     return new Short4(x, y, z, w);
   }

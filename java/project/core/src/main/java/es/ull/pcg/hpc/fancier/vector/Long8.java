@@ -898,6 +898,10 @@ public class Long8 {
     set(vec1.x, vec1.y, vec1.z, vec1.w, vec1.s[0], vec1.s[1], vec1.s[2], vec1.s[3]);
   }
 
+  public Long8 value() {
+    return new Long8(this);
+  }
+
   public Long4 lo() {
     return new Long4(x, y, z, w);
   }

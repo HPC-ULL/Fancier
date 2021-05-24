@@ -33,6 +33,10 @@ public class Byte2 {
     set(vec1.x, vec1.y);
   }
 
+  public Byte2 value() {
+    return new Byte2(this);
+  }
+
   public Short2 convertShort2() {
     return new Short2((short)(x & 0xff), (short)(y & 0xff));
   }

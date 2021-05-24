@@ -85,6 +85,10 @@ public class Double4 {
     set(vec1.x, vec1.y, vec1.z, vec1.w);
   }
 
+  public Double4 value() {
+    return new Double4(this);
+  }
+
   public Double2 lo() {
     return new Double2(x, y);
   }

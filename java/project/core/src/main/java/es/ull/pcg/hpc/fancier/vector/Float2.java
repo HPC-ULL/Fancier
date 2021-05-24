@@ -33,6 +33,10 @@ public class Float2 {
     set(vec1.x, vec1.y);
   }
 
+  public Float2 value() {
+    return new Float2(this);
+  }
+
   public Byte2 convertByte2() {
     return new Byte2((byte)(x), (byte)(y));
   }

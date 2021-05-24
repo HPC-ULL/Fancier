@@ -85,6 +85,10 @@ public class Int4 {
     set(vec1.x, vec1.y, vec1.z, vec1.w);
   }
 
+  public Int4 value() {
+    return new Int4(this);
+  }
+
   public Int2 lo() {
     return new Int2(x, y);
   }

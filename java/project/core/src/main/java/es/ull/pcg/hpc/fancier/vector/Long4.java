@@ -85,6 +85,10 @@ public class Long4 {
     set(vec1.x, vec1.y, vec1.z, vec1.w);
   }
 
+  public Long4 value() {
+    return new Long4(this);
+  }
+
   public Long2 lo() {
     return new Long2(x, y);
   }

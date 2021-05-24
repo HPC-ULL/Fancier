@@ -898,6 +898,10 @@ public class Double8 {
     set(vec1.x, vec1.y, vec1.z, vec1.w, vec1.s[0], vec1.s[1], vec1.s[2], vec1.s[3]);
   }
 
+  public Double8 value() {
+    return new Double8(this);
+  }
+
   public Double4 lo() {
     return new Double4(x, y, z, w);
   }

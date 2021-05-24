@@ -51,6 +51,10 @@ public class Byte3 {
     set(vec1.x, vec1.y, vec1.z);
   }
 
+  public Byte3 value() {
+    return new Byte3(this);
+  }
+
   public Short3 convertShort3() {
     return new Short3((short)(x & 0xff), (short)(y & 0xff), (short)(z & 0xff));
   }

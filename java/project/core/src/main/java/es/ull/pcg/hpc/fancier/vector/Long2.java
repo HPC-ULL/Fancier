@@ -33,6 +33,10 @@ public class Long2 {
     set(vec1.x, vec1.y);
   }
 
+  public Long2 value() {
+    return new Long2(this);
+  }
+
   public Byte2 convertByte2() {
     return new Byte2((byte)(x), (byte)(y));
   }
