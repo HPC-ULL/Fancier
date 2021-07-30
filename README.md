@@ -3,9 +3,9 @@
 ## Introduction
 
 The _Fancier_ High-Performance API (from Uni**f**ied J**a**va, J**N**I and Open**C**L
-**i**nt**e**g**r**ation High-Performance API) provides a consistent API for Java, C/C++ and mixed
-(Java + C/C++ through JNI) applications that enables their use of OpenCL's fixed-width vector data
-types and math libraries.
+**i**nt**e**g**r**ation High-Performance GPGPU API) provides a consistent API for Java, C/C++ and
+mixed (Java + C/C++ through JNI) applications that enables their use of OpenCL's fixed-width vector
+data types and math libraries.
 
 This API provides a set of Java high-performance array and image classes that seamlessly integrate
 Java and OpenCL execution minimizing data transfers and exploiting shared CPU/Accelerator memory in
@@ -132,7 +132,7 @@ order to be able to link and run their code.
 
 ## License
 
-See [LICENSE](LICENSE.txt).
+See [COPYING](COPYING.txt) and [COPYING.LESSER](COPYING.LESSER.txt).
 
 This project uses third-party software distributed under their own terms. See
 [LICENSE-3RD-PARTY](LICENSE-3RD-PARTY.txt).

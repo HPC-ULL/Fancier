@@ -1,3 +1,21 @@
+/*
+ * Fancier: Unified Java, JNI and OpenCL Integration High-Performance GPGPU API.
+ * Copyright (C) 2021 Universidad de La Laguna.
+ *
+ * Fancier is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fancier is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Fancier.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #define FC_LOG_TAG "NativeFilter"
 
 #include <fancier.h>
@@ -73,7 +91,7 @@
 #define POSTERIZE_COLOR2 fcRGBAColor_BLUE
 #define POSTERIZE_COLOR3 fcRGBAColor_YELLOW
 #define POSTERIZE_COLOR4 fcRGBAColor_CYAN
-// FIXME WTF? Why is it necessary to reverse here?
+// FIXME Why is it necessary to reverse here?
 #define POSTERIZE_COLOR0_REF 0xFF0000FF
 #define POSTERIZE_COLOR1_REF 0xFF00FF00
 #define POSTERIZE_COLOR2_REF 0xFFFF0000
@@ -1498,7 +1516,7 @@ static inline int index_bmp(int width, int x, int y) {
   return y * width + x;
 }
 
-// FIXME WTF? Why are fields reversed here and not in Fancier objects?
+// FIXME Why are fields reversed here and not in Fancier objects?
 //   Maybe .x, .y, .z are reversed?
 
 static inline uint32_t bmp_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
@@ -1831,7 +1849,7 @@ static void run_convolve5_ref(AndroidBitmapInfo info, const uint32_t* input, uin
       int x1 = x > 1? x - 1 : 0;
       int x2 = x + 1 >= info.width? info.width - 1 : x + 1;
       int x3 = x + 2 >= info.width? info.width - 1 : x + 2;
-      
+
       int y0 = y > 2? y - 2 : 0;
       int y1 = y > 1? y - 1 : 0;
       int y2 = y + 1 >= info.height? info.height - 1 : y + 1;

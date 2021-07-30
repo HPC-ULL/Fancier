@@ -1,5 +1,22 @@
-import argparse, re, sys
+# Fancier: Unified Java, JNI and OpenCL Integration High-Performance GPGPU API.
+# Copyright (C) 2021 Universidad de La Laguna.
+#
+# Fancier is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Fancier is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with Fancier.  If not, see <https://www.gnu.org/licenses/>.
+
+import argparse, os, re, sys
 from mako.template import Template
+from mako.lookup import TemplateLookup
 
 
 # Shared functions
@@ -196,11 +213,12 @@ if __name__ == "__main__":
   p.add_argument('format', nargs='*', help="substitution element, in the format <field>=<value>")
   args = p.parse_args()
 
+  templates_path = os.path.dirname(os.path.realpath(__file__)) + '/template'
   template = Template(filename=args.input, imports=['from template_fill import l, c, vlens, ' +
       'types, inttypes, floattypes, signatures, defaults, literal_suf, vfields, ' +
       'math_alltype_functions, math_int_functions, math_float_functions, param_name, ' +
       'typed_int_fname, typed_float_fname, typed_fname, vwidth, fill_params, field_to_varname, ' +
-      'var_to_cpp_field, make_delegate_constructor'])
+      'var_to_cpp_field, make_delegate_constructor'], lookup=TemplateLookup(directories=[templates_path]))
   fmt = __process_format(args.format)
 
   fmt_display = ' '.join([f'{fmt_k}={fmt_v}' for fmt_k, fmt_v in fmt.items()])

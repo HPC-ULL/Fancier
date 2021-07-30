@@ -1,3 +1,21 @@
+/*
+ * Fancier: Unified Java, JNI and OpenCL Integration High-Performance GPGPU API.
+ * Copyright (C) 2021 Universidad de La Laguna.
+ *
+ * Fancier is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fancier is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Fancier.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package es.ull.pcg.hpc.fancier.androidtest.activity;
 
 
@@ -45,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
   // Run each benchmark multiple times, so that each app execution is shorter and crashes are less
   // likely
+  private final ExecutionMode mMode = ExecutionMode.TEST;
   private static final int BENCHMARK_REPETITIONS = 10;
-  private final ExecutionMode mMode = ExecutionMode.BENCHMARK;
   private static final boolean EXECUTE_FILTERED = true;
   private static final boolean BENCHMARK_ONLY_RELIABLE = false;
 
@@ -137,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
 
     if (EXECUTE_FILTERED) {
       enabledTests = new FancierTestRunner.Tests[]{FancierTestRunner.Tests.TEST_INIT,
-                                                   FancierTestRunner.Tests.TEST_JAVA_BILATERAL,
+                                                   FancierTestRunner.Tests.TEST_OCL_GRAYSCALE,
                                                    FancierTestRunner.Tests.TEST_RELEASE};
     }
     else {
@@ -163,46 +181,7 @@ public class MainActivity extends AppCompatActivity {
 
     if (EXECUTE_FILTERED) {
       kernels = new BenchmarkTask.Benchmarks[]{
-          BenchmarkTask.Benchmarks.BENCHMARK_OCL_GRAYSCALE,
-          BenchmarkTask.Benchmarks.BENCHMARK_OCL_BLUR,
-          BenchmarkTask.Benchmarks.BENCHMARK_OCL_CONVOLVE3,
-          BenchmarkTask.Benchmarks.BENCHMARK_OCL_CONVOLVE5,
-          BenchmarkTask.Benchmarks.BENCHMARK_OCL_BILATERAL,
-          BenchmarkTask.Benchmarks.BENCHMARK_OCL_MEDIAN,
-          BenchmarkTask.Benchmarks.BENCHMARK_OCL_CONTRAST,
-          BenchmarkTask.Benchmarks.BENCHMARK_OCL_FISHEYE,
-          BenchmarkTask.Benchmarks.BENCHMARK_OCL_LEVELS,
-          BenchmarkTask.Benchmarks.BENCHMARK_OCL_POSTERIZE,
-          BenchmarkTask.Benchmarks.BENCHMARK_NATIVE_GRAYSCALE,
-          BenchmarkTask.Benchmarks.BENCHMARK_NATIVE_BLUR,
-          BenchmarkTask.Benchmarks.BENCHMARK_NATIVE_CONVOLVE3,
-          BenchmarkTask.Benchmarks.BENCHMARK_NATIVE_CONVOLVE5,
-          BenchmarkTask.Benchmarks.BENCHMARK_NATIVE_BILATERAL,
-          BenchmarkTask.Benchmarks.BENCHMARK_NATIVE_MEDIAN,
-          BenchmarkTask.Benchmarks.BENCHMARK_NATIVE_CONTRAST,
-          BenchmarkTask.Benchmarks.BENCHMARK_NATIVE_FISHEYE,
-          BenchmarkTask.Benchmarks.BENCHMARK_NATIVE_LEVELS,
-          BenchmarkTask.Benchmarks.BENCHMARK_NATIVE_POSTERIZE,
-          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_REF_GRAYSCALE,
-          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_REF_BLUR,
-          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_REF_CONVOLVE3,
-          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_REF_CONVOLVE5,
-          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_REF_BILATERAL,
-          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_REF_MEDIAN,
-          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_REF_CONTRAST,
-          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_REF_FISHEYE,
-          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_REF_LEVELS,
-          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_REF_POSTERIZE,
-          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_PERF_GRAYSCALE,
-          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_PERF_BLUR,
-          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_PERF_CONVOLVE3,
-          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_PERF_CONVOLVE5,
-          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_PERF_BILATERAL,
-          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_PERF_MEDIAN,
-          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_PERF_CONTRAST,
-          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_PERF_FISHEYE,
-          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_PERF_LEVELS,
-          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_PERF_POSTERIZE
+          BenchmarkTask.Benchmarks.BENCHMARK_NATIVE_FISHEYE
       };
     }
     else {

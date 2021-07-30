@@ -1,3 +1,19 @@
+## Fancier: Unified Java, JNI and OpenCL Integration High-Performance GPGPU API.
+## Copyright (C) 2021 Universidad de La Laguna.
+##
+## Fancier is free software: you can redistribute it and/or modify
+## it under the terms of the GNU Lesser General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## Fancier is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU Lesser General Public License for more details.
+##
+## You should have received a copy of the GNU Lesser General Public License
+## along with Fancier.  If not, see <https://www.gnu.org/licenses/>.
+##
 <%!
   vfields = vfields[:4] + [f's{i}' for i in range(4, vlens[-1])]
   types[0] = 'char'
@@ -9,6 +25,8 @@
     else:
       return typed_int_fname(fname, type)
 %>\
+<%include file="/license.txt"/>
+<%include file="/auto-gen.txt"/>
 #ifdef cl_khr_fp64
 #pragma OPENCL EXTENSION cl_khr_fp64 : enable
 #endif // cl_khr_fp64

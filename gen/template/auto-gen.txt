@@ -1,0 +1,6 @@
+/*
+ * DO NOT MANUALLY EDIT THIS FILE!
+ * This file has been automatically generated, any modifications will be lost
+ * when generating the Fancier library. Any modifications to this file must be
+ * done via the corresponding template.
+ */
