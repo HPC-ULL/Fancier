@@ -76,6 +76,10 @@ public class Int3 {
     set(vec1.x, vec1.y, vec1.z);
   }
 
+  public Int3 value() {
+    return new Int3(this);
+  }
+
   public Byte3 convertByte3() {
     return new Byte3((byte)(x), (byte)(y), (byte)(z));
   }

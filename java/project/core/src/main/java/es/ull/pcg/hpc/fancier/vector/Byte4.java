@@ -110,6 +110,10 @@ public class Byte4 {
     set(vec1.x, vec1.y, vec1.z, vec1.w);
   }
 
+  public Byte4 value() {
+    return new Byte4(this);
+  }
+
   public Byte2 lo() {
     return new Byte2(x, y);
   }

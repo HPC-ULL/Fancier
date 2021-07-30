@@ -101,6 +101,11 @@ public class ${type|c}${vlen} {
 
   % endif
   % endfor
+  ## Passing as value parameter
+  public ${type|c}${vlen} value() {
+    return new ${type|c}${vlen}(this);
+  }
+
   ## Indexing
   % if vlen > 2 and vlen % 2 == 0:
   public ${type|c}${vlen//2} lo() {

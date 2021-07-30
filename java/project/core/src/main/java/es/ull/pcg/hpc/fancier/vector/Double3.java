@@ -76,6 +76,10 @@ public class Double3 {
     set(vec1.x, vec1.y, vec1.z);
   }
 
+  public Double3 value() {
+    return new Double3(this);
+  }
+
   public Byte3 convertByte3() {
     return new Byte3((byte)(x), (byte)(y), (byte)(z));
   }

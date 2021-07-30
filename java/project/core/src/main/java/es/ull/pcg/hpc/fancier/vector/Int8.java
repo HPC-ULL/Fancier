@@ -923,6 +923,10 @@ public class Int8 {
     set(vec1.x, vec1.y, vec1.z, vec1.w, vec1.s[0], vec1.s[1], vec1.s[2], vec1.s[3]);
   }
 
+  public Int8 value() {
+    return new Int8(this);
+  }
+
   public Int4 lo() {
     return new Int4(x, y, z, w);
   }

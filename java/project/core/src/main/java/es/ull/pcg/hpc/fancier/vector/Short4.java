@@ -110,6 +110,10 @@ public class Short4 {
     set(vec1.x, vec1.y, vec1.z, vec1.w);
   }
 
+  public Short4 value() {
+    return new Short4(this);
+  }
+
   public Short2 lo() {
     return new Short2(x, y);
   }

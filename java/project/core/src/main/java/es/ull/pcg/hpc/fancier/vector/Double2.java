@@ -58,6 +58,10 @@ public class Double2 {
     set(vec1.x, vec1.y);
   }
 
+  public Double2 value() {
+    return new Double2(this);
+  }
+
   public Byte2 convertByte2() {
     return new Byte2((byte)(x), (byte)(y));
   }

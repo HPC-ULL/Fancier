@@ -58,6 +58,10 @@ public class Short2 {
     set(vec1.x, vec1.y);
   }
 
+  public Short2 value() {
+    return new Short2(this);
+  }
+
   public Byte2 convertByte2() {
     return new Byte2((byte)(x), (byte)(y));
   }
