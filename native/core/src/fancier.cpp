@@ -30,6 +30,9 @@
 #include <unistd.h>
 
 
+#include <cstring>
+
+
 /// The name of the directory where the last update time of each generated
 /// class is stored, allowing the detection of outdated cached data
 #define UPDATE_SUBDIR_NAME "es.ull.pcg.fancier.update"
@@ -42,7 +45,8 @@ typedef jint (*SetupFunc)(JNIEnv* env);
 //
 
 const char* FC_CACHE_BASE_PATH = NULL;
-std::string FC_CACHE_BASE_PATH_STR;
+//std::string FC_CACHE_BASE_PATH_STR;
+char* FC_CACHE_BASE_PATH_STR;
 
 static fcInt initCount = 0;
 
@@ -107,16 +111,38 @@ bool setupPrivateFancierDirs() {
 //
 // Java Interface Implementation
 //
+char* appendCharToCharArray(const char* array, char a){
+    size_t len = strlen(array);
+    char* ret = new char[len+2];
+    strcpy(ret, array);    
+    ret[len] = a;
+    ret[len+1] = '\0';
+    return ret;
+}
 
 FANCIER_API JNIEXPORT jboolean JNICALL
 Java_es_ull_pcg_hpc_fancier_Fancier_initNative__Ljava_lang_String_2(JNIEnv* env, jclass cls,
                                                                     jstring basePath) {
+
+  const char *str = env->GetStringUTFChars(basePath, NULL);
+  env->ReleaseStringUTFChars(basePath, str);
+
   FC_CACHE_BASE_PATH = env->GetStringUTFChars(basePath, NULL);
-  FC_CACHE_BASE_PATH_STR = FC_CACHE_BASE_PATH;
+
+  // FC_CACHE_BASE_PATH_STR = FC_CACHE_BASE_PATH;
+  
+  char* TMP_FC_CACHE_BASE_PATH_STR = new char[strlen(FC_CACHE_BASE_PATH) + 1];
+  strcpy(TMP_FC_CACHE_BASE_PATH_STR, FC_CACHE_BASE_PATH);
+  TMP_FC_CACHE_BASE_PATH_STR[strlen(FC_CACHE_BASE_PATH)] = '\0';
+
   env->ReleaseStringUTFChars(basePath, FC_CACHE_BASE_PATH);
 
-  FC_CACHE_BASE_PATH_STR += "/";
-  FC_CACHE_BASE_PATH = FC_CACHE_BASE_PATH_STR.c_str();
+  // FC_CACHE_BASE_PATH_STR += "/";
+  FC_CACHE_BASE_PATH_STR = appendCharToCharArray(TMP_FC_CACHE_BASE_PATH_STR, '/');
+  // FC_CACHE_BASE_PATH = FC_CACHE_BASE_PATH_STR.c_str();
+  FC_CACHE_BASE_PATH = FC_CACHE_BASE_PATH_STR;
+
+  free(TMP_FC_CACHE_BASE_PATH_STR);
 
   jint err = fcFancier_initJNI(env);
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFancier_initJNI", JNI_TRUE);
@@ -221,6 +247,7 @@ void fcFancier_releaseJNI(JNIEnv* env) {
     fcArray_releaseJNI(env);
     fcVector_releaseJNI(env);
     fcException_releaseJNI(env);
+    free(FC_CACHE_BASE_PATH_STR);
   }
 
   if (--initCount < 0)

@@ -1,0 +1,2301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rancid>
+    <node type="Multiple Benchmark">
+        <title>FISHEYE</title>
+        <values>
+            <node type="Benchmark">
+                <title>NATIVE CPU RELIABLE</title>
+                <values>
+                    <node type="Parameter Set">
+                        <title>01 VGA (640x480)</title>
+                        <values>
+                            <node type="Metric">
+                                <title>CPUFREQ0</title>
+                                <values>
+                                    <value>821735</value>
+                                    <value>1161494</value>
+                                    <value>2626524</value>
+                                    <value>1946358</value>
+                                    <value>1625101</value>
+                                    <value>2659640</value>
+                                    <value>1542197</value>
+                                    <value>2143070</value>
+                                    <value>3032588</value>
+                                    <value>1834704</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ1</title>
+                                <values>
+                                    <value>805750</value>
+                                    <value>3631820</value>
+                                    <value>4304560</value>
+                                    <value>4327864</value>
+                                    <value>4471587</value>
+                                    <value>4341235</value>
+                                    <value>4439938</value>
+                                    <value>4422171</value>
+                                    <value>4422609</value>
+                                    <value>4360487</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ2</title>
+                                <values>
+                                    <value>464042</value>
+                                    <value>4409446</value>
+                                    <value>3053050</value>
+                                    <value>2166863</value>
+                                    <value>3277167</value>
+                                    <value>3599409</value>
+                                    <value>1967942</value>
+                                    <value>2735486</value>
+                                    <value>3544509</value>
+                                    <value>3169947</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ3</title>
+                                <values>
+                                    <value>400472</value>
+                                    <value>3250815</value>
+                                    <value>3856845</value>
+                                    <value>3911597</value>
+                                    <value>3758024</value>
+                                    <value>3626468</value>
+                                    <value>2156048</value>
+                                    <value>3455485</value>
+                                    <value>3894683</value>
+                                    <value>3117191</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ4</title>
+                                <values>
+                                    <value>2327185</value>
+                                    <value>2569499</value>
+                                    <value>3834777</value>
+                                    <value>1796999</value>
+                                    <value>2450425</value>
+                                    <value>2610928</value>
+                                    <value>1714085</value>
+                                    <value>2903564</value>
+                                    <value>3127715</value>
+                                    <value>2392108</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ5</title>
+                                <values>
+                                    <value>829185</value>
+                                    <value>4146458</value>
+                                    <value>4668409</value>
+                                    <value>4675686</value>
+                                    <value>4679405</value>
+                                    <value>4668785</value>
+                                    <value>4685768</value>
+                                    <value>4656844</value>
+                                    <value>4663792</value>
+                                    <value>4681542</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ6</title>
+                                <values>
+                                    <value>2638573</value>
+                                    <value>2171906</value>
+                                    <value>3100314</value>
+                                    <value>3670540</value>
+                                    <value>2870338</value>
+                                    <value>3401031</value>
+                                    <value>1713794</value>
+                                    <value>1715144</value>
+                                    <value>3703330</value>
+                                    <value>4029192</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ7</title>
+                                <values>
+                                    <value>4395714</value>
+                                    <value>892327</value>
+                                    <value>3324715</value>
+                                    <value>2871670</value>
+                                    <value>2223199</value>
+                                    <value>3540440</value>
+                                    <value>2043389</value>
+                                    <value>1191541</value>
+                                    <value>2879477</value>
+                                    <value>1764349</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>Execution Time</title>
+                                <values>
+                                    <value>196589321</value>
+                                    <value>182070390</value>
+                                    <value>168479252</value>
+                                    <value>167947939</value>
+                                    <value>167955568</value>
+                                    <value>168639673</value>
+                                    <value>167451788</value>
+                                    <value>168803264</value>
+                                    <value>169267244</value>
+                                    <value>167330203</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Arithmetic Avg</title>
+                                <value>1.724534642E8</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Histogram</title>
+                                <values>
+                                    <value>8</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Max</title>
+                                <value>196589321</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Min</title>
+                                <value>167330203</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Std Dev</title>
+                                <value>9548912.501143713</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Successful Runs Arithmetic Avg</title>
+                                <value>1.0</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Successful Runs Total</title>
+                                <value>10.0</value>
+                            </node>
+                            <node type="Metric">
+                                <title>THERM0</title>
+                                <values>
+                                    <value>40000</value>
+                                    <value>43000</value>
+                                    <value>43000</value>
+                                    <value>48000</value>
+                                    <value>48000</value>
+                                    <value>48000</value>
+                                    <value>48000</value>
+                                    <value>53000</value>
+                                    <value>53000</value>
+                                    <value>53000</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Max</title>
+                                <value>3032588</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Min</title>
+                                <value>1542197</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Max</title>
+                                <value>3127715</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Min</title>
+                                <value>1714085</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Histogram</title>
+                                <values>
+                                    <value>2</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Max</title>
+                                <value>169267244</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Min</title>
+                                <value>167330203</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>3</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Max</title>
+                                <value>53000</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Min</title>
+                                <value>48000</value>
+                            </node>
+                        </values>
+                    </node>
+                    <node type="Parameter Set">
+                        <title>02 XGA (1024x768)</title>
+                        <values>
+                            <node type="Metric">
+                                <title>CPUFREQ0</title>
+                                <values>
+                                    <value>523660</value>
+                                    <value>3139630</value>
+                                    <value>3847221</value>
+                                    <value>3355699</value>
+                                    <value>3337728</value>
+                                    <value>2712375</value>
+                                    <value>3261698</value>
+                                    <value>3359281</value>
+                                    <value>2643982</value>
+                                    <value>2961117</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ1</title>
+                                <values>
+                                    <value>871341</value>
+                                    <value>2564692</value>
+                                    <value>3323043</value>
+                                    <value>3085071</value>
+                                    <value>3061269</value>
+                                    <value>3244315</value>
+                                    <value>2953667</value>
+                                    <value>3563566</value>
+                                    <value>3547942</value>
+                                    <value>3315768</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ2</title>
+                                <values>
+                                    <value>768888</value>
+                                    <value>3651306</value>
+                                    <value>4373646</value>
+                                    <value>4626904</value>
+                                    <value>3088473</value>
+                                    <value>3570780</value>
+                                    <value>3603802</value>
+                                    <value>3528124</value>
+                                    <value>3668086</value>
+                                    <value>3485652</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ3</title>
+                                <values>
+                                    <value>598280</value>
+                                    <value>3328167</value>
+                                    <value>3358196</value>
+                                    <value>3343447</value>
+                                    <value>4143525</value>
+                                    <value>4234526</value>
+                                    <value>4154135</value>
+                                    <value>4255520</value>
+                                    <value>4197356</value>
+                                    <value>4272682</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ4</title>
+                                <values>
+                                    <value>1049324</value>
+                                    <value>1702795</value>
+                                    <value>2542353</value>
+                                    <value>1928858</value>
+                                    <value>3234637</value>
+                                    <value>2534843</value>
+                                    <value>2567468</value>
+                                    <value>4369930</value>
+                                    <value>4156814</value>
+                                    <value>2936792</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ5</title>
+                                <values>
+                                    <value>722909</value>
+                                    <value>1566217</value>
+                                    <value>3477496</value>
+                                    <value>3858870</value>
+                                    <value>3032585</value>
+                                    <value>2936286</value>
+                                    <value>2784806</value>
+                                    <value>3061200</value>
+                                    <value>2705934</value>
+                                    <value>2435565</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ6</title>
+                                <values>
+                                    <value>1489619</value>
+                                    <value>4456192</value>
+                                    <value>4671784</value>
+                                    <value>4675508</value>
+                                    <value>3899442</value>
+                                    <value>2893550</value>
+                                    <value>3260943</value>
+                                    <value>3192782</value>
+                                    <value>2447177</value>
+                                    <value>2472748</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ7</title>
+                                <values>
+                                    <value>1592737</value>
+                                    <value>2143872</value>
+                                    <value>2693432</value>
+                                    <value>2555584</value>
+                                    <value>4676068</value>
+                                    <value>4682509</value>
+                                    <value>4673013</value>
+                                    <value>4655416</value>
+                                    <value>4664376</value>
+                                    <value>4663147</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>Execution Time</title>
+                                <values>
+                                    <value>413028360</value>
+                                    <value>413169786</value>
+                                    <value>404872267</value>
+                                    <value>404061688</value>
+                                    <value>404874172</value>
+                                    <value>405183789</value>
+                                    <value>405457416</value>
+                                    <value>409379626</value>
+                                    <value>408382984</value>
+                                    <value>415299647</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Arithmetic Avg</title>
+                                <value>4.083709735E8</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Histogram</title>
+                                <values>
+                                    <value>4</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>1</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Max</title>
+                                <value>415299647</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Min</title>
+                                <value>404061688</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Std Dev</title>
+                                <value>4155710.4323102273</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Successful Runs Arithmetic Avg</title>
+                                <value>1.0</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Successful Runs Total</title>
+                                <value>10.0</value>
+                            </node>
+                            <node type="Metric">
+                                <title>THERM0</title>
+                                <values>
+                                    <value>42000</value>
+                                    <value>45000</value>
+                                    <value>50000</value>
+                                    <value>55000</value>
+                                    <value>55000</value>
+                                    <value>58000</value>
+                                    <value>61000</value>
+                                    <value>64000</value>
+                                    <value>64000</value>
+                                    <value>66000</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Max</title>
+                                <value>3359281</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Min</title>
+                                <value>2643982</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Max</title>
+                                <value>4369930</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Min</title>
+                                <value>2567468</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Max</title>
+                                <value>415299647</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Min</title>
+                                <value>405457416</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>2</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Max</title>
+                                <value>66000</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Min</title>
+                                <value>61000</value>
+                            </node>
+                        </values>
+                    </node>
+                    <node type="Parameter Set">
+                        <title>03 HD1 (1280x720)</title>
+                        <values>
+                            <node type="Metric">
+                                <title>CPUFREQ0</title>
+                                <values>
+                                    <value>2221416</value>
+                                    <value>3586905</value>
+                                    <value>4297522</value>
+                                    <value>3200405</value>
+                                    <value>2581113</value>
+                                    <value>2779796</value>
+                                    <value>2883281</value>
+                                    <value>3235602</value>
+                                    <value>2533437</value>
+                                    <value>2363358</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ1</title>
+                                <values>
+                                    <value>500212</value>
+                                    <value>2904146</value>
+                                    <value>3264299</value>
+                                    <value>4205228</value>
+                                    <value>4409838</value>
+                                    <value>4299293</value>
+                                    <value>3399742</value>
+                                    <value>2974480</value>
+                                    <value>3096721</value>
+                                    <value>3192351</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ2</title>
+                                <values>
+                                    <value>475181</value>
+                                    <value>1818913</value>
+                                    <value>3758040</value>
+                                    <value>4002538</value>
+                                    <value>3790302</value>
+                                    <value>4236459</value>
+                                    <value>4360366</value>
+                                    <value>4231014</value>
+                                    <value>4194945</value>
+                                    <value>4109626</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ3</title>
+                                <values>
+                                    <value>912600</value>
+                                    <value>2505897</value>
+                                    <value>3425888</value>
+                                    <value>3307627</value>
+                                    <value>3168576</value>
+                                    <value>3420051</value>
+                                    <value>3505792</value>
+                                    <value>3774809</value>
+                                    <value>3584344</value>
+                                    <value>3592802</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ4</title>
+                                <values>
+                                    <value>512077</value>
+                                    <value>4479876</value>
+                                    <value>4683462</value>
+                                    <value>3483011</value>
+                                    <value>2748168</value>
+                                    <value>2625821</value>
+                                    <value>2879793</value>
+                                    <value>2795324</value>
+                                    <value>2555381</value>
+                                    <value>2642042</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ5</title>
+                                <values>
+                                    <value>632868</value>
+                                    <value>1899294</value>
+                                    <value>3223091</value>
+                                    <value>4678222</value>
+                                    <value>4683275</value>
+                                    <value>4674350</value>
+                                    <value>3882482</value>
+                                    <value>2942006</value>
+                                    <value>2904558</value>
+                                    <value>3500958</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ6</title>
+                                <values>
+                                    <value>2225119</value>
+                                    <value>2253419</value>
+                                    <value>2218026</value>
+                                    <value>3729069</value>
+                                    <value>2732588</value>
+                                    <value>3910250</value>
+                                    <value>4677916</value>
+                                    <value>4679515</value>
+                                    <value>4675504</value>
+                                    <value>4668996</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ7</title>
+                                <values>
+                                    <value>1614500</value>
+                                    <value>1610413</value>
+                                    <value>2457090</value>
+                                    <value>2355557</value>
+                                    <value>1878537</value>
+                                    <value>2503166</value>
+                                    <value>2641271</value>
+                                    <value>2246903</value>
+                                    <value>3133987</value>
+                                    <value>2707708</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>Execution Time</title>
+                                <values>
+                                    <value>479666316</value>
+                                    <value>478278754</value>
+                                    <value>470578090</value>
+                                    <value>471801118</value>
+                                    <value>470820724</value>
+                                    <value>471484651</value>
+                                    <value>475135607</value>
+                                    <value>483333548</value>
+                                    <value>470975255</value>
+                                    <value>471754902</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Arithmetic Avg</title>
+                                <value>4.743828965E8</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Histogram</title>
+                                <values>
+                                    <value>6</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Max</title>
+                                <value>483333548</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Min</title>
+                                <value>470578090</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Std Dev</title>
+                                <value>4527967.056130555</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Successful Runs Arithmetic Avg</title>
+                                <value>1.0</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Successful Runs Total</title>
+                                <value>10.0</value>
+                            </node>
+                            <node type="Metric">
+                                <title>THERM0</title>
+                                <values>
+                                    <value>40000</value>
+                                    <value>50000</value>
+                                    <value>55000</value>
+                                    <value>55000</value>
+                                    <value>58000</value>
+                                    <value>62000</value>
+                                    <value>64000</value>
+                                    <value>67000</value>
+                                    <value>69000</value>
+                                    <value>71000</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Max</title>
+                                <value>3235602</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Min</title>
+                                <value>2363358</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Max</title>
+                                <value>2879793</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Min</title>
+                                <value>2555381</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Histogram</title>
+                                <values>
+                                    <value>2</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Max</title>
+                                <value>483333548</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Min</title>
+                                <value>470975255</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Max</title>
+                                <value>71000</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Min</title>
+                                <value>64000</value>
+                            </node>
+                        </values>
+                    </node>
+                    <node type="Parameter Set">
+                        <title>04 HD2 (1366x768)</title>
+                        <values>
+                            <node type="Metric">
+                                <title>CPUFREQ0</title>
+                                <values>
+                                    <value>850143</value>
+                                    <value>4095327</value>
+                                    <value>4380370</value>
+                                    <value>4406221</value>
+                                    <value>4225511</value>
+                                    <value>4229427</value>
+                                    <value>4382582</value>
+                                    <value>2677584</value>
+                                    <value>3372499</value>
+                                    <value>4367729</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ1</title>
+                                <values>
+                                    <value>775882</value>
+                                    <value>2709966</value>
+                                    <value>2986168</value>
+                                    <value>3222167</value>
+                                    <value>3411551</value>
+                                    <value>3241070</value>
+                                    <value>2946494</value>
+                                    <value>3142498</value>
+                                    <value>3926300</value>
+                                    <value>2801636</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ2</title>
+                                <values>
+                                    <value>682127</value>
+                                    <value>1877949</value>
+                                    <value>2872721</value>
+                                    <value>2829418</value>
+                                    <value>2363230</value>
+                                    <value>2678272</value>
+                                    <value>3033452</value>
+                                    <value>3683045</value>
+                                    <value>4148206</value>
+                                    <value>3354272</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ3</title>
+                                <values>
+                                    <value>507928</value>
+                                    <value>3274622</value>
+                                    <value>3563974</value>
+                                    <value>3175766</value>
+                                    <value>2791213</value>
+                                    <value>3012459</value>
+                                    <value>2580800</value>
+                                    <value>3985325</value>
+                                    <value>4272299</value>
+                                    <value>4353638</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ4</title>
+                                <values>
+                                    <value>733673</value>
+                                    <value>4510260</value>
+                                    <value>4685237</value>
+                                    <value>4684624</value>
+                                    <value>4680076</value>
+                                    <value>4672831</value>
+                                    <value>4677697</value>
+                                    <value>3632282</value>
+                                    <value>2975719</value>
+                                    <value>2727623</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ5</title>
+                                <values>
+                                    <value>956489</value>
+                                    <value>2216431</value>
+                                    <value>2570812</value>
+                                    <value>3046050</value>
+                                    <value>3590952</value>
+                                    <value>3757896</value>
+                                    <value>3448216</value>
+                                    <value>3703060</value>
+                                    <value>3467501</value>
+                                    <value>3436524</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ6</title>
+                                <values>
+                                    <value>1149466</value>
+                                    <value>1833760</value>
+                                    <value>2545807</value>
+                                    <value>2336877</value>
+                                    <value>2415795</value>
+                                    <value>2782346</value>
+                                    <value>2727512</value>
+                                    <value>3043500</value>
+                                    <value>2420340</value>
+                                    <value>2559574</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ7</title>
+                                <values>
+                                    <value>3461221</value>
+                                    <value>1919421</value>
+                                    <value>2783771</value>
+                                    <value>2572258</value>
+                                    <value>2314857</value>
+                                    <value>2929088</value>
+                                    <value>3339305</value>
+                                    <value>4682662</value>
+                                    <value>4657566</value>
+                                    <value>4676642</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>Execution Time</title>
+                                <values>
+                                    <value>538865897</value>
+                                    <value>539595135</value>
+                                    <value>533615611</value>
+                                    <value>533738225</value>
+                                    <value>534396979</value>
+                                    <value>539126712</value>
+                                    <value>549215882</value>
+                                    <value>534968168</value>
+                                    <value>539952757</value>
+                                    <value>535509528</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Arithmetic Avg</title>
+                                <value>5.378984894E8</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Histogram</title>
+                                <values>
+                                    <value>4</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>3</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Max</title>
+                                <value>549215882</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Min</title>
+                                <value>533615611</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Std Dev</title>
+                                <value>4712061.916837851</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Successful Runs Arithmetic Avg</title>
+                                <value>1.0</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Successful Runs Total</title>
+                                <value>10.0</value>
+                            </node>
+                            <node type="Metric">
+                                <title>THERM0</title>
+                                <values>
+                                    <value>45000</value>
+                                    <value>49000</value>
+                                    <value>54000</value>
+                                    <value>58000</value>
+                                    <value>62000</value>
+                                    <value>65000</value>
+                                    <value>67000</value>
+                                    <value>69000</value>
+                                    <value>70000</value>
+                                    <value>72000</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>2</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Max</title>
+                                <value>4382582</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Min</title>
+                                <value>2677584</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Max</title>
+                                <value>4677697</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Min</title>
+                                <value>2727623</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Histogram</title>
+                                <values>
+                                    <value>2</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Max</title>
+                                <value>549215882</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Min</title>
+                                <value>534968168</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Max</title>
+                                <value>72000</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Min</title>
+                                <value>67000</value>
+                            </node>
+                        </values>
+                    </node>
+                    <node type="Parameter Set">
+                        <title>05 HD+ (1600x900)</title>
+                        <values>
+                            <node type="Metric">
+                                <title>CPUFREQ0</title>
+                                <values>
+                                    <value>864681</value>
+                                    <value>2821182</value>
+                                    <value>1920454</value>
+                                    <value>3432392</value>
+                                    <value>2732180</value>
+                                    <value>2759163</value>
+                                    <value>3136279</value>
+                                    <value>884698</value>
+                                    <value>3391210</value>
+                                    <value>4227347</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ1</title>
+                                <values>
+                                    <value>760714</value>
+                                    <value>2922056</value>
+                                    <value>3620042</value>
+                                    <value>3263338</value>
+                                    <value>4413634</value>
+                                    <value>3219517</value>
+                                    <value>3327753</value>
+                                    <value>851663</value>
+                                    <value>2644100</value>
+                                    <value>2703964</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ2</title>
+                                <values>
+                                    <value>725798</value>
+                                    <value>1868805</value>
+                                    <value>2424747</value>
+                                    <value>2843636</value>
+                                    <value>2622642</value>
+                                    <value>2444655</value>
+                                    <value>2316329</value>
+                                    <value>989710</value>
+                                    <value>2772941</value>
+                                    <value>2710524</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ3</title>
+                                <values>
+                                    <value>922054</value>
+                                    <value>3702183</value>
+                                    <value>4514053</value>
+                                    <value>4315024</value>
+                                    <value>4458418</value>
+                                    <value>4368290</value>
+                                    <value>4490809</value>
+                                    <value>1017805</value>
+                                    <value>1777618</value>
+                                    <value>3585644</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ4</title>
+                                <values>
+                                    <value>818501</value>
+                                    <value>1832502</value>
+                                    <value>2145520</value>
+                                    <value>3379214</value>
+                                    <value>2402995</value>
+                                    <value>2876131</value>
+                                    <value>3246547</value>
+                                    <value>1012039</value>
+                                    <value>4524074</value>
+                                    <value>4674213</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ5</title>
+                                <values>
+                                    <value>937362</value>
+                                    <value>1963683</value>
+                                    <value>2536502</value>
+                                    <value>2851370</value>
+                                    <value>2337213</value>
+                                    <value>2443455</value>
+                                    <value>2608403</value>
+                                    <value>497918</value>
+                                    <value>2172366</value>
+                                    <value>3164527</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ6</title>
+                                <values>
+                                    <value>1926847</value>
+                                    <value>2597116</value>
+                                    <value>2754945</value>
+                                    <value>2773443</value>
+                                    <value>2926126</value>
+                                    <value>2986559</value>
+                                    <value>2559798</value>
+                                    <value>1219676</value>
+                                    <value>1742272</value>
+                                    <value>2622369</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ7</title>
+                                <values>
+                                    <value>953695</value>
+                                    <value>4555862</value>
+                                    <value>4684208</value>
+                                    <value>4678817</value>
+                                    <value>4681712</value>
+                                    <value>4682175</value>
+                                    <value>4686537</value>
+                                    <value>1682165</value>
+                                    <value>1985543</value>
+                                    <value>3405985</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>Execution Time</title>
+                                <values>
+                                    <value>746631088</value>
+                                    <value>741025263</value>
+                                    <value>737402693</value>
+                                    <value>741329332</value>
+                                    <value>755204956</value>
+                                    <value>737753733</value>
+                                    <value>734430707</value>
+                                    <value>738787444</value>
+                                    <value>741972279</value>
+                                    <value>736434903</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Arithmetic Avg</title>
+                                <value>7.410972398E8</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Histogram</title>
+                                <values>
+                                    <value>2</value>
+                                    <value>2</value>
+                                    <value>1</value>
+                                    <value>3</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Max</title>
+                                <value>755204956</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Min</title>
+                                <value>734430707</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Std Dev</title>
+                                <value>6026052.5844757855</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Successful Runs Arithmetic Avg</title>
+                                <value>1.0</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Successful Runs Total</title>
+                                <value>10.0</value>
+                            </node>
+                            <node type="Metric">
+                                <title>THERM0</title>
+                                <values>
+                                    <value>43000</value>
+                                    <value>52000</value>
+                                    <value>56000</value>
+                                    <value>63000</value>
+                                    <value>65000</value>
+                                    <value>69000</value>
+                                    <value>71000</value>
+                                    <value>44000</value>
+                                    <value>52000</value>
+                                    <value>57000</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Max</title>
+                                <value>4227347</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Min</title>
+                                <value>884698</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>2</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Max</title>
+                                <value>4674213</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Min</title>
+                                <value>1012039</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Max</title>
+                                <value>741972279</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Min</title>
+                                <value>734430707</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Max</title>
+                                <value>71000</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Min</title>
+                                <value>44000</value>
+                            </node>
+                        </values>
+                    </node>
+                    <node type="Parameter Set">
+                        <title>06 FHD (1920x1080)</title>
+                        <values>
+                            <node type="Metric">
+                                <title>CPUFREQ0</title>
+                                <values>
+                                    <value>870345</value>
+                                    <value>826369</value>
+                                    <value>880775</value>
+                                    <value>759190</value>
+                                    <value>874271</value>
+                                    <value>861269</value>
+                                    <value>910737</value>
+                                    <value>780876</value>
+                                    <value>788763</value>
+                                    <value>833151</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ1</title>
+                                <values>
+                                    <value>499400</value>
+                                    <value>935311</value>
+                                    <value>902389</value>
+                                    <value>936055</value>
+                                    <value>528718</value>
+                                    <value>861730</value>
+                                    <value>917222</value>
+                                    <value>911511</value>
+                                    <value>927356</value>
+                                    <value>921343</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ2</title>
+                                <values>
+                                    <value>673316</value>
+                                    <value>515612</value>
+                                    <value>497901</value>
+                                    <value>476825</value>
+                                    <value>680102</value>
+                                    <value>869911</value>
+                                    <value>521840</value>
+                                    <value>500714</value>
+                                    <value>520643</value>
+                                    <value>787650</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ3</title>
+                                <values>
+                                    <value>893990</value>
+                                    <value>1087523</value>
+                                    <value>884859</value>
+                                    <value>986006</value>
+                                    <value>1002744</value>
+                                    <value>533648</value>
+                                    <value>523002</value>
+                                    <value>521724</value>
+                                    <value>496132</value>
+                                    <value>858266</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ4</title>
+                                <values>
+                                    <value>685162</value>
+                                    <value>730402</value>
+                                    <value>713155</value>
+                                    <value>748386</value>
+                                    <value>698626</value>
+                                    <value>779726</value>
+                                    <value>802865</value>
+                                    <value>882174</value>
+                                    <value>798531</value>
+                                    <value>897712</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ5</title>
+                                <values>
+                                    <value>531700</value>
+                                    <value>1009909</value>
+                                    <value>807779</value>
+                                    <value>675777</value>
+                                    <value>516666</value>
+                                    <value>777343</value>
+                                    <value>745228</value>
+                                    <value>643460</value>
+                                    <value>720323</value>
+                                    <value>658362</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ6</title>
+                                <values>
+                                    <value>649718</value>
+                                    <value>2212827</value>
+                                    <value>1183168</value>
+                                    <value>1152149</value>
+                                    <value>1044246</value>
+                                    <value>916044</value>
+                                    <value>1470877</value>
+                                    <value>1083842</value>
+                                    <value>1217725</value>
+                                    <value>1006079</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ7</title>
+                                <values>
+                                    <value>416695</value>
+                                    <value>401103</value>
+                                    <value>1059279</value>
+                                    <value>1066023</value>
+                                    <value>1152590</value>
+                                    <value>704432</value>
+                                    <value>1108907</value>
+                                    <value>393581</value>
+                                    <value>399898</value>
+                                    <value>400840</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>Execution Time</title>
+                                <values>
+                                    <value>1063208323</value>
+                                    <value>1066789088</value>
+                                    <value>1071595359</value>
+                                    <value>1063941385</value>
+                                    <value>1072983199</value>
+                                    <value>1061836934</value>
+                                    <value>1058616686</value>
+                                    <value>1066348942</value>
+                                    <value>1067344525</value>
+                                    <value>1059228188</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Arithmetic Avg</title>
+                                <value>1.0651892629E9</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Histogram</title>
+                                <values>
+                                    <value>2</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>2</value>
+                                    <value>0</value>
+                                    <value>2</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>2</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Max</title>
+                                <value>1072983199</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Min</title>
+                                <value>1058616686</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Std Dev</title>
+                                <value>4781742.710245814</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Successful Runs Arithmetic Avg</title>
+                                <value>1.0</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Successful Runs Total</title>
+                                <value>10.0</value>
+                            </node>
+                            <node type="Metric">
+                                <title>THERM0</title>
+                                <values>
+                                    <value>51000</value>
+                                    <value>58000</value>
+                                    <value>62000</value>
+                                    <value>65000</value>
+                                    <value>71000</value>
+                                    <value>51000</value>
+                                    <value>57000</value>
+                                    <value>61000</value>
+                                    <value>67000</value>
+                                    <value>70000</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Histogram</title>
+                                <values>
+                                    <value>2</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Max</title>
+                                <value>910737</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Min</title>
+                                <value>780876</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Histogram</title>
+                                <values>
+                                    <value>2</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Max</title>
+                                <value>897712</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Min</title>
+                                <value>798531</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Histogram</title>
+                                <values>
+                                    <value>2</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Max</title>
+                                <value>1067344525</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Min</title>
+                                <value>1058616686</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Max</title>
+                                <value>70000</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Min</title>
+                                <value>57000</value>
+                            </node>
+                        </values>
+                    </node>
+                    <node type="Parameter Set">
+                        <title>07 QHD (2560x1440)</title>
+                        <values>
+                            <node type="Metric">
+                                <title>CPUFREQ0</title>
+                                <values>
+                                    <value>812004</value>
+                                    <value>857344</value>
+                                    <value>676955</value>
+                                    <value>795886</value>
+                                    <value>846890</value>
+                                    <value>846038</value>
+                                    <value>904881</value>
+                                    <value>759593</value>
+                                    <value>510577</value>
+                                    <value>728897</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ1</title>
+                                <values>
+                                    <value>883812</value>
+                                    <value>852422</value>
+                                    <value>859098</value>
+                                    <value>737359</value>
+                                    <value>700460</value>
+                                    <value>577256</value>
+                                    <value>877049</value>
+                                    <value>1002548</value>
+                                    <value>863829</value>
+                                    <value>937352</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ2</title>
+                                <values>
+                                    <value>761570</value>
+                                    <value>988929</value>
+                                    <value>509385</value>
+                                    <value>995920</value>
+                                    <value>856753</value>
+                                    <value>697473</value>
+                                    <value>710529</value>
+                                    <value>659920</value>
+                                    <value>830491</value>
+                                    <value>523646</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ3</title>
+                                <values>
+                                    <value>483722</value>
+                                    <value>875893</value>
+                                    <value>945425</value>
+                                    <value>578948</value>
+                                    <value>934154</value>
+                                    <value>873487</value>
+                                    <value>858101</value>
+                                    <value>774256</value>
+                                    <value>661037</value>
+                                    <value>400349</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ4</title>
+                                <values>
+                                    <value>528998</value>
+                                    <value>665593</value>
+                                    <value>1136590</value>
+                                    <value>892091</value>
+                                    <value>801161</value>
+                                    <value>898108</value>
+                                    <value>819650</value>
+                                    <value>2459214</value>
+                                    <value>400594</value>
+                                    <value>1098654</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ5</title>
+                                <values>
+                                    <value>775808</value>
+                                    <value>670880</value>
+                                    <value>701241</value>
+                                    <value>586477</value>
+                                    <value>822277</value>
+                                    <value>465725</value>
+                                    <value>502924</value>
+                                    <value>870931</value>
+                                    <value>717622</value>
+                                    <value>720590</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ6</title>
+                                <values>
+                                    <value>1233431</value>
+                                    <value>3071740</value>
+                                    <value>960741</value>
+                                    <value>1503760</value>
+                                    <value>400898</value>
+                                    <value>823470</value>
+                                    <value>703556</value>
+                                    <value>1234861</value>
+                                    <value>400538</value>
+                                    <value>829793</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ7</title>
+                                <values>
+                                    <value>1203453</value>
+                                    <value>1405001</value>
+                                    <value>1704844</value>
+                                    <value>981769</value>
+                                    <value>2531342</value>
+                                    <value>2196107</value>
+                                    <value>2325601</value>
+                                    <value>1451290</value>
+                                    <value>1703763</value>
+                                    <value>1687490</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>Execution Time</title>
+                                <values>
+                                    <value>1882600007</value>
+                                    <value>1909243159</value>
+                                    <value>1867603751</value>
+                                    <value>1872731537</value>
+                                    <value>1898381718</value>
+                                    <value>1862322266</value>
+                                    <value>1863682096</value>
+                                    <value>1877983422</value>
+                                    <value>1904313378</value>
+                                    <value>1888359931</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Arithmetic Avg</title>
+                                <value>1.8827221265E9</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Histogram</title>
+                                <values>
+                                    <value>2</value>
+                                    <value>1</value>
+                                    <value>1</value>
+                                    <value>1</value>
+                                    <value>1</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>1</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Max</title>
+                                <value>1909243159</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Min</title>
+                                <value>1862322266</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Std Dev</title>
+                                <value>1.6918364155939814E7</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Successful Runs Arithmetic Avg</title>
+                                <value>1.0</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Successful Runs Total</title>
+                                <value>10.0</value>
+                            </node>
+                            <node type="Metric">
+                                <title>THERM0</title>
+                                <values>
+                                    <value>58000</value>
+                                    <value>68000</value>
+                                    <value>71000</value>
+                                    <value>54000</value>
+                                    <value>65000</value>
+                                    <value>70000</value>
+                                    <value>73000</value>
+                                    <value>58000</value>
+                                    <value>66000</value>
+                                    <value>72000</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Max</title>
+                                <value>904881</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Min</title>
+                                <value>510577</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Max</title>
+                                <value>2459214</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Min</title>
+                                <value>400594</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Max</title>
+                                <value>1904313378</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Min</title>
+                                <value>1863682096</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>2</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Max</title>
+                                <value>73000</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Min</title>
+                                <value>58000</value>
+                            </node>
+                        </values>
+                    </node>
+                    <node type="Parameter Set">
+                        <title>08 UHD (3840x2160)</title>
+                        <values>
+                            <node type="Metric">
+                                <title>CPUFREQ0</title>
+                                <values>
+                                    <value>852256</value>
+                                    <value>614086</value>
+                                    <value>502701</value>
+                                    <value>706441</value>
+                                    <value>898092</value>
+                                    <value>676088</value>
+                                    <value>789321</value>
+                                    <value>4649261</value>
+                                    <value>878857</value>
+                                    <value>514791</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ1</title>
+                                <values>
+                                    <value>856023</value>
+                                    <value>967982</value>
+                                    <value>588882</value>
+                                    <value>496424</value>
+                                    <value>728447</value>
+                                    <value>812768</value>
+                                    <value>715293</value>
+                                    <value>439385</value>
+                                    <value>797067</value>
+                                    <value>806813</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ2</title>
+                                <values>
+                                    <value>791695</value>
+                                    <value>509736</value>
+                                    <value>861044</value>
+                                    <value>400490</value>
+                                    <value>767295</value>
+                                    <value>726099</value>
+                                    <value>868788</value>
+                                    <value>1357665</value>
+                                    <value>675314</value>
+                                    <value>835405</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ3</title>
+                                <values>
+                                    <value>499250</value>
+                                    <value>536038</value>
+                                    <value>936348</value>
+                                    <value>915220</value>
+                                    <value>915497</value>
+                                    <value>878141</value>
+                                    <value>807090</value>
+                                    <value>2551876</value>
+                                    <value>927140</value>
+                                    <value>884599</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ4</title>
+                                <values>
+                                    <value>688809</value>
+                                    <value>740467</value>
+                                    <value>817638</value>
+                                    <value>674340</value>
+                                    <value>882397</value>
+                                    <value>400620</value>
+                                    <value>828921</value>
+                                    <value>2840073</value>
+                                    <value>778995</value>
+                                    <value>525970</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ5</title>
+                                <values>
+                                    <value>689477</value>
+                                    <value>753865</value>
+                                    <value>524970</value>
+                                    <value>906469</value>
+                                    <value>884656</value>
+                                    <value>761113</value>
+                                    <value>758535</value>
+                                    <value>950146</value>
+                                    <value>526505</value>
+                                    <value>731156</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ6</title>
+                                <values>
+                                    <value>951519</value>
+                                    <value>1102459</value>
+                                    <value>400720</value>
+                                    <value>1269485</value>
+                                    <value>1029898</value>
+                                    <value>723144</value>
+                                    <value>825892</value>
+                                    <value>1023639</value>
+                                    <value>1446750</value>
+                                    <value>924205</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>CPUFREQ7</title>
+                                <values>
+                                    <value>400516</value>
+                                    <value>1269078</value>
+                                    <value>1859475</value>
+                                    <value>2263021</value>
+                                    <value>1879403</value>
+                                    <value>1035597</value>
+                                    <value>1621188</value>
+                                    <value>1937206</value>
+                                    <value>2086601</value>
+                                    <value>2188936</value>
+                                </values>
+                            </node>
+                            <node type="Metric">
+                                <title>Execution Time</title>
+                                <values>
+                                    <value>4110441318</value>
+                                    <value>4109651081</value>
+                                    <value>4110589646</value>
+                                    <value>4105507336</value>
+                                    <value>4117015161</value>
+                                    <value>4109326122</value>
+                                    <value>4114592084</value>
+                                    <value>4107900602</value>
+                                    <value>4111233591</value>
+                                    <value>4115221560</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Arithmetic Avg</title>
+                                <value>4.1111478501E9</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>2</value>
+                                    <value>3</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>1</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Max</title>
+                                <value>4117015161</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Min</title>
+                                <value>4105507336</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Execution Time Std Dev</title>
+                                <value>3521684.5428847903</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Successful Runs Arithmetic Avg</title>
+                                <value>1.0</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Successful Runs Total</title>
+                                <value>10.0</value>
+                            </node>
+                            <node type="Metric">
+                                <title>THERM0</title>
+                                <values>
+                                    <value>69000</value>
+                                    <value>78000</value>
+                                    <value>69000</value>
+                                    <value>76000</value>
+                                    <value>67000</value>
+                                    <value>76000</value>
+                                    <value>66000</value>
+                                    <value>76000</value>
+                                    <value>69000</value>
+                                    <value>77000</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Histogram</title>
+                                <values>
+                                    <value>3</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Max</title>
+                                <value>4649261</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ0 Min</title>
+                                <value>514791</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>2</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Max</title>
+                                <value>2840073</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window CPUFREQ4 Min</title>
+                                <value>525970</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>2</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Max</title>
+                                <value>4115221560</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window Execution Time Min</title>
+                                <value>4107900602</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Histogram</title>
+                                <values>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>1</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>0</value>
+                                    <value>2</value>
+                                </values>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Max</title>
+                                <value>77000</value>
+                            </node>
+                            <node type="Analysis">
+                                <title>Window THERM0 Min</title>
+                                <value>66000</value>
+                            </node>
+                        </values>
+                    </node>
+                </values>
+            </node>
+        </values>
+    </node>
+</rancid>

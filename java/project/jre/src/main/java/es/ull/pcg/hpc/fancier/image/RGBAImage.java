@@ -26,6 +26,10 @@
 package es.ull.pcg.hpc.fancier.image;
 
 import java.nio.ByteBuffer;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+import java.awt.image.DataBuffer;
+import java.awt.image.Raster;
 
 import es.ull.pcg.hpc.fancier.vector.Byte4;
 import es.ull.pcg.hpc.fancier.vector.Int2;
@@ -55,6 +59,10 @@ public class RGBAImage implements AutoCloseable {
     initNative(image);
   }
 
+  public RGBAImage(BufferedImage image) {
+    initNative(((DataBufferInt) image.getRaster().getDataBuffer()).getData(), image.getWidth(), true);
+  }
+
 
   public void release() {
     if (nativeInstancePtr != 0L)
@@ -78,6 +86,7 @@ public class RGBAImage implements AutoCloseable {
   private native void initNative(int width, int height);
   private native void initNative(int[] pixels, int width);
   private native void initNative(RGBAImage image);
+  private native void initNative(int[] pixels, int width, boolean changeFromBGRA);
   private native void releaseNative();
   private native void releaseNativeRef();
 
@@ -105,12 +114,22 @@ public class RGBAImage implements AutoCloseable {
     Byte4Array.setBuffer(buffer, y * getWidth() + x, rgba);
   }
 
+  public void setPixels(BufferedImage image) {
+    setPixels(((DataBufferInt) image.getRaster().getDataBuffer()).getData(), image.getWidth(), true);
+  }
+
+  public void updateImage(BufferedImage image) {
+    updateArray(((DataBufferInt) image.getRaster().getDataBuffer()).getData(), true);
+  }
+
   public native Byte4 get(int x, int y);
   public native void set(int x, int y, Byte4 rgba);
 
   public native Byte4Array getPixels();
   public native void setPixels(int[] pixels, int width);
   public native void setPixels(RGBAImage image);
+  private native void setPixels(int[] pixels, int width, boolean changeFromBGRA);  
+  private native void updateArray(int[] array, boolean changeFromBGRA);
 
   public native Int2 getDims();
   public native int getWidth();

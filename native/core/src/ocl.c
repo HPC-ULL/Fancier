@@ -214,8 +214,8 @@ static void logOpenCLPlatformInfo(cl_platform_id platformId) {
   FC_LOGINFO_FMT("  - Vendor: %s", buffer);
 
   FC_LOGINFO_FMT("  - Number of devices: %u", numDevices);
-  for (i = 0; i < numDevices; ++i)
-    logOpenCLDeviceInfo(devices[i]);
+//  for (i = 0; i < numDevices; ++i)
+//    logOpenCLDeviceInfo(devices[i]);
 
   if (devices)
     free(devices);
@@ -233,7 +233,10 @@ jint fcOpenCL_initJNI(JNIEnv* env) {
 
   if (platforms) {
     // TODO Maybe do something more intelligent?
+    
+    // cambiado por paula (para probar) [vuelto al original]
     fcOpenCL_rt.platform = platforms[0];
+    //fcOpenCL_rt.platform = platforms[1];
     free(platforms);
   }
 
@@ -255,7 +258,7 @@ jint fcOpenCL_initJNI(JNIEnv* env) {
   fcOpenCL_logInfo();
 
   fcOpenCL_rt.context = clCreateContext(NULL, 1, &fcOpenCL_rt.device, NULL, NULL, &err);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcOpenCL_initJNI", FC_EXCEPTION_OTHER);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcOpenCL_initJNI", FC_EXCEPTION_OTHER);  
 
   fcOpenCL_rt.queue = clCreateCommandQueue(fcOpenCL_rt.context, fcOpenCL_rt.device,
                                            CL_QUEUE_PROFILING_ENABLE, &err);
@@ -280,11 +283,11 @@ void fcOpenCL_releaseJNI(JNIEnv* env) {
 void fcOpenCL_logInfo() {
   cl_uint numPlatforms, i;
   cl_platform_id* platforms = getPlatformIDs(&numPlatforms, NULL);
-
+  
   FC_LOGINFO_FMT("- Number of platforms: %u", numPlatforms);
   for (i = 0; i < numPlatforms; ++i)
     logOpenCLPlatformInfo(platforms[i]);
-
+  
   if (platforms)
     free(platforms);
 }
