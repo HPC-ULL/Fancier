@@ -23,7 +23,6 @@
 
 #include <stdlib.h>
 
-
 #define FC_JAVA_INSTANCE_HANDLERS(_classname)                                              \
   static jfieldID _classname##_nativePtrField = NULL;                                      \
   _classname* _classname##_allocJava(JNIEnv* env, jobject obj) {                           \

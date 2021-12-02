@@ -1,4 +1,4 @@
-# Install script for directory: /home/paula/Documentos/Fancier/test/linux/jni
+# Install script for directory: /home/paula/Documentos/unir/Fancier/test/linux/jni
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/paula/Documentos/Fancier/test/linux/jni/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/paula/Documentos/unir/Fancier/test/linux/jni/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

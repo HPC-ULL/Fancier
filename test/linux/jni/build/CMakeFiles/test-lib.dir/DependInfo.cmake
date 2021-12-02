@@ -4,11 +4,11 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/paula/Documentos/Fancier/test/linux/jni/src/test/array_test.c" "/home/paula/Documentos/Fancier/test/linux/jni/build/CMakeFiles/test-lib.dir/src/test/array_test.c.o"
-  "/home/paula/Documentos/Fancier/test/linux/jni/src/test/math_test.c" "/home/paula/Documentos/Fancier/test/linux/jni/build/CMakeFiles/test-lib.dir/src/test/math_test.c.o"
-  "/home/paula/Documentos/Fancier/test/linux/jni/src/test/quick_test.c" "/home/paula/Documentos/Fancier/test/linux/jni/build/CMakeFiles/test-lib.dir/src/test/quick_test.c.o"
-  "/home/paula/Documentos/Fancier/test/linux/jni/src/test/vector_array_test.c" "/home/paula/Documentos/Fancier/test/linux/jni/build/CMakeFiles/test-lib.dir/src/test/vector_array_test.c.o"
-  "/home/paula/Documentos/Fancier/test/linux/jni/src/test/vector_test.c" "/home/paula/Documentos/Fancier/test/linux/jni/build/CMakeFiles/test-lib.dir/src/test/vector_test.c.o"
+  "/home/paula/Documentos/unir/Fancier/test/linux/jni/src/test/array_test.c" "/home/paula/Documentos/unir/Fancier/test/linux/jni/build/CMakeFiles/test-lib.dir/src/test/array_test.c.o"
+  "/home/paula/Documentos/unir/Fancier/test/linux/jni/src/test/math_test.c" "/home/paula/Documentos/unir/Fancier/test/linux/jni/build/CMakeFiles/test-lib.dir/src/test/math_test.c.o"
+  "/home/paula/Documentos/unir/Fancier/test/linux/jni/src/test/quick_test.c" "/home/paula/Documentos/unir/Fancier/test/linux/jni/build/CMakeFiles/test-lib.dir/src/test/quick_test.c.o"
+  "/home/paula/Documentos/unir/Fancier/test/linux/jni/src/test/vector_array_test.c" "/home/paula/Documentos/unir/Fancier/test/linux/jni/build/CMakeFiles/test-lib.dir/src/test/vector_array_test.c.o"
+  "/home/paula/Documentos/unir/Fancier/test/linux/jni/src/test/vector_test.c" "/home/paula/Documentos/unir/Fancier/test/linux/jni/build/CMakeFiles/test-lib.dir/src/test/vector_test.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

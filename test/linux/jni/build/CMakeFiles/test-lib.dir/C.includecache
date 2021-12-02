@@ -160,19 +160,19 @@ jni_md.h
 
 ../include/thirdparty/jni_md.h
 
-/home/paula/Documentos/Fancier/test/linux/jni/src/test/array_test.c
+/home/paula/Documentos/unir/Fancier/test/linux/jni/src/test/array_test.c
 fancier.h
 -
 string.h
 -
 
-/home/paula/Documentos/Fancier/test/linux/jni/src/test/math_test.c
+/home/paula/Documentos/unir/Fancier/test/linux/jni/src/test/math_test.c
 fancier.h
 -
 math.h
 -
 
-/home/paula/Documentos/Fancier/test/linux/jni/src/test/quick_test.c
+/home/paula/Documentos/unir/Fancier/test/linux/jni/src/test/quick_test.c
 stdlib.h
 -
 time.h
@@ -182,13 +182,13 @@ math.h
 fancier.h
 -
 
-/home/paula/Documentos/Fancier/test/linux/jni/src/test/vector_array_test.c
+/home/paula/Documentos/unir/Fancier/test/linux/jni/src/test/vector_array_test.c
 fancier.h
 -
 string.h
 -
 
-/home/paula/Documentos/Fancier/test/linux/jni/src/test/vector_test.c
+/home/paula/Documentos/unir/Fancier/test/linux/jni/src/test/vector_test.c
 fancier.h
 -
 

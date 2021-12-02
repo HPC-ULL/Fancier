@@ -13,8 +13,12 @@ es/ull/pcg/hpc/fancier/linuxtest/benchmark/ReliableLinuxRunner.java
  es.ull.pcg.hpc.fancier.linuxtest.benchmark.ReliableLinuxRunner$CoreSelection
 es/ull/pcg/hpc/fancier/linuxtest/test/VectorTest.java
  es.ull.pcg.hpc.fancier.linuxtest.test.VectorTest
-es/ull/pcg/hpc/fancier/linuxtest/test/ReleaseTest.java
- es.ull.pcg.hpc.fancier.linuxtest.test.ReleaseTest
+es/ull/pcg/hpc/fancier/linuxtest/benchmark/BenchmarkTask.java
+ es.ull.pcg.hpc.fancier.linuxtest.benchmark.BenchmarkTask
+ es.ull.pcg.hpc.fancier.linuxtest.benchmark.BenchmarkTask$1
+ es.ull.pcg.hpc.fancier.linuxtest.benchmark.BenchmarkTask$Benchmarks
+ es.ull.pcg.hpc.fancier.linuxtest.benchmark.BenchmarkTask$FilterBenchmarkImplementation
+ es.ull.pcg.hpc.fancier.linuxtest.benchmark.BenchmarkTask$RestrictedConfigs
 es/ull/pcg/hpc/fancier/linuxtest/benchmark/DeviceDescriptor.java
  es.ull.pcg.hpc.fancier.linuxtest.benchmark.DeviceDescriptor
  es.ull.pcg.hpc.fancier.linuxtest.benchmark.DeviceDescriptor$Builder
@@ -56,13 +60,9 @@ es/ull/pcg/hpc/fancier/linuxtest/Main.java
  es.ull.pcg.hpc.fancier.linuxtest.Main
  es.ull.pcg.hpc.fancier.linuxtest.Main$1
  es.ull.pcg.hpc.fancier.linuxtest.Main$ExecutionMode
-es/ull/pcg/hpc/fancier/linuxtest/model/ImageFilters.java
- es.ull.pcg.hpc.fancier.linuxtest.model.ImageFilters
-es/ull/pcg/hpc/fancier/linuxtest/benchmark/BenchmarkTask.java
- es.ull.pcg.hpc.fancier.linuxtest.benchmark.BenchmarkTask
- es.ull.pcg.hpc.fancier.linuxtest.benchmark.BenchmarkTask$1
- es.ull.pcg.hpc.fancier.linuxtest.benchmark.BenchmarkTask$Benchmarks
- es.ull.pcg.hpc.fancier.linuxtest.benchmark.BenchmarkTask$FilterBenchmarkImplementation
- es.ull.pcg.hpc.fancier.linuxtest.benchmark.BenchmarkTask$RestrictedConfigs
 es/ull/pcg/hpc/fancier/linuxtest/benchmark/JreProgressListener.java
  es.ull.pcg.hpc.fancier.linuxtest.benchmark.JreProgressListener
+es/ull/pcg/hpc/fancier/linuxtest/model/ImageFilters.java
+ es.ull.pcg.hpc.fancier.linuxtest.model.ImageFilters
+es/ull/pcg/hpc/fancier/linuxtest/test/ReleaseTest.java
+ es.ull.pcg.hpc.fancier.linuxtest.test.ReleaseTest

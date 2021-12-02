@@ -38,9 +38,6 @@ typedef struct {
   fcByte4Array* pixels;
 } fcRGBAImage;
 
-
-// TODO: plantilla
-const int BUFFERED_IMAGE_FORMAT_4BYTE_ABGR = 6;
 const int BUFFERED_IMAGE_FORMAT_INT_ARGB = 2;
 
 FANCIER_API jint fcImage_initJNI(JNIEnv* env);

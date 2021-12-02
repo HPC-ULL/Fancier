@@ -4,6 +4,7 @@
         "array": "c",
         "color.h": "c",
         "*.tcc": "c",
-        "string": "c"
+        "string": "c",
+        "pthread.h": "c"
     }
 }

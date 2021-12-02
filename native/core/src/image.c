@@ -25,8 +25,6 @@
 
 #include <string.h>
 
-#include<pthread.h>
-
 //
 // Global Java References
 //
@@ -84,8 +82,6 @@ JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_initNative__I
 }
 
 
-// TODO: plantilla
-// TODO: en este pasar un parametro que indique si hay que cambiar el orden o no
 JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_initNative___3IIZ(
     JNIEnv* env, jobject obj, jintArray pixels, jint width, jboolean changeFromBGRA) {
 
@@ -205,7 +201,7 @@ JNIEXPORT jobject JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_getPixels(
                      (jlong) self->pixels);
 }
 
-JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_setPixels___3II(JNIEnv* env,
+JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_setPixels__3II(JNIEnv* env,
                                                                                   jobject obj,
                                                                                   jintArray pixels,
                                                                                   jint width) {

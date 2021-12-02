@@ -48,7 +48,7 @@ public class RGBAImage implements AutoCloseable {
   }
 
   public RGBAImage(int[] pixels, int width) {
-    initNative(pixels, width);
+    initNative(pixels, width, false);
   }
 
   public RGBAImage(RGBAImage image) {
@@ -85,7 +85,6 @@ public class RGBAImage implements AutoCloseable {
 
   private native void initNative(long nativePtr);
   private native void initNative(int width, int height);
-  private native void initNative(int[] pixels, int width);
   private native void initNative(RGBAImage image);
   private native void initNative(int[] pixels, int width, boolean changeFromBGRA);
 % if android:

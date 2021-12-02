@@ -233,10 +233,7 @@ jint fcOpenCL_initJNI(JNIEnv* env) {
 
   if (platforms) {
     // TODO Maybe do something more intelligent?
-    
-    // cambiado por paula (para probar) [vuelto al original]
     fcOpenCL_rt.platform = platforms[0];
-    //fcOpenCL_rt.platform = platforms[1];
     free(platforms);
   }
 

@@ -6,5 +6,5 @@ C_FLAGS = -std=gnu11 -fPIC
 
 C_DEFINES = -Dfilters_lib_EXPORTS
 
-C_INCLUDES = -I/home/paula/Documentos/Fancier/test/linux/jni/include/common -I/home/paula/Documentos/Fancier/test/linux/jni/include/thirdparty -I/home/paula/Documentos/Fancier/test/linux/jni/include/filter 
+C_INCLUDES = -I/home/paula/Documentos/unir/Fancier/test/linux/jni/include/common -I/home/paula/Documentos/unir/Fancier/test/linux/jni/include/thirdparty -I/home/paula/Documentos/unir/Fancier/test/linux/jni/include/filter 
 

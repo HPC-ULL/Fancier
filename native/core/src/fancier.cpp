@@ -45,7 +45,6 @@ typedef jint (*SetupFunc)(JNIEnv* env);
 //
 
 const char* FC_CACHE_BASE_PATH = NULL;
-//std::string FC_CACHE_BASE_PATH_STR;
 char* FC_CACHE_BASE_PATH_STR;
 
 static fcInt initCount = 0;
@@ -128,8 +127,6 @@ Java_es_ull_pcg_hpc_fancier_Fancier_initNative__Ljava_lang_String_2(JNIEnv* env,
   env->ReleaseStringUTFChars(basePath, str);
 
   FC_CACHE_BASE_PATH = env->GetStringUTFChars(basePath, NULL);
-
-  // FC_CACHE_BASE_PATH_STR = FC_CACHE_BASE_PATH;
   
   char* TMP_FC_CACHE_BASE_PATH_STR = new char[strlen(FC_CACHE_BASE_PATH) + 1];
   strcpy(TMP_FC_CACHE_BASE_PATH_STR, FC_CACHE_BASE_PATH);
@@ -137,9 +134,7 @@ Java_es_ull_pcg_hpc_fancier_Fancier_initNative__Ljava_lang_String_2(JNIEnv* env,
 
   env->ReleaseStringUTFChars(basePath, FC_CACHE_BASE_PATH);
 
-  // FC_CACHE_BASE_PATH_STR += "/";
   FC_CACHE_BASE_PATH_STR = appendCharToCharArray(TMP_FC_CACHE_BASE_PATH_STR, '/');
-  // FC_CACHE_BASE_PATH = FC_CACHE_BASE_PATH_STR.c_str();
   FC_CACHE_BASE_PATH = FC_CACHE_BASE_PATH_STR;
 
   free(TMP_FC_CACHE_BASE_PATH_STR);
