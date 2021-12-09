@@ -748,7 +748,6 @@ fcError fcRGBAImage_setPixelsChangeBGRA(fcRGBAImage* self, fcInt width, fcInt he
     return FC_EXCEPTION_BAD_PARAMETER;
 
   if (self->dims.x != width || self->dims.y != height)
-  // if (self->dims.x * self->dims.y != pixels_size)
     return FC_EXCEPTION_BITMAP_BAD_DIMENSIONS;
 
   // Set data

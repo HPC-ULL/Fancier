@@ -1,6 +1,0 @@
-/home/paula/Documentos/unir/Fancier/test/linux/jni/build/CMakeFiles/edit_cache.dir
-/home/paula/Documentos/unir/Fancier/test/linux/jni/build/CMakeFiles/rebuild_cache.dir
-/home/paula/Documentos/unir/Fancier/test/linux/jni/build/CMakeFiles/jni.dir
-/home/paula/Documentos/unir/Fancier/test/linux/jni/build/CMakeFiles/rancid.dir
-/home/paula/Documentos/unir/Fancier/test/linux/jni/build/CMakeFiles/test-lib.dir
-/home/paula/Documentos/unir/Fancier/test/linux/jni/build/CMakeFiles/filters-lib.dir

@@ -65,7 +65,7 @@ TEST_JRE_JAR_DIR="$DIR/linux/java/libs"
 TEST_JRE_SO_DIR="$DIR/linux/jni/libs"
 TEST_JRE_SO_PLUGIN_DIR="$DIR/linux/jni/libs/plugin"
 TEST_JRE_INCLUDE_DIR="$DIR/linux/jni/include/thirdparty"
-TEST_JRE_OPENCL_DIR="$DIR/opencl"
+TEST_JRE_OPENCL_DIR="$DIR/linux/opencl"
 
 # Copy libs to Android application
 if [[ "$ACTION" == "all" || "$ACTION" == "android" ]]; then
@@ -92,7 +92,7 @@ fi
 # Copy libs to JRE Java application
 if [[ "$ACTION" == "all" || "$ACTION" == "jre" ]]; then
   echo "Copying libs to JRE Java application..."
-  mkdir -vp "$TEST_JRE_JAR_DIR" "$TEST_JRE_SO_DIR" "$TEST_JRE_OPENCL_DIR" "$TEST_JRE_INCLUDE_DIR" |\
+  mkdir -vp "$TEST_JRE_JAR_DIR" "$TEST_JRE_SO_DIR" "$TEST_JRE_OPENCL_DIR" "$TEST_JRE_INCLUDE_DIR" "$TEST_JRE_SO_PLUGIN_DIR" |\
       sed "s/$SED_DIR[/]//g"
 
   cp -vf "$JRE_JAR_DIR/"*.jar "$TEST_JRE_JAR_DIR/" | sed "s/$SED_DIR[/]//g"
@@ -100,6 +100,7 @@ if [[ "$ACTION" == "all" || "$ACTION" == "jre" ]]; then
   cp -vfr "$LINUX_SO_PLUGIN_DIR/"*.so "$TEST_JRE_SO_PLUGIN_DIR/" | sed "s/$SED_DIR[/]//g"
   cp -vf "$OPENCL_DIR/"*.cl "$TEST_JRE_OPENCL_DIR/" | sed "s/$SED_DIR[/]//g"
   cp -vfr "$CORE_INCLUDE_DIR/"* "$TEST_JRE_INCLUDE_DIR/" | sed "s/$SED_DIR[/]//g"
+  rm "$TEST_JRE_SO_DIR/libOpenCL.so"
 
   for plugin in $FANCIER_PLUGINS; do
     cp -vfr "${PLUGIN_INCLUDE_DIR/<plugin>/$plugin}/"* "$TEST_JRE_INCLUDE_DIR/" | \

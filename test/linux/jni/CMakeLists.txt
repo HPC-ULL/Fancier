@@ -42,11 +42,6 @@ find_library( OpenCL
 
 # Fancier prebuilt libs and non-standard system libraries
 
-#add_library( fancier-lib SHARED IMPORTED )
-#set_target_properties( fancier-lib
-#                       PROPERTIES IMPORTED_LOCATION
-#                       "${libs-dir}/libfancier.so" )
-
 find_library( fancier fancier PATHS "${libs-dir}" REQUIRED )
 
 link_directories( BEFORE "${libs-dir}" )
@@ -73,10 +68,6 @@ add_library( rancid
              SHARED
              "${source-dir}/rancid/rancid.c" )
 
-add_library( jni
-	     SHARED
-	     "${source-dir}/hello.c" )
-
 
 target_include_directories( test-lib
                             PUBLIC
@@ -100,23 +91,3 @@ target_link_libraries( filters-lib
 target_link_libraries( rancid 
                        OpenCL )
 
-target_link_libraries( jni
-                       fancier OpenCL )
-
-
-#target_link_libraries( test-lib
-#                       -L{libs-dir} OpenCL )
-
-#target_link_libraries( filters-lib
-#                       fancier-lib OpenCL )
-
-#target_link_libraries( rancid 
-#                       OpenCL )
-
-#target_link_libraries( jni
-#                       fancier-lib OpenCL )
-
-
-
-#target_link_libraries( jni
-#                       -L${libs-dir} OpenCL )
