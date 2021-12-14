@@ -130,6 +130,8 @@ the _Fancier_ API. The `copy_libs.sh` script copies the already-compiled `.jar` 
 their build directories into the paths where these test applications expect them to be placed in
 order to be able to link and run their code.
 
+For using the Linux test application it is necessary to have “at” installed and enabled. Moreover, the program must be executed as sudo.
+
 ## License
 
 See [COPYING](COPYING.txt) and [COPYING.LESSER](COPYING.LESSER.txt).
