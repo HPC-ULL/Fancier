@@ -19,17 +19,20 @@
 package es.ull.pcg.hpc.fancier.image;
 
 import java.nio.ByteBuffer;
+% if not android:
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.awt.image.DataBuffer;
-import java.awt.image.Raster;
+% endif
 
 import es.ull.pcg.hpc.fancier.vector.Byte4;
 import es.ull.pcg.hpc.fancier.vector.Int2;
 import es.ull.pcg.hpc.fancier.vector.array.Byte4Array;
 
+import es.ull.pcg.hpc.fancier.Translatable;
+
 % if android:
 import android.graphics.Bitmap;
+
 % endif
 
 public class RGBAImage implements AutoCloseable {
@@ -55,9 +58,11 @@ public class RGBAImage implements AutoCloseable {
     initNative(image);
   }
 
+% if not android:
   public RGBAImage(BufferedImage image) {
     initNative(((DataBufferInt) image.getRaster().getDataBuffer()).getData(), image.getWidth(), true);
   }
+% endif
 
 % if android:
   public RGBAImage(Bitmap bmp) {
@@ -93,10 +98,12 @@ public class RGBAImage implements AutoCloseable {
   private native void releaseNative();
   private native void releaseNativeRef();
 
+  @Translatable
   public Byte4 get(Int2 coords) {
     return get(coords.x, coords.y);
   }
 
+  @Translatable
   public void set(Int2 coords, Byte4 rgba) {
     set(coords.x, coords.y, rgba);
   }
@@ -117,6 +124,11 @@ public class RGBAImage implements AutoCloseable {
     Byte4Array.setBuffer(buffer, y * getWidth() + x, rgba);
   }
 
+  public void setPixels (int[] pixels, int width) {
+    setPixels(pixels, width, false);
+  }
+
+% if not android:
   public void setPixels(BufferedImage image) {
     setPixels(((DataBufferInt) image.getRaster().getDataBuffer()).getData(), image.getWidth(), true);
   }
@@ -124,22 +136,29 @@ public class RGBAImage implements AutoCloseable {
   public void updateImage(BufferedImage image) {
     updateArray(((DataBufferInt) image.getRaster().getDataBuffer()).getData(), true);
   }
+% endif
 
+  @Translatable
   public native Byte4 get(int x, int y);
+  @Translatable
   public native void set(int x, int y, Byte4 rgba);
 
   public native Byte4Array getPixels();
-  public native void setPixels(int[] pixels, int width);
+  private native void setPixels(int[] pixels, int width, boolean changeFromBGRA);  
   public native void setPixels(RGBAImage image);
 % if android:
   public native void setPixels(Bitmap bmp);
   public native void updateBitmap(Bitmap bmp);
 % endif
-  private native void setPixels(int[] pixels, int width, boolean changeFromBGRA);  
+% if not android:
   private native void updateArray(int[] array, boolean changeFromBGRA);
+% endif
 
+  @Translatable
   public native Int2 getDims();
+  @Translatable
   public native int getWidth();
+  @Translatable
   public native int getHeight();
 
   public native void syncToNative();

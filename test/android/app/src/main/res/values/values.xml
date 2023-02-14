@@ -2,22 +2,22 @@
 <resources>
     <array name="image_ids">
         <item>@drawable/vga</item>
-        <item>@drawable/xga</item>
-        <item>@drawable/hd1</item>
-        <item>@drawable/hd2</item>
-        <item>@drawable/hdplus</item>
-        <item>@drawable/fullhd</item>
-        <item>@drawable/qhd</item>
-        <item>@drawable/uhd</item>
+<!--        <item>@drawable/xga</item>-->
+<!--        <item>@drawable/hd1</item>-->
+<!--        <item>@drawable/hd2</item>-->
+<!--        <item>@drawable/hdplus</item>-->
+<!--        <item>@drawable/fullhd</item>-->
+<!--        <item>@drawable/qhd</item>-->
+<!--        <item>@drawable/uhd</item>-->
     </array>
     <string-array name="image_titles">
         <item>01 VGA (640x480)</item>
-        <item>02 XGA (1024x768)</item>
-        <item>03 HD1 (1280x720)</item>
-        <item>04 HD2 (1366x768)</item>
-        <item>05 HD+ (1600x900)</item>
-        <item>06 FHD (1920x1080)</item>
-        <item>07 QHD (2560x1440)</item>
-        <item>08 UHD (3840x2160)</item>
+<!--        <item>02 XGA (1024x768)</item>-->
+<!--        <item>03 HD1 (1280x720)</item>-->
+<!--        <item>04 HD2 (1366x768)</item>-->
+<!--        <item>05 HD+ (1600x900)</item>-->
+<!--        <item>06 FHD (1920x1080)</item>-->
+<!--        <item>07 QHD (2560x1440)</item>-->
+<!--        <item>08 UHD (3840x2160)</item>-->
     </string-array>
 </resources>

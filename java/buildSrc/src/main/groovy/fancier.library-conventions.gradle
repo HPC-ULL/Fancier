@@ -33,11 +33,11 @@ dependencies {
     testImplementation "junit:junit:4.13"
 }
 
-//java {
-//    toolchain {
-//        languageVersion = JavaLanguageVersion.of(8)
-//    }
-//}
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+}
 
 dependencies {
     if (project.name != 'fancier-core')

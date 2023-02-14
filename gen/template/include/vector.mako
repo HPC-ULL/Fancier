@@ -93,7 +93,6 @@ FANCIER_API void fcVector_releaseJNI(JNIEnv* env);
 
 % for type in types:
 % for vlen in vlens:
-FANCIER_API fc${type|c}${vlen}* fc${type|c}${vlen}_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fc${type|c}${vlen}_wrap(JNIEnv* env, fc${type|c}${vlen} vec);
 FANCIER_API fc${type|c}${vlen} fc${type|c}${vlen}_unwrap(JNIEnv* env, jobject vec, fcError* err);
 

@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
   // Run each benchmark multiple times, so that each app execution is shorter and crashes are less
   // likely
-  private final ExecutionMode mMode = ExecutionMode.TEST;
-  private static final int BENCHMARK_REPETITIONS = 10;
+  private final ExecutionMode mMode = ExecutionMode.QUICK_TEST;
+  private static final int BENCHMARK_REPETITIONS = 1;
   private static final boolean EXECUTE_FILTERED = true;
   private static final boolean BENCHMARK_ONLY_RELIABLE = false;
 
@@ -181,7 +181,12 @@ public class MainActivity extends AppCompatActivity {
 
     if (EXECUTE_FILTERED) {
       kernels = new BenchmarkTask.Benchmarks[]{
-          BenchmarkTask.Benchmarks.BENCHMARK_NATIVE_FISHEYE
+//          BenchmarkTask.Benchmarks.BENCHMARK_OCL_POSTERIZE,
+//          BenchmarkTask.Benchmarks.BENCHMARK_NATIVE_POSTERIZE,
+//          BenchmarkTask.Benchmarks.BENCHMARK_NATIVE_REF_POSTERIZE,
+//          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_REF_POSTERIZE,
+          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_PERF_POSTERIZE,
+//          BenchmarkTask.Benchmarks.BENCHMARK_JAVA_BMP_POSTERIZE,
       };
     }
     else {

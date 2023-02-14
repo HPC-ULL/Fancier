@@ -1,5 +1,6 @@
 package es.ull.pcg.hpc.fancier.linuxtest;
 
+import es.ull.pcg.hpc.fancier.Fancier;
 import es.ull.pcg.hpc.fancier.linuxtest.benchmark.BenchmarkTask;
 import es.ull.pcg.hpc.fancier.linuxtest.benchmark.DeviceDescriptor;
 import es.ull.pcg.hpc.fancier.linuxtest.benchmark.Devices;
@@ -100,7 +101,7 @@ public class Main {
         BufferedImage outImage;
 
         try {
-            String IMAGE_NAME = "fullhd.jpg";
+            String IMAGE_NAME = "vga.jpg";
 //            String IMAGE_NAME = "test.png";
 
             inImage = ImageIO.read(new File(RESOURCES_DIR + IMAGE_NAME));
@@ -152,7 +153,12 @@ public class Main {
 
             if (EXECUTE_FILTERED) {
                 kernels = new BenchmarkTask.Benchmarks[]{
-                        BenchmarkTask.Benchmarks.BENCHMARK_NATIVE_FISHEYE
+                        //BenchmarkTask.Benchmarks.BENCHMARK_OCL_POSTERIZE,
+                        BenchmarkTask.Benchmarks.BENCHMARK_NATIVE_POSTERIZE, // este falta
+//                        BenchmarkTask.Benchmarks.BENCHMARK_NATIVE_REF_POSTERIZE,
+//                        BenchmarkTask.Benchmarks.BENCHMARK_JAVA_REF_POSTERIZE,
+//                        BenchmarkTask.Benchmarks.BENCHMARK_JAVA_PERF_POSTERIZE,
+//                        BenchmarkTask.Benchmarks.BENCHMARK_JAVA_BFF_POSTERIZE,
                 };
             }
             else {
@@ -185,7 +191,7 @@ public class Main {
                         System.out.println("Acabada ejecucion");
 
                         // Wait 2 minutes because at minimun unit is minutes
-                        String cmd = "echo '" + System.getProperty("user.dir") + "/run.sh --index " + (executionIndex + 1) + " --mode benchmark' | at now +2 minutes";
+                        String cmd = "echo '" + System.getProperty("user.dir") + "/run.sh --index " + (executionIndex + 1) + " --mode benchmark >> /home/paula/Documentos/log-test.txt' | at now +2 minutes";
                         ShellUtils.rootExec(Collections.singletonList(cmd));
                         System.exit(0);
                     } catch (IOException e) {

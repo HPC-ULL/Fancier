@@ -201,34 +201,6 @@ JNIEXPORT jobject JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_getPixels(
                      (jlong) self->pixels);
 }
 
-JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_setPixels__3II(JNIEnv* env,
-                                                                                  jobject obj,
-                                                                                  jintArray pixels,
-                                                                                  jint width) {
-  fcRGBAImage* self = fcRGBAImage_getJava(env, obj);
-  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_getJava",
-                           FC_VOID_EXPR);
-
-  FC_EXCEPTION_HANDLE_NULL(env, self->pixels, FC_EXCEPTION_INVALID_STATE,
-                           "RGBAImage_setPixels:pixels", FC_VOID_EXPR);
-
-  // Initialize image
-  jsize __tmp_len = FC_JNI_CALL(env, GetArrayLength, pixels);
-  if (__tmp_len % width != 0)
-    FC_EXCEPTION_HANDLE_ERROR(env, FC_EXCEPTION_BAD_PARAMETER, "RGBAImage_setPixels:pixels,width",
-                              FC_VOID_EXPR);
-
-  jint* __tmp_elems_pixels = FC_JNI_CALL(env, GetIntArrayElements, pixels, NULL);
-  FC_EXCEPTION_HANDLE_NULL(env, __tmp_elems_pixels, FC_EXCEPTION_ARRAY_GET_ELEMENTS,
-                           "RGBAImage_setPixels:pixels", FC_VOID_EXPR);
-
-  jint err = fcRGBAImage_setPixels(self, width, __tmp_len / width, __tmp_elems_pixels);
-
-  // Free temporary native array reference
-  FC_JNI_CALL(env, ReleaseIntArrayElements, pixels, __tmp_elems_pixels, JNI_ABORT);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcRGBAImage_setPixels", FC_VOID_EXPR);
-}
-
 JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_setPixels___3IIZ(JNIEnv* env,
                                                                                   jobject obj,
                                                                                   jintArray pixels,

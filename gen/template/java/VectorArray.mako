@@ -23,6 +23,9 @@ import es.ull.pcg.hpc.fancier.vector.${type|c}${vlen};
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import es.ull.pcg.hpc.fancier.Translatable;
+
+
 
 public class ${type|c}${vlen}Array implements AutoCloseable {
   private long nativeInstancePtr = 0L;
@@ -101,8 +104,11 @@ public class ${type|c}${vlen}Array implements AutoCloseable {
   private native void releaseNative();
   private native void releaseNativeRef();
 
+  @Translatable
   public native ${type|c}${vlen} get(int i);
+  @Translatable
   public native void set(int i, ${type|c}${vlen} x);
+  @Translatable
   public native long length();
 
   public native ${type|l}[] getArray();

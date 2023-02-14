@@ -258,7 +258,7 @@ public class BenchmarkTask implements Runnable {
   public void run() {
     // File loggers are added here because the results of each run belong in a separate file
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US);
-    File outputFile = new File(mMain.getFilesDir(), "FancierTest_" + mDevice.name() + "_" +
+    File outputFile = new File(mMain.getExternalFilesDir(null), "FancierTest_" + mDevice.name() + "_" +
                                                     dateFormat.format(new Date()) + ".xml");
 
     try (PrintStream outputStream = new PrintStream(outputFile)) {

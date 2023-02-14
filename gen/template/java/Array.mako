@@ -20,6 +20,8 @@ package es.ull.pcg.hpc.fancier.array;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import es.ull.pcg.hpc.fancier.Translatable;
+
 
 public class ${type|c}Array implements AutoCloseable {
   private long nativeInstancePtr = 0L;
@@ -87,8 +89,11 @@ public class ${type|c}Array implements AutoCloseable {
   private native void releaseNative();
   private native void releaseNativeRef();
 
+  @Translatable
   public native ${type|l} get(int i);
+  @Translatable
   public native void set(int i, ${type|l} x);
+  @Translatable
   public native long length();
 
   public native ${type|l}[] getArray();

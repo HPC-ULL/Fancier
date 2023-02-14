@@ -1,4 +1,4 @@
 /build
 /libs/fancier-android*
-/jni-libs
+/cmake-libs
 /.settings

@@ -9,7 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class FilterTest implements RuntimeTest {
-    private static final boolean EXPORT_IMAGE = false;
+    private static final boolean EXPORT_IMAGE = true;
 
     private ImageFilter mFilter;
     private BufferedImage mInput, mOutput;

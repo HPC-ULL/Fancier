@@ -30,6 +30,9 @@ import es.ull.pcg.hpc.fancier.vector.Long3;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import es.ull.pcg.hpc.fancier.Translatable;
+
+
 
 public class Long3Array implements AutoCloseable {
   private long nativeInstancePtr = 0L;
@@ -103,8 +106,11 @@ public class Long3Array implements AutoCloseable {
   private native void releaseNative();
   private native void releaseNativeRef();
 
+  @Translatable
   public native Long3 get(int i);
+  @Translatable
   public native void set(int i, Long3 x);
+  @Translatable
   public native long length();
 
   public native long[] getArray();

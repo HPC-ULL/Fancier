@@ -30,6 +30,9 @@ import es.ull.pcg.hpc.fancier.vector.Float4;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import es.ull.pcg.hpc.fancier.Translatable;
+
+
 
 public class Float4Array implements AutoCloseable {
   private long nativeInstancePtr = 0L;
@@ -105,8 +108,11 @@ public class Float4Array implements AutoCloseable {
   private native void releaseNative();
   private native void releaseNativeRef();
 
+  @Translatable
   public native Float4 get(int i);
+  @Translatable
   public native void set(int i, Float4 x);
+  @Translatable
   public native long length();
 
   public native float[] getArray();

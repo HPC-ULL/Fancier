@@ -28,12 +28,12 @@ package es.ull.pcg.hpc.fancier.image;
 import java.nio.ByteBuffer;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.awt.image.DataBuffer;
-import java.awt.image.Raster;
 
 import es.ull.pcg.hpc.fancier.vector.Byte4;
 import es.ull.pcg.hpc.fancier.vector.Int2;
 import es.ull.pcg.hpc.fancier.vector.array.Byte4Array;
+
+import es.ull.pcg.hpc.fancier.Translatable;
 
 
 public class RGBAImage implements AutoCloseable {
@@ -89,10 +89,12 @@ public class RGBAImage implements AutoCloseable {
   private native void releaseNative();
   private native void releaseNativeRef();
 
+  @Translatable
   public Byte4 get(Int2 coords) {
     return get(coords.x, coords.y);
   }
 
+  @Translatable
   public void set(Int2 coords, Byte4 rgba) {
     set(coords.x, coords.y, rgba);
   }
@@ -113,6 +115,10 @@ public class RGBAImage implements AutoCloseable {
     Byte4Array.setBuffer(buffer, y * getWidth() + x, rgba);
   }
 
+  public void setPixels (int[] pixels, int width) {
+    setPixels(pixels, width, false);
+  }
+
   public void setPixels(BufferedImage image) {
     setPixels(((DataBufferInt) image.getRaster().getDataBuffer()).getData(), image.getWidth(), true);
   }
@@ -121,17 +127,21 @@ public class RGBAImage implements AutoCloseable {
     updateArray(((DataBufferInt) image.getRaster().getDataBuffer()).getData(), true);
   }
 
+  @Translatable
   public native Byte4 get(int x, int y);
+  @Translatable
   public native void set(int x, int y, Byte4 rgba);
 
   public native Byte4Array getPixels();
-  public native void setPixels(int[] pixels, int width);
-  public native void setPixels(RGBAImage image);
   private native void setPixels(int[] pixels, int width, boolean changeFromBGRA);  
+  public native void setPixels(RGBAImage image);
   private native void updateArray(int[] array, boolean changeFromBGRA);
 
+  @Translatable
   public native Int2 getDims();
+  @Translatable
   public native int getWidth();
+  @Translatable
   public native int getHeight();
 
   public native void syncToNative();

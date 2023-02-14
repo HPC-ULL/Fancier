@@ -51,7 +51,8 @@ public class BenchmarkTask implements Runnable {
     private static final Parameters JIT_PARAMS = new Parameters("JIT");
 
     static {
-        JIT_PARAMS.addParameter("input", "vga.jpg");
+        // Assumes the first image is the smallest one (vga.jpg)
+        JIT_PARAMS.addParameter("input", 0);
     }
 
     private static class RestrictedConfigs {
@@ -333,16 +334,16 @@ public class BenchmarkTask implements Runnable {
         BENCHMARK_JAVA_PERF_FISHEYE(JavaImageFilter.Version.PERFORMANCE, ImageFilters.FISHEYE),
         BENCHMARK_JAVA_PERF_LEVELS(JavaImageFilter.Version.PERFORMANCE, ImageFilters.LEVELS),
         BENCHMARK_JAVA_PERF_POSTERIZE(JavaImageFilter.Version.PERFORMANCE, ImageFilters.POSTERIZE),
-        BENCHMARK_JAVA_BMP_GRAYSCALE(JavaImageFilter.Version.BUFFEREDIMAGE, ImageFilters.GRAYSCALE),
-        BENCHMARK_JAVA_BMP_BLUR(JavaImageFilter.Version.BUFFEREDIMAGE, ImageFilters.BLUR),
-        BENCHMARK_JAVA_BMP_CONVOLVE3(JavaImageFilter.Version.BUFFEREDIMAGE, ImageFilters.CONVOLVE3),
-        BENCHMARK_JAVA_BMP_CONVOLVE5(JavaImageFilter.Version.BUFFEREDIMAGE, ImageFilters.CONVOLVE5),
-        BENCHMARK_JAVA_BMP_BILATERAL(JavaImageFilter.Version.BUFFEREDIMAGE, ImageFilters.BILATERAL),
-        BENCHMARK_JAVA_BMP_MEDIAN(JavaImageFilter.Version.BUFFEREDIMAGE, ImageFilters.MEDIAN),
-        BENCHMARK_JAVA_BMP_CONTRAST(JavaImageFilter.Version.BUFFEREDIMAGE, ImageFilters.CONTRAST),
-        BENCHMARK_JAVA_BMP_FISHEYE(JavaImageFilter.Version.BUFFEREDIMAGE, ImageFilters.FISHEYE),
-        BENCHMARK_JAVA_BMP_LEVELS(JavaImageFilter.Version.BUFFEREDIMAGE, ImageFilters.LEVELS),
-        BENCHMARK_JAVA_BMP_POSTERIZE(JavaImageFilter.Version.BUFFEREDIMAGE, ImageFilters.POSTERIZE);
+        BENCHMARK_JAVA_BFF_GRAYSCALE(JavaImageFilter.Version.BUFFEREDIMAGE, ImageFilters.GRAYSCALE),
+        BENCHMARK_JAVA_BFF_BLUR(JavaImageFilter.Version.BUFFEREDIMAGE, ImageFilters.BLUR),
+        BENCHMARK_JAVA_BFF_CONVOLVE3(JavaImageFilter.Version.BUFFEREDIMAGE, ImageFilters.CONVOLVE3),
+        BENCHMARK_JAVA_BFF_CONVOLVE5(JavaImageFilter.Version.BUFFEREDIMAGE, ImageFilters.CONVOLVE5),
+        BENCHMARK_JAVA_BFF_BILATERAL(JavaImageFilter.Version.BUFFEREDIMAGE, ImageFilters.BILATERAL),
+        BENCHMARK_JAVA_BFF_MEDIAN(JavaImageFilter.Version.BUFFEREDIMAGE, ImageFilters.MEDIAN),
+        BENCHMARK_JAVA_BFF_CONTRAST(JavaImageFilter.Version.BUFFEREDIMAGE, ImageFilters.CONTRAST),
+        BENCHMARK_JAVA_BFF_FISHEYE(JavaImageFilter.Version.BUFFEREDIMAGE, ImageFilters.FISHEYE),
+        BENCHMARK_JAVA_BFF_LEVELS(JavaImageFilter.Version.BUFFEREDIMAGE, ImageFilters.LEVELS),
+        BENCHMARK_JAVA_BFF_POSTERIZE(JavaImageFilter.Version.BUFFEREDIMAGE, ImageFilters.POSTERIZE);
 
         public final FilterInfo filterInfo;
 

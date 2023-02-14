@@ -47,8 +47,14 @@ ${type|l} ${typed_float_fname('scalb', type)}(${type|l} a, int scaleFactor) {
 ${type|l}${vlen} ${type|l}${vlen}_scalb(${type|l}${vlen} a, int${vlen} scaleFactor) {
   return (${type|l}${vlen})(${', '.join([f'{typed_float_fname("scalb", type)}(a.{field}, scaleFactor.{field})' for field in vfields[:vlen]])});
 }
-
 % endfor
+
+% for vlen in vlens:
+${type|l}${vlen} ${type|l}${vlen}_smoothstep(${type|l}${vlen} a, ${type|l}${vlen} b, ${type|l} c) {
+  return (${type|l}${vlen})(${', '.join([f'smoothstep(a.{field}, b.{field}, c)' for field in vfields[:vlen]])});
+}
+% endfor
+
 % if type.lower() == 'double':
 #endif // cl_khr_fp64
 % endif
@@ -66,6 +72,14 @@ ${type|l} ${typed_int_builtin_fname('mix', type)}(${type|l} x, ${type|l} y, ${ty
   return x + (y - x) * a;
 }
 
+${type|l} ${typed_int_builtin_fname('maxmag', type)}(${type|l} a, ${type|l} b) {
+  return abs(a) > abs(b) ? a : b;
+}
+
+${type|l} ${typed_int_builtin_fname('minmag', type)}(${type|l} a, ${type|l} b) {
+  return abs(a) < abs(b) ? a : b;
+}
+
 % for vlen in vlens:
 ${type|l}${vlen} ${type|l}${vlen}_clamp(${type|l}${vlen} a, ${type|l}${vlen} min, ${type|l}${vlen} max) {
   return (${type|l}${vlen})(${', '.join([f'{typed_int_builtin_fname("clamp", type)}(a.{field}, min.{field}, max.{field})' for field in vfields[:vlen]])});
@@ -73,6 +87,14 @@ ${type|l}${vlen} ${type|l}${vlen}_clamp(${type|l}${vlen} a, ${type|l}${vlen} min
 
 ${type|l}${vlen} ${type|l}${vlen}_mix(${type|l}${vlen} x, ${type|l}${vlen} y, ${type|l}${vlen} a) {
   return (${type|l}${vlen})(${', '.join([f'{typed_int_builtin_fname("mix", type)}(x.{field}, y.{field}, a.{field})' for field in vfields[:vlen]])});
+}
+
+${type|l}${vlen} ${type|l}${vlen}_maxmag(${type|l}${vlen} a, ${type|l}${vlen} b) {
+  return (${type|l}${vlen})(${', '.join([f'{typed_int_builtin_fname("maxmag", type)}(a.{field}, b.{field})' for field in vfields[:vlen]])});
+}
+
+${type|l}${vlen} ${type|l}${vlen}_minmag(${type|l}${vlen} a, ${type|l}${vlen} b) {
+  return (${type|l}${vlen})(${', '.join([f'{typed_int_builtin_fname("minmag", type)}(a.{field}, b.{field})' for field in vfields[:vlen]])});
 }
 
 % endfor
