@@ -51,6 +51,12 @@ FANCIER_API fcError fcRGBAImage_initDims(fcRGBAImage* self, fcInt2 dims);
 FANCIER_API fcError fcRGBAImage_initSize(fcRGBAImage* self, fcInt width, fcInt height);
 FANCIER_API fcError fcRGBAImage_initPixels(fcRGBAImage* self, fcInt width, fcInt height,
                                            const fcInt* pixels);
+
+FANCIER_API fcError fcRGBAImage_initPixelsBGRA(fcRGBAImage* self, fcInt width, fcInt height,
+                                           const fcInt* pixels);
+FANCIER_API fcError fcRGBAImage_initArrayColorComponentsBGRA(fcRGBAImage* self, fcInt len, const fcByte* v);
+FANCIER_API fcError fcRGBAImage_setArrayColorComponentsBGRA(fcRGBAImage* self, fcInt len, const fcByte* v);
+
 FANCIER_API fcError fcRGBAImage_initCopy(fcRGBAImage* self, const fcRGBAImage* image);
 FANCIER_API fcError fcRGBAImage_release(fcRGBAImage* self);
 
@@ -61,10 +67,11 @@ FANCIER_API fcError fcRGBAImage_set(fcRGBAImage* self, fcInt x, fcInt y, fcByte4
 
 FANCIER_API fcError fcRGBAImage_setPixels(fcRGBAImage* self, fcInt width, fcInt height,
                                           const fcInt* pixels);
+FANCIER_API fcError fcRGBAImage_setPixelsChangeBGRA(fcRGBAImage* self, fcInt width, fcInt height, fcInt* pixels);
 FANCIER_API fcError fcRGBAImage_setPixelsCopy(fcRGBAImage* self, const fcRGBAImage* image);
 
-FANCIER_API fcError fcRGBAImage_syncToNative(fcRGBAImage* self);
-FANCIER_API fcError fcRGBAImage_syncToOCL(fcRGBAImage* self);
+FANCIER_API fcError fcRGBAImage_syncToHost(fcRGBAImage* self);
+FANCIER_API fcError fcRGBAImage_syncToDevice(fcRGBAImage* self);
 FANCIER_API fcBool fcRGBAImage_valid(const fcRGBAImage* self);
 
 #ifdef __ANDROID__
@@ -77,5 +84,7 @@ FANCIER_API fcError fcRGBAImage_setPixelsBitmap(fcRGBAImage* self, AndroidBitmap
 FANCIER_API fcError fcRGBAImage_updateBitmap(fcRGBAImage* self, AndroidBitmapInfo info,
                                              void* pixels);
 #endif  // __ANDROID__
+
+FANCIER_API fcError fcRGBAImage_updateArray(fcRGBAImage* self, jint** __tmp_pixels, jint pixels_size, jboolean changeFromBGRA);
 
 #endif  // _FANCIER_IMAGE_H_

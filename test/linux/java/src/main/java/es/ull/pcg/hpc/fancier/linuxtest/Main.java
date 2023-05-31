@@ -41,7 +41,7 @@ public class Main {
     // likely
     private ExecutionMode mMode = ExecutionMode.BENCHMARK;
     private static int executionIndex;
-    private static final int BENCHMARK_REPETITIONS = 1;
+    private static final int BENCHMARK_REPETITIONS = 10;
     private static final boolean EXECUTE_FILTERED = true;
     private static final boolean BENCHMARK_ONLY_RELIABLE = true;
 

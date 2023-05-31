@@ -87,8 +87,8 @@ FANCIER_API fcError fc${type|c}Array_setArray(fc${type|c}Array* self, fcInt len,
 FANCIER_API fcError fc${type|c}Array_setCopy(fc${type|c}Array* self, const fc${type|c}Array* array);
 FANCIER_API fcError fc${type|c}Array_setBuffer(fc${type|c}Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fc${type|c}Array_syncToNative(fc${type|c}Array* self);
-FANCIER_API fcError fc${type|c}Array_syncToOCL(fc${type|c}Array* self);
+FANCIER_API fcError fc${type|c}Array_syncToHost(fc${type|c}Array* self);
+FANCIER_API fcError fc${type|c}Array_syncToDevice(fc${type|c}Array* self);
 FANCIER_API fcBool fc${type|c}Array_valid(const fc${type|c}Array* self);
 
 % endfor

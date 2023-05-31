@@ -617,8 +617,8 @@ FANCIER_API fcError fcByte2Array_setArray(fcByte2Array* self, fcInt len, const f
 FANCIER_API fcError fcByte2Array_setCopy(fcByte2Array* self, const fcByte2Array* array);
 FANCIER_API fcError fcByte2Array_setBuffer(fcByte2Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcByte2Array_syncToNative(fcByte2Array* self);
-FANCIER_API fcError fcByte2Array_syncToOCL(fcByte2Array* self);
+FANCIER_API fcError fcByte2Array_syncToHost(fcByte2Array* self);
+FANCIER_API fcError fcByte2Array_syncToDevice(fcByte2Array* self);
 FANCIER_API fcBool fcByte2Array_valid(const fcByte2Array* self);
 
 FANCIER_API fcByte3Array* fcByte3Array_getJava(JNIEnv* env, jobject obj);
@@ -638,8 +638,8 @@ FANCIER_API fcError fcByte3Array_setArray(fcByte3Array* self, fcInt len, const f
 FANCIER_API fcError fcByte3Array_setCopy(fcByte3Array* self, const fcByte3Array* array);
 FANCIER_API fcError fcByte3Array_setBuffer(fcByte3Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcByte3Array_syncToNative(fcByte3Array* self);
-FANCIER_API fcError fcByte3Array_syncToOCL(fcByte3Array* self);
+FANCIER_API fcError fcByte3Array_syncToHost(fcByte3Array* self);
+FANCIER_API fcError fcByte3Array_syncToDevice(fcByte3Array* self);
 FANCIER_API fcBool fcByte3Array_valid(const fcByte3Array* self);
 
 FANCIER_API fcByte4Array* fcByte4Array_getJava(JNIEnv* env, jobject obj);
@@ -659,8 +659,8 @@ FANCIER_API fcError fcByte4Array_setArray(fcByte4Array* self, fcInt len, const f
 FANCIER_API fcError fcByte4Array_setCopy(fcByte4Array* self, const fcByte4Array* array);
 FANCIER_API fcError fcByte4Array_setBuffer(fcByte4Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcByte4Array_syncToNative(fcByte4Array* self);
-FANCIER_API fcError fcByte4Array_syncToOCL(fcByte4Array* self);
+FANCIER_API fcError fcByte4Array_syncToHost(fcByte4Array* self);
+FANCIER_API fcError fcByte4Array_syncToDevice(fcByte4Array* self);
 FANCIER_API fcBool fcByte4Array_valid(const fcByte4Array* self);
 
 FANCIER_API fcByte8Array* fcByte8Array_getJava(JNIEnv* env, jobject obj);
@@ -680,8 +680,8 @@ FANCIER_API fcError fcByte8Array_setArray(fcByte8Array* self, fcInt len, const f
 FANCIER_API fcError fcByte8Array_setCopy(fcByte8Array* self, const fcByte8Array* array);
 FANCIER_API fcError fcByte8Array_setBuffer(fcByte8Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcByte8Array_syncToNative(fcByte8Array* self);
-FANCIER_API fcError fcByte8Array_syncToOCL(fcByte8Array* self);
+FANCIER_API fcError fcByte8Array_syncToHost(fcByte8Array* self);
+FANCIER_API fcError fcByte8Array_syncToDevice(fcByte8Array* self);
 FANCIER_API fcBool fcByte8Array_valid(const fcByte8Array* self);
 
 FANCIER_API fcShort2Array* fcShort2Array_getJava(JNIEnv* env, jobject obj);
@@ -701,8 +701,8 @@ FANCIER_API fcError fcShort2Array_setArray(fcShort2Array* self, fcInt len, const
 FANCIER_API fcError fcShort2Array_setCopy(fcShort2Array* self, const fcShort2Array* array);
 FANCIER_API fcError fcShort2Array_setBuffer(fcShort2Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcShort2Array_syncToNative(fcShort2Array* self);
-FANCIER_API fcError fcShort2Array_syncToOCL(fcShort2Array* self);
+FANCIER_API fcError fcShort2Array_syncToHost(fcShort2Array* self);
+FANCIER_API fcError fcShort2Array_syncToDevice(fcShort2Array* self);
 FANCIER_API fcBool fcShort2Array_valid(const fcShort2Array* self);
 
 FANCIER_API fcShort3Array* fcShort3Array_getJava(JNIEnv* env, jobject obj);
@@ -722,8 +722,8 @@ FANCIER_API fcError fcShort3Array_setArray(fcShort3Array* self, fcInt len, const
 FANCIER_API fcError fcShort3Array_setCopy(fcShort3Array* self, const fcShort3Array* array);
 FANCIER_API fcError fcShort3Array_setBuffer(fcShort3Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcShort3Array_syncToNative(fcShort3Array* self);
-FANCIER_API fcError fcShort3Array_syncToOCL(fcShort3Array* self);
+FANCIER_API fcError fcShort3Array_syncToHost(fcShort3Array* self);
+FANCIER_API fcError fcShort3Array_syncToDevice(fcShort3Array* self);
 FANCIER_API fcBool fcShort3Array_valid(const fcShort3Array* self);
 
 FANCIER_API fcShort4Array* fcShort4Array_getJava(JNIEnv* env, jobject obj);
@@ -743,8 +743,8 @@ FANCIER_API fcError fcShort4Array_setArray(fcShort4Array* self, fcInt len, const
 FANCIER_API fcError fcShort4Array_setCopy(fcShort4Array* self, const fcShort4Array* array);
 FANCIER_API fcError fcShort4Array_setBuffer(fcShort4Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcShort4Array_syncToNative(fcShort4Array* self);
-FANCIER_API fcError fcShort4Array_syncToOCL(fcShort4Array* self);
+FANCIER_API fcError fcShort4Array_syncToHost(fcShort4Array* self);
+FANCIER_API fcError fcShort4Array_syncToDevice(fcShort4Array* self);
 FANCIER_API fcBool fcShort4Array_valid(const fcShort4Array* self);
 
 FANCIER_API fcShort8Array* fcShort8Array_getJava(JNIEnv* env, jobject obj);
@@ -764,8 +764,8 @@ FANCIER_API fcError fcShort8Array_setArray(fcShort8Array* self, fcInt len, const
 FANCIER_API fcError fcShort8Array_setCopy(fcShort8Array* self, const fcShort8Array* array);
 FANCIER_API fcError fcShort8Array_setBuffer(fcShort8Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcShort8Array_syncToNative(fcShort8Array* self);
-FANCIER_API fcError fcShort8Array_syncToOCL(fcShort8Array* self);
+FANCIER_API fcError fcShort8Array_syncToHost(fcShort8Array* self);
+FANCIER_API fcError fcShort8Array_syncToDevice(fcShort8Array* self);
 FANCIER_API fcBool fcShort8Array_valid(const fcShort8Array* self);
 
 FANCIER_API fcInt2Array* fcInt2Array_getJava(JNIEnv* env, jobject obj);
@@ -785,8 +785,8 @@ FANCIER_API fcError fcInt2Array_setArray(fcInt2Array* self, fcInt len, const fcI
 FANCIER_API fcError fcInt2Array_setCopy(fcInt2Array* self, const fcInt2Array* array);
 FANCIER_API fcError fcInt2Array_setBuffer(fcInt2Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcInt2Array_syncToNative(fcInt2Array* self);
-FANCIER_API fcError fcInt2Array_syncToOCL(fcInt2Array* self);
+FANCIER_API fcError fcInt2Array_syncToHost(fcInt2Array* self);
+FANCIER_API fcError fcInt2Array_syncToDevice(fcInt2Array* self);
 FANCIER_API fcBool fcInt2Array_valid(const fcInt2Array* self);
 
 FANCIER_API fcInt3Array* fcInt3Array_getJava(JNIEnv* env, jobject obj);
@@ -806,8 +806,8 @@ FANCIER_API fcError fcInt3Array_setArray(fcInt3Array* self, fcInt len, const fcI
 FANCIER_API fcError fcInt3Array_setCopy(fcInt3Array* self, const fcInt3Array* array);
 FANCIER_API fcError fcInt3Array_setBuffer(fcInt3Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcInt3Array_syncToNative(fcInt3Array* self);
-FANCIER_API fcError fcInt3Array_syncToOCL(fcInt3Array* self);
+FANCIER_API fcError fcInt3Array_syncToHost(fcInt3Array* self);
+FANCIER_API fcError fcInt3Array_syncToDevice(fcInt3Array* self);
 FANCIER_API fcBool fcInt3Array_valid(const fcInt3Array* self);
 
 FANCIER_API fcInt4Array* fcInt4Array_getJava(JNIEnv* env, jobject obj);
@@ -827,8 +827,8 @@ FANCIER_API fcError fcInt4Array_setArray(fcInt4Array* self, fcInt len, const fcI
 FANCIER_API fcError fcInt4Array_setCopy(fcInt4Array* self, const fcInt4Array* array);
 FANCIER_API fcError fcInt4Array_setBuffer(fcInt4Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcInt4Array_syncToNative(fcInt4Array* self);
-FANCIER_API fcError fcInt4Array_syncToOCL(fcInt4Array* self);
+FANCIER_API fcError fcInt4Array_syncToHost(fcInt4Array* self);
+FANCIER_API fcError fcInt4Array_syncToDevice(fcInt4Array* self);
 FANCIER_API fcBool fcInt4Array_valid(const fcInt4Array* self);
 
 FANCIER_API fcInt8Array* fcInt8Array_getJava(JNIEnv* env, jobject obj);
@@ -848,8 +848,8 @@ FANCIER_API fcError fcInt8Array_setArray(fcInt8Array* self, fcInt len, const fcI
 FANCIER_API fcError fcInt8Array_setCopy(fcInt8Array* self, const fcInt8Array* array);
 FANCIER_API fcError fcInt8Array_setBuffer(fcInt8Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcInt8Array_syncToNative(fcInt8Array* self);
-FANCIER_API fcError fcInt8Array_syncToOCL(fcInt8Array* self);
+FANCIER_API fcError fcInt8Array_syncToHost(fcInt8Array* self);
+FANCIER_API fcError fcInt8Array_syncToDevice(fcInt8Array* self);
 FANCIER_API fcBool fcInt8Array_valid(const fcInt8Array* self);
 
 FANCIER_API fcLong2Array* fcLong2Array_getJava(JNIEnv* env, jobject obj);
@@ -869,8 +869,8 @@ FANCIER_API fcError fcLong2Array_setArray(fcLong2Array* self, fcInt len, const f
 FANCIER_API fcError fcLong2Array_setCopy(fcLong2Array* self, const fcLong2Array* array);
 FANCIER_API fcError fcLong2Array_setBuffer(fcLong2Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcLong2Array_syncToNative(fcLong2Array* self);
-FANCIER_API fcError fcLong2Array_syncToOCL(fcLong2Array* self);
+FANCIER_API fcError fcLong2Array_syncToHost(fcLong2Array* self);
+FANCIER_API fcError fcLong2Array_syncToDevice(fcLong2Array* self);
 FANCIER_API fcBool fcLong2Array_valid(const fcLong2Array* self);
 
 FANCIER_API fcLong3Array* fcLong3Array_getJava(JNIEnv* env, jobject obj);
@@ -890,8 +890,8 @@ FANCIER_API fcError fcLong3Array_setArray(fcLong3Array* self, fcInt len, const f
 FANCIER_API fcError fcLong3Array_setCopy(fcLong3Array* self, const fcLong3Array* array);
 FANCIER_API fcError fcLong3Array_setBuffer(fcLong3Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcLong3Array_syncToNative(fcLong3Array* self);
-FANCIER_API fcError fcLong3Array_syncToOCL(fcLong3Array* self);
+FANCIER_API fcError fcLong3Array_syncToHost(fcLong3Array* self);
+FANCIER_API fcError fcLong3Array_syncToDevice(fcLong3Array* self);
 FANCIER_API fcBool fcLong3Array_valid(const fcLong3Array* self);
 
 FANCIER_API fcLong4Array* fcLong4Array_getJava(JNIEnv* env, jobject obj);
@@ -911,8 +911,8 @@ FANCIER_API fcError fcLong4Array_setArray(fcLong4Array* self, fcInt len, const f
 FANCIER_API fcError fcLong4Array_setCopy(fcLong4Array* self, const fcLong4Array* array);
 FANCIER_API fcError fcLong4Array_setBuffer(fcLong4Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcLong4Array_syncToNative(fcLong4Array* self);
-FANCIER_API fcError fcLong4Array_syncToOCL(fcLong4Array* self);
+FANCIER_API fcError fcLong4Array_syncToHost(fcLong4Array* self);
+FANCIER_API fcError fcLong4Array_syncToDevice(fcLong4Array* self);
 FANCIER_API fcBool fcLong4Array_valid(const fcLong4Array* self);
 
 FANCIER_API fcLong8Array* fcLong8Array_getJava(JNIEnv* env, jobject obj);
@@ -932,8 +932,8 @@ FANCIER_API fcError fcLong8Array_setArray(fcLong8Array* self, fcInt len, const f
 FANCIER_API fcError fcLong8Array_setCopy(fcLong8Array* self, const fcLong8Array* array);
 FANCIER_API fcError fcLong8Array_setBuffer(fcLong8Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcLong8Array_syncToNative(fcLong8Array* self);
-FANCIER_API fcError fcLong8Array_syncToOCL(fcLong8Array* self);
+FANCIER_API fcError fcLong8Array_syncToHost(fcLong8Array* self);
+FANCIER_API fcError fcLong8Array_syncToDevice(fcLong8Array* self);
 FANCIER_API fcBool fcLong8Array_valid(const fcLong8Array* self);
 
 FANCIER_API fcFloat2Array* fcFloat2Array_getJava(JNIEnv* env, jobject obj);
@@ -953,8 +953,8 @@ FANCIER_API fcError fcFloat2Array_setArray(fcFloat2Array* self, fcInt len, const
 FANCIER_API fcError fcFloat2Array_setCopy(fcFloat2Array* self, const fcFloat2Array* array);
 FANCIER_API fcError fcFloat2Array_setBuffer(fcFloat2Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcFloat2Array_syncToNative(fcFloat2Array* self);
-FANCIER_API fcError fcFloat2Array_syncToOCL(fcFloat2Array* self);
+FANCIER_API fcError fcFloat2Array_syncToHost(fcFloat2Array* self);
+FANCIER_API fcError fcFloat2Array_syncToDevice(fcFloat2Array* self);
 FANCIER_API fcBool fcFloat2Array_valid(const fcFloat2Array* self);
 
 FANCIER_API fcFloat3Array* fcFloat3Array_getJava(JNIEnv* env, jobject obj);
@@ -974,8 +974,8 @@ FANCIER_API fcError fcFloat3Array_setArray(fcFloat3Array* self, fcInt len, const
 FANCIER_API fcError fcFloat3Array_setCopy(fcFloat3Array* self, const fcFloat3Array* array);
 FANCIER_API fcError fcFloat3Array_setBuffer(fcFloat3Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcFloat3Array_syncToNative(fcFloat3Array* self);
-FANCIER_API fcError fcFloat3Array_syncToOCL(fcFloat3Array* self);
+FANCIER_API fcError fcFloat3Array_syncToHost(fcFloat3Array* self);
+FANCIER_API fcError fcFloat3Array_syncToDevice(fcFloat3Array* self);
 FANCIER_API fcBool fcFloat3Array_valid(const fcFloat3Array* self);
 
 FANCIER_API fcFloat4Array* fcFloat4Array_getJava(JNIEnv* env, jobject obj);
@@ -995,8 +995,8 @@ FANCIER_API fcError fcFloat4Array_setArray(fcFloat4Array* self, fcInt len, const
 FANCIER_API fcError fcFloat4Array_setCopy(fcFloat4Array* self, const fcFloat4Array* array);
 FANCIER_API fcError fcFloat4Array_setBuffer(fcFloat4Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcFloat4Array_syncToNative(fcFloat4Array* self);
-FANCIER_API fcError fcFloat4Array_syncToOCL(fcFloat4Array* self);
+FANCIER_API fcError fcFloat4Array_syncToHost(fcFloat4Array* self);
+FANCIER_API fcError fcFloat4Array_syncToDevice(fcFloat4Array* self);
 FANCIER_API fcBool fcFloat4Array_valid(const fcFloat4Array* self);
 
 FANCIER_API fcFloat8Array* fcFloat8Array_getJava(JNIEnv* env, jobject obj);
@@ -1016,8 +1016,8 @@ FANCIER_API fcError fcFloat8Array_setArray(fcFloat8Array* self, fcInt len, const
 FANCIER_API fcError fcFloat8Array_setCopy(fcFloat8Array* self, const fcFloat8Array* array);
 FANCIER_API fcError fcFloat8Array_setBuffer(fcFloat8Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcFloat8Array_syncToNative(fcFloat8Array* self);
-FANCIER_API fcError fcFloat8Array_syncToOCL(fcFloat8Array* self);
+FANCIER_API fcError fcFloat8Array_syncToHost(fcFloat8Array* self);
+FANCIER_API fcError fcFloat8Array_syncToDevice(fcFloat8Array* self);
 FANCIER_API fcBool fcFloat8Array_valid(const fcFloat8Array* self);
 
 FANCIER_API fcDouble2Array* fcDouble2Array_getJava(JNIEnv* env, jobject obj);
@@ -1037,8 +1037,8 @@ FANCIER_API fcError fcDouble2Array_setArray(fcDouble2Array* self, fcInt len, con
 FANCIER_API fcError fcDouble2Array_setCopy(fcDouble2Array* self, const fcDouble2Array* array);
 FANCIER_API fcError fcDouble2Array_setBuffer(fcDouble2Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcDouble2Array_syncToNative(fcDouble2Array* self);
-FANCIER_API fcError fcDouble2Array_syncToOCL(fcDouble2Array* self);
+FANCIER_API fcError fcDouble2Array_syncToHost(fcDouble2Array* self);
+FANCIER_API fcError fcDouble2Array_syncToDevice(fcDouble2Array* self);
 FANCIER_API fcBool fcDouble2Array_valid(const fcDouble2Array* self);
 
 FANCIER_API fcDouble3Array* fcDouble3Array_getJava(JNIEnv* env, jobject obj);
@@ -1058,8 +1058,8 @@ FANCIER_API fcError fcDouble3Array_setArray(fcDouble3Array* self, fcInt len, con
 FANCIER_API fcError fcDouble3Array_setCopy(fcDouble3Array* self, const fcDouble3Array* array);
 FANCIER_API fcError fcDouble3Array_setBuffer(fcDouble3Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcDouble3Array_syncToNative(fcDouble3Array* self);
-FANCIER_API fcError fcDouble3Array_syncToOCL(fcDouble3Array* self);
+FANCIER_API fcError fcDouble3Array_syncToHost(fcDouble3Array* self);
+FANCIER_API fcError fcDouble3Array_syncToDevice(fcDouble3Array* self);
 FANCIER_API fcBool fcDouble3Array_valid(const fcDouble3Array* self);
 
 FANCIER_API fcDouble4Array* fcDouble4Array_getJava(JNIEnv* env, jobject obj);
@@ -1079,8 +1079,8 @@ FANCIER_API fcError fcDouble4Array_setArray(fcDouble4Array* self, fcInt len, con
 FANCIER_API fcError fcDouble4Array_setCopy(fcDouble4Array* self, const fcDouble4Array* array);
 FANCIER_API fcError fcDouble4Array_setBuffer(fcDouble4Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcDouble4Array_syncToNative(fcDouble4Array* self);
-FANCIER_API fcError fcDouble4Array_syncToOCL(fcDouble4Array* self);
+FANCIER_API fcError fcDouble4Array_syncToHost(fcDouble4Array* self);
+FANCIER_API fcError fcDouble4Array_syncToDevice(fcDouble4Array* self);
 FANCIER_API fcBool fcDouble4Array_valid(const fcDouble4Array* self);
 
 FANCIER_API fcDouble8Array* fcDouble8Array_getJava(JNIEnv* env, jobject obj);
@@ -1100,8 +1100,8 @@ FANCIER_API fcError fcDouble8Array_setArray(fcDouble8Array* self, fcInt len, con
 FANCIER_API fcError fcDouble8Array_setCopy(fcDouble8Array* self, const fcDouble8Array* array);
 FANCIER_API fcError fcDouble8Array_setBuffer(fcDouble8Array* self, fcLong len, const void* v);
 
-FANCIER_API fcError fcDouble8Array_syncToNative(fcDouble8Array* self);
-FANCIER_API fcError fcDouble8Array_syncToOCL(fcDouble8Array* self);
+FANCIER_API fcError fcDouble8Array_syncToHost(fcDouble8Array* self);
+FANCIER_API fcError fcDouble8Array_syncToDevice(fcDouble8Array* self);
 FANCIER_API fcBool fcDouble8Array_valid(const fcDouble8Array* self);
 
 #endif  // _FANCIER_VECTOR_ARRAY_H_

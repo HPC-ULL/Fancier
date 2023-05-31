@@ -25,7 +25,7 @@ public class VectorArrayTest implements RuntimeTest {
 
             for (int i = 0; i < n; ++i) { f0.set(i, new Float3(1.0f * i, 1.5f * i, 2.0f * i)); }
 
-            f0.syncToNative();
+            f0.syncToHost();
 
             for (int i = 0; i < n; ++i) {
                 if (Int3.any(Float3.isNotEqual(f0.get(i), new Float3(1.0f * i, 1.5f * i, 2.0f * i))) != 0)
@@ -33,7 +33,7 @@ public class VectorArrayTest implements RuntimeTest {
             }
 
             // Automatic sync-to-native test
-            f0.syncToOCL();
+            f0.syncToDevice();
 
             float[] f0Array = f0.getArray();
             ByteBuffer f0Buffer = f0.getBuffer();

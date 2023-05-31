@@ -161,6 +161,6 @@ public class RGBAImage implements AutoCloseable {
   @Translatable
   public native int getHeight();
 
-  public native void syncToNative();
-  public native void syncToOCL();
+  public native void syncToHost();
+  public native void syncToDevice();
 }

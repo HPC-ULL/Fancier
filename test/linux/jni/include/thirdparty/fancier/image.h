@@ -70,8 +70,8 @@ FANCIER_API fcError fcRGBAImage_setPixels(fcRGBAImage* self, fcInt width, fcInt 
 FANCIER_API fcError fcRGBAImage_setPixelsChangeBGRA(fcRGBAImage* self, fcInt width, fcInt height, fcInt* pixels);
 FANCIER_API fcError fcRGBAImage_setPixelsCopy(fcRGBAImage* self, const fcRGBAImage* image);
 
-FANCIER_API fcError fcRGBAImage_syncToNative(fcRGBAImage* self);
-FANCIER_API fcError fcRGBAImage_syncToOCL(fcRGBAImage* self);
+FANCIER_API fcError fcRGBAImage_syncToHost(fcRGBAImage* self);
+FANCIER_API fcError fcRGBAImage_syncToDevice(fcRGBAImage* self);
 FANCIER_API fcBool fcRGBAImage_valid(const fcRGBAImage* self);
 
 #ifdef __ANDROID__

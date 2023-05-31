@@ -32,7 +32,7 @@ static const double x[] = {1.0, 2.5, 4.0};
 static int process(fcDoubleArray* array) {
   cl_int err;
 
-  err = fcDoubleArray_syncToOCL(array);
+  err = fcDoubleArray_syncToDevice(array);
   if (err)
     return err;
 
@@ -73,8 +73,8 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_ArrayTest_nativeRun(JNIEnv* env, jo
   if (s0->len != n)
     return JNI_FALSE;
 
-  err = fcShortArray_syncToNative(s0);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShortArray_syncToNative", JNI_FALSE);
+  err = fcShortArray_syncToHost(s0);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShortArray_syncToHost", JNI_FALSE);
 
   for (int i = 0; i < n; ++i) {
     s0->c[i] = (short) (i * 2);
@@ -86,10 +86,10 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_ArrayTest_nativeRun(JNIEnv* env, jo
       return JNI_FALSE;
   }
 
-  err = fcShortArray_syncToOCL(s0);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShortArray_syncToOCL", JNI_FALSE);
-  err = fcShortArray_syncToNative(s0);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShortArray_syncToNative", JNI_FALSE);
+  err = fcShortArray_syncToDevice(s0);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShortArray_syncToDevice", JNI_FALSE);
+  err = fcShortArray_syncToHost(s0);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShortArray_syncToHost", JNI_FALSE);
 
   short s0_[n];
   for (int i = 0; i < n; ++i) {
@@ -98,8 +98,8 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_ArrayTest_nativeRun(JNIEnv* env, jo
 
   err = fcShortArray_setArray(s0, n, s0_);
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShortArray_setContents", JNI_FALSE);
-  err = fcShortArray_syncToNative(s0); // Just in case... This doesn't add much overhead
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShortArray_syncToNative", JNI_FALSE);
+  err = fcShortArray_syncToHost(s0); // Just in case... This doesn't add much overhead
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShortArray_syncToHost", JNI_FALSE);
 
   for (int i = 0; i < n; ++i) {
     if (s0->c[i] != s0_[i])
@@ -114,8 +114,8 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_ArrayTest_nativeRun(JNIEnv* env, jo
   if (d0->len != d0_len)
     return JNI_FALSE;
 
-  err = fcDoubleArray_syncToNative(d0);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDoubleArray_syncToNative", JNI_FALSE);
+  err = fcDoubleArray_syncToHost(d0);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDoubleArray_syncToHost", JNI_FALSE);
 
   for (int i = 0; i < d0->len; ++i) {
     if (d0->c[i] != x[i])
@@ -126,8 +126,8 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_ArrayTest_nativeRun(JNIEnv* env, jo
   memcpy(d0_, d0->c, d0->len * sizeof(cl_double));
   err = process(d0);
   FC_EXCEPTION_HANDLE_ERROR(env, err, "process", JNI_FALSE);
-  err = fcDoubleArray_syncToNative(d0);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDoubleArray_syncToNative", JNI_FALSE);
+  err = fcDoubleArray_syncToHost(d0);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDoubleArray_syncToHost", JNI_FALSE);
 
   for (int i = 0; i < d0->len; ++i) {
     if (d0->c[i] != d0_[i] * 2)
@@ -141,10 +141,10 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_ArrayTest_nativeRun(JNIEnv* env, jo
   if (d1->len != d0->len)
     return JNI_FALSE;
 
-  err = fcDoubleArray_syncToNative(d0);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDoubleArray_syncToNative", JNI_FALSE);
-  err = fcDoubleArray_syncToNative(d1);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDoubleArray_syncToNative", JNI_FALSE);
+  err = fcDoubleArray_syncToHost(d0);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDoubleArray_syncToHost", JNI_FALSE);
+  err = fcDoubleArray_syncToHost(d1);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDoubleArray_syncToHost", JNI_FALSE);
 
   for (int i = 0; i < d0->len; ++i) {
     if (d0->c[i] != d1->c[i])
@@ -175,8 +175,8 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_ArrayTest_nativeProcess(JNIEnv* env
   FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcDoubleArray_getJava",
                            FC_VOID_EXPR);
 
-  err = fcDoubleArray_syncToOCL(array);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDoubleArray_syncToOCL", FC_VOID_EXPR);
+  err = fcDoubleArray_syncToDevice(array);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDoubleArray_syncToDevice", FC_VOID_EXPR);
 
   // Kernel compilation
   cl_program program = fcOpenCL_compileKernel(1, &kernel_src, &err);
@@ -193,7 +193,7 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_ArrayTest_nativeProcess(JNIEnv* env
       clEnqueueNDRangeKernel(fcOpenCL_rt.queue, kernel, 1, NULL, &array->len, NULL, 0, NULL, NULL);
   FC_EXCEPTION_HANDLE_ERROR(env, err, "clEnqueueNDRangeKernel", FC_VOID_EXPR);
 
-  fcDoubleArray_syncToNative(array);
+  fcDoubleArray_syncToHost(array);
 
   // Memory release
   clReleaseKernel(kernel);

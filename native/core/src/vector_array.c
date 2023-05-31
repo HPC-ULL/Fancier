@@ -392,8 +392,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Byte2Array_getArray(JNIEnv* env, jobjec
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByte2Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcByte2Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte2Array_syncToNative", NULL);
+  jint err = fcByte2Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte2Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jbyteArray __tmp_ret = FC_JNI_CALL(env, NewByteArray, self->len * 2);
@@ -456,8 +456,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Byte2Array_getBufferImpl(JNIEnv* env, j
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByte2Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcByte2Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte2Array_syncToNative", NULL);
+  jint err = fcByte2Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte2Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcByte2));
@@ -480,21 +480,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Byte2Array_setBuffer(JNIEnv* env, jobje
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Byte2Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Byte2Array_syncToHost(JNIEnv* env, jobject obj) {
   fcByte2Array* self = fcByte2Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByte2Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcByte2Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte2Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcByte2Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte2Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Byte2Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Byte2Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcByte2Array* self = fcByte2Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByte2Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcByte2Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte2Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcByte2Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte2Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -673,7 +673,7 @@ fcByte2 fcByte2Array_get(fcByte2Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcByte2Array_syncToNative(self);
+  *err = fcByte2Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -684,7 +684,7 @@ fcError fcByte2Array_set(fcByte2Array* self, fcInt i, fcByte2 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcByte2Array_syncToNative(self);
+  fcError err = fcByte2Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -704,7 +704,7 @@ fcError fcByte2Array_setArray(fcByte2Array* self, fcInt len, const fcByte* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcByte2Array_syncToNative(self);
+  err = fcByte2Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -753,13 +753,13 @@ fcError fcByte2Array_setBuffer(fcByte2Array* self, fcLong len, const void* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcByte2Array_syncToNative(self);
+  fcError err = fcByte2Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcByte2Array_syncToNative(fcByte2Array* self) {
+fcError fcByte2Array_syncToHost(fcByte2Array* self) {
   if (!fcByte2Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -774,7 +774,7 @@ fcError fcByte2Array_syncToNative(fcByte2Array* self) {
   return err;
 }
 
-fcError fcByte2Array_syncToOCL(fcByte2Array* self) {
+fcError fcByte2Array_syncToDevice(fcByte2Array* self) {
   if (!fcByte2Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -932,8 +932,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Byte3Array_getArray(JNIEnv* env, jobjec
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByte3Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcByte3Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte3Array_syncToNative", NULL);
+  jint err = fcByte3Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte3Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jbyteArray __tmp_ret = FC_JNI_CALL(env, NewByteArray, self->len * 3);
@@ -996,8 +996,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Byte3Array_getBufferImpl(JNIEnv* env, j
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByte3Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcByte3Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte3Array_syncToNative", NULL);
+  jint err = fcByte3Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte3Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcByte3));
@@ -1020,21 +1020,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Byte3Array_setBuffer(JNIEnv* env, jobje
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Byte3Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Byte3Array_syncToHost(JNIEnv* env, jobject obj) {
   fcByte3Array* self = fcByte3Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByte3Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcByte3Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte3Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcByte3Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte3Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Byte3Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Byte3Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcByte3Array* self = fcByte3Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByte3Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcByte3Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte3Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcByte3Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte3Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -1213,7 +1213,7 @@ fcByte3 fcByte3Array_get(fcByte3Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcByte3Array_syncToNative(self);
+  *err = fcByte3Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -1224,7 +1224,7 @@ fcError fcByte3Array_set(fcByte3Array* self, fcInt i, fcByte3 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcByte3Array_syncToNative(self);
+  fcError err = fcByte3Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -1244,7 +1244,7 @@ fcError fcByte3Array_setArray(fcByte3Array* self, fcInt len, const fcByte* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcByte3Array_syncToNative(self);
+  err = fcByte3Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -1293,13 +1293,13 @@ fcError fcByte3Array_setBuffer(fcByte3Array* self, fcLong len, const void* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcByte3Array_syncToNative(self);
+  fcError err = fcByte3Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcByte3Array_syncToNative(fcByte3Array* self) {
+fcError fcByte3Array_syncToHost(fcByte3Array* self) {
   if (!fcByte3Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -1314,7 +1314,7 @@ fcError fcByte3Array_syncToNative(fcByte3Array* self) {
   return err;
 }
 
-fcError fcByte3Array_syncToOCL(fcByte3Array* self) {
+fcError fcByte3Array_syncToDevice(fcByte3Array* self) {
   if (!fcByte3Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -1472,8 +1472,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Byte4Array_getArray(JNIEnv* env, jobjec
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByte4Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcByte4Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte4Array_syncToNative", NULL);
+  jint err = fcByte4Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte4Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jbyteArray __tmp_ret = FC_JNI_CALL(env, NewByteArray, self->len * 4);
@@ -1536,8 +1536,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Byte4Array_getBufferImpl(JNIEnv* env, j
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByte4Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcByte4Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte4Array_syncToNative", NULL);
+  jint err = fcByte4Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte4Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcByte4));
@@ -1560,21 +1560,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Byte4Array_setBuffer(JNIEnv* env, jobje
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Byte4Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Byte4Array_syncToHost(JNIEnv* env, jobject obj) {
   fcByte4Array* self = fcByte4Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByte4Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcByte4Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte4Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcByte4Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte4Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Byte4Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Byte4Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcByte4Array* self = fcByte4Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByte4Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcByte4Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte4Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcByte4Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte4Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -1753,7 +1753,7 @@ fcByte4 fcByte4Array_get(fcByte4Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcByte4Array_syncToNative(self);
+  *err = fcByte4Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -1764,7 +1764,7 @@ fcError fcByte4Array_set(fcByte4Array* self, fcInt i, fcByte4 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcByte4Array_syncToNative(self);
+  fcError err = fcByte4Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -1784,7 +1784,7 @@ fcError fcByte4Array_setArray(fcByte4Array* self, fcInt len, const fcByte* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcByte4Array_syncToNative(self);
+  err = fcByte4Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -1833,13 +1833,13 @@ fcError fcByte4Array_setBuffer(fcByte4Array* self, fcLong len, const void* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcByte4Array_syncToNative(self);
+  fcError err = fcByte4Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcByte4Array_syncToNative(fcByte4Array* self) {
+fcError fcByte4Array_syncToHost(fcByte4Array* self) {
   if (!fcByte4Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -1854,7 +1854,7 @@ fcError fcByte4Array_syncToNative(fcByte4Array* self) {
   return err;
 }
 
-fcError fcByte4Array_syncToOCL(fcByte4Array* self) {
+fcError fcByte4Array_syncToDevice(fcByte4Array* self) {
   if (!fcByte4Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -2012,8 +2012,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Byte8Array_getArray(JNIEnv* env, jobjec
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByte8Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcByte8Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte8Array_syncToNative", NULL);
+  jint err = fcByte8Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte8Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jbyteArray __tmp_ret = FC_JNI_CALL(env, NewByteArray, self->len * 8);
@@ -2076,8 +2076,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Byte8Array_getBufferImpl(JNIEnv* env, j
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByte8Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcByte8Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte8Array_syncToNative", NULL);
+  jint err = fcByte8Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte8Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcByte8));
@@ -2100,21 +2100,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Byte8Array_setBuffer(JNIEnv* env, jobje
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Byte8Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Byte8Array_syncToHost(JNIEnv* env, jobject obj) {
   fcByte8Array* self = fcByte8Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByte8Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcByte8Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte8Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcByte8Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte8Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Byte8Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Byte8Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcByte8Array* self = fcByte8Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcByte8Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcByte8Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte8Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcByte8Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte8Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -2293,7 +2293,7 @@ fcByte8 fcByte8Array_get(fcByte8Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcByte8Array_syncToNative(self);
+  *err = fcByte8Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -2304,7 +2304,7 @@ fcError fcByte8Array_set(fcByte8Array* self, fcInt i, fcByte8 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcByte8Array_syncToNative(self);
+  fcError err = fcByte8Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -2324,7 +2324,7 @@ fcError fcByte8Array_setArray(fcByte8Array* self, fcInt len, const fcByte* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcByte8Array_syncToNative(self);
+  err = fcByte8Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -2373,13 +2373,13 @@ fcError fcByte8Array_setBuffer(fcByte8Array* self, fcLong len, const void* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcByte8Array_syncToNative(self);
+  fcError err = fcByte8Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcByte8Array_syncToNative(fcByte8Array* self) {
+fcError fcByte8Array_syncToHost(fcByte8Array* self) {
   if (!fcByte8Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -2394,7 +2394,7 @@ fcError fcByte8Array_syncToNative(fcByte8Array* self) {
   return err;
 }
 
-fcError fcByte8Array_syncToOCL(fcByte8Array* self) {
+fcError fcByte8Array_syncToDevice(fcByte8Array* self) {
   if (!fcByte8Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -2552,8 +2552,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Short2Array_getArray(JNIEnv* env, jobje
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShort2Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcShort2Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort2Array_syncToNative", NULL);
+  jint err = fcShort2Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort2Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jshortArray __tmp_ret = FC_JNI_CALL(env, NewShortArray, self->len * 2);
@@ -2616,8 +2616,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Short2Array_getBufferImpl(JNIEnv* env, 
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShort2Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcShort2Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort2Array_syncToNative", NULL);
+  jint err = fcShort2Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort2Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcShort2));
@@ -2640,21 +2640,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Short2Array_setBuffer(JNIEnv* env, jobj
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Short2Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Short2Array_syncToHost(JNIEnv* env, jobject obj) {
   fcShort2Array* self = fcShort2Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShort2Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcShort2Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort2Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcShort2Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort2Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Short2Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Short2Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcShort2Array* self = fcShort2Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShort2Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcShort2Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort2Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcShort2Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort2Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -2833,7 +2833,7 @@ fcShort2 fcShort2Array_get(fcShort2Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcShort2Array_syncToNative(self);
+  *err = fcShort2Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -2844,7 +2844,7 @@ fcError fcShort2Array_set(fcShort2Array* self, fcInt i, fcShort2 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcShort2Array_syncToNative(self);
+  fcError err = fcShort2Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -2864,7 +2864,7 @@ fcError fcShort2Array_setArray(fcShort2Array* self, fcInt len, const fcShort* v)
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcShort2Array_syncToNative(self);
+  err = fcShort2Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -2913,13 +2913,13 @@ fcError fcShort2Array_setBuffer(fcShort2Array* self, fcLong len, const void* v) 
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcShort2Array_syncToNative(self);
+  fcError err = fcShort2Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcShort2Array_syncToNative(fcShort2Array* self) {
+fcError fcShort2Array_syncToHost(fcShort2Array* self) {
   if (!fcShort2Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -2934,7 +2934,7 @@ fcError fcShort2Array_syncToNative(fcShort2Array* self) {
   return err;
 }
 
-fcError fcShort2Array_syncToOCL(fcShort2Array* self) {
+fcError fcShort2Array_syncToDevice(fcShort2Array* self) {
   if (!fcShort2Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -3092,8 +3092,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Short3Array_getArray(JNIEnv* env, jobje
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShort3Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcShort3Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort3Array_syncToNative", NULL);
+  jint err = fcShort3Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort3Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jshortArray __tmp_ret = FC_JNI_CALL(env, NewShortArray, self->len * 3);
@@ -3156,8 +3156,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Short3Array_getBufferImpl(JNIEnv* env, 
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShort3Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcShort3Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort3Array_syncToNative", NULL);
+  jint err = fcShort3Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort3Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcShort3));
@@ -3180,21 +3180,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Short3Array_setBuffer(JNIEnv* env, jobj
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Short3Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Short3Array_syncToHost(JNIEnv* env, jobject obj) {
   fcShort3Array* self = fcShort3Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShort3Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcShort3Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort3Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcShort3Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort3Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Short3Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Short3Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcShort3Array* self = fcShort3Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShort3Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcShort3Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort3Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcShort3Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort3Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -3373,7 +3373,7 @@ fcShort3 fcShort3Array_get(fcShort3Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcShort3Array_syncToNative(self);
+  *err = fcShort3Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -3384,7 +3384,7 @@ fcError fcShort3Array_set(fcShort3Array* self, fcInt i, fcShort3 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcShort3Array_syncToNative(self);
+  fcError err = fcShort3Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -3404,7 +3404,7 @@ fcError fcShort3Array_setArray(fcShort3Array* self, fcInt len, const fcShort* v)
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcShort3Array_syncToNative(self);
+  err = fcShort3Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -3453,13 +3453,13 @@ fcError fcShort3Array_setBuffer(fcShort3Array* self, fcLong len, const void* v) 
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcShort3Array_syncToNative(self);
+  fcError err = fcShort3Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcShort3Array_syncToNative(fcShort3Array* self) {
+fcError fcShort3Array_syncToHost(fcShort3Array* self) {
   if (!fcShort3Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -3474,7 +3474,7 @@ fcError fcShort3Array_syncToNative(fcShort3Array* self) {
   return err;
 }
 
-fcError fcShort3Array_syncToOCL(fcShort3Array* self) {
+fcError fcShort3Array_syncToDevice(fcShort3Array* self) {
   if (!fcShort3Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -3632,8 +3632,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Short4Array_getArray(JNIEnv* env, jobje
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShort4Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcShort4Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort4Array_syncToNative", NULL);
+  jint err = fcShort4Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort4Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jshortArray __tmp_ret = FC_JNI_CALL(env, NewShortArray, self->len * 4);
@@ -3696,8 +3696,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Short4Array_getBufferImpl(JNIEnv* env, 
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShort4Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcShort4Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort4Array_syncToNative", NULL);
+  jint err = fcShort4Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort4Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcShort4));
@@ -3720,21 +3720,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Short4Array_setBuffer(JNIEnv* env, jobj
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Short4Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Short4Array_syncToHost(JNIEnv* env, jobject obj) {
   fcShort4Array* self = fcShort4Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShort4Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcShort4Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort4Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcShort4Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort4Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Short4Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Short4Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcShort4Array* self = fcShort4Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShort4Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcShort4Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort4Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcShort4Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort4Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -3913,7 +3913,7 @@ fcShort4 fcShort4Array_get(fcShort4Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcShort4Array_syncToNative(self);
+  *err = fcShort4Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -3924,7 +3924,7 @@ fcError fcShort4Array_set(fcShort4Array* self, fcInt i, fcShort4 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcShort4Array_syncToNative(self);
+  fcError err = fcShort4Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -3944,7 +3944,7 @@ fcError fcShort4Array_setArray(fcShort4Array* self, fcInt len, const fcShort* v)
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcShort4Array_syncToNative(self);
+  err = fcShort4Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -3993,13 +3993,13 @@ fcError fcShort4Array_setBuffer(fcShort4Array* self, fcLong len, const void* v) 
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcShort4Array_syncToNative(self);
+  fcError err = fcShort4Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcShort4Array_syncToNative(fcShort4Array* self) {
+fcError fcShort4Array_syncToHost(fcShort4Array* self) {
   if (!fcShort4Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -4014,7 +4014,7 @@ fcError fcShort4Array_syncToNative(fcShort4Array* self) {
   return err;
 }
 
-fcError fcShort4Array_syncToOCL(fcShort4Array* self) {
+fcError fcShort4Array_syncToDevice(fcShort4Array* self) {
   if (!fcShort4Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -4172,8 +4172,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Short8Array_getArray(JNIEnv* env, jobje
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShort8Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcShort8Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort8Array_syncToNative", NULL);
+  jint err = fcShort8Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort8Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jshortArray __tmp_ret = FC_JNI_CALL(env, NewShortArray, self->len * 8);
@@ -4236,8 +4236,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Short8Array_getBufferImpl(JNIEnv* env, 
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShort8Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcShort8Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort8Array_syncToNative", NULL);
+  jint err = fcShort8Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort8Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcShort8));
@@ -4260,21 +4260,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Short8Array_setBuffer(JNIEnv* env, jobj
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Short8Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Short8Array_syncToHost(JNIEnv* env, jobject obj) {
   fcShort8Array* self = fcShort8Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShort8Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcShort8Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort8Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcShort8Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort8Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Short8Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Short8Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcShort8Array* self = fcShort8Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcShort8Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcShort8Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort8Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcShort8Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcShort8Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -4453,7 +4453,7 @@ fcShort8 fcShort8Array_get(fcShort8Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcShort8Array_syncToNative(self);
+  *err = fcShort8Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -4464,7 +4464,7 @@ fcError fcShort8Array_set(fcShort8Array* self, fcInt i, fcShort8 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcShort8Array_syncToNative(self);
+  fcError err = fcShort8Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -4484,7 +4484,7 @@ fcError fcShort8Array_setArray(fcShort8Array* self, fcInt len, const fcShort* v)
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcShort8Array_syncToNative(self);
+  err = fcShort8Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -4533,13 +4533,13 @@ fcError fcShort8Array_setBuffer(fcShort8Array* self, fcLong len, const void* v) 
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcShort8Array_syncToNative(self);
+  fcError err = fcShort8Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcShort8Array_syncToNative(fcShort8Array* self) {
+fcError fcShort8Array_syncToHost(fcShort8Array* self) {
   if (!fcShort8Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -4554,7 +4554,7 @@ fcError fcShort8Array_syncToNative(fcShort8Array* self) {
   return err;
 }
 
-fcError fcShort8Array_syncToOCL(fcShort8Array* self) {
+fcError fcShort8Array_syncToDevice(fcShort8Array* self) {
   if (!fcShort8Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -4712,8 +4712,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Int2Array_getArray(JNIEnv* env, jobject
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcInt2Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcInt2Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt2Array_syncToNative", NULL);
+  jint err = fcInt2Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt2Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jintArray __tmp_ret = FC_JNI_CALL(env, NewIntArray, self->len * 2);
@@ -4776,8 +4776,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Int2Array_getBufferImpl(JNIEnv* env, jo
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcInt2Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcInt2Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt2Array_syncToNative", NULL);
+  jint err = fcInt2Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt2Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcInt2));
@@ -4800,21 +4800,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Int2Array_setBuffer(JNIEnv* env, jobjec
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Int2Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Int2Array_syncToHost(JNIEnv* env, jobject obj) {
   fcInt2Array* self = fcInt2Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcInt2Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcInt2Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt2Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcInt2Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt2Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Int2Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Int2Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcInt2Array* self = fcInt2Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcInt2Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcInt2Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt2Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcInt2Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt2Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -4993,7 +4993,7 @@ fcInt2 fcInt2Array_get(fcInt2Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcInt2Array_syncToNative(self);
+  *err = fcInt2Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -5004,7 +5004,7 @@ fcError fcInt2Array_set(fcInt2Array* self, fcInt i, fcInt2 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcInt2Array_syncToNative(self);
+  fcError err = fcInt2Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -5024,7 +5024,7 @@ fcError fcInt2Array_setArray(fcInt2Array* self, fcInt len, const fcInt* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcInt2Array_syncToNative(self);
+  err = fcInt2Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -5073,13 +5073,13 @@ fcError fcInt2Array_setBuffer(fcInt2Array* self, fcLong len, const void* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcInt2Array_syncToNative(self);
+  fcError err = fcInt2Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcInt2Array_syncToNative(fcInt2Array* self) {
+fcError fcInt2Array_syncToHost(fcInt2Array* self) {
   if (!fcInt2Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -5094,7 +5094,7 @@ fcError fcInt2Array_syncToNative(fcInt2Array* self) {
   return err;
 }
 
-fcError fcInt2Array_syncToOCL(fcInt2Array* self) {
+fcError fcInt2Array_syncToDevice(fcInt2Array* self) {
   if (!fcInt2Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -5252,8 +5252,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Int3Array_getArray(JNIEnv* env, jobject
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcInt3Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcInt3Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt3Array_syncToNative", NULL);
+  jint err = fcInt3Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt3Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jintArray __tmp_ret = FC_JNI_CALL(env, NewIntArray, self->len * 3);
@@ -5316,8 +5316,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Int3Array_getBufferImpl(JNIEnv* env, jo
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcInt3Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcInt3Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt3Array_syncToNative", NULL);
+  jint err = fcInt3Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt3Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcInt3));
@@ -5340,21 +5340,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Int3Array_setBuffer(JNIEnv* env, jobjec
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Int3Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Int3Array_syncToHost(JNIEnv* env, jobject obj) {
   fcInt3Array* self = fcInt3Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcInt3Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcInt3Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt3Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcInt3Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt3Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Int3Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Int3Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcInt3Array* self = fcInt3Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcInt3Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcInt3Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt3Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcInt3Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt3Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -5533,7 +5533,7 @@ fcInt3 fcInt3Array_get(fcInt3Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcInt3Array_syncToNative(self);
+  *err = fcInt3Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -5544,7 +5544,7 @@ fcError fcInt3Array_set(fcInt3Array* self, fcInt i, fcInt3 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcInt3Array_syncToNative(self);
+  fcError err = fcInt3Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -5564,7 +5564,7 @@ fcError fcInt3Array_setArray(fcInt3Array* self, fcInt len, const fcInt* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcInt3Array_syncToNative(self);
+  err = fcInt3Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -5613,13 +5613,13 @@ fcError fcInt3Array_setBuffer(fcInt3Array* self, fcLong len, const void* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcInt3Array_syncToNative(self);
+  fcError err = fcInt3Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcInt3Array_syncToNative(fcInt3Array* self) {
+fcError fcInt3Array_syncToHost(fcInt3Array* self) {
   if (!fcInt3Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -5634,7 +5634,7 @@ fcError fcInt3Array_syncToNative(fcInt3Array* self) {
   return err;
 }
 
-fcError fcInt3Array_syncToOCL(fcInt3Array* self) {
+fcError fcInt3Array_syncToDevice(fcInt3Array* self) {
   if (!fcInt3Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -5792,8 +5792,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Int4Array_getArray(JNIEnv* env, jobject
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcInt4Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcInt4Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt4Array_syncToNative", NULL);
+  jint err = fcInt4Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt4Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jintArray __tmp_ret = FC_JNI_CALL(env, NewIntArray, self->len * 4);
@@ -5856,8 +5856,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Int4Array_getBufferImpl(JNIEnv* env, jo
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcInt4Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcInt4Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt4Array_syncToNative", NULL);
+  jint err = fcInt4Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt4Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcInt4));
@@ -5880,21 +5880,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Int4Array_setBuffer(JNIEnv* env, jobjec
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Int4Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Int4Array_syncToHost(JNIEnv* env, jobject obj) {
   fcInt4Array* self = fcInt4Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcInt4Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcInt4Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt4Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcInt4Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt4Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Int4Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Int4Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcInt4Array* self = fcInt4Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcInt4Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcInt4Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt4Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcInt4Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt4Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -6073,7 +6073,7 @@ fcInt4 fcInt4Array_get(fcInt4Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcInt4Array_syncToNative(self);
+  *err = fcInt4Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -6084,7 +6084,7 @@ fcError fcInt4Array_set(fcInt4Array* self, fcInt i, fcInt4 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcInt4Array_syncToNative(self);
+  fcError err = fcInt4Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -6104,7 +6104,7 @@ fcError fcInt4Array_setArray(fcInt4Array* self, fcInt len, const fcInt* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcInt4Array_syncToNative(self);
+  err = fcInt4Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -6153,13 +6153,13 @@ fcError fcInt4Array_setBuffer(fcInt4Array* self, fcLong len, const void* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcInt4Array_syncToNative(self);
+  fcError err = fcInt4Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcInt4Array_syncToNative(fcInt4Array* self) {
+fcError fcInt4Array_syncToHost(fcInt4Array* self) {
   if (!fcInt4Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -6174,7 +6174,7 @@ fcError fcInt4Array_syncToNative(fcInt4Array* self) {
   return err;
 }
 
-fcError fcInt4Array_syncToOCL(fcInt4Array* self) {
+fcError fcInt4Array_syncToDevice(fcInt4Array* self) {
   if (!fcInt4Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -6332,8 +6332,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Int8Array_getArray(JNIEnv* env, jobject
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcInt8Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcInt8Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt8Array_syncToNative", NULL);
+  jint err = fcInt8Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt8Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jintArray __tmp_ret = FC_JNI_CALL(env, NewIntArray, self->len * 8);
@@ -6396,8 +6396,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Int8Array_getBufferImpl(JNIEnv* env, jo
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcInt8Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcInt8Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt8Array_syncToNative", NULL);
+  jint err = fcInt8Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt8Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcInt8));
@@ -6420,21 +6420,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Int8Array_setBuffer(JNIEnv* env, jobjec
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Int8Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Int8Array_syncToHost(JNIEnv* env, jobject obj) {
   fcInt8Array* self = fcInt8Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcInt8Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcInt8Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt8Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcInt8Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt8Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Int8Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Int8Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcInt8Array* self = fcInt8Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcInt8Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcInt8Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt8Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcInt8Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcInt8Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -6613,7 +6613,7 @@ fcInt8 fcInt8Array_get(fcInt8Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcInt8Array_syncToNative(self);
+  *err = fcInt8Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -6624,7 +6624,7 @@ fcError fcInt8Array_set(fcInt8Array* self, fcInt i, fcInt8 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcInt8Array_syncToNative(self);
+  fcError err = fcInt8Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -6644,7 +6644,7 @@ fcError fcInt8Array_setArray(fcInt8Array* self, fcInt len, const fcInt* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcInt8Array_syncToNative(self);
+  err = fcInt8Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -6693,13 +6693,13 @@ fcError fcInt8Array_setBuffer(fcInt8Array* self, fcLong len, const void* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcInt8Array_syncToNative(self);
+  fcError err = fcInt8Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcInt8Array_syncToNative(fcInt8Array* self) {
+fcError fcInt8Array_syncToHost(fcInt8Array* self) {
   if (!fcInt8Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -6714,7 +6714,7 @@ fcError fcInt8Array_syncToNative(fcInt8Array* self) {
   return err;
 }
 
-fcError fcInt8Array_syncToOCL(fcInt8Array* self) {
+fcError fcInt8Array_syncToDevice(fcInt8Array* self) {
   if (!fcInt8Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -6872,8 +6872,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Long2Array_getArray(JNIEnv* env, jobjec
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLong2Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcLong2Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong2Array_syncToNative", NULL);
+  jint err = fcLong2Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong2Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jlongArray __tmp_ret = FC_JNI_CALL(env, NewLongArray, self->len * 2);
@@ -6936,8 +6936,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Long2Array_getBufferImpl(JNIEnv* env, j
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLong2Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcLong2Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong2Array_syncToNative", NULL);
+  jint err = fcLong2Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong2Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcLong2));
@@ -6960,21 +6960,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Long2Array_setBuffer(JNIEnv* env, jobje
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Long2Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Long2Array_syncToHost(JNIEnv* env, jobject obj) {
   fcLong2Array* self = fcLong2Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLong2Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcLong2Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong2Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcLong2Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong2Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Long2Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Long2Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcLong2Array* self = fcLong2Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLong2Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcLong2Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong2Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcLong2Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong2Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -7153,7 +7153,7 @@ fcLong2 fcLong2Array_get(fcLong2Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcLong2Array_syncToNative(self);
+  *err = fcLong2Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -7164,7 +7164,7 @@ fcError fcLong2Array_set(fcLong2Array* self, fcInt i, fcLong2 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcLong2Array_syncToNative(self);
+  fcError err = fcLong2Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -7184,7 +7184,7 @@ fcError fcLong2Array_setArray(fcLong2Array* self, fcInt len, const fcLong* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcLong2Array_syncToNative(self);
+  err = fcLong2Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -7233,13 +7233,13 @@ fcError fcLong2Array_setBuffer(fcLong2Array* self, fcLong len, const void* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcLong2Array_syncToNative(self);
+  fcError err = fcLong2Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcLong2Array_syncToNative(fcLong2Array* self) {
+fcError fcLong2Array_syncToHost(fcLong2Array* self) {
   if (!fcLong2Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -7254,7 +7254,7 @@ fcError fcLong2Array_syncToNative(fcLong2Array* self) {
   return err;
 }
 
-fcError fcLong2Array_syncToOCL(fcLong2Array* self) {
+fcError fcLong2Array_syncToDevice(fcLong2Array* self) {
   if (!fcLong2Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -7412,8 +7412,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Long3Array_getArray(JNIEnv* env, jobjec
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLong3Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcLong3Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong3Array_syncToNative", NULL);
+  jint err = fcLong3Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong3Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jlongArray __tmp_ret = FC_JNI_CALL(env, NewLongArray, self->len * 3);
@@ -7476,8 +7476,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Long3Array_getBufferImpl(JNIEnv* env, j
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLong3Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcLong3Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong3Array_syncToNative", NULL);
+  jint err = fcLong3Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong3Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcLong3));
@@ -7500,21 +7500,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Long3Array_setBuffer(JNIEnv* env, jobje
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Long3Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Long3Array_syncToHost(JNIEnv* env, jobject obj) {
   fcLong3Array* self = fcLong3Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLong3Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcLong3Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong3Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcLong3Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong3Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Long3Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Long3Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcLong3Array* self = fcLong3Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLong3Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcLong3Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong3Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcLong3Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong3Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -7693,7 +7693,7 @@ fcLong3 fcLong3Array_get(fcLong3Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcLong3Array_syncToNative(self);
+  *err = fcLong3Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -7704,7 +7704,7 @@ fcError fcLong3Array_set(fcLong3Array* self, fcInt i, fcLong3 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcLong3Array_syncToNative(self);
+  fcError err = fcLong3Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -7724,7 +7724,7 @@ fcError fcLong3Array_setArray(fcLong3Array* self, fcInt len, const fcLong* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcLong3Array_syncToNative(self);
+  err = fcLong3Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -7773,13 +7773,13 @@ fcError fcLong3Array_setBuffer(fcLong3Array* self, fcLong len, const void* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcLong3Array_syncToNative(self);
+  fcError err = fcLong3Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcLong3Array_syncToNative(fcLong3Array* self) {
+fcError fcLong3Array_syncToHost(fcLong3Array* self) {
   if (!fcLong3Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -7794,7 +7794,7 @@ fcError fcLong3Array_syncToNative(fcLong3Array* self) {
   return err;
 }
 
-fcError fcLong3Array_syncToOCL(fcLong3Array* self) {
+fcError fcLong3Array_syncToDevice(fcLong3Array* self) {
   if (!fcLong3Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -7952,8 +7952,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Long4Array_getArray(JNIEnv* env, jobjec
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLong4Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcLong4Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong4Array_syncToNative", NULL);
+  jint err = fcLong4Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong4Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jlongArray __tmp_ret = FC_JNI_CALL(env, NewLongArray, self->len * 4);
@@ -8016,8 +8016,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Long4Array_getBufferImpl(JNIEnv* env, j
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLong4Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcLong4Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong4Array_syncToNative", NULL);
+  jint err = fcLong4Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong4Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcLong4));
@@ -8040,21 +8040,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Long4Array_setBuffer(JNIEnv* env, jobje
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Long4Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Long4Array_syncToHost(JNIEnv* env, jobject obj) {
   fcLong4Array* self = fcLong4Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLong4Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcLong4Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong4Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcLong4Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong4Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Long4Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Long4Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcLong4Array* self = fcLong4Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLong4Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcLong4Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong4Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcLong4Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong4Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -8233,7 +8233,7 @@ fcLong4 fcLong4Array_get(fcLong4Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcLong4Array_syncToNative(self);
+  *err = fcLong4Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -8244,7 +8244,7 @@ fcError fcLong4Array_set(fcLong4Array* self, fcInt i, fcLong4 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcLong4Array_syncToNative(self);
+  fcError err = fcLong4Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -8264,7 +8264,7 @@ fcError fcLong4Array_setArray(fcLong4Array* self, fcInt len, const fcLong* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcLong4Array_syncToNative(self);
+  err = fcLong4Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -8313,13 +8313,13 @@ fcError fcLong4Array_setBuffer(fcLong4Array* self, fcLong len, const void* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcLong4Array_syncToNative(self);
+  fcError err = fcLong4Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcLong4Array_syncToNative(fcLong4Array* self) {
+fcError fcLong4Array_syncToHost(fcLong4Array* self) {
   if (!fcLong4Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -8334,7 +8334,7 @@ fcError fcLong4Array_syncToNative(fcLong4Array* self) {
   return err;
 }
 
-fcError fcLong4Array_syncToOCL(fcLong4Array* self) {
+fcError fcLong4Array_syncToDevice(fcLong4Array* self) {
   if (!fcLong4Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -8492,8 +8492,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Long8Array_getArray(JNIEnv* env, jobjec
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLong8Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcLong8Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong8Array_syncToNative", NULL);
+  jint err = fcLong8Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong8Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jlongArray __tmp_ret = FC_JNI_CALL(env, NewLongArray, self->len * 8);
@@ -8556,8 +8556,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Long8Array_getBufferImpl(JNIEnv* env, j
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLong8Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcLong8Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong8Array_syncToNative", NULL);
+  jint err = fcLong8Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong8Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcLong8));
@@ -8580,21 +8580,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Long8Array_setBuffer(JNIEnv* env, jobje
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Long8Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Long8Array_syncToHost(JNIEnv* env, jobject obj) {
   fcLong8Array* self = fcLong8Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLong8Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcLong8Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong8Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcLong8Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong8Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Long8Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Long8Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcLong8Array* self = fcLong8Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcLong8Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcLong8Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong8Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcLong8Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcLong8Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -8773,7 +8773,7 @@ fcLong8 fcLong8Array_get(fcLong8Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcLong8Array_syncToNative(self);
+  *err = fcLong8Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -8784,7 +8784,7 @@ fcError fcLong8Array_set(fcLong8Array* self, fcInt i, fcLong8 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcLong8Array_syncToNative(self);
+  fcError err = fcLong8Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -8804,7 +8804,7 @@ fcError fcLong8Array_setArray(fcLong8Array* self, fcInt len, const fcLong* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcLong8Array_syncToNative(self);
+  err = fcLong8Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -8853,13 +8853,13 @@ fcError fcLong8Array_setBuffer(fcLong8Array* self, fcLong len, const void* v) {
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcLong8Array_syncToNative(self);
+  fcError err = fcLong8Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcLong8Array_syncToNative(fcLong8Array* self) {
+fcError fcLong8Array_syncToHost(fcLong8Array* self) {
   if (!fcLong8Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -8874,7 +8874,7 @@ fcError fcLong8Array_syncToNative(fcLong8Array* self) {
   return err;
 }
 
-fcError fcLong8Array_syncToOCL(fcLong8Array* self) {
+fcError fcLong8Array_syncToDevice(fcLong8Array* self) {
   if (!fcLong8Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -9032,8 +9032,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Float2Array_getArray(JNIEnv* env, jobje
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloat2Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcFloat2Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat2Array_syncToNative", NULL);
+  jint err = fcFloat2Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat2Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jfloatArray __tmp_ret = FC_JNI_CALL(env, NewFloatArray, self->len * 2);
@@ -9096,8 +9096,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Float2Array_getBufferImpl(JNIEnv* env, 
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloat2Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcFloat2Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat2Array_syncToNative", NULL);
+  jint err = fcFloat2Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat2Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcFloat2));
@@ -9120,21 +9120,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Float2Array_setBuffer(JNIEnv* env, jobj
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Float2Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Float2Array_syncToHost(JNIEnv* env, jobject obj) {
   fcFloat2Array* self = fcFloat2Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloat2Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcFloat2Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat2Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcFloat2Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat2Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Float2Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Float2Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcFloat2Array* self = fcFloat2Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloat2Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcFloat2Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat2Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcFloat2Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat2Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -9313,7 +9313,7 @@ fcFloat2 fcFloat2Array_get(fcFloat2Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcFloat2Array_syncToNative(self);
+  *err = fcFloat2Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -9324,7 +9324,7 @@ fcError fcFloat2Array_set(fcFloat2Array* self, fcInt i, fcFloat2 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcFloat2Array_syncToNative(self);
+  fcError err = fcFloat2Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -9344,7 +9344,7 @@ fcError fcFloat2Array_setArray(fcFloat2Array* self, fcInt len, const fcFloat* v)
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcFloat2Array_syncToNative(self);
+  err = fcFloat2Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -9393,13 +9393,13 @@ fcError fcFloat2Array_setBuffer(fcFloat2Array* self, fcLong len, const void* v) 
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcFloat2Array_syncToNative(self);
+  fcError err = fcFloat2Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcFloat2Array_syncToNative(fcFloat2Array* self) {
+fcError fcFloat2Array_syncToHost(fcFloat2Array* self) {
   if (!fcFloat2Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -9414,7 +9414,7 @@ fcError fcFloat2Array_syncToNative(fcFloat2Array* self) {
   return err;
 }
 
-fcError fcFloat2Array_syncToOCL(fcFloat2Array* self) {
+fcError fcFloat2Array_syncToDevice(fcFloat2Array* self) {
   if (!fcFloat2Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -9572,8 +9572,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Float3Array_getArray(JNIEnv* env, jobje
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloat3Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcFloat3Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat3Array_syncToNative", NULL);
+  jint err = fcFloat3Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat3Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jfloatArray __tmp_ret = FC_JNI_CALL(env, NewFloatArray, self->len * 3);
@@ -9636,8 +9636,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Float3Array_getBufferImpl(JNIEnv* env, 
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloat3Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcFloat3Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat3Array_syncToNative", NULL);
+  jint err = fcFloat3Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat3Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcFloat3));
@@ -9660,21 +9660,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Float3Array_setBuffer(JNIEnv* env, jobj
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Float3Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Float3Array_syncToHost(JNIEnv* env, jobject obj) {
   fcFloat3Array* self = fcFloat3Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloat3Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcFloat3Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat3Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcFloat3Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat3Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Float3Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Float3Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcFloat3Array* self = fcFloat3Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloat3Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcFloat3Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat3Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcFloat3Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat3Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -9853,7 +9853,7 @@ fcFloat3 fcFloat3Array_get(fcFloat3Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcFloat3Array_syncToNative(self);
+  *err = fcFloat3Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -9864,7 +9864,7 @@ fcError fcFloat3Array_set(fcFloat3Array* self, fcInt i, fcFloat3 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcFloat3Array_syncToNative(self);
+  fcError err = fcFloat3Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -9884,7 +9884,7 @@ fcError fcFloat3Array_setArray(fcFloat3Array* self, fcInt len, const fcFloat* v)
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcFloat3Array_syncToNative(self);
+  err = fcFloat3Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -9933,13 +9933,13 @@ fcError fcFloat3Array_setBuffer(fcFloat3Array* self, fcLong len, const void* v) 
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcFloat3Array_syncToNative(self);
+  fcError err = fcFloat3Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcFloat3Array_syncToNative(fcFloat3Array* self) {
+fcError fcFloat3Array_syncToHost(fcFloat3Array* self) {
   if (!fcFloat3Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -9954,7 +9954,7 @@ fcError fcFloat3Array_syncToNative(fcFloat3Array* self) {
   return err;
 }
 
-fcError fcFloat3Array_syncToOCL(fcFloat3Array* self) {
+fcError fcFloat3Array_syncToDevice(fcFloat3Array* self) {
   if (!fcFloat3Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -10112,8 +10112,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Float4Array_getArray(JNIEnv* env, jobje
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloat4Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcFloat4Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat4Array_syncToNative", NULL);
+  jint err = fcFloat4Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat4Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jfloatArray __tmp_ret = FC_JNI_CALL(env, NewFloatArray, self->len * 4);
@@ -10176,8 +10176,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Float4Array_getBufferImpl(JNIEnv* env, 
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloat4Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcFloat4Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat4Array_syncToNative", NULL);
+  jint err = fcFloat4Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat4Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcFloat4));
@@ -10200,21 +10200,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Float4Array_setBuffer(JNIEnv* env, jobj
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Float4Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Float4Array_syncToHost(JNIEnv* env, jobject obj) {
   fcFloat4Array* self = fcFloat4Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloat4Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcFloat4Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat4Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcFloat4Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat4Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Float4Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Float4Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcFloat4Array* self = fcFloat4Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloat4Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcFloat4Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat4Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcFloat4Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat4Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -10393,7 +10393,7 @@ fcFloat4 fcFloat4Array_get(fcFloat4Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcFloat4Array_syncToNative(self);
+  *err = fcFloat4Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -10404,7 +10404,7 @@ fcError fcFloat4Array_set(fcFloat4Array* self, fcInt i, fcFloat4 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcFloat4Array_syncToNative(self);
+  fcError err = fcFloat4Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -10424,7 +10424,7 @@ fcError fcFloat4Array_setArray(fcFloat4Array* self, fcInt len, const fcFloat* v)
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcFloat4Array_syncToNative(self);
+  err = fcFloat4Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -10473,13 +10473,13 @@ fcError fcFloat4Array_setBuffer(fcFloat4Array* self, fcLong len, const void* v) 
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcFloat4Array_syncToNative(self);
+  fcError err = fcFloat4Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcFloat4Array_syncToNative(fcFloat4Array* self) {
+fcError fcFloat4Array_syncToHost(fcFloat4Array* self) {
   if (!fcFloat4Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -10494,7 +10494,7 @@ fcError fcFloat4Array_syncToNative(fcFloat4Array* self) {
   return err;
 }
 
-fcError fcFloat4Array_syncToOCL(fcFloat4Array* self) {
+fcError fcFloat4Array_syncToDevice(fcFloat4Array* self) {
   if (!fcFloat4Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -10652,8 +10652,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Float8Array_getArray(JNIEnv* env, jobje
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloat8Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcFloat8Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat8Array_syncToNative", NULL);
+  jint err = fcFloat8Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat8Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jfloatArray __tmp_ret = FC_JNI_CALL(env, NewFloatArray, self->len * 8);
@@ -10716,8 +10716,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Float8Array_getBufferImpl(JNIEnv* env, 
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloat8Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcFloat8Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat8Array_syncToNative", NULL);
+  jint err = fcFloat8Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat8Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcFloat8));
@@ -10740,21 +10740,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Float8Array_setBuffer(JNIEnv* env, jobj
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Float8Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Float8Array_syncToHost(JNIEnv* env, jobject obj) {
   fcFloat8Array* self = fcFloat8Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloat8Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcFloat8Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat8Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcFloat8Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat8Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Float8Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Float8Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcFloat8Array* self = fcFloat8Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcFloat8Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcFloat8Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat8Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcFloat8Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat8Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -10933,7 +10933,7 @@ fcFloat8 fcFloat8Array_get(fcFloat8Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcFloat8Array_syncToNative(self);
+  *err = fcFloat8Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -10944,7 +10944,7 @@ fcError fcFloat8Array_set(fcFloat8Array* self, fcInt i, fcFloat8 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcFloat8Array_syncToNative(self);
+  fcError err = fcFloat8Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -10964,7 +10964,7 @@ fcError fcFloat8Array_setArray(fcFloat8Array* self, fcInt len, const fcFloat* v)
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcFloat8Array_syncToNative(self);
+  err = fcFloat8Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -11013,13 +11013,13 @@ fcError fcFloat8Array_setBuffer(fcFloat8Array* self, fcLong len, const void* v) 
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcFloat8Array_syncToNative(self);
+  fcError err = fcFloat8Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcFloat8Array_syncToNative(fcFloat8Array* self) {
+fcError fcFloat8Array_syncToHost(fcFloat8Array* self) {
   if (!fcFloat8Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -11034,7 +11034,7 @@ fcError fcFloat8Array_syncToNative(fcFloat8Array* self) {
   return err;
 }
 
-fcError fcFloat8Array_syncToOCL(fcFloat8Array* self) {
+fcError fcFloat8Array_syncToDevice(fcFloat8Array* self) {
   if (!fcFloat8Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -11192,8 +11192,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Double2Array_getArray(JNIEnv* env, jobj
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDouble2Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcDouble2Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble2Array_syncToNative", NULL);
+  jint err = fcDouble2Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble2Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jdoubleArray __tmp_ret = FC_JNI_CALL(env, NewDoubleArray, self->len * 2);
@@ -11256,8 +11256,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Double2Array_getBufferImpl(JNIEnv* env,
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDouble2Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcDouble2Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble2Array_syncToNative", NULL);
+  jint err = fcDouble2Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble2Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcDouble2));
@@ -11280,21 +11280,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Double2Array_setBuffer(JNIEnv* env, job
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Double2Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Double2Array_syncToHost(JNIEnv* env, jobject obj) {
   fcDouble2Array* self = fcDouble2Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDouble2Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcDouble2Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble2Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcDouble2Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble2Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Double2Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Double2Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcDouble2Array* self = fcDouble2Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDouble2Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcDouble2Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble2Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcDouble2Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble2Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -11473,7 +11473,7 @@ fcDouble2 fcDouble2Array_get(fcDouble2Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcDouble2Array_syncToNative(self);
+  *err = fcDouble2Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -11484,7 +11484,7 @@ fcError fcDouble2Array_set(fcDouble2Array* self, fcInt i, fcDouble2 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcDouble2Array_syncToNative(self);
+  fcError err = fcDouble2Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -11504,7 +11504,7 @@ fcError fcDouble2Array_setArray(fcDouble2Array* self, fcInt len, const fcDouble*
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcDouble2Array_syncToNative(self);
+  err = fcDouble2Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -11553,13 +11553,13 @@ fcError fcDouble2Array_setBuffer(fcDouble2Array* self, fcLong len, const void* v
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcDouble2Array_syncToNative(self);
+  fcError err = fcDouble2Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcDouble2Array_syncToNative(fcDouble2Array* self) {
+fcError fcDouble2Array_syncToHost(fcDouble2Array* self) {
   if (!fcDouble2Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -11574,7 +11574,7 @@ fcError fcDouble2Array_syncToNative(fcDouble2Array* self) {
   return err;
 }
 
-fcError fcDouble2Array_syncToOCL(fcDouble2Array* self) {
+fcError fcDouble2Array_syncToDevice(fcDouble2Array* self) {
   if (!fcDouble2Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -11732,8 +11732,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Double3Array_getArray(JNIEnv* env, jobj
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDouble3Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcDouble3Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble3Array_syncToNative", NULL);
+  jint err = fcDouble3Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble3Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jdoubleArray __tmp_ret = FC_JNI_CALL(env, NewDoubleArray, self->len * 3);
@@ -11796,8 +11796,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Double3Array_getBufferImpl(JNIEnv* env,
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDouble3Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcDouble3Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble3Array_syncToNative", NULL);
+  jint err = fcDouble3Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble3Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcDouble3));
@@ -11820,21 +11820,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Double3Array_setBuffer(JNIEnv* env, job
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Double3Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Double3Array_syncToHost(JNIEnv* env, jobject obj) {
   fcDouble3Array* self = fcDouble3Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDouble3Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcDouble3Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble3Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcDouble3Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble3Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Double3Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Double3Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcDouble3Array* self = fcDouble3Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDouble3Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcDouble3Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble3Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcDouble3Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble3Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -12013,7 +12013,7 @@ fcDouble3 fcDouble3Array_get(fcDouble3Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcDouble3Array_syncToNative(self);
+  *err = fcDouble3Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -12024,7 +12024,7 @@ fcError fcDouble3Array_set(fcDouble3Array* self, fcInt i, fcDouble3 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcDouble3Array_syncToNative(self);
+  fcError err = fcDouble3Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -12044,7 +12044,7 @@ fcError fcDouble3Array_setArray(fcDouble3Array* self, fcInt len, const fcDouble*
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcDouble3Array_syncToNative(self);
+  err = fcDouble3Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -12093,13 +12093,13 @@ fcError fcDouble3Array_setBuffer(fcDouble3Array* self, fcLong len, const void* v
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcDouble3Array_syncToNative(self);
+  fcError err = fcDouble3Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcDouble3Array_syncToNative(fcDouble3Array* self) {
+fcError fcDouble3Array_syncToHost(fcDouble3Array* self) {
   if (!fcDouble3Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -12114,7 +12114,7 @@ fcError fcDouble3Array_syncToNative(fcDouble3Array* self) {
   return err;
 }
 
-fcError fcDouble3Array_syncToOCL(fcDouble3Array* self) {
+fcError fcDouble3Array_syncToDevice(fcDouble3Array* self) {
   if (!fcDouble3Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -12272,8 +12272,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Double4Array_getArray(JNIEnv* env, jobj
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDouble4Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcDouble4Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble4Array_syncToNative", NULL);
+  jint err = fcDouble4Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble4Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jdoubleArray __tmp_ret = FC_JNI_CALL(env, NewDoubleArray, self->len * 4);
@@ -12336,8 +12336,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Double4Array_getBufferImpl(JNIEnv* env,
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDouble4Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcDouble4Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble4Array_syncToNative", NULL);
+  jint err = fcDouble4Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble4Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcDouble4));
@@ -12360,21 +12360,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Double4Array_setBuffer(JNIEnv* env, job
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Double4Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Double4Array_syncToHost(JNIEnv* env, jobject obj) {
   fcDouble4Array* self = fcDouble4Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDouble4Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcDouble4Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble4Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcDouble4Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble4Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Double4Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Double4Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcDouble4Array* self = fcDouble4Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDouble4Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcDouble4Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble4Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcDouble4Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble4Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -12553,7 +12553,7 @@ fcDouble4 fcDouble4Array_get(fcDouble4Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcDouble4Array_syncToNative(self);
+  *err = fcDouble4Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -12564,7 +12564,7 @@ fcError fcDouble4Array_set(fcDouble4Array* self, fcInt i, fcDouble4 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcDouble4Array_syncToNative(self);
+  fcError err = fcDouble4Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -12584,7 +12584,7 @@ fcError fcDouble4Array_setArray(fcDouble4Array* self, fcInt len, const fcDouble*
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcDouble4Array_syncToNative(self);
+  err = fcDouble4Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -12633,13 +12633,13 @@ fcError fcDouble4Array_setBuffer(fcDouble4Array* self, fcLong len, const void* v
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcDouble4Array_syncToNative(self);
+  fcError err = fcDouble4Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcDouble4Array_syncToNative(fcDouble4Array* self) {
+fcError fcDouble4Array_syncToHost(fcDouble4Array* self) {
   if (!fcDouble4Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -12654,7 +12654,7 @@ fcError fcDouble4Array_syncToNative(fcDouble4Array* self) {
   return err;
 }
 
-fcError fcDouble4Array_syncToOCL(fcDouble4Array* self) {
+fcError fcDouble4Array_syncToDevice(fcDouble4Array* self) {
   if (!fcDouble4Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -12812,8 +12812,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Double8Array_getArray(JNIEnv* env, jobj
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDouble8Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcDouble8Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble8Array_syncToNative", NULL);
+  jint err = fcDouble8Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble8Array_syncToHost", NULL);
 
   // Create Java array and populate it
   jdoubleArray __tmp_ret = FC_JNI_CALL(env, NewDoubleArray, self->len * 8);
@@ -12876,8 +12876,8 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Double8Array_getBufferImpl(JNIEnv* env,
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDouble8Array_getJava", NULL);
 
   // Ensure native array is synced
-  jint err = fcDouble8Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble8Array_syncToNative", NULL);
+  jint err = fcDouble8Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble8Array_syncToHost", NULL);
 
   // Create and return direct byte buffer pointing to the native data
   return FC_JNI_CALL(env, NewDirectByteBuffer, self->c, self->len * sizeof(fcDouble8));
@@ -12900,21 +12900,21 @@ Java_es_ull_pcg_hpc_fancier_vector_array_Double8Array_setBuffer(JNIEnv* env, job
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Double8Array_syncToNative(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Double8Array_syncToHost(JNIEnv* env, jobject obj) {
   fcDouble8Array* self = fcDouble8Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDouble8Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcDouble8Array_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble8Array_syncToNative", FC_VOID_EXPR);
+  jint err = fcDouble8Array_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble8Array_syncToHost", FC_VOID_EXPR);
 }
 
 JNIEXPORT void JNICALL
-Java_es_ull_pcg_hpc_fancier_vector_array_Double8Array_syncToOCL(JNIEnv* env, jobject obj) {
+Java_es_ull_pcg_hpc_fancier_vector_array_Double8Array_syncToDevice(JNIEnv* env, jobject obj) {
   fcDouble8Array* self = fcDouble8Array_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcDouble8Array_getJava", FC_VOID_EXPR);
 
-  jint err = fcDouble8Array_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble8Array_syncToOCL", FC_VOID_EXPR);
+  jint err = fcDouble8Array_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcDouble8Array_syncToDevice", FC_VOID_EXPR);
 }
 
 //
@@ -13093,7 +13093,7 @@ fcDouble8 fcDouble8Array_get(fcDouble8Array* self, fcInt i, fcError* err) {
   }
 
   // Set location to native in order to access the array data
-  *err = fcDouble8Array_syncToNative(self);
+  *err = fcDouble8Array_syncToHost(self);
   if (*err) return __tmp_ret;
 
   return self->c[i];
@@ -13104,7 +13104,7 @@ fcError fcDouble8Array_set(fcDouble8Array* self, fcInt i, fcDouble8 x) {
   if (i < 0 || i >= self->len) return FC_EXCEPTION_BAD_PARAMETER;
 
   // Set location to native in order to access the array data
-  fcError err = fcDouble8Array_syncToNative(self);
+  fcError err = fcDouble8Array_syncToHost(self);
   if (err) return err;
 
   self->c[i] = x;
@@ -13124,7 +13124,7 @@ fcError fcDouble8Array_setArray(fcDouble8Array* self, fcInt len, const fcDouble*
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  err = fcDouble8Array_syncToNative(self);
+  err = fcDouble8Array_syncToHost(self);
   if (err) return err;
 
   for (fcLong i = 0; i < self->len; ++i) {
@@ -13173,13 +13173,13 @@ fcError fcDouble8Array_setBuffer(fcDouble8Array* self, fcLong len, const void* v
   // TODO If not unified memory, don't sync and just set native data and update location
   // Initialize array
   // Map to host, and write data considering alignment
-  fcError err = fcDouble8Array_syncToNative(self);
+  fcError err = fcDouble8Array_syncToHost(self);
   if (err) return err;
 
   return memcpy(self->c, v, len)? FC_EXCEPTION_SUCCESS : FC_EXCEPTION_FAILED_COPY;
 }
 
-fcError fcDouble8Array_syncToNative(fcDouble8Array* self) {
+fcError fcDouble8Array_syncToHost(fcDouble8Array* self) {
   if (!fcDouble8Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
@@ -13194,7 +13194,7 @@ fcError fcDouble8Array_syncToNative(fcDouble8Array* self) {
   return err;
 }
 
-fcError fcDouble8Array_syncToOCL(fcDouble8Array* self) {
+fcError fcDouble8Array_syncToDevice(fcDouble8Array* self) {
   if (!fcDouble8Array_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 

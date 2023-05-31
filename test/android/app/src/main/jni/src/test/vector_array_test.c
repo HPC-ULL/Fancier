@@ -33,7 +33,7 @@ static const fcByte x[] = {10, 10, 10, 10, 20, 20, 20, 20, 30, 30, 30, 30, 40, 5
 static int process(fcByte4Array* array) {
   cl_int err;
 
-  err = fcByte4Array_syncToOCL(array);
+  err = fcByte4Array_syncToDevice(array);
   if (err)
     return err;
 
@@ -79,18 +79,18 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_VectorArrayTest_nativeRun(JNIEnv* e
     FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat3Array_set:f0", JNI_FALSE);
   }
 
-  err = fcFloat3Array_syncToNative(f0);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat3Array_syncToNative:f0", JNI_FALSE);
+  err = fcFloat3Array_syncToHost(f0);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat3Array_syncToHost:f0", JNI_FALSE);
 
   for (int i = 0; i < n; ++i) {
     if (fcInt3_any(fcFloat3_isNotEqual(f0->c[i], fcFloat3_create111(1.0f * i, 1.5f * i, 2.0f * i))))
       return JNI_FALSE;
   }
 
-  err = fcFloat3Array_syncToOCL(f0);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat3Array_syncToOCL:f0", JNI_FALSE);
-  err = fcFloat3Array_syncToNative(f0);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat3Array_syncToNative:f0", JNI_FALSE);
+  err = fcFloat3Array_syncToDevice(f0);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat3Array_syncToDevice:f0", JNI_FALSE);
+  err = fcFloat3Array_syncToHost(f0);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcFloat3Array_syncToHost:f0", JNI_FALSE);
 
   const int f0_stride = sizeof(fcFloat3) / sizeof(fcFloat);
   float f0_[f0->len * f0_stride];
@@ -138,8 +138,8 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_VectorArrayTest_nativeRun(JNIEnv* e
   if (b0->len != b0_len / 4)
     return JNI_FALSE;
 
-  err = fcByte4Array_syncToNative(b0);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte4Array_syncToNative:b0", JNI_FALSE);
+  err = fcByte4Array_syncToHost(b0);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte4Array_syncToHost:b0", JNI_FALSE);
 
   for (int i = 0; i < b0->len; ++i) {
     fcByte4 elem = b0->c[i];
@@ -163,8 +163,8 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_VectorArrayTest_nativeRun(JNIEnv* e
 
   err = process(b0);
   FC_EXCEPTION_HANDLE_ERROR(env, err, "process", JNI_FALSE);
-  err = fcByte4Array_syncToNative(b0);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte4Array_syncToNative:b0", JNI_FALSE);
+  err = fcByte4Array_syncToHost(b0);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte4Array_syncToHost:b0", JNI_FALSE);
 
   for (int i = 0; i < b0->len; ++i) {
     fcByte4 elem = b0->c[i];
@@ -182,10 +182,10 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_VectorArrayTest_nativeRun(JNIEnv* e
   if (b1->len != b0->len)
     return JNI_FALSE;
 
-  err = fcByte4Array_syncToNative(b0);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte4Array_syncToNative:b0", JNI_FALSE);
-  err = fcByte4Array_syncToNative(b1);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte4Array_syncToNative:b1", JNI_FALSE);
+  err = fcByte4Array_syncToHost(b0);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte4Array_syncToHost:b0", JNI_FALSE);
+  err = fcByte4Array_syncToHost(b1);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte4Array_syncToHost:b1", JNI_FALSE);
 
   for (int i = 0; i < b0->len; ++i) {
     if (fcInt4_any(fcByte4_isNotEqual(b0->c[i], b1->c[i])))
@@ -218,8 +218,8 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_VectorArrayTest_nativeProcess(JNIEn
   FC_EXCEPTION_HANDLE_NULL(env, array, FC_EXCEPTION_BAD_PARAMETER, "fcDoubleArray_getJava",
                            FC_VOID_EXPR);
 
-  err = fcByte4Array_syncToOCL(array);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte4Array_syncToOCL", FC_VOID_EXPR);
+  err = fcByte4Array_syncToDevice(array);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcByte4Array_syncToDevice", FC_VOID_EXPR);
 
   // Kernel compilation
   cl_program program = fcOpenCL_compileKernel(1, &kernel_src, &err);
@@ -236,7 +236,7 @@ Java_es_ull_pcg_hpc_fancier_androidtest_test_VectorArrayTest_nativeProcess(JNIEn
   err = clEnqueueNDRangeKernel(fcOpenCL_rt.queue, kernel, 1, NULL, &sz, NULL, 0, NULL, NULL);
   FC_EXCEPTION_HANDLE_ERROR(env, err, "clEnqueueNDRangeKernel", FC_VOID_EXPR);
 
-  fcByte4Array_syncToNative(array);
+  fcByte4Array_syncToHost(array);
 
   // Memory release
   clReleaseKernel(kernel);

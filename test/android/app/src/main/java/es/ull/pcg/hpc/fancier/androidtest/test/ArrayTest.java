@@ -43,7 +43,7 @@ public class ArrayTest implements RuntimeTest {
       for (int i = 0; i < n; ++i)
         s0.set(i, (short) (i * 2));
 
-      s0.syncToNative();
+      s0.syncToHost();
 
       for (int i = 0; i < n; ++i) {
         if (s0.get(i) != (short) (i * 2))
@@ -51,7 +51,7 @@ public class ArrayTest implements RuntimeTest {
       }
 
       // Automatic sync-to-native test
-      s0.syncToOCL();
+      s0.syncToDevice();
 
       short[] s0Array = s0.getArray();
       ByteBuffer s0Buffer = s0.getBuffer();

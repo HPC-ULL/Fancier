@@ -39,12 +39,12 @@ public class NativeImageFilter extends ImageFilter {
 
         switch (mVersion) {
             case CPU:
-                mInput.syncToNative();
-                mOutput.syncToNative();
+                mInput.syncToHost();
+                mOutput.syncToHost();
                 break;
             case GPU:
-                mInput.syncToOCL();
-                mOutput.syncToOCL();
+                mInput.syncToDevice();
+                mOutput.syncToDevice();
                 break;
         }
     }
@@ -64,7 +64,7 @@ public class NativeImageFilter extends ImageFilter {
             case GPU:
                 processGpu(mInput, mOutput);
                 // Force to wait for the execution to finish, only needed if updateBitmap is not called
-                mOutput.syncToNative();
+                mOutput.syncToHost();
                 break;
             case REF:
                 processBff(mBffIn, output);

@@ -61,8 +61,8 @@ public class JavaImageFilter extends ImageFilter {
 
   @Override
   public void setup() {
-    mInput.syncToNative();
-    mOutput.syncToNative();
+    mInput.syncToHost();
+    mOutput.syncToHost();
   }
 
   @Override
@@ -294,7 +294,7 @@ public class JavaImageFilter extends ImageFilter {
     blurBuildMask(gaussKernel, BLUR_RADIUS);
 
     try (RGBAImage buffer = new RGBAImage(input.getDims())) {
-      buffer.syncToNative();
+      buffer.syncToHost();
 
       // Horizontal (input -> buffer)
       for (int y = 0; y < height; ++y) {
@@ -366,7 +366,7 @@ public class JavaImageFilter extends ImageFilter {
     Byte4 outB = new Byte4();
 
     try (RGBAImage buffer = new RGBAImage(input.getDims())) {
-      buffer.syncToNative();
+      buffer.syncToHost();
       ByteBuffer bBuffer = buffer.getBuffer();
 
       // Horizontal (input -> buffer)

@@ -127,99 +127,75 @@ FANCIER_API void fcVector_releaseJNI(JNIEnv* env);
 
 // Java interface
 
-FANCIER_API fcByte2* fcByte2_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcByte2_wrap(JNIEnv* env, fcByte2 vec);
 FANCIER_API fcByte2 fcByte2_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcByte3* fcByte3_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcByte3_wrap(JNIEnv* env, fcByte3 vec);
 FANCIER_API fcByte3 fcByte3_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcByte4* fcByte4_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcByte4_wrap(JNIEnv* env, fcByte4 vec);
 FANCIER_API fcByte4 fcByte4_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcByte8* fcByte8_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcByte8_wrap(JNIEnv* env, fcByte8 vec);
 FANCIER_API fcByte8 fcByte8_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcShort2* fcShort2_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcShort2_wrap(JNIEnv* env, fcShort2 vec);
 FANCIER_API fcShort2 fcShort2_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcShort3* fcShort3_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcShort3_wrap(JNIEnv* env, fcShort3 vec);
 FANCIER_API fcShort3 fcShort3_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcShort4* fcShort4_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcShort4_wrap(JNIEnv* env, fcShort4 vec);
 FANCIER_API fcShort4 fcShort4_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcShort8* fcShort8_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcShort8_wrap(JNIEnv* env, fcShort8 vec);
 FANCIER_API fcShort8 fcShort8_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcInt2* fcInt2_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcInt2_wrap(JNIEnv* env, fcInt2 vec);
 FANCIER_API fcInt2 fcInt2_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcInt3* fcInt3_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcInt3_wrap(JNIEnv* env, fcInt3 vec);
 FANCIER_API fcInt3 fcInt3_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcInt4* fcInt4_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcInt4_wrap(JNIEnv* env, fcInt4 vec);
 FANCIER_API fcInt4 fcInt4_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcInt8* fcInt8_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcInt8_wrap(JNIEnv* env, fcInt8 vec);
 FANCIER_API fcInt8 fcInt8_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcLong2* fcLong2_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcLong2_wrap(JNIEnv* env, fcLong2 vec);
 FANCIER_API fcLong2 fcLong2_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcLong3* fcLong3_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcLong3_wrap(JNIEnv* env, fcLong3 vec);
 FANCIER_API fcLong3 fcLong3_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcLong4* fcLong4_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcLong4_wrap(JNIEnv* env, fcLong4 vec);
 FANCIER_API fcLong4 fcLong4_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcLong8* fcLong8_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcLong8_wrap(JNIEnv* env, fcLong8 vec);
 FANCIER_API fcLong8 fcLong8_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcFloat2* fcFloat2_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcFloat2_wrap(JNIEnv* env, fcFloat2 vec);
 FANCIER_API fcFloat2 fcFloat2_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcFloat3* fcFloat3_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcFloat3_wrap(JNIEnv* env, fcFloat3 vec);
 FANCIER_API fcFloat3 fcFloat3_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcFloat4* fcFloat4_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcFloat4_wrap(JNIEnv* env, fcFloat4 vec);
 FANCIER_API fcFloat4 fcFloat4_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcFloat8* fcFloat8_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcFloat8_wrap(JNIEnv* env, fcFloat8 vec);
 FANCIER_API fcFloat8 fcFloat8_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcDouble2* fcDouble2_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcDouble2_wrap(JNIEnv* env, fcDouble2 vec);
 FANCIER_API fcDouble2 fcDouble2_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcDouble3* fcDouble3_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcDouble3_wrap(JNIEnv* env, fcDouble3 vec);
 FANCIER_API fcDouble3 fcDouble3_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcDouble4* fcDouble4_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcDouble4_wrap(JNIEnv* env, fcDouble4 vec);
 FANCIER_API fcDouble4 fcDouble4_unwrap(JNIEnv* env, jobject vec, fcError* err);
 
-FANCIER_API fcDouble8* fcDouble8_getJava(JNIEnv* env, jobject obj);
 FANCIER_API jobject fcDouble8_wrap(JNIEnv* env, fcDouble8 vec);
 FANCIER_API fcDouble8 fcDouble8_unwrap(JNIEnv* env, jobject vec, fcError* err);
 

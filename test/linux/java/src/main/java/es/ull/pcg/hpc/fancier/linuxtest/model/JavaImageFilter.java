@@ -35,8 +35,8 @@ public class JavaImageFilter extends ImageFilter {
 
     @Override
     public void setup() {
-        mInput.syncToNative();
-        mOutput.syncToNative();
+        mInput.syncToHost();
+        mOutput.syncToHost();
     }
 
     @Override
@@ -72,7 +72,7 @@ public class JavaImageFilter extends ImageFilter {
                         runBlurPerf(mInput, mOutput);
                         break;
                     case BUFFEREDIMAGE:
-                        runBlurBff(mBffIn, output);     // se ve menos borrasa :(
+                        runBlurBff(mBffIn, output);
                         break;
                 }
                 break;
@@ -276,7 +276,7 @@ public class JavaImageFilter extends ImageFilter {
         blurBuildMask(gaussKernel, BLUR_RADIUS);
 
         try (RGBAImage buffer = new RGBAImage(input.getDims())) {
-            buffer.syncToNative();
+            buffer.syncToHost();
 
             // Horizontal (input -> buffer)
             for (int y = 0; y < height; ++y) {
@@ -348,7 +348,7 @@ public class JavaImageFilter extends ImageFilter {
         Byte4 outB = new Byte4();
 
         try (RGBAImage buffer = new RGBAImage(input.getDims())) {
-            buffer.syncToNative();
+            buffer.syncToHost();
             ByteBuffer bBuffer = buffer.getBuffer();
 
             // Horizontal (input -> buffer)
@@ -1616,7 +1616,7 @@ public class JavaImageFilter extends ImageFilter {
         return tmpB4;
     }
 
-    private static int bilinearInterpBmp(BufferedImage img, int width, int height, float x, float y) {
+    private static int bilinearInterpBff(BufferedImage img, int width, int height, float x, float y) {
         float posCoordX = java.lang.Math.max(x, 0.0f);
         float posCoordY = java.lang.Math.max(y, 0.0f);
 
@@ -1837,7 +1837,7 @@ public class JavaImageFilter extends ImageFilter {
                 float newCoordX = width * (coordX * scalar + FISHEYE_CENTER.x);
                 float newCoordY = height * (coordY * scalar + FISHEYE_CENTER.y);
 
-                output.setRGB(x, y, bilinearInterpBmp(input, width, height, newCoordX, newCoordY));
+                output.setRGB(x, y, bilinearInterpBff(input, width, height, newCoordX, newCoordY));
             }
         }
     }

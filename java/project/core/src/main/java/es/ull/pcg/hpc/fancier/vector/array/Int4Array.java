@@ -121,6 +121,6 @@ public class Int4Array implements AutoCloseable {
   private native ByteBuffer getBufferImpl();
   public native void setBuffer(ByteBuffer v);
 
-  public native void syncToNative();
-  public native void syncToOCL();
+  public native void syncToHost();
+  public native void syncToDevice();
 }
