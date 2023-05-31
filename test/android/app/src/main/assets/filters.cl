@@ -18,11 +18,6 @@
 
 #define GS_WEIGHTS ((float3)(0.299f, 0.587f, 0.114f))
 
-// Helper functions
-
-inline uint index_img(uint2 dims, uint x, uint y) {
-  return y * dims.x + x;
-}
 
 uchar4 bilinear_interp(global const uchar4* img, uint2 dims, float2 coord) {
   const float2 pos_coord = fmax(coord, 0.0f);

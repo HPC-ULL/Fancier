@@ -28,7 +28,8 @@
 
 
 #define BUFFER_SIZE   1024 * 8  // 8K buffer
-#define MATH_LIB_NAME "math_lib.cl"
+#define MATH_LIB_NAME "fc_math.cl"
+#define IMAGE_LIB_NAME "fc_image.cl"
 
 
 // Public global variables
@@ -214,8 +215,8 @@ static void logOpenCLPlatformInfo(cl_platform_id platformId) {
   FC_LOGINFO_FMT("  - Vendor: %s", buffer);
 
   FC_LOGINFO_FMT("  - Number of devices: %u", numDevices);
-  for (i = 0; i < numDevices; ++i)
-    logOpenCLDeviceInfo(devices[i]);
+//  for (i = 0; i < numDevices; ++i)
+//    logOpenCLDeviceInfo(devices[i]);
 
   if (devices)
     free(devices);
@@ -255,7 +256,7 @@ jint fcOpenCL_initJNI(JNIEnv* env) {
   fcOpenCL_logInfo();
 
   fcOpenCL_rt.context = clCreateContext(NULL, 1, &fcOpenCL_rt.device, NULL, NULL, &err);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcOpenCL_initJNI", FC_EXCEPTION_OTHER);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcOpenCL_initJNI", FC_EXCEPTION_OTHER);  
 
   fcOpenCL_rt.queue = clCreateCommandQueue(fcOpenCL_rt.context, fcOpenCL_rt.device,
                                            CL_QUEUE_PROFILING_ENABLE, &err);
@@ -280,11 +281,11 @@ void fcOpenCL_releaseJNI(JNIEnv* env) {
 void fcOpenCL_logInfo() {
   cl_uint numPlatforms, i;
   cl_platform_id* platforms = getPlatformIDs(&numPlatforms, NULL);
-
+  
   FC_LOGINFO_FMT("- Number of platforms: %u", numPlatforms);
-  for (i = 0; i < numPlatforms; ++i)
-    logOpenCLPlatformInfo(platforms[i]);
-
+  //for (i = 0; i < numPlatforms; ++i)
+  //  logOpenCLPlatformInfo(platforms[i]);
+  
   if (platforms)
     free(platforms);
 }
@@ -307,25 +308,33 @@ cl_program fcOpenCL_compileKernelFile(const char* kernel_dir, const char* file_n
   if (err == NULL)
     err = &__tmp_err;
 
-  size_t lengths[2];
-  char* src[2];
+  size_t lengths[3];
+  char* src[3];
 
-  // Read Fancier OpenCL library
+  // Read Fancier OpenCL libraries
   *err = fcUtils_readFile(kernel_dir, MATH_LIB_NAME, &lengths[0], &src[0]);
   if (*err)
     return NULL;
 
-  // Read program
-  *err = fcUtils_readFile(kernel_dir, file_name, &lengths[1], &src[1]);
+  *err = fcUtils_readFile(kernel_dir, IMAGE_LIB_NAME, &lengths[1], &src[1]);
   if (*err) {
     free(src[0]);
     return NULL;
   }
 
+  // Read program
+  *err = fcUtils_readFile(kernel_dir, file_name, &lengths[2], &src[2]);
+  if (*err) {
+    free(src[0]);
+    free(src[1]);
+    return NULL;
+  }
+
   // Compile and return program
-  cl_program program = fcOpenCL_compileKernel(2, (const char**) src, err);
+  cl_program program = fcOpenCL_compileKernel(3, (const char**) src, err);
   free(src[0]);
   free(src[1]);
+  free(src[2]);
   return program;
 }
 
@@ -337,25 +346,33 @@ cl_program fcOpenCL_compileKernelAsset(JNIEnv* env, jobject asset_manager, const
   if (err == NULL)
     err = &__tmp_err;
 
-  size_t lengths[2];
-  char* src[2];
+  size_t lengths[3];
+  char* src[3];
 
-  // Read Fancier OpenCL library
+  // Read Fancier OpenCL libraries
   *err = fcUtils_readAsset(env, asset_manager, kernel_dir, MATH_LIB_NAME, &lengths[0], &src[0]);
   if (*err)
     return NULL;
 
-  // Read program
-  *err = fcUtils_readAsset(env, asset_manager, kernel_dir, file_name, &lengths[1], &src[1]);
+  *err = fcUtils_readAsset(env, asset_manager, kernel_dir, IMAGE_LIB_NAME, &lengths[1], &src[1]);
   if (*err) {
     free(src[0]);
     return NULL;
   }
 
+  // Read program
+  *err = fcUtils_readAsset(env, asset_manager, kernel_dir, file_name, &lengths[2], &src[2]);
+  if (*err) {
+    free(src[0]);
+    free(src[1]);
+    return NULL;
+  }
+
   // Compile and return program
-  cl_program program = fcOpenCL_compileKernel(2, (const char**) src, err);
+  cl_program program = fcOpenCL_compileKernel(3, (const char**) src, err);
   free(src[0]);
   free(src[1]);
+  free(src[2]);
   return program;
 }
 

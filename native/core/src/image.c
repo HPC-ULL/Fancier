@@ -19,11 +19,11 @@
 #include <fancier/exception.h>
 #include <fancier/image.h>
 #include <fancier/java.h>
+#include <fancier/ocl.h>
 
 #include <fancier/internal/snippets.inc>
 
 #include <string.h>
-
 
 //
 // Global Java References
@@ -81,8 +81,10 @@ JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_initNative__I
   FC_EXCEPTION_HANDLE_ERROR(env, err, "fcRGBAImage_initSize", FC_VOID_EXPR);
 }
 
-JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_initNative___3II(
-    JNIEnv* env, jobject obj, jintArray pixels, jint width) {
+
+JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_initNative___3IIZ(
+    JNIEnv* env, jobject obj, jintArray pixels, jint width, jboolean changeFromBGRA) {
+
   // Allocate instance
   fcRGBAImage* self = fcRGBAImage_allocJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_allocJava",
@@ -100,8 +102,12 @@ JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_initNative___
   jint* __tmp_elems_pixels = FC_JNI_CALL(env, GetIntArrayElements, pixels, NULL);
   FC_EXCEPTION_HANDLE_NULL(env, __tmp_elems_pixels, FC_EXCEPTION_ARRAY_GET_ELEMENTS,
                            "RGBAImage_initNative__[II:pixels", FC_VOID_EXPR);
-
-  jint err = fcRGBAImage_initPixels(self, width, __tmp_len / width, __tmp_elems_pixels);
+ 
+  fcError err;
+  if (changeFromBGRA)
+    err = fcRGBAImage_initPixelsBGRA(self, width, __tmp_len / width, __tmp_elems_pixels);
+  else
+    err = fcRGBAImage_initPixels(self, width, __tmp_len / width, __tmp_elems_pixels);
 
   // Free temporary native array reference
   FC_JNI_CALL(env, ReleaseIntArrayElements, pixels, __tmp_elems_pixels, JNI_ABORT);
@@ -195,10 +201,11 @@ JNIEXPORT jobject JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_getPixels(
                      (jlong) self->pixels);
 }
 
-JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_setPixels__3II(JNIEnv* env,
+JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_setPixels___3IIZ(JNIEnv* env,
                                                                                   jobject obj,
                                                                                   jintArray pixels,
-                                                                                  jint width) {
+                                                                                  jint width,
+                                                                                  jboolean changeFromBGRA) {
   fcRGBAImage* self = fcRGBAImage_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_getJava",
                            FC_VOID_EXPR);
@@ -216,7 +223,11 @@ JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_setPixels__3I
   FC_EXCEPTION_HANDLE_NULL(env, __tmp_elems_pixels, FC_EXCEPTION_ARRAY_GET_ELEMENTS,
                            "RGBAImage_setPixels:pixels", FC_VOID_EXPR);
 
-  jint err = fcRGBAImage_setPixels(self, width, __tmp_len / width, __tmp_elems_pixels);
+  jint err;
+  if (changeFromBGRA == true) 
+    err = fcRGBAImage_setPixelsChangeBGRA(self, width, __tmp_len / width, __tmp_elems_pixels);
+  else
+    err = fcRGBAImage_setPixels(self, width, __tmp_len / width, __tmp_elems_pixels);
 
   // Free temporary native array reference
   FC_JNI_CALL(env, ReleaseIntArrayElements, pixels, __tmp_elems_pixels, JNI_ABORT);
@@ -263,24 +274,24 @@ JNIEXPORT jint JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_getHeight(JNI
   return self->dims.y;
 }
 
-JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_syncToNative(JNIEnv* env,
+JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_syncToHost(JNIEnv* env,
                                                                                 jobject obj) {
   fcRGBAImage* self = fcRGBAImage_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_getJava",
                            FC_VOID_EXPR);
 
-  jint err = fcRGBAImage_syncToNative(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcRGBAImage_syncToNative", FC_VOID_EXPR);
+  jint err = fcRGBAImage_syncToHost(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcRGBAImage_syncToHost", FC_VOID_EXPR);
 }
 
-JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_syncToOCL(JNIEnv* env,
+JNIEXPORT void JNICALL Java_es_ull_pcg_hpc_fancier_image_RGBAImage_syncToDevice(JNIEnv* env,
                                                                              jobject obj) {
   fcRGBAImage* self = fcRGBAImage_getJava(env, obj);
   FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_getJava",
                            FC_VOID_EXPR);
 
-  jint err = fcRGBAImage_syncToOCL(self);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcRGBAImage_syncToOCL", FC_VOID_EXPR);
+  jint err = fcRGBAImage_syncToDevice(self);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcRGBAImage_syncToDevice", FC_VOID_EXPR);
 }
 
 #ifdef __ANDROID__
@@ -389,7 +400,32 @@ Java_es_ull_pcg_hpc_fancier_image_RGBAImage_updateBitmap__Landroid_graphics_Bitm
   FC_EXCEPTION_HANDLE_ERROR(env, err, "freeBitmap", FC_VOID_EXPR);
 }
 
-#endif  // __ANDROID__
+#endif // __ANDROID__
+
+JNIEXPORT void JNICALL
+Java_es_ull_pcg_hpc_fancier_image_RGBAImage_updateArray___3IZ(JNIEnv* env,
+                                                             jobject obj,
+                                                             jintArray pixels,
+                                                             jboolean changeFromBGRA) {
+  jint err;
+
+  // Get instance
+  fcRGBAImage* self = fcRGBAImage_getJava(env, obj);
+  FC_EXCEPTION_HANDLE_NULL(env, self, FC_EXCEPTION_INVALID_THIS, "fcRGBAImage_getJava",
+                           FC_VOID_EXPR);
+
+  FC_EXCEPTION_HANDLE_NULL(env, pixels, FC_EXCEPTION_BAD_PARAMETER,
+                           "RGBAImage_updateBufferedImage__Ljava_awt_image_BufferedImage_2", FC_VOID_EXPR);
+
+  jint* __tmp_pixels = (*env)->GetIntArrayElements(env, pixels, NULL);
+  jint len = (*env)->GetArrayLength(env, pixels);
+
+  err = fcRGBAImage_updateArray(self, &__tmp_pixels, len, changeFromBGRA);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcRGBAImage_updateArray", FC_VOID_EXPR);
+
+  (*env)->ReleaseIntArrayElements(env, pixels, __tmp_pixels, JNI_COMMIT);
+}
+
 
 //
 // Native Interface Implementation
@@ -479,6 +515,97 @@ fcError fcRGBAImage_initPixels(fcRGBAImage* self, fcInt width, fcInt height, con
     fcByte4Array_release(self->pixels);
     self->pixels = NULL;
     return err;
+  }
+
+  return FC_EXCEPTION_SUCCESS;
+}
+
+fcError fcRGBAImage_initPixelsBGRA(fcRGBAImage* self, fcInt width, fcInt height, const fcInt* pixels) {
+  fcError err;
+
+  // Check parameters
+  if (pixels == NULL)
+    return FC_EXCEPTION_BAD_PARAMETER;
+
+  if (width <= 0 || height <= 0)
+    return FC_EXCEPTION_BITMAP_BAD_DIMENSIONS;
+
+  err = fcRGBAImage_init(self);
+  if (err)
+    return err;
+
+  // Initialize dimensions
+  self->dims.x = width;
+  self->dims.y = height;
+
+  // Allocate array
+  self->pixels = calloc(1, sizeof(fcByte4Array));
+  err =
+      fcRGBAImage_initArrayColorComponentsBGRA(self, self->dims.x * self->dims.y * 4, (const fcByte*) pixels);
+  if (err) {
+    fcByte4Array_release(self->pixels);
+    self->pixels = NULL;
+    return err;
+  }
+
+  return FC_EXCEPTION_SUCCESS;
+}
+
+fcError fcRGBAImage_initArrayColorComponentsBGRA(fcRGBAImage* self, fcInt len, const fcByte* v) {
+  fcError err;
+
+  // Check parameters
+  if (len <= 0 || len % 4 != 0)
+    return FC_EXCEPTION_ARRAY_BAD_LENGTH;
+
+  if (v == NULL)
+    return FC_EXCEPTION_BAD_PARAMETER;
+
+  err = fcByte4Array_init(self->pixels);
+  if (err) return err;
+
+  // Initialize number of elements according to vector length
+  self->pixels->len = len / 4;
+
+  // Allocate array
+  self->pixels->ocl = clCreateBuffer(fcOpenCL_rt.context, CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR, self->pixels->len * sizeof(fcByte4), NULL, &err);
+  if (err) return err;
+
+  // Initialize array
+  self->pixels->location = FC_ARRAY_LOCATION_OPENCL;
+  err = fcRGBAImage_setArrayColorComponentsBGRA(self, len, v);
+
+  if (err) {
+    self->pixels->location = FC_ARRAY_LOCATION_NONE;
+    clReleaseMemObject(self->pixels->ocl);
+    self->pixels->ocl = NULL;
+    return err;
+  }
+
+  return FC_EXCEPTION_SUCCESS;
+}
+
+fcError fcRGBAImage_setArrayColorComponentsBGRA(fcRGBAImage* self, fcInt len, const fcByte* v) {
+  fcError err;
+
+  // Check parameters
+  if (len % 4 != 0 || len / 4 != self->pixels->len)
+    return FC_EXCEPTION_ARRAY_BAD_LENGTH;
+
+  if (v == NULL)
+    return FC_EXCEPTION_BAD_PARAMETER;
+
+  // TODO If not unified memory, don't sync and just set native data and update location
+  // Initialize array
+  // Map to host, and write data considering alignment
+  err = fcByte4Array_syncToHost(self->pixels);
+  if (err) return err;
+
+  for (fcLong i = 0; i < self->pixels->len; i++) {
+    // Change R and B components order in little endian arquitectures
+    fcByte4 v_tmp = {{ (int)v[i * 4 + 2], (int)v[i * 4 + 1], (int)v[i * 4], (int)v[i * 4 + 3] }};
+    if (!memcpy(&self->pixels->c[i].s, &v_tmp, sizeof(fcByte4)))
+      return FC_EXCEPTION_FAILED_COPY;
   }
 
   return FC_EXCEPTION_SUCCESS;
@@ -583,6 +710,23 @@ fcError fcRGBAImage_setPixels(fcRGBAImage* self, fcInt width, fcInt height, cons
                                (const fcByte*) pixels);
 }
 
+fcError fcRGBAImage_setPixelsChangeBGRA(fcRGBAImage* self, fcInt width, fcInt height, fcInt* pixels) {
+
+  if (!fcRGBAImage_valid(self))
+    return FC_EXCEPTION_INVALID_STATE;
+
+  // Check parameters
+  if (pixels == NULL)
+    return FC_EXCEPTION_BAD_PARAMETER;
+
+  if (self->dims.x != width || self->dims.y != height)
+    return FC_EXCEPTION_BITMAP_BAD_DIMENSIONS;
+
+  // Set data
+  return fcRGBAImage_setArrayColorComponentsBGRA(self, self->dims.x * self->dims.y * 4,
+                               (const fcByte*) pixels);  
+}
+
 fcError fcRGBAImage_setPixelsCopy(fcRGBAImage* self, const fcRGBAImage* image) {
   if (!fcRGBAImage_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
@@ -598,18 +742,18 @@ fcError fcRGBAImage_setPixelsCopy(fcRGBAImage* self, const fcRGBAImage* image) {
   return fcByte4Array_setCopy(self->pixels, image->pixels);
 }
 
-fcError fcRGBAImage_syncToNative(fcRGBAImage* self) {
+fcError fcRGBAImage_syncToHost(fcRGBAImage* self) {
   if (!fcRGBAImage_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
-  return fcByte4Array_syncToNative(self->pixels);
+  return fcByte4Array_syncToHost(self->pixels);
 }
 
-fcError fcRGBAImage_syncToOCL(fcRGBAImage* self) {
+fcError fcRGBAImage_syncToDevice(fcRGBAImage* self) {
   if (!fcRGBAImage_valid(self))
     return FC_EXCEPTION_INVALID_STATE;
 
-  return fcByte4Array_syncToOCL(self->pixels);
+  return fcByte4Array_syncToDevice(self->pixels);
 }
 
 fcBool fcRGBAImage_valid(const fcRGBAImage* self) {
@@ -652,7 +796,7 @@ fcError fcRGBAImage_updateBitmap(fcRGBAImage* self, AndroidBitmapInfo info, void
   if (info.width != self->dims.x || info.height != self->dims.y)
     return FC_EXCEPTION_BITMAP_BAD_DIMENSIONS;
 
-  fcError err = fcByte4Array_syncToNative(self->pixels);
+  fcError err = fcByte4Array_syncToHost(self->pixels);
   if (err)
     return err;
 
@@ -661,4 +805,24 @@ fcError fcRGBAImage_updateBitmap(fcRGBAImage* self, AndroidBitmapInfo info, void
              FC_EXCEPTION_FAILED_COPY;
 }
 
-#endif  // __ANDROID__
+#endif // __ANDROID__ 
+
+fcError fcRGBAImage_updateArray(fcRGBAImage* self, jint** __tmp_pixels, jint pixels_size, jboolean changeFromBGRA) {
+
+  fcError err = fcByte4Array_syncToHost(self->pixels);
+
+  if (changeFromBGRA) {
+    for (fcLong i = 0; i < pixels_size; i++) {
+      fcByte4 v_tmp = {{ self->pixels->c[i].z, self->pixels->c[i].y, self->pixels->c[i].x, self->pixels->c[i].w }};
+
+      if (!memcpy(((fcByte4*)(*__tmp_pixels) + i ), &v_tmp, sizeof(fcByte4)))
+        return FC_EXCEPTION_FAILED_COPY;
+    }
+  }
+  else {
+    if (!memcpy(__tmp_pixels, self->pixels->c, self->pixels->len * sizeof(fcByte4)))
+      return FC_EXCEPTION_FAILED_COPY;
+  }
+
+  return FC_EXCEPTION_SUCCESS;
+}

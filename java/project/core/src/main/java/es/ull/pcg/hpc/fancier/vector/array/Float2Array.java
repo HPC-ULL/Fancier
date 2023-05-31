@@ -30,6 +30,9 @@ import es.ull.pcg.hpc.fancier.vector.Float2;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import es.ull.pcg.hpc.fancier.Translatable;
+
+
 
 public class Float2Array implements AutoCloseable {
   private long nativeInstancePtr = 0L;
@@ -101,8 +104,11 @@ public class Float2Array implements AutoCloseable {
   private native void releaseNative();
   private native void releaseNativeRef();
 
+  @Translatable
   public native Float2 get(int i);
+  @Translatable
   public native void set(int i, Float2 x);
+  @Translatable
   public native long length();
 
   public native float[] getArray();
@@ -111,6 +117,6 @@ public class Float2Array implements AutoCloseable {
   private native ByteBuffer getBufferImpl();
   public native void setBuffer(ByteBuffer v);
 
-  public native void syncToNative();
-  public native void syncToOCL();
+  public native void syncToHost();
+  public native void syncToDevice();
 }

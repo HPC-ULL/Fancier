@@ -278,11 +278,11 @@ Java_es_ull_pcg_hpc_fancier_androidtest_model_NativeImageFilter_processGpu(JNIEn
   }
 
   // Ensure data is updated in the target device
-  int err = fcRGBAImage_syncToOCL(input);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcARGBImage_syncToOCL:input", FC_VOID_EXPR);
+  int err = fcRGBAImage_syncToDevice(input);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcARGBImage_syncToDevice:input", FC_VOID_EXPR);
 
-  err = fcRGBAImage_syncToOCL(output);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcARGBImage_syncToOCL:output", FC_VOID_EXPR);
+  err = fcRGBAImage_syncToDevice(output);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcARGBImage_syncToDevice:output", FC_VOID_EXPR);
 
   // Execute kernel
   switch (self->m_filter_id) {
@@ -351,11 +351,11 @@ Java_es_ull_pcg_hpc_fancier_androidtest_model_NativeImageFilter_processCpu(JNIEn
   }
 
   // Ensure data is updated in the target device
-  int err = fcRGBAImage_syncToNative(input);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcARGBImage_syncToNative:input", FC_VOID_EXPR);
+  int err = fcRGBAImage_syncToHost(input);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcARGBImage_syncToHost:input", FC_VOID_EXPR);
 
-  err = fcRGBAImage_syncToNative(output);
-  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcARGBImage_syncToNative:output", FC_VOID_EXPR);
+  err = fcRGBAImage_syncToHost(output);
+  FC_EXCEPTION_HANDLE_ERROR(env, err, "fcARGBImage_syncToHost:output", FC_VOID_EXPR);
 
   // Execute kernel
   switch (self->m_filter_id) {
@@ -570,13 +570,13 @@ static int run_blur_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output) {
   if (err)
     goto mask_cleanup;
 
-  err = fcFloatArray_syncToNative(gauss_kernel);
+  err = fcFloatArray_syncToHost(gauss_kernel);
   if (err)
     goto mask_cleanup;
 
   blur_build_mask(gauss_kernel->c, BLUR_RADIUS);
 
-  err = fcFloatArray_syncToOCL(gauss_kernel);
+  err = fcFloatArray_syncToDevice(gauss_kernel);
   if (err)
     goto mask_cleanup;
 
@@ -586,7 +586,7 @@ static int run_blur_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output) {
   if (err)
     goto cleanup;
 
-  err = fcRGBAImage_syncToOCL(buffer);
+  err = fcRGBAImage_syncToDevice(buffer);
   if (err)
     goto cleanup;
 
@@ -656,7 +656,7 @@ static int run_convolve3_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* outp
   if (err)
     goto cleanup;
 
-  err = fcFloatArray_syncToNative(mask);
+  err = fcFloatArray_syncToHost(mask);
   if (err)
     goto cleanup;
 
@@ -670,7 +670,7 @@ static int run_convolve3_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* outp
   mask->c[7] = CONVOLVE3_21;
   mask->c[8] = CONVOLVE3_22;
 
-  err = fcFloatArray_syncToOCL(mask);
+  err = fcFloatArray_syncToDevice(mask);
   if (err)
     goto cleanup;
 
@@ -708,7 +708,7 @@ static int run_convolve5_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* outp
   if (err)
     goto cleanup;
 
-  err = fcFloatArray_syncToNative(mask);
+  err = fcFloatArray_syncToHost(mask);
   if (err)
     goto cleanup;
 
@@ -738,7 +738,7 @@ static int run_convolve5_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* outp
   mask->c[23] = CONVOLVE5_43;
   mask->c[24] = CONVOLVE5_44;
 
-  err = fcFloatArray_syncToOCL(mask);
+  err = fcFloatArray_syncToDevice(mask);
   if (err)
     goto cleanup;
 
@@ -893,13 +893,13 @@ static int run_levels_gpu(Filter* self, fcRGBAImage* input, fcRGBAImage* output)
   if (err)
     goto cleanup;
 
-  err = fcFloat3Array_syncToNative(sat_matrix);
+  err = fcFloat3Array_syncToHost(sat_matrix);
   if (err)
     goto cleanup;
 
   levels_build_sat_matrix(sat_matrix->c, LEVELS_SATURATION);
 
-  err = fcFloat3Array_syncToOCL(sat_matrix);
+  err = fcFloat3Array_syncToDevice(sat_matrix);
   if (err)
     goto cleanup;
 
@@ -1050,7 +1050,7 @@ static void run_blur_cpu(fcRGBAImage* input, fcRGBAImage* output) {
   if (err)
     goto cleanup;
 
-  err = fcRGBAImage_syncToNative(buffer);
+  err = fcRGBAImage_syncToHost(buffer);
   if (err)
     goto cleanup;
 

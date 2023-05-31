@@ -20,7 +20,7 @@ cmake_minimum_required( VERSION 3.10.2 )
 # Paths
 
 set( libs-dir
-     "${CMAKE_SOURCE_DIR}/jni-libs/core" )
+     "${CMAKE_SOURCE_DIR}/cmake-libs/core" )
 
 set( root-dir
      "${CMAKE_SOURCE_DIR}/src/main/jni" )

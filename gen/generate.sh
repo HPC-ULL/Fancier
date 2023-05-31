@@ -85,7 +85,11 @@ if word_in_list "$ACTION" all java math; then
 fi
 
 if word_in_list "$ACTION" all opencl math; then
-  python "$FILL" "$OCL_TEMPLATES/math_lib.mako" "$OCL_DIR/math_lib.cl"
+  python "$FILL" "$OCL_TEMPLATES/fc_math.mako" "$OCL_DIR/fc_math.cl"
+fi
+
+if word_in_list "$ACTION" all opencl image; then
+  python "$FILL" "$OCL_TEMPLATES/fc_image.mako" "$OCL_DIR/fc_image.cl"
 fi
 
 for cls in Byte Double Float Int Long Short; do

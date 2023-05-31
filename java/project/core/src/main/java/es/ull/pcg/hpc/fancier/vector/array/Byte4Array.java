@@ -30,6 +30,9 @@ import es.ull.pcg.hpc.fancier.vector.Byte4;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import es.ull.pcg.hpc.fancier.Translatable;
+
+
 
 public class Byte4Array implements AutoCloseable {
   private long nativeInstancePtr = 0L;
@@ -105,8 +108,11 @@ public class Byte4Array implements AutoCloseable {
   private native void releaseNative();
   private native void releaseNativeRef();
 
+  @Translatable
   public native Byte4 get(int i);
+  @Translatable
   public native void set(int i, Byte4 x);
+  @Translatable
   public native long length();
 
   public native byte[] getArray();
@@ -115,6 +121,6 @@ public class Byte4Array implements AutoCloseable {
   private native ByteBuffer getBufferImpl();
   public native void setBuffer(ByteBuffer v);
 
-  public native void syncToNative();
-  public native void syncToOCL();
+  public native void syncToHost();
+  public native void syncToDevice();
 }

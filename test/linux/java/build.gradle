@@ -1,0 +1,21 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = 'es.ull.pcg.hpc.fancier.linuxtest.Main'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'junit:junit:4.13.2'
+    implementation(files('libs/rancid-1.1.jar'))
+    implementation(files('libs/rancid-1.1-sources.jar'))
+    implementation(files('libs/fancier-jre-1.0.jar'))
+    implementation(files('libs/commons-cli-1.5.0.jar'))
+//    implementation 'commons-cli:commons-cli:1.5.0'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
